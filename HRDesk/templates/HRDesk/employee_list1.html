@@ -1,0 +1,165 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="row clearfix h-100">
+  <div class="col-lg-12 h-100">
+    <div class="card h-100">
+      <div class="chat_app d-flex flex-column h-100">
+        <div class="chat w-100 h-100 d-flex flex-column">
+          <div class="chat-header d-flex justify-content-center align-items-center p-3 border-bottom">
+            <div class="chat-about text-center w-100">
+              <h6 class="mb-0 fw-bold text-primary text-uppercase" style="font-size: 1.2rem;">
+                 User Account List
+              </h6>
+            </div>
+          </div>
+
+<!-- Search + Total + Export -->
+<div class="p-3 d-flex justify-content-between align-items-center border-bottom bg-light">
+  <input
+    id="searchInput"
+    type="search"
+    class="form-control me-2"
+    style="max-width: 300px;"
+    placeholder="🔍 Search employees..."
+  >
+
+  <span class="btn btn-outline-primary ms-3">
+    👥 Total Users: <strong>{{ total_users }}</strong>
+  </span>
+
+  <a href="{% url 'HRDesk:export_ldap_users' filetype='csv' %}" class="btn btn-outline-success ms-3">
+    <i class="fa fa-file-excel-o me-1"></i> Export to CSV
+  </a>
+</div>
+
+          
+
+          <div class="body p-3">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <div class="table-responsive">
+              <table id="employeeTable" class="table table-hover table-bordered table-striped align-middle">
+                <thead class="table-primary text-center">
+                  <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Title</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th style="min-width: 200px;">Group Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in employees %}
+                  <tr>
+                    <td class="text-center">{{ user.username }}</td>
+                    <td>
+                      <p class="mb-0 fw-semibold text-truncate" style="max-width: 200px;">{{ user.name }}</p>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.title }}</td>
+                    <td>{{ user.department }}</td>
+                    <td><i class="zmdi zmdi-phone me-2"></i>{{ user.phone }}</td>
+                    <td>
+                      <div class="d-flex flex-column gap-2">
+                        <a href="{% url 'HRDesk:ad_user_detail' user.username %}" class="btn btn-sm btn-primary w-100">👤 View Details</a>
+
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Default Size -->
+    <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="addEmployee" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="defaultModalLabel">Add Contact</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Email ID">
+                        </div>
+                        <div class="col-12">
+                            <input type="number" class="form-control" placeholder="Phone Number">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Employee ID">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Join Date">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Role">
+                        </div>
+                        <div class="col-12">
+                            <input type="file" class="form-control-file" aria-describedby="fileHelp">
+                            <small id="fileHelp" class="form-text text-muted d-block">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                            <hr>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Facebook">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Twitter">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Linkedin">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="instagram">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Scripts -->
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
+
+<!-- Search Filter Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const table = document.getElementById('employeeTable');
+    const rows = table.querySelectorAll('tbody tr');
+
+    searchInput.addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      rows.forEach(row => {
+        const match = Array.from(row.cells).slice(0, -1).some(cell =>
+          cell.textContent.toLowerCase().includes(filter)
+        );
+        row.style.display = match ? '' : 'none';
+      });
+    });
+  });
+</script>

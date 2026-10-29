@@ -1,0 +1,158 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    <div class="flex items-center flex-wrap md:flex-nowrap lg:items-end justify-between border-b border-b-border gap-3 lg:gap-6 mb-5 lg:mb-10"></div>
+    <!-- Header Section -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">VoIP Accounts</h1>
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">List Of VoIP Accounts</span>
+          </div>          
+        </div>
+        <div class="flex items-center gap-2.5">
+          <a class="kt-btn kt-btn-outline" href="{% url 'ITDesk:export_voip_excel'%}">Export CSV</a>
+          <a class="kt-btn kt-btn-outline"  href="{% url 'ITDesk:add_voip'%}" >Add Voip</a>
+        </div>		
+      </div>
+    </div>
+
+    <!-- Main Table -->
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <div class="kt-container-fixed">
+      <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full"><br>
+          <div class="kt-card-header flex-wrap gap-2">
+            <h3 class="kt-card-title text-sm">Totally {{ voip_count }} Voip Accounts</h3>
+            <div class="flex flex-wrap gap-2 lg:gap-5">
+              <div class="flex">
+                <label class="kt-input">
+                  <i class="ki-filled ki-magnifier"></i>
+                  <input id="searchInput" placeholder="Search users" type="text" value=""/>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="kt-card-content">
+            <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="10">
+              <div class="kt-scrollable-x-auto">
+                <table class="kt-table text-sm text-secondary-foreground">
+                  <thead>
+                    <tr class="bg-accent/50">
+					            <th>#</th>
+								<th class="py-2 px-4 text-left">Vendor</th>
+								<th class="py-2 px-4 text-left">Callback Number</th>
+								<th class="py-2 px-4 text-left">Username</th>
+								<th class="py-2 px-4 text-left">Password</th>
+								<th class="py-2 px-4 text-left">Web URL</th>
+								<th class="py-2 px-4 text-left">Domain</th>
+								<th class="py-2 px-4 text-left">CDR ID</th>
+								<th class="py-2 px-4 text-left">Employee</th>
+								<th class="py-2 px-4 text-left">Employee Name</th>								
+								{% if request.user.department.name == "IT" or request.user.department.name == "Information Technology" or request.user.designation.name == "IT" or request.user.designation.name == "Information Technology" %}
+									<th class="py-2 px-4 text-left">Action</th>
+								{% endif %}
+                    </tr>  
+                  </thead>
+                  <tbody>
+                    {% for voip in voip_list %}
+                    <tr class="border-t hover:bg-muted/20 transition">
+						<td class="py-2 px-4">{{ forloop.counter }}</td>
+						<td class="py-2 px-4">{{ voip.vendor.name }}</td>
+						<td class="py-2 px-4">{{ voip.callback_number }}</td>
+						<td class="py-2 px-4">{{ voip.username | upper}}</td>
+						<td class="py-2 px-4">{{ voip.password }}</td>
+						<td class="py-2 px-4">
+							<a href="{% if '://' in voip.url_webrtc %}{{ voip.url_webrtc }}{% else %}https://{{ voip.url_webrtc }}{% endif %}"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="text-blue-600 hover:underline">
+								{{ voip.url_webrtc }}
+							</a>
+						</td>
+						<td class="py-2 px-4">{{ voip.domain }}</td>						
+						<td class="py-2 px-4">{{ voip.cdr_id }}</td>
+						<td class="py-2 px-4">
+						{% if voip.empid %}
+							{{ voip.empid }}
+						{% else %}
+							Free
+						{% endif %}
+						</td>
+						<td class="py-2 px-4">
+							{% if voip.empid %}
+								{{ voip.empid.first_name }} {{ voip.empid.last_name }} ({{ voip.empid.employee_id }})
+							{% else %}
+								Free
+							{% endif %}
+						</td>
+			
+						{% if request.user.department.name == "IT" or request.user.department.name == "Information Technology" or request.user.designation.name == "IT" or request.user.designation.name == "Information Technology" %}
+							<td class="py-2 px-4">
+								<a href="{% url 'ITDesk:edit_voip' voip.id %}"
+								class="inline-flex items-center px-3 py-1 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition">
+									Edit
+								</a>
+							</td>
+						{% endif %}
+
+        			
+                    </tr>    
+                    {% empty %}
+                    <tr>
+                      <td colspan="10" class="py-3 px-4 text-center text-muted">No user activity data found.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- Pagination -->
+              <div class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+                <div class="flex items-center gap-2 order-2 md:order-1">
+                  Show
+                  <select class="kt-select w-16" data-kt-datatable-size="true" data-kt-select name="perpage"></select>
+                  per page
+                </div>
+                <div class="flex items-center gap-4 order-1 md:order-2">
+                  <span data-kt-datatable-info="true"></span>
+                  <div class="kt-datatable-pagination" data-kt-datatable-pagination="true"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('table tbody tr');
+
+    function filterTable() {
+      const searchTerm = searchInput.value.toLowerCase();
+
+      tableRows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', filterTable);
+  });
+</script>
+
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

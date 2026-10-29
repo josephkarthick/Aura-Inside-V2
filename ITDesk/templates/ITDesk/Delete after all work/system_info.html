@@ -1,0 +1,155 @@
+{% load static %}
+{% include 'intranet/base.html' %}
+<head>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/dropify.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/summernote.min.css' %}">
+
+    <!-- Core JS Files -->
+    <script src="{% static 'assets/bundles/datepicker.bundle.js' %}"></script>
+    <script src="{% static 'assets/bundles/select2.bundle.js' %}"></script>
+    <script src="{% static 'assets/bundles/dropify.bundle.js' %}"></script>
+    <script src="{% static 'assets/bundles/summernote.bundle.js' %}"></script>
+</head>
+
+<body>
+            <!-- Form Starts -->
+            <form id="TicketForm" method="POST">
+                {% csrf_token %}
+                <div class="row clearfix">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row g-3 clearfix">
+                        
+<div class="row">
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Logged-in User</label>
+        <input type="text" class="form-control" value="{{ logged_in_user }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">System Number</label>
+        <input type="text" class="form-control" value="{{ hostname }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Server IP</label>
+        <input type="text" class="form-control" value="{{ server_ip }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">OS Name</label>
+        <input type="text" class="form-control" value="{{ os_name }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">OS Version</label>
+        <input type="text" class="form-control" value="{{ os_version }}" readonly>
+    </div>
+	
+    <div class="col-md-6 col-sm-12">
+        <label class="form-label">Activation Status</label>
+        <input type="text" class="form-control" value="{{ activation_status }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Product Key</label>
+        <input type="text" class="form-control" value="{{ product_key }}" readonly>
+    </div>	
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">OS Architecture</label>
+        <input type="text" class="form-control" value="{{ os_arch }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">CPU Cores (Physical)</label>
+        <input type="text" class="form-control" value="{{ cpu_count }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">CPU Threads (Logical)</label>
+        <input type="text" class="form-control" value="{{ cpu_threads }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">CPU Frequency (MHz)</label>
+        <input type="text" class="form-control" value="{{ cpu_freq }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Total Memory</label>
+        <input type="text" class="form-control" value="{{ total_memory|filesizeformat }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Available Memory</label>
+        <input type="text" class="form-control" value="{{ available_memory|filesizeformat }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Used Memory</label>
+        <input type="text" class="form-control" value="{{ used_memory|filesizeformat }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Total Disk</label>
+        <input type="text" class="form-control" value="{{ total_disk|filesizeformat }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Used Disk</label>
+        <input type="text" class="form-control" value="{{ used_disk|filesizeformat }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">Free Disk</label>
+        <input type="text" class="form-control" value="{{ free_disk|filesizeformat }}" readonly>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+        <label class="form-label">System Uptime</label>
+        <input type="text" class="form-control" value="{{ uptime }}" readonly>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div class="col-sm-12">
+    <button type="submit" class="btn btn-success " id="createButton" onclick="disableCreateButton()" >Create</button>
+    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Cancel</button>
+</div> -->
+
+<script>
+function disableCreateButton() {
+    const createButton = document.getElementById('createButton');
+    // Disable the button to prevent multiple clicks
+    createButton.disabled = true;
+    // Change the text and add spinner
+    createButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please wait...';
+    // Submit the form
+    createButton.form.submit();
+}
+</script>
+
+									
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Form Ends -->
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>

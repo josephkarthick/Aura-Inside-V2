@@ -1,0 +1,2221 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.1.1
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-theme="true" data-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/components/card by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:05:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS Card
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="card.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="Card component using the Tailwind CSS based toolkit for modern web applications." name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Metronic - Tailwind CSS Card" name="twitter:title"/>
+  <meta content="Card component using the Tailwind CSS based toolkit for modern web applications." name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs-legacy/components/card" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS Card" property="og:title"/>
+  <meta content="Card component using the Tailwind CSS based toolkit for modern web applications." property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet">
+   <!-- Google tag (gtag.js) -->
+   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+   </script>
+   <script>
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+   </script>
+  </link>
+ </head>
+ <body class="antialiased flex h-full text-base text-gray-700 dark:bg-coal-500">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+		let themeMode;
+
+		if ( document.documentElement ) {
+			if ( localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('theme');
+			} else if ( document.documentElement.hasAttribute('data-theme-mode')) {
+				themeMode = document.documentElement.getAttribute('data-theme-mode');
+			} else {
+				themeMode = defaultThemeMode;
+			}
+
+			if (themeMode === 'system') {
+				themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+
+			document.documentElement.classList.add(themeMode);
+		}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-b-gray-200 fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] bg-light dark:bg-coal-500">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden btn btn-icon btn-light btn-clear btn-sm -ml-2" data-drawer-toggle="#sidebar">
+      <i 'outline'}="" class="ki-{" default':="" ki-abstract-14="" text-lg'="">
+      </i>
+     </button>
+     <a class="" href="../index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div id="docsearch">
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="btn btn-sm btn-light" href="../../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="btn btn-sm btn-dark" data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border border-r-gray-200">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-gray-600 hover:text-primary" href="https://twitter.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-gray-600 hover:text-primary" href="https://github.com/keenthemes/metronic-tailwind-html-integration">
+       <i 'outline'}="" class="ki-{" default':="" ki-github="" text-lg'="">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="flex items-center text-gray-600 hover:text-primary dark:hidden" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-moon="" text-lg'="">
+        </i>
+       </button>
+       <button class="flex items-center text-gray-600 hover:text-primary hidden dark:flex" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-sun="" text-lg'="">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-drawer="true" data-drawer-class="drawer drawer-start" data-drawer-enable="true|lg:false" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 scrollable-y-auto" data-scrollable="true" data-scrollable-dependencies="none|lg:#header" data-scrollable-height="auto" data-scrollable-offset="30px|lg:20px" data-scrollable-wrappers="none|lg:#page" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2.5">
+       <a class="flex items-center gap-2" href="../getting-started/installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-mouse-square text-success text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Quick Setup
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-info text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Changelog
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Support
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Figma
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-frame text-dark text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Composer
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../../../products/metronic-pulse.html" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-wlan text-danger text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Pulse
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Pulse - Laravel REST API Boilerplate for Metronic 9 Tailwind React.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="menu flex flex-col grow" data-menu="true" id="sidebar_menu">
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Getting Started
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../index-2.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/file-structure.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/installation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
+        <div class="menu-link py-1.5 pl-5 pr-2.5 flex gap-1 items-center grow cursor-pointer border-l-2 border-gray-200">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-gray-900 menu-item-show:text-gray-900 menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="menu-arrow justify-end -mr-2.5 w-5 text-gray-500">
+          <i 'outline'}="" class="ki-{" default':="" ki-plus="" menu-item-show:hidden'="" text-2xs="">
+          </i>
+          <i 'outline'}="" class="ki-{" default':="" hidden="" ki-minus="" menu-item-show:inline-flex'="" text-2xs="">
+          </i>
+         </span>
+        </div>
+        <div class="menu-accordion gap-0.5">
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/react.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            React
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/nextjs.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/vue.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/angular.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/laravel.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/blazor-server.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Nuxt
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Svelte
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Astro
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Remix
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Symfony
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Asp.Net Core
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Django
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Rails
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/multi-demo.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/license.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/references.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Customization
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/webpack.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/javascript.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/theming.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/dark-mode.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/rtl.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/optimization.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../composer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Base Components
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="accordion.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="avatar.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="badge.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="button.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="button-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Calendar
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item active">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="card.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="collapse.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="container.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Container
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="datatable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="dismiss.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="drawer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="dropdown.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="modal.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="progress.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="rating.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="reparent.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="scrollable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="table.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="theme.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theme
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="toggle.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="tooltip.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Navigation
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="menu.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="pagination.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="scrollspy.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="scrollto.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="stepper.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="sticky.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="tabs.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Forms
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="checkbox.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="file-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="image-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="input-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="radio.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="range.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Range
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="select.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="switch.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="textarea.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="toggle-password.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Datepicker
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dial Input
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Password Meter
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Plugins
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/apexcharts.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/formvalidation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          FormValidation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/clipboard.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/keenicons.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <div class="flex flex-col gap-2.5 mb-5">
+      <div class="flex items-center gap-1.5 text-md font-semibold">
+       <span class="text-primary">
+        Base Components
+       </span>
+      </div>
+      <div class="flex flex-col gap-2.5">
+       <h1 class="text-2xl font-bold text-gray-900">
+        Tailwind CSS Card
+       </h1>
+       <p class="text-sm font-normal text-gray-900">
+        Tailwind CSS Card is a flexible and extensible content container with header, body and footer sections.
+       </p>
+      </div>
+     </div>
+     <main class="text-gray-800 text-sm font-normal grow" id="content" role="content">
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="default">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#default">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Default card
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        An example of a default card featuring header and footer sections.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#default_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#default_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#default_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#default_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="default_1">
+         <div class="group" id="default_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card">
+              <div class="card-header">
+               <h3 class="card-title">
+                Card Title
+               </h3>
+              </div>
+              <div class="card-body">
+               Centralize your team information with our management tools. Access detailed instructions, expert advice, and technical documentation to maintain an up-to-date team directory.
+              </div>
+              <div class="card-footer justify-center">
+               <a class="btn btn-link" href="#">
+                Example link
+               </a>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="default_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card"&gt;
+ &lt;div class="card-header"&gt;
+  &lt;h3 class="card-title"&gt;
+   Card Title
+  &lt;/h3&gt;
+ &lt;/div&gt;
+ &lt;div class="card-body"&gt;
+  Centralize your team information with our management tools. Access detailed instructions, expert advice, and technical documentation to maintain an up-to-date team directory.
+ &lt;/div&gt;
+ &lt;div class="card-footer justify-center"&gt;
+  &lt;a class="btn btn-link" href="#"&gt;
+   Example link
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="basic">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#basic">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Basic
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        An example of a basic card with no header and footer sections.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#basic_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#basic_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#basic_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#basic_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="basic_1">
+         <div class="group" id="basic_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card">
+              <div class="card-body">
+               Centralize your team information with our management tools. Access detailed instructions, expert advice, and technical documentation to maintain an up-to-date team directory.
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="basic_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card"&gt;
+ &lt;div class="card-body"&gt;
+  Centralize your team information with our management tools. Access detailed instructions, expert advice, and technical documentation to maintain an up-to-date team directory.
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="scrollable">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#scrollable">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Scrollable
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Implement a scrollable content section utilizing the
+        <a class="link" href="scrollable.html">
+         Tailwind CSS Scrollable
+        </a>
+        component.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#scrollable_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#scrollable_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#scrollable_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#scrollable_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="scrollable_1">
+         <div class="group" id="scrollable_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card">
+              <div class="card-header">
+               <h3 class="card-title">
+                Card Title
+               </h3>
+              </div>
+              <div class="card-body scrollable h-[200px] py-0 my-4 pr-4 mr-2">
+               <div class="mb-4">
+                Tailwind CSS, a utility-first CSS framework, has gained immense popularity for its simplicity, 
+				flexibility, and efficiency in building modern web interfaces. Among its plethora of features, 
+				one that stands out is its ability to swiftly create stylish and responsive card components. 
+				These card components serve as fundamental building blocks for organizing content, 
+				displaying information, and enhancing user experience across web applications and websites
+               </div>
+               <div>
+                The Tailwind CSS card component offers developers a seamless way to structure content within a visually appealing container. 
+				With Tailwind's utility classes, creating cards becomes intuitive and hassle-free, 
+				allowing developers to focus on crafting engaging user interfaces rather than wrestling with complex CSS code
+               </div>
+              </div>
+              <div class="card-footer justify-center">
+               <a class="btn btn-link" href="#">
+                Example link
+               </a>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="scrollable_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card"&gt;
+ &lt;div class="card-header"&gt;
+  &lt;h3 class="card-title"&gt;
+   Card Title
+  &lt;/h3&gt;
+ &lt;/div&gt;
+ &lt;div class="card-body scrollable h-[200px] py-0 my-4 pr-4 mr-2"&gt;
+  &lt;div class="mb-4"&gt;
+   Tailwind CSS, a utility-first CSS framework, has gained immense popularity for its simplicity, 
+				flexibility, and efficiency in building modern web interfaces. Among its plethora of features, 
+				one that stands out is its ability to swiftly create stylish and responsive card components. 
+				These card components serve as fundamental building blocks for organizing content, 
+				displaying information, and enhancing user experience across web applications and websites
+  &lt;/div&gt;
+  &lt;div&gt;
+   The Tailwind CSS card component offers developers a seamless way to structure content within a visually appealing container. 
+				With Tailwind's utility classes, creating cards becomes intuitive and hassle-free, 
+				allowing developers to focus on crafting engaging user interfaces rather than wrestling with complex CSS code
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="card-footer justify-center"&gt;
+  &lt;a class="btn btn-link" href="#"&gt;
+   Example link
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="toolbar">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#toolbar">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Toolbar
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Enhance the card header by integrating a toolbar for action controls.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#toolbar_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#toolbar_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#toolbar_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#toolbar_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="toolbar_1">
+         <div class="group" id="toolbar_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card">
+              <div class="card-header">
+               <h3 class="card-title">
+                Card Title
+               </h3>
+               <div class="flex gap-3">
+                <label class="switch switch-sm">
+                 <input checked="" class="order-2" name="check" type="checkbox" value="1"/>
+                 <span class="switch-label order-1">
+                  Auto refresh: On
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="card-body">
+               Centralize your team information with our management tools. Access detailed instructions, expert advice, and technical documentation to maintain an up-to-date team directory.
+              </div>
+              <div class="card-footer justify-center">
+               <a class="btn btn-link" href="#">
+                Go to Help Center
+               </a>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="toolbar_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card"&gt;
+ &lt;div class="card-header"&gt;
+  &lt;h3 class="card-title"&gt;
+   Card Title
+  &lt;/h3&gt;
+  &lt;div class="flex gap-3"&gt;
+   &lt;label class="switch switch-sm"&gt;
+    &lt;input checked="" class="order-2" name="check" type="checkbox" value="1"/&gt;
+    &lt;span class="switch-label order-1"&gt;
+     Auto refresh: On
+    &lt;/span&gt;
+   &lt;/label&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="card-body"&gt;
+  Centralize your team information with our management tools. Access detailed instructions, expert advice, and technical documentation to maintain an up-to-date team directory.
+ &lt;/div&gt;
+ &lt;div class="card-footer justify-center"&gt;
+  &lt;a class="btn btn-link" href="#"&gt;
+   Go to Help Center
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="group">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#group">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Group
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Organize the card content into distinct sections.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#group_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#group_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#group_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#group_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="group_1">
+         <div class="group" id="group_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card">
+              <div class="card-header">
+               <h3 class="card-title">
+                Card Title
+               </h3>
+              </div>
+              <div class="card-group">
+               Group content goes here
+              </div>
+              <div class="card-group">
+               Group content goes here
+              </div>
+              <div class="card-group">
+               Group content goes here
+              </div>
+              <div class="card-footer justify-center">
+               <a class="btn btn-link" href="#">
+                Example link
+               </a>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="group_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card"&gt;
+ &lt;div class="card-header"&gt;
+  &lt;h3 class="card-title"&gt;
+   Card Title
+  &lt;/h3&gt;
+ &lt;/div&gt;
+ &lt;div class="card-group"&gt;
+  Group content goes here
+ &lt;/div&gt;
+ &lt;div class="card-group"&gt;
+  Group content goes here
+ &lt;/div&gt;
+ &lt;div class="card-group"&gt;
+  Group content goes here
+ &lt;/div&gt;
+ &lt;div class="card-footer justify-center"&gt;
+  &lt;a class="btn btn-link" href="#"&gt;
+   Example link
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="table">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#table">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Table
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Organize the card content into a structured table format, enabling clear categorization and easy readability of information.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#table_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#table_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#table_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#table_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="table_1">
+         <div class="group" id="table_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card">
+              <div class="card-header">
+               <h3 class="card-title">
+                Card Title
+               </h3>
+              </div>
+              <div class="card-table scrollable-x-auto">
+               <div class="scrollable-auto">
+                <table class="table align-middle text-gray-700 font-medium text-sm">
+                 <thead>
+                  <tr>
+                   <th>
+                    Column 1
+                   </th>
+                   <th>
+                    Column 2
+                   </th>
+                   <th>
+                    Column 3
+                   </th>
+                  </tr>
+                 </thead>
+                 <tbody>
+                  <tr>
+                   <td>
+                    Cell 1
+                   </td>
+                   <td>
+                    Cell 2
+                   </td>
+                   <td>
+                    Cell 3
+                   </td>
+                  </tr>
+                  <tr>
+                   <td>
+                    Cell 1
+                   </td>
+                   <td>
+                    Cell 2
+                   </td>
+                   <td>
+                    Cell 3
+                   </td>
+                  </tr>
+                  <tr>
+                   <td>
+                    Cell 1
+                   </td>
+                   <td>
+                    Cell 2
+                   </td>
+                   <td>
+                    Cell 3
+                   </td>
+                  </tr>
+                 </tbody>
+                </table>
+               </div>
+              </div>
+              <div class="card-footer justify-center">
+               <a class="btn btn-link" href="#">
+                Example link
+               </a>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="table_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card"&gt;
+ &lt;div class="card-header"&gt;
+  &lt;h3 class="card-title"&gt;
+   Card Title
+  &lt;/h3&gt;
+ &lt;/div&gt;
+ &lt;div class="card-table scrollable-x-auto"&gt;
+  &lt;div class="scrollable-auto"&gt;
+   &lt;table class="table align-middle text-gray-700 font-medium text-sm"&gt;
+    &lt;thead&gt;
+     &lt;tr&gt;
+      &lt;th&gt;
+       Column 1
+      &lt;/th&gt;
+      &lt;th&gt;
+       Column 2
+      &lt;/th&gt;
+      &lt;th&gt;
+       Column 3
+      &lt;/th&gt;
+     &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+     &lt;tr&gt;
+      &lt;td&gt;
+       Cell 1
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 2
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 3
+      &lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+      &lt;td&gt;
+       Cell 1
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 2
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 3
+      &lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+      &lt;td&gt;
+       Cell 1
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 2
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 3
+      &lt;/td&gt;
+     &lt;/tr&gt;
+    &lt;/tbody&gt;
+   &lt;/table&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="card-footer justify-center"&gt;
+  &lt;a class="btn btn-link" href="#"&gt;
+   Example link
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="grid">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#grid">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Grid
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Structure the card content into a grid format, facilitating organized presentation with a pagination toolbar.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#grid_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#grid_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#grid_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#grid_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="grid_1">
+         <div class="group" id="grid_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="lg:py-16 lg:w-[600px] mx-auto">
+             <div class="card card-grid">
+              <div class="card-header">
+               <h3 class="card-title">
+                Card Title
+               </h3>
+              </div>
+              <div class="card-table scrollable-x-auto">
+               <div class="scrollable-auto">
+                <table class="table table-border align-middle text-gray-700 font-medium text-sm">
+                 <thead>
+                  <tr>
+                   <th>
+                    Column 1
+                   </th>
+                   <th>
+                    Column 2
+                   </th>
+                   <th>
+                    Column 3
+                   </th>
+                  </tr>
+                 </thead>
+                 <tbody>
+                  <tr>
+                   <td>
+                    Cell 1
+                   </td>
+                   <td>
+                    Cell 2
+                   </td>
+                   <td>
+                    Cell 3
+                   </td>
+                  </tr>
+                  <tr>
+                   <td>
+                    Cell 1
+                   </td>
+                   <td>
+                    Cell 2
+                   </td>
+                   <td>
+                    Cell 3
+                   </td>
+                  </tr>
+                  <tr>
+                   <td>
+                    Cell 1
+                   </td>
+                   <td>
+                    Cell 2
+                   </td>
+                   <td>
+                    Cell 3
+                   </td>
+                  </tr>
+                 </tbody>
+                </table>
+               </div>
+              </div>
+              <div class="card-footer justify-center md:justify-between flex-col md:flex-row gap-3 text-gray-600 text-2sm font-medium">
+               <div class="flex items-center gap-2">
+                Show
+                <select class="select select-sm w-16" name="perpage">
+                 <option value="5">
+                  5
+                 </option>
+                 <option value="10">
+                  10
+                 </option>
+                 <option value="25">
+                  25
+                 </option>
+                 <option value="50">
+                  50
+                 </option>
+                </select>
+                per page
+               </div>
+               <div class="flex items-center gap-4">
+                <span>
+                 1-10 of 52
+                </span>
+                <div class="pagination">
+                 <button class="btn" disabled="">
+                  <i '="" 'outline'}="" class="ki-{" default':="" ki-black-left="">
+                  </i>
+                 </button>
+                 <button class="btn">
+                  1
+                 </button>
+                 <button class="btn active">
+                  2
+                 </button>
+                 <button class="btn">
+                  3
+                 </button>
+                 <button class="btn">
+                  <i '="" 'outline'}="" class="ki-{" default':="" ki-black-right="">
+                  </i>
+                 </button>
+                </div>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="grid_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="card card-grid"&gt;
+ &lt;div class="card-header"&gt;
+  &lt;h3 class="card-title"&gt;
+   Card Title
+  &lt;/h3&gt;
+ &lt;/div&gt;
+ &lt;div class="card-table scrollable-x-auto"&gt;
+  &lt;div class="scrollable-auto"&gt;
+   &lt;table class="table table-border align-middle text-gray-700 font-medium text-sm"&gt;
+    &lt;thead&gt;
+     &lt;tr&gt;
+      &lt;th&gt;
+       Column 1
+      &lt;/th&gt;
+      &lt;th&gt;
+       Column 2
+      &lt;/th&gt;
+      &lt;th&gt;
+       Column 3
+      &lt;/th&gt;
+     &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+     &lt;tr&gt;
+      &lt;td&gt;
+       Cell 1
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 2
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 3
+      &lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+      &lt;td&gt;
+       Cell 1
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 2
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 3
+      &lt;/td&gt;
+     &lt;/tr&gt;
+     &lt;tr&gt;
+      &lt;td&gt;
+       Cell 1
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 2
+      &lt;/td&gt;
+      &lt;td&gt;
+       Cell 3
+      &lt;/td&gt;
+     &lt;/tr&gt;
+    &lt;/tbody&gt;
+   &lt;/table&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="card-footer justify-center md:justify-between flex-col md:flex-row gap-3 text-gray-600 text-2sm font-medium"&gt;
+  &lt;div class="flex items-center gap-2"&gt;
+   Show
+   &lt;select class="select select-sm w-16" name="perpage"&gt;
+    &lt;option value="5"&gt;
+     5
+    &lt;/option&gt;
+    &lt;option value="10"&gt;
+     10
+    &lt;/option&gt;
+    &lt;option value="25"&gt;
+     25
+    &lt;/option&gt;
+    &lt;option value="50"&gt;
+     50
+    &lt;/option&gt;
+   &lt;/select&gt;
+   per page
+  &lt;/div&gt;
+  &lt;div class="flex items-center gap-4"&gt;
+   &lt;span&gt;
+    1-10 of 52
+   &lt;/span&gt;
+   &lt;div class="pagination"&gt;
+    &lt;button class="btn" disabled=""&gt;
+     &lt;i '="" 'outline'}="" class="ki-{" default':="" ki-black-left=""&gt;
+     &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;button class="btn"&gt;
+     1
+    &lt;/button&gt;
+    &lt;button class="btn active"&gt;
+     2
+    &lt;/button&gt;
+    &lt;button class="btn"&gt;
+     3
+    &lt;/button&gt;
+    &lt;button class="btn"&gt;
+     &lt;i '="" 'outline'}="" class="ki-{" default':="" ki-black-right=""&gt;
+     &lt;/i&gt;
+    &lt;/button&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="source-code">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#source-code">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Source Code
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The following source file manages the CSS styles of the Tailwind CSS Card component. 
+			Upon building the assets using
+        <a class="link" href="../customization/webpack/index.html">
+         Webpack Build Tools
+        </a>
+        , 
+			the below file is compiled and added into the
+        <code class="code">
+         dist/assets/css/styles.css
+        </code>
+        bundle, 
+			making it available globally across all pages.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[350px]">
+              File
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               src/core/plugins/components/card.js
+              </code>
+             </td>
+             <td class="text-left">
+              The Tailwind CSS compatible plugin written in PostCSS for applying CSS styles to the Tailwind CSS Card component.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="classes">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#classes">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Classes
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Utility classes to customize the style and appearance of cards.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[200px]">
+              Class
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               card-border
+              </code>
+             </td>
+             <td class="text-left">
+              Add border to the card.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               card-rounded
+              </code>
+             </td>
+             <td class="text-left">
+              Apply rounded corners to the card.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               card-rounded-b
+              </code>
+             </td>
+             <td class="text-left">
+              Apply rounded corners to the bottom of the card.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               card-rounded-t
+              </code>
+             </td>
+             <td class="text-left">
+              Apply rounded corners to the top of the card.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="button-group.html">
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-left="" text-3xl="">
+       </i>
+       <span class="flex flex-col items-end">
+        <span class="text-2xs font-medium text-gray-500">
+         Previous
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Button Group
+        </span>
+       </span>
+      </a>
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="collapse.html">
+       <span class="flex flex-col items-start">
+        <span class="text-2xs font-medium text-gray-500">
+         Next
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Collapse
+        </span>
+       </span>
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-right="" text-3xl="">
+       </i>
+      </a>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-2sm">
+        <span class="text-gray-500">
+         2025©
+        </span>
+        <a class="text-gray-600 hover:text-primary" href="../../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-2sm text-gray-600">
+        <a class="hover:text-primary" href="../../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="../getting-started/license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="../getting-started/license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="w-[280px] drawer drawer-start grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-overlay="true" data-overlay-enable="true|lg:false" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 scrollable-y-hover" data-scrollable="true" data-scrollable-dependencies="#header" data-scrollable-height="auto" data-scrollable-offset="15px" data-scrollable-wrappers="#page" id="aside_content">
+      <div class="card">
+       <div class="card-body px-5 flex flex-col gap-2.5">
+        <h3 class="text-sm font-semibold text-gray-900">
+         On This Page
+        </h3>
+        <div class="flex flex-col gap-1.75 text-sm font-normal" data-scrollspy="true" data-scrollspy-offset="80px|lg:150px" data-scrollspy-target="body">
+         <div class="flex flex-col gap-1.75" data-scrollspy-group="true">
+          <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary active" data-scrollspy-anchor="true" href="#examples">
+           Examples
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary active" data-scrollspy-anchor="true" href="#default">
+            Default Card
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#basic">
+            Basic
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#scrollable">
+            Scrollable
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#toolbar">
+            Toolbar
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#group">
+            Group
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#table">
+            Table
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#grid">
+            Grid
+           </a>
+          </div>
+         </div>
+         <div class="flex flex-col gap-1.75" data-scrollspy-group="true">
+          <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#anatomy">
+           Anatomy
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#source-code">
+            Source Code
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#classes">
+            Classes
+           </a>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <a data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/widgets/algolia-search.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/components/card by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:05:00 GMT -->
+</html>

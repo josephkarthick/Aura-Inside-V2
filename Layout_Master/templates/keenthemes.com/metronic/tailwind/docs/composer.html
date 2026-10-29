@@ -1,0 +1,3950 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.2.2
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-kt-theme="true" data-kt-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs/composer by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 19:31:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS Composer
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="composer.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="HTML file-based mini CMS to work easier with Metronic Tailwind CSS based HTML and JavaScript toolkit." name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:kt-card"/>
+  <meta content="Metronic - Tailwind CSS Composer" name="twitter:title"/>
+  <meta content="HTML file-based mini CMS to work easier with Metronic Tailwind CSS based HTML and JavaScript toolkit." name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs/composer" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS Composer" property="og:title"/>
+  <meta content="HTML file-based mini CMS to work easier with Metronic Tailwind CSS based HTML and JavaScript toolkit." property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet"/>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+  </script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+  </script>
+ </head>
+ <body class="antialiased flex h-full text-base text-foreground bg-background">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+			let themeMode;
+
+			if (document.documentElement) {
+				if (localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('kt-theme');
+				} else if (
+					document.documentElement.hasAttribute('data-kt-theme-mode')
+				) {
+					themeMode =
+						document.documentElement.getAttribute('data-kt-theme-mode');
+				} else {
+					themeMode = defaultThemeMode;
+				}
+
+				if (themeMode === 'system') {
+					themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+				}
+
+				document.documentElement.classList.add(themeMode);
+			}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-border fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] backdrop-blur-md bg-background/70">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden kt-btn kt-btn-icon kt-btn-outline -ml-2" data-kt-drawer-toggle="#sidebar">
+      <i class="ki-outline ki-abstract-14 text-lg">
+      </i>
+     </button>
+     <a class="" href="index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../static/metronic/tailwind/docs/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../static/metronic/tailwind/docs/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../static/metronic/tailwind/docs/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="kt-btn kt-btn-outline" href="../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="kt-btn kt-btn-mono" data-kt-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="kt-popover max-w-72">
+        <div class="kt-popover-header">
+         License Reminder
+        </div>
+        <div class="kt-popover-body">
+         One license allows using Metronic for a single deployment and all
+					subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model
+					with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border-e border-input">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-secondary-foreground hover:text-primary" href="https://x.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-secondary-foreground hover:text-primary" href="https://github.com/keenthemes/ktui">
+       <i class="ki-outline ki-github text-lg">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="cursor-pointer flex items-center text-secondary-foreground hover:text-primary dark:hidden" data-kt-theme-switch-toggle="true">
+        <i class="ki-outline ki-moon text-lg">
+        </i>
+       </button>
+       <button class="cursor-pointer flex items-center text-secondary-foreground hover:text-primary hidden dark:flex" data-kt-theme-switch-toggle="true">
+        <i class="ki-outline ki-sun text-lg">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="[--kt-drawer-enable:true] lg:[--kt-drawer-enable:false] w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-background" data-kt-drawer="true" data-kt-drawer-class="drawer drawer-start" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 kt-scrollable-y-auto lg:[--kt-scrollable-dependencies:#header] lg:[--kt-scrollable-wrappers:#page] [--kt-scrollable-offset:30px] lg:[--kt-scrollable-offset:20px]" data-kt-scrollable="true" data-kt-scrollable-height="auto" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2">
+       <a class="flex items-center gap-2" href="getting-started/installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-mouse-square text-green-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Quick Setup
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-violet-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Changelog - v9.2.1
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Support
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Figma
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-frame text-fuchsia-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Composer
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="kt-menu flex flex-col grow" data-kt-menu="true" id="sidebar_menu">
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Getting Started
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="index-2.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/file-structure.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/installation.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item" data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
+        <div class="kt-menu-link py-1.5 pl-0 flex gap-1 items-center grow cursor-pointer">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-mono kt-menu-item-show:text-mono kt-menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="kt-menu-arrow justify-end -mr-2.5 w-5 text-muted-foreground">
+          <span class="inline-flex kt-menu-item-show:hidden">
+           <i class="ki-outline ki-plus text-xs">
+           </i>
+          </span>
+          <span class="hidden kt-menu-item-show:inline-flex">
+           <i class="ki-outline ki-minus text-xs">
+           </i>
+          </span>
+         </span>
+        </div>
+        <div class="kt-menu-accordion gap-0.5">
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="https://docs.keenthemes.com/metronic-react">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            React
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="https://docs.keenthemes.com/metronic-nextjs">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/vue.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/angular.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/laravel.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/blazor-server.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+        </div>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/multi-demo.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/license.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/references.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../docs-legacy/index.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          v9.1.2 Docs
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Customization
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/webpack.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/javascript.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/theming.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/dark-mode.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/rtl.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/optimization.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item active">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="composer.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Base Components
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/accordion.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/avatar.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/badge.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/button.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/button-group.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/card.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/collapse.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/datatable.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/dismiss.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/drawer.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/dropdown.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/modal.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/progress.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/rating.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/reparent.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/select.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/scrollable.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/table.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/theme-switch.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Theme Switch
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/toggle.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/toast.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toast
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/tooltip.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Navigation
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/menu.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/pagination.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/scrollspy.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/scrollto.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/stepper.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/sticky.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/tabs.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Forms
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/checkbox.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/file-input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/image-input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/input-group.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/radio.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/select.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/switch.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/textarea.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/toggle-password.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         3rd-Party Plugins
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="plugins/keenicons.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="plugins/apexcharts.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="plugins/clipboard.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <div class="flex flex-col gap-2.5 mb-5">
+      <div class="flex items-center gap-1.5 text-md font-semibold">
+       <span class="text-primary">
+        Customization
+       </span>
+      </div>
+      <div class="flex flex-col gap-2.5">
+       <h1 class="text-2xl font-bold text-mono">
+        Metronic Composer
+       </h1>
+       <p class="text-sm font-normal text-mono">
+        Metronic Composer is an HTML file-based mini CMS(Content Management System) built with
+        <a class="link" href="https://www.python.org/">
+         Python
+        </a>
+        ,
+        <a class="link" href="https://flask.palletsprojects.com/">
+         Flask
+        </a>
+        , and
+        <a class="link" href="https://jinja.palletsprojects.com/en/3.1.x/">
+         Jinja
+        </a>
+        .
+  It dynamically serves Metronic Tailwind HTML templates to help developers efficiently manage HTML code through structured partials,
+  blocks, layouts and page contents, making code browsing and extraction easier.
+       </p>
+      </div>
+     </div>
+     <main class="text-sm font-normal grow" id="content" role="content">
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="features">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#features">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Features
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Metronic Composer offers the following features to streamline the integration of 
+		Metronic HTML templates with your application stack.
+        <div class="grid xl:grid-cols-3 pt-5 gap-6">
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-green-200 dark:stroke-green-950 fill-green-50 dark:fill-green-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-screen text-xl ps-px text-green-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             HTML Generator
+            </h3>
+            <p class="text-sm">
+             Effortlessly manage HTML templates and instantly preview changes on localhost.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-primary/10 fill-primary/5" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-keyboard text-xl ps-px text-primary">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Code Inspection
+            </h3>
+            <p class="text-sm">
+             Easily browse and extract HTML code from the views within structured file system.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-destructive/10 fill-destructive/5" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-square-brackets text-xl ps-px text-destructive">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Reusable HTML
+            </h3>
+            <p class="text-sm">
+             Generate each page using reusable and centrally managed HTML components and layouts.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-yellow-200 dark:stroke-yellow-950 fill-yellow-50 dark:fill-yellow-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-keyboard text-xl ps-px text-yellow-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Save Time
+            </h3>
+            <p class="text-sm">
+             Find and analyze the HTML code you need, then seamlessly transfer it to your project.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-violet-200 dark:stroke-violet-950 fill-violet-50 dark:fill-violet-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-people text-xl ps-px text-violet-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Prototype Showcase
+            </h3>
+            <p class="text-sm">
+             Customize styles, navigations, and page blocks for effective prototype demos.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-teal-200 dark:stroke-teal-950 fill-teal-50 dark:fill-teal-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-questionnaire-tablet text-xl ps-px text-teal-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Integrated Testing
+            </h3>
+            <p class="text-sm">
+             Apply changes and test them across all template pages before integrating into your project.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-fuchsia-200 dark:stroke-fuchsia-950 fill-fuchsia-50 dark:fill-fuchsia-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-cube-2 text-xl ps-px text-fuchsia-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Code Organization
+            </h3>
+            <p class="text-sm">
+             Refer to the Composer's view and asset arrangements to efficiently organize your project.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-sky-200 dark:stroke-sky-950 fill-sky-50 dark:fill-sky-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-data text-xl ps-px text-sky-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Data Models
+            </h3>
+            <p class="text-sm">
+             Refer to preset data arrays with demo content for iterating lists, tables, and other UI elements.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content py-8 flex flex-col gap-5 lg:gap-7.5">
+           <div class="flex flex-col items-start gap-2.5">
+            <div class="mb-2.5">
+             <div class="relative size-[50px] shrink-0">
+              <svg class="w-full h-full stroke-orange-200 dark:stroke-orange-950 fill-orange-50 dark:fill-orange-950/30" fill="none" height="48" viewbox="0 0 44 48" width="44" xmlns="http://www.w3.org/2000/svg">
+               <path d="M16 2.4641C19.7128 0.320509 24.2872 0.320508 28 2.4641L37.6506 8.0359C41.3634 10.1795 43.6506 14.141 43.6506 
+			18.4282V29.5718C43.6506 33.859 41.3634 37.8205 37.6506 39.9641L28 45.5359C24.2872 47.6795 19.7128 47.6795 16 45.5359L6.34937 
+			39.9641C2.63655 37.8205 0.349365 33.859 0.349365 29.5718V18.4282C0.349365 14.141 2.63655 10.1795 6.34937 8.0359L16 2.4641Z" fill="">
+               </path>
+               <path d="M16.25 2.89711C19.8081 0.842838 24.1919 0.842837 27.75 2.89711L37.4006 8.46891C40.9587 10.5232 43.1506 14.3196 43.1506 
+			18.4282V29.5718C43.1506 33.6804 40.9587 37.4768 37.4006 39.5311L27.75 45.1029C24.1919 47.1572 19.8081 47.1572 16.25 45.1029L6.59937 
+			39.5311C3.04125 37.4768 0.849365 33.6803 0.849365 29.5718V18.4282C0.849365 14.3196 3.04125 10.5232 6.59937 8.46891L16.25 2.89711Z" stroke="">
+               </path>
+              </svg>
+              <div class="absolute leading-none left-2/4 top-2/4 -translate-y-2/4 -translate-x-2/4">
+               <i class="ki-outline ki-setting-2 text-xl ps-px text-orange-500">
+               </i>
+              </div>
+             </div>
+            </div>
+            <h3 class="text-base font-semibold text-mono">
+             Configuration
+            </h3>
+            <p class="text-sm">
+             Easily change global settings like KeenIcons style, menus, and layout options on the fly.
+            </p>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="how-it-works">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#how-it-works">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        How It
+Works
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Make Metronic
+Composer your development companion to accelerate your Metronic Tailwind based projects. Pay once and enjoy
+lifetime access, using it for unlimited projects.
+       </div>
+       <div class="mb-12 lg:mb-16">
+        <div class="flex flex-col">
+         <div class="relative flex items-start">
+          <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+          </div>
+          <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+           1
+          </div>
+          <div class="pt-1.5 pl-5 mb-5 text-md grow">
+           <h4 class="text-base text-mono font-semibold mb-3.5">
+            Purchase Metronic
+           </h4>
+           Purchase Metronic from
+           <a class="link" href="https://1.envato.market/Vm7VRE">
+            Themeforest Market
+           </a>
+           and download the latest version.
+          </div>
+         </div>
+         <div class="relative flex items-start">
+          <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+          </div>
+          <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+           2
+          </div>
+          <div class="pt-1.5 pl-5 mb-5 text-md grow">
+           <h4 class="text-base text-mono font-semibold mb-3.5">
+            Purchase Composer
+           </h4>
+           Purchase Composer from
+           <a class="link" data-kt-scrollto="#pricing" href="#">
+            Composer Pricing
+           </a>
+           and
+download the version compatible with your Metronic
+version from the from
+           <a class="link" href="../../../downloads.html">
+            Keenthemes Market
+           </a>
+           .
+          </div>
+         </div>
+         <div class="relative flex items-start">
+          <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+          </div>
+          <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+           3
+          </div>
+          <div class="pt-1.5 pl-5 text-md grow">
+           <h4 class="text-base text-mono font-semibold mb-3.5">
+            Use Composer
+           </h4>
+           Unpack the Metronic package, copy the content and paste it into the
+Composer's directory. and follow the
+           <a class="link" data-kt-scrollto="#preparation" href="#">
+            Composer Installation
+           </a>
+           guide to start using Composer.
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="pricing">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#pricing">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Pricing
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Make Metronic Composer your development
+companion to accelerate your Metronic Tailwind based projects. Pay once and
+enjoy lifetime access, using it for unlimited projects.
+       </div>
+       <div>
+        <div class="grid lg:grid-cols-2 gap-6 w-full grow-1 mb-2.5">
+         <div class="kt-card shadow-lg">
+          <div class="kt-card-content py-6 px-8 flex flex-col gap-5">
+           <div class="flex flex-col items-start gap-3.5">
+            <div class="flex flex-col gap-2 .5">
+             <div class="text-sm font-semibold text-mono">
+              Solo Developer
+             </div>
+             <div class="flex items-center gap-2.5">
+              <div class="text-4xl font-semibold text-mono">
+               $99
+              </div>
+              <div class="flex flex-col gap-0.5">
+               <div class="text-xs font-medium text-mono leading-none">
+                one-time payment
+               </div>
+               <div class="text-xs font-normal text-secondary-foreground leading-none">
+                plus local taxes
+               </div>
+              </div>
+             </div>
+            </div>
+            <p class="text-sm text-secondary-foreground">
+             License for a
+single developer, usable for unlimited projects.
+            </p>
+           </div>
+           <a class="kt-btn kt-btn-primary justify-center w-full font-semibold" href="../../../products/metronic-composer/checkout/create.html">
+            Purchase Composer
+           </a>
+          </div>
+         </div>
+         <div class="kt-card shadow-lg">
+          <div class="kt-card-content py-6 px-8 flex flex-col gap-5">
+           <div class="flex flex-col items-start gap-3.5">
+            <div class="flex flex-col gap-2 .5">
+             <div class="text-sm font-semibold text-mono">
+              Team
+             </div>
+             <div class="flex items-center gap-2.5">
+              <div class="text-4xl font-semibold text-mono">
+               $299
+              </div>
+              <div class="flex flex-col gap-0.5">
+               <div class="text-xs font-medium text-mono leading-none">
+                one-time payment
+               </div>
+               <div class="text-xs font-normal text-secondary-foreground leading-none">
+                plus local taxes
+               </div>
+              </div>
+             </div>
+            </div>
+            <p class="text-sm text-secondary-foreground">
+             License for teams with up to 15
+developers, usable for unlimited projects.
+            </p>
+           </div>
+           <a class="kt-btn kt-btn-primary justify-center w-full font-semibold" href="../../../products/metronic-composer/checkout/create602e.html?license=team">
+            Purchase Composer
+           </a>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-2 p-5">
+         <div class="flex items-center gap-2">
+          <div class="text-secondary-foreground font-medium text-sm">
+           Secured payment by
+           <a class="text-primary hover-text-primary-active" href="https://www.paddle.com/" target="_blank">
+            Paddle
+           </a>
+           with
+          </div>
+          <div class="flex gap-1">
+           <img class="h-5 rounded" src="../../../static/metronic/tailwind/docs/dist/assets/media/payment/visa.svg"/>
+           <img class="h-5 rounded" src="../../../static/metronic/tailwind/docs/dist/assets/media/payment/masterkt-card.html"/>
+           <img class="h-5 rounded" src="../../../static/metronic/tailwind/docs/dist/assets/media/payment/paypal.svg"/>
+           <img class="h-5 rounded" src="../../../static/metronic/tailwind/docs/dist/assets/media/payment/americanexpress.svg"/>
+          </div>
+         </div>
+         <div class="text-muted-foreground text-sm font-medium">
+          100% money back guarantee!
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="faq">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#faq">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        FAQ
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Check out the FAQ section below to learn more about Composer before making a purchase decision.
+		If you have any questions, feel free to contact our
+        <a class="link" href="../../../contact.html" target="_blank">
+         Keenthemes Pre-sale Support
+        </a>
+        .
+       </div>
+       <div class="kt-card">
+        <div class="kt-card-content">
+         <div data-kt-accordion="true">
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_1">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_1">
+            <span class="text-base text-mono font-medium">
+             What is the main purpose of Metronic Composer ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_1">
+            <div class="text-muted-foreground text-md pb-4">
+             The main purpose of Composer is to assist developers in working with Metronic Tailwind HTML code by providing structured views. This allows developers to easily extract and use the code in their own platforms, making the process much easier than dealing with long, raw HTML templates.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_2">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_2">
+            <span class="text-base text-mono font-medium">
+             Why isn't Composer included for free with the Metronic Tailwind package?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_2">
+            <div class="text-muted-foreground text-md pb-4">
+             Composer is our primary tool that we use as mini CMS for developing and delivering the Metronic HTML templates and demos efficiently. By monetizing Composer, we can reinvest in Metronic, continuously improving it and adding valuable features. This approach also allows our loyal customers to support and contribute to Metronic's future growth and innovation.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_3">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_3">
+            <span class="text-base text-mono font-medium">
+             Is Composer a fully functional CMS suitable for production use ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_3">
+            <div class="text-muted-foreground text-md pb-4">
+             No, Composer is a mini CMS designed for development purposes, specifically for working with Metronic's HTML code. It is not a complete CMS suitable for production use. You can utilize Composer to locate and extract the HTML code you need and then integrate it into your project accordingly.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_4">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_4">
+            <span class="text-base text-mono font-medium">
+             How can I use Composer views with my server-side or SPA framework views ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_4">
+            <div class="text-muted-foreground text-md pb-4">
+             Composer uses the
+             <a class="link" href="https://jinja.palletsprojects.com/en/3.1.x/">
+              Jinja
+             </a>
+             templating language for its views . 
+			To integrate Metronic Composer views into your project, you will need to convert the view code to match your framework's syntax while maintaining the HTML code manipulation logic to ensure the original HTML code is preserved in the output
+			This saves time compared to working with Metronic's static HTML templates.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_5">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_5">
+            <span class="text-base text-mono font-medium">
+             Does Composer include Metronic source files ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_5">
+            <div class="text-muted-foreground text-md pb-4">
+             Composer does not include Metronic source files. It only includes the HTML views that require Metronics source files rom
+             <a class="link" href="https://1.envato.market/Vm7VRE">
+              Themeforest Market
+             </a>
+             to function fully.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_6">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_6">
+            <span class="text-base text-mono font-medium">
+             Can I use Metronic Composer for previous versions of Metronic ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_6">
+            <div class="text-muted-foreground text-md pb-4">
+             Composer can only be used for the Metronic Tailwind version. Previous Bootstrap-based versions are not supported.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_7">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_7">
+            <span class="text-base text-mono font-medium">
+             Can I get support for using Composer ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_7">
+            <div class="text-muted-foreground text-md pb-4">
+             Definitely! We provide dedicated support for Composer customers via our
+             <a class="link" href="https://devs.keenthemes.com/">
+              Keenthemes Devs Forums
+             </a>
+             according to our
+             <a class="link" href="../../../support.html">
+              Support Policy
+             </a>
+             .
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_8">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_8">
+            <span class="text-base text-mono font-medium">
+             Is Composer a mandatory tool for using Metronic Tailwind ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_8">
+            <div class="text-muted-foreground text-md pb-4">
+             While Composer significantly improves the Metronic utilization process, Metronic itself can be used without Composer by simply working with static HTML templates.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-border" data-kt-accordion-item="true" id="accordion_1_item_9">
+           <button class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_9">
+            <span class="text-base text-mono font-medium">
+             Can I get a refund?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_9">
+            <div class="text-muted-foreground text-md pb-4">
+             Yes, a full refund is guaranteed according to our
+             <a class="link" href="../../../refund-policy.html">
+              Refund Policy
+             </a>
+             .
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="preparation">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#preparation">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Preparation
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        To set up the necessary folder preparation, follow the steps below:
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Download
+          </h4>
+          Download the latest Metronic Composer and metronic-tailwind-html from
+          <a class="link" href="https://1.envato.market/Vm7VRE" target="_blank">
+           Themeforest
+          </a>
+          .
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          2
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Unzip theme folder
+          </h4>
+          <div class="mb-4">
+           Unzip both folders into a directory, for example,
+           <code class="code">
+            myproject
+           </code>
+           :
+          </div>
+          <ul>
+           <li>
+            <code class="code">
+             myproject/metronic-tailwind-html
+            </code>
+           </li>
+           <li>
+            <code class="code">
+             myproject/metronic-composer
+            </code>
+           </li>
+          </ul>
+          <div class="mb-4">
+          </div>
+          Ensure the folders are side by side
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          3
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Copy metronic-tailwind-html
+          </h4>
+          <div class="mb-4">
+           Open a terminal inside the
+           <code class="code">
+            myproject
+           </code>
+           folder:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					cd myproject
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          4
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Copy content of metronic-tailwind-html
+          </h4>
+          <div class="mb-4">
+           Copy the content of the
+           <code class="code">
+            metronic-tailwind-html
+           </code>
+           into
+           <code class="code">
+            metronic-composer/themes/metronic-tailwind-html
+           </code>
+          </div>
+          <div class="mb-4">
+           For
+           <code class="code">
+            Windows
+           </code>
+           :
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					xcopy /E /I  metronic-tailwind-html\* metronic-composer\themes\metronic-tailwind-html\
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           For
+           <code class="code">
+            MacOS/Unix/Linux
+           </code>
+           :
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					cp -R metronic-tailwind-html/* metronic-composer/themes/metronic-tailwind-html
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           You can verify
+           <code class="code">
+            metronic-composer/themes/metronic-tailwind-html
+           </code>
+           to see if the content is copied there.
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="installation">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#installation">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Installation
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Follow the guide below to get started with the Dynamic Preview.
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Install Python
+          </h4>
+          <div class="mb-4">
+           Ensure you have the latest version of Python installed. Download it from the official
+           <a class="link" href="https://www.python.org/downloads/" target="_blank">
+            Python
+           </a>
+           website.
+				To verify the installation, open your terminal and run:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					python --version
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           In some operating systems, Python 3 is used instead of Python. If you have Python 3 installed, you can verify the installation by running the following command:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					python3 --version
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          If Python is installed, it will display the version number.
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          2
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Launch Terminal
+          </h4>
+          <div class="mb-4">
+           Start a command prompt window or terminal and change directory to the package's root directory.
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					cd metronic-composer
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          3
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Run the script
+          </h4>
+          <div class="mb-4">
+           To start the development server and build the preview, run the following command in the terminal:
+          </div>
+          <div class="mb-4">
+           For
+           <code class="code">
+            Windows
+           </code>
+           :
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					run.bat --debug
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           For
+           <code class="code">
+            MacOS/Unix/Linux
+           </code>
+           :
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					./run.sh --debug
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          The run script will install Flask and other dependencies needed for the preview to run for the first time.
+			This may take some time, please wait while the installation is in progress. 
+			The preview will be accessible at
+          <code class="code">
+           http://localhost:8001/
+          </code>
+          after the installation is complete.
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="static-html">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#static-html">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Static HTML Files Generation
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Follow the steps below to generate static HTML files using Metronic Composer.
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Launch Terminal
+          </h4>
+          <div class="mb-4">
+           Open a command prompt or terminal window. Change your directory to the package's root directory. Use the following command:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					cd metronic-composer
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          2
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Run the generate script
+          </h4>
+          <div class="mb-4">
+           To start the development server and build the preview, execute the appropriate script based on your operating system:
+          </div>
+          <div class="mb-4">
+           For
+           <code class="code">
+            Windows
+           </code>
+           :
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					generate.bat
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           For
+           <code class="code">
+            MacOS/Unix/Linux
+           </code>
+           :
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="rounded-lg relative group bg-black !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+              <span class="flex group-[.copied]:hidden">
+               <i class="ki-outline ki-copy text-white hover:text-white">
+               </i>
+              </span>
+              <span class="hidden group-[.copied]:flex">
+               <i class="ki-outline ki-check text-white hover:text-white">
+               </i>
+              </span>
+             </button>
+             <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					./generate.sh
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          3
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Locate the Generated HTML Files
+          </h4>
+          <div class="mb-4">
+           Once the script completes execution, all pages will be generated and exported into HTML files. You can find the exported HTML files in the following directory:
+           <code class="code">
+            themes/metronic-tailwind-html/dist/html
+           </code>
+          </div>
+          <div class="mb-4">
+           Each page will have its own HTML file named to match the page name. The HTML files will correspond to their respective page URLs. For instance, a page accessible via
+           <code class="code">
+            example.com/dashboard
+           </code>
+           will have an HTML file named
+           <code class="code">
+            dashboard.html
+           </code>
+           .
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="troubleshooting">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#troubleshooting">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Troubleshooting
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        This section provides common issues and solutions for installing Metronic Dynamic Preview and running it.
+       </div>
+       <div class="flex flex-col mb-2.75">
+        <div class="text-primary font-semibold text-sm">
+        </div>
+        <h3 class="flex text-mono font-semibold text-lg" id="">
+         <a class="group relative border-none lg:-ml-2 lg:pl-2" href="#">
+          <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+           ​
+           <div class="flex h-5 w-5 items-center justify-center rounded-md text-muted-foreground shadow-sm hover:text-secondary-foreground hover:shadow">
+            <svg aria-hidden="true" fill="none" height="12" width="12">
+             <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+             </path>
+            </svg>
+           </div>
+          </div>
+          Common Issue 1:
+         </a>
+        </h3>
+       </div>
+       <div class="mb-4">
+        The issue usually happens on Windows. Python is not recognized as an internal or external command, operable program or batch file. This error occurs when the Python executable is not added to the system's
+        <code class="code">
+         PATH
+        </code>
+        .
+       </div>
+       <div class="flex flex-col mb-2.75">
+        <div class="text-primary font-semibold text-sm">
+        </div>
+        <h3 class="flex text-mono font-semibold text-lg" id="">
+         <a class="group relative border-none lg:-ml-2 lg:pl-2" href="#">
+          <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+           ​
+           <div class="flex h-5 w-5 items-center justify-center rounded-md text-muted-foreground shadow-sm hover:text-secondary-foreground hover:shadow">
+            <svg aria-hidden="true" fill="none" height="12" width="12">
+             <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+             </path>
+            </svg>
+           </div>
+          </div>
+          Solution:
+         </a>
+        </h3>
+       </div>
+       <div class="mb-4">
+        Check if Python is installed on your system by typing
+        <code class="code">
+         python --version
+        </code>
+        or
+        <code class="code">
+         python3 --version
+        </code>
+        in your command prompt or terminal. If Python is installed, it will display the version number.
+       </div>
+       <div class="mb-4">
+        If Python is not installed, download the latest version from the official Python website and install it.
+       </div>
+       <div class="flex items-center grow rounded-xl border border-dashed gap-4 p-4 border-primary/10 bg-primary/5">
+        <i class="ki-outline ki-information-1 text-2xl text-primary">
+        </i>
+        <div class="flex flex-col gap-0.5">
+         <p class="text text-sm font-normal">
+          When running the installer, make sure to tick the box that says "Add Python to environment variables". This will ensure that Python is added to the systems PATH variable.
+         </p>
+        </div>
+       </div>
+       <div class="mb-4">
+       </div>
+       <div class="mb-4">
+        If Python is installed but still not recognized, you may need to add Python to your system's
+        <code class="code">
+         PATH
+        </code>
+        variable. Here's how to do it on Windows:
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Environment Variables
+          </h4>
+          Search for
+          <code class="code">
+           Environment Variables
+          </code>
+          in the Windows search bar and select
+          <code class="code">
+           Edit the system environment variables
+          </code>
+          then click on
+          <code class="code">
+           Environment Variables
+          </code>
+          .
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          3
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Edit Variables
+          </h4>
+          Under
+          <code class="code">
+           System variables
+          </code>
+          , find the
+          <code class="code">
+           Path
+          </code>
+          variable, select it, and click on
+          <code class="code">
+           Edit
+          </code>
+          .
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          4
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Add Variable
+          </h4>
+          Click on
+          <code class="code">
+           New
+          </code>
+          and add the path where Python is installed. By default, it is
+          <code class="code">
+           C:\PythonXX
+          </code>
+          , where XX is the version number.
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-border">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-border text-mono text-sm font-semibold">
+          5
+         </div>
+         <div class="pt-1.5 pl-5 text-md grow">
+          <h4 class="text-base text-mono font-semibold mb-3.5">
+           Complete
+          </h4>
+          Click on
+          <code class="code">
+           OK
+          </code>
+          to close all dialog boxes and restart your command prompt or terminal.
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="flex flex-col mb-2.75">
+        <div class="text-primary font-semibold text-sm">
+        </div>
+        <h3 class="flex text-mono font-semibold text-lg" id="">
+         <a class="group relative border-none lg:-ml-2 lg:pl-2" href="#">
+          <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+           ​
+           <div class="flex h-5 w-5 items-center justify-center rounded-md text-muted-foreground shadow-sm hover:text-secondary-foreground hover:shadow">
+            <svg aria-hidden="true" fill="none" height="12" width="12">
+             <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+             </path>
+            </svg>
+           </div>
+          </div>
+          Common Issue 2:
+         </a>
+        </h3>
+       </div>
+       <div class="mb-4">
+        The issue usually happens on MacOS/Unix/Linux.
+        <code class="code">
+         bash: ./run.sh: Permission denied
+        </code>
+        .
+       </div>
+       <div class="mb-4">
+       </div>
+       <div class="flex flex-col mb-2.75">
+        <div class="text-primary font-semibold text-sm">
+        </div>
+        <h3 class="flex text-mono font-semibold text-lg" id="">
+         <a class="group relative border-none lg:-ml-2 lg:pl-2" href="#">
+          <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+           ​
+           <div class="flex h-5 w-5 items-center justify-center rounded-md text-muted-foreground shadow-sm hover:text-secondary-foreground hover:shadow">
+            <svg aria-hidden="true" fill="none" height="12" width="12">
+             <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+             </path>
+            </svg>
+           </div>
+          </div>
+          Solution:
+         </a>
+        </h3>
+       </div>
+       <div class="mb-4">
+        To make the
+        <code class="code">
+         run.sh
+        </code>
+        file executable on
+        <code class="code">
+         MacOS/Unix/Linux
+        </code>
+        , you can run the following command in the terminal:
+       </div>
+       <div class="grid">
+        <div class="min-w-full">
+         <div class="rounded-lg relative group bg-black !py-1 !px-3">
+          <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+           <span class="flex group-[.copied]:hidden">
+            <i class="ki-outline ki-copy text-white hover:text-white">
+            </i>
+           </span>
+           <span class="hidden group-[.copied]:flex">
+            <i class="ki-outline ki-check text-white hover:text-white">
+            </i>
+           </span>
+          </button>
+          <pre class="!p-1 !bg-transparent kt-scrollable-auto language-bash" style="; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-bash !font-normal text-[13px]! bg-transparent! p-0!">
+					chmod +x run.sh
+
+				</code>
+			</pre>
+         </div>
+        </div>
+       </div>
+       <div class="mb-4">
+       </div>
+       The command makes the
+       <code class="code">
+        run.sh
+       </code>
+       file executable, which means that you can run it as a script. Running the script will start the Flask development server and build the preview.
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="api">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#api">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Theme API
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The Preview Tool utilizes the
+        <code class="code">
+         libs/theme_helper.py
+        </code>
+        file for global Theme API settings as listed in the below table.
+       </div>
+       <div class="mb-4">
+        <div class="grid">
+         <div class="kt-card kt-card-grid min-w-full">
+          <div class="kt-card-content scrollable-x-auto">
+           <table class="kt-table kt-table-border font-normal">
+            <thead>
+             <tr>
+              <th class="text-left min-w-[500px]">
+               Method
+              </th>
+              <th class="text-left">
+               Description
+              </th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                layout(file, param={}, render=True)
+               </code>
+              </td>
+              <td class="text-left">
+               Renders a specified layout file with optional parameters. If render is set to True, the layout is rendered directly.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                partial(file, param={})
+               </code>
+              </td>
+              <td class="text-left">
+               Renders a specified partial file with optional parameters. This method is used to include reusable components in a layout or page.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                page(file, param={})
+               </code>
+              </td>
+              <td class="text-left">
+               Renders a specified page file with optional parameters. This method is typically used for rendering full pages within an application.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getPartial(scope, file, param={}, render=True, prettify=False)
+               </code>
+              </td>
+              <td class="text-left">
+               Retrieves and optionally renders a partial file within a given scope, using optional parameters. The prettify option can be used to format the output for readability.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getAssets(type)
+               </code>
+              </td>
+              <td class="text-left">
+               Retrieves all assets of a specified type (e.g., CSS, JavaScript) from the project.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getAsset(type, name)
+               </code>
+              </td>
+              <td class="text-left">
+               Retrieves a specific asset by type and name, such as a particular CSS or JavaScript file.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getPageUrl(page)
+               </code>
+              </td>
+              <td class="text-left">
+               Generates the URL for a specified page, making it easier to link to other pages within the application.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getKeenIcon(name, class_name="", icon_type=None)
+               </code>
+              </td>
+              <td class="text-left">
+               Retrieves a Keen Icon by its name, with optional class names and icon type for customization.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getBreadcrumbs(menu_items=None, exclude_active=False)
+               </code>
+              </td>
+              <td class="text-left">
+               Generates breadcrumb navigation from the given menu items. Optionally, the active menu item can be excluded.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getUrl(path)
+               </code>
+              </td>
+              <td class="text-left">
+               Generates a full URL from a given path, useful for creating links within the application.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                includeAssets(files)
+               </code>
+              </td>
+              <td class="text-left">
+               Includes a list of asset files (e.g., CSS, JavaScript) in the current view or layout.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getActiveMenu(menu_items=None)
+               </code>
+              </td>
+              <td class="text-left">
+               Identifies and returns the currently active menu item from the given menu items.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getCurrentMenuLinkTitle(menu_items=None)
+               </code>
+              </td>
+              <td class="text-left">
+               Retrieves the title of the currently active menu item from the given menu items.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                getConfig(key, by_demo=True)
+               </code>
+              </td>
+              <td class="text-left">
+               Retrieves configuration settings by key, with an option to specify if the settings are for a specific demo.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                api(data)
+               </code>
+              </td>
+              <td class="text-left">
+               Handles API requests for demo by processing the provided data and returning the appropriate response.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                code(code, param={})
+               </code>
+              </td>
+              <td class="text-left">
+               Executes or processes a block of code with optional parameters.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                file(path)
+               </code>
+              </td>
+              <td class="text-left">
+               Reads and returns the contents of a file specified by the path.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                json(path)
+               </code>
+              </td>
+              <td class="text-left">
+               Reads a JSON file from the specified path and returns its contents as a JSON object.
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="app-settings">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#app-settings">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        App Settings
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The Preview Tool utilizes the
+        <code class="code">
+         config/app.yaml
+        </code>
+        file for global settings as listed in the below table.
+       </div>
+       <div class="mb-4">
+        <div class="grid">
+         <div class="kt-card kt-card-grid min-w-full">
+          <div class="kt-card-content scrollable-x-auto">
+           <table class="kt-table kt-table-border font-normal">
+            <thead>
+             <tr>
+              <th class="text-left min-w-[150px]">
+               Property
+              </th>
+              <th class="text-left min-w-[150px]">
+               Value
+              </th>
+              <th class="text-left">
+               Default
+              </th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 keenicons.default
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Sets the default icon style for KeenIcons.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code-light">
+                 enum
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   "filled" | "duotone" | "outline" | "solid"
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                "outline"
+               </code>
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 keenicons.demo1
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Sets the KeenIcons icon style for demo1.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code-light">
+                 enum
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   "filled" | "duotone" | "outline" | "solid"
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                "outline"
+               </code>
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 container.default
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Specifies the default layout container type.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code-light">
+                 enum
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   "fixed" | "fluid"
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                "fixed"
+               </code>
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 container.demo1
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Specifies the default layout container type for demo1.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code-light">
+                 enum
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   "fixed" | "fluid"
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                "fixed"
+               </code>
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="kt-menusettings">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#kt-menusettings">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Menu Settings
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The Preview Tool utilizes the
+        <code class="code">
+         config/menu.yaml
+        </code>
+        file for menu settings used in generating menus like the sidebar menu and megamenu. 
+		This configuration file contains multiple menu settings defined with the following common properties.
+       </div>
+       <div class="mb-4">
+        <div class="grid">
+         <div class="kt-card kt-card-grid min-w-full">
+          <div class="kt-card-content scrollable-x-auto">
+           <table class="kt-table kt-table-border font-normal">
+            <thead>
+             <tr>
+              <th class="text-left min-w-[150px]">
+               Property
+              </th>
+              <th class="text-left min-w-[150px]">
+               Value
+              </th>
+              <th class="text-left">
+               Default
+              </th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 section
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Defines the title of the section that groups menu items.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                string
+               </code>
+              </td>
+              <td class="text-left">
+               -
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 title
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Defines the title of the menu item.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                string
+               </code>
+              </td>
+              <td class="text-left">
+               -
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 path
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Specifies the URL path for the menu items link.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                string
+               </code>
+              </td>
+              <td class="text-left">
+               -
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 icon
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   Defines the icon name of the menu item.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                string
+               </code>
+              </td>
+              <td class="text-left">
+               -
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <div class="flex items-center gap-2">
+                <code class="code">
+                 children
+                </code>
+                <div data-kt-tooltip="true" data-kt-tooltip-placement="top" data-kt-tooltip-trigger="hover">
+                 <i class="ki-outline ki-information-1 text-sm text-secondary-foreground">
+                 </i>
+                 <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+                  <div class="kt-popover-content">
+                   An array of submenu items.
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </td>
+              <td class="text-left">
+               <code class="code-light">
+                []
+               </code>
+              </td>
+              <td class="text-left">
+               -
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="views">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#views">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Views
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Views represent the HTML structure and are located in the
+        <code class="code">
+         views
+        </code>
+        directory, 
+		which contains the layouts, pages, and partials used to generate HTML pages.
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="layout-views">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#layout-views">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Layout Views
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Layout Views represent the HTML structure for page layouts that wrapps contents during the page generation.
+        <code class="code">
+         views/layouts
+        </code>
+        contains multiple layouts where each layout used for varouse cases such as, 
+		application, authentication or error pages. For application pages multiple layouts are supported as demo1, demo2, etc where
+		each layout has unique structure and design.
+       </div>
+       <div class="mb-4">
+        <div class="grid">
+         <div class="kt-card kt-card-grid min-w-full">
+          <div class="kt-card-content scrollable-x-auto">
+           <table class="kt-table kt-table-border font-normal">
+            <thead>
+             <tr>
+              <th class="text-left min-w-[200px]">
+               Path
+              </th>
+              <th class="text-left">
+               Description
+              </th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                views/layouts/base.html
+               </code>
+              </td>
+              <td class="text-left">
+               The base layout code serves as the foundation for generating all HTML pages. 
+				It includes essential structural tags and assets ensuring a consistent layout across the entire application.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                views/layouts/auth
+               </code>
+              </td>
+              <td class="text-left">
+               Contains the layout code designed for authentication pages, 
+				offers a tailored structure and styling optimized for login, 
+				registration, and password reset functionalities.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                views/layouts/error
+               </code>
+              </td>
+              <td class="text-left">
+               Contains the layout code designed for error pages, 
+				designed to provide a specific structure and styling 
+				for displaying error messages like 404 and 500 pages.
+              </td>
+             </tr>
+             <tr>
+              <td class="text-left">
+               <code class="code">
+                views/layouts/demo1
+               </code>
+              </td>
+              <td class="text-left">
+               Contains the layout code required for rendering the main content and features of the application.
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="kt-toggle-group" data-kt-tabs="true">
+          <a class="kt-btn active" data-kt-tab-toggle="#layout_1" href="#">
+           Layout - Base
+          </a>
+          <a class="kt-btn" data-kt-tab-toggle="#layout_2" href="#">
+           Layout - Demo 1 Master
+          </a>
+          <a class="kt-btn" data-kt-tab-toggle="#layout_3" href="#">
+           Layout - Demo 1 Header
+          </a>
+          <a class="kt-btn" data-kt-tab-toggle="#layout_4" href="#">
+           Layout - Demo 1 Breadcrumbs
+          </a>
+         </div>
+        </div>
+        <div class="" id="layout_1">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					&lt;!DOCTYPE html&gt;
+&lt;html class="h-full" lang="en"&gt;
+ &lt;head&gt;
+  &lt;meta charset="utf-8"/&gt;
+  &lt;meta content="max-snippet:-1, max-image-preview:large, max-video-preview:-1" name="robots"/&gt;
+  &lt;link href="https://keenthemes.com/" rel="canonical"/&gt;
+  &lt;meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/&gt;
+  &lt;meta content="" name="description"/&gt;
+  &lt;meta content="@keenthemes" name="twitter:site"/&gt;
+  &lt;meta content="@keenthemes" name="twitter:creator"/&gt;
+  &lt;meta content="summary_large_image" name="twitter:kt-card"/&gt;
+  &lt;meta content="" name="twitter:title"/&gt;
+  &lt;meta content="" name="twitter:description"/&gt;
+  &lt;meta content="og-image.png" name="twitter:image"/&gt;
+  &lt;meta content="https://keenthemes.com/" property="og:url"/&gt;
+  &lt;meta content="en_US" property="og:locale"/&gt;
+  &lt;meta content="website" property="og:type"/&gt;
+  &lt;meta content="" property="og:site_name"/&gt;
+  &lt;meta content="" property="og:title"/&gt;
+  &lt;meta content="" property="og:description"/&gt;
+  &lt;meta content="og-image.png" property="og:image"/&gt;
+  &lt;title&gt;
+   {% block title %}{% endblock %}
+  &lt;/title&gt;
+  &lt;link href="{{ theme.getAssetUrl('media/app/favicon.ico') }}" rel="shortcut icon"/&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/&gt;
+  &lt;link href="{{ theme.getAssetUrl('vendors/apexcharts/apexcharts.css') }}" rel="stylesheet"/&gt;
+  &lt;link href="{{ theme.getAssetUrl('vendors/keenicons/styles.bundle.css') }}" rel="stylesheet"/&gt;
+  {% for path in theme.getAssets('css') %}
+  &lt;link href="{{ theme.getAssetUrl(path) }}" rel="stylesheet"/&gt;
+  {% endfor %}
+  &lt;link href="{{ theme.getAssetUrl('css/styles.css') }}" rel="stylesheet"/&gt;
+ &lt;/head&gt;
+ &lt;body class="flex h-full sidebar-fixed header-fixed bg-background {{ theme.getDemo() }}" data-kt-theme="true" data-kt-theme-mode="light"&gt;
+  &lt;!--begin::Theme mode setup on page load--&gt;
+  &lt;script&gt;
+   const defaultThemeMode = 'light'; // light|dark|system
+			let themeMode;
+
+			if (document.documentElement) {
+				if (localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('theme');
+				} else if (
+					document.documentElement.hasAttribute('data-kt-theme-mode')
+				) {
+					themeMode =
+						document.documentElement.getAttribute('data-kt-theme-mode');
+				} else {
+					themeMode = defaultThemeMode;
+				}
+
+				if (themeMode === 'system') {
+					themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+				}
+
+				document.documentElement.classList.add(themeMode);
+				document.body.classList.add(themeMode);
+			}
+  &lt;/script&gt;
+  &lt;!--end::Theme mode setup on page load--&gt;
+  &lt;!--begin::Page layout--&gt;
+  {% block layout %} {% endblock %}
+  &lt;!--end::Page layout--&gt;
+  &lt;!--begin::Page scripts--&gt;
+  &lt;script src="{{ theme.getAssetUrl('js/core.bundle.js') }}"&gt;
+  &lt;/script&gt;
+  &lt;script src="{{ theme.getAssetUrl('vendors/apexcharts/apexcharts.min.js') }}"&gt;
+  &lt;/script&gt;
+  {% for path in theme.getAssets('js') %}
+  &lt;script src="{{ theme.getAssetUrl(path) }}"&gt;
+  &lt;/script&gt;
+  {% endfor %}
+  &lt;!--end::Page scripts--&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="layout_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					{{ theme.includeAssets(['js/layouts/demo1.js']) }}
+
+{% extends theme.layout("base", render=False) %}
+
+{% block layout %}
+&lt;div class="flex grow"&gt;
+ {{ theme.layout("demo:_sidebar") }}
+ &lt;div class="wrapper flex grow flex-col"&gt;
+  {{ theme.layout("demo:_header") }}
+  &lt;main class="grow content pt-5" id="content" role="content"&gt;
+   {{ theme.partial('container/begin', {'id': 'content_container'}) }}
+				{{ theme.partial('container/end') }}
+
+				{% block content %}
+				{% endblock %}
+  &lt;/main&gt;
+  {{ theme.layout("demo:_footer") }}
+ &lt;/div&gt;
+&lt;/div&gt;
+{{ theme.partial('modals/search/main') }}
+	{{ theme.partial('modals/share-profile/main') }}
+	{{ theme.partial('modals/give-award/main') }}
+	{{ theme.partial('modals/report-user/main') }}
+{% endblock %}
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="layout_3">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					&lt;header class="header fixed top-0 z-10 left-0 right-0 flex items-stretch shrink-0 bg-background" data-kt-sticky="true" data-kt-sticky-animation="true" data-kt-sticky-class="shadow-sm" data-kt-sticky-name="header" id="header"&gt;
+ {{ theme.partial('container/begin', {'class': 'flex justify-between
+	items-stretch lg:gap-4', 'id': 'header_container'}) }} {{
+	theme.layout("demo:_mobile-logo") }} {% if theme.config.get("megamenu") %} {{
+	theme.layout("demo:_megamenu") }} {% else %} {{
+	theme.layout("demo:_breadcrumbs") }} {% endif %} {{
+	theme.layout("demo:_topbar") }} {{ theme.partial('container/end') }}
+&lt;/header&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="layout_4">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					{% macro generate_breadcrumb(items) %} {% for item in items %} {% if item.url %}
+&lt;a class="flex items-center gap-1 text-secondary-foreground hover:text-primary" href="{{ theme.getUrl(item['url']) }}"&gt;
+ {{ item.title }}
+&lt;/a&gt;
+{% else %}
+&lt;span class="{{ 'text-secondary-foreground' if loop.last else 'text-secondary-foreground' }}"&gt;
+ {{ item.title }}
+&lt;/span&gt;
+{% endif %} {% if not loop.last %} {{ theme.getKeenIcon('right', 'text-muted-foreground
+text-3xs') }} {% endif %} {% endfor %} {% endmacro %} {% set breadcrumb =
+theme.getBreadcrumbs(theme.config.get("menu").get("sidebar")) %}
+&lt;div class="flex [.header_&amp;]:below-lg:hidden items-center gap-1.25 text-xs lg:text-sm font-medium mb-2.5 lg:mb-0" data-kt-reparent="true" data-kt-reparent-mode="prepend|lg:prepend" data-kt-reparent-target="#content_container|lg:#header_container"&gt;
+ {{ generate_breadcrumb(breadcrumb) }}
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="partial-views">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#partial-views">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Partial Views
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Partial views, residing in the
+        <code class="code">
+         views/partials
+        </code>
+        directory, 
+		encapsulate reusable HTML structures for various components or sections of pages within the application.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="kt-toggle-group" data-kt-tabs="true">
+          <a class="kt-btn active" data-kt-tab-toggle="#partial_1" href="#">
+           Partial - Dropdown Menu
+          </a>
+          <a class="kt-btn" data-kt-tab-toggle="#partial_2" href="#">
+           Partial - Projects
+          </a>
+         </div>
+        </div>
+        <div class="" id="partial_1">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					{% set items = [ { 'logo': 'jira.svg', 'title': 'Jira', 'description': 'Project
+management', 'checkbox': False }, { 'logo': 'inferno.svg', 'title': 'Inferno',
+'description': 'Ensures healthcare app', 'checkbox': True }, { 'logo':
+'evernote.svg', 'title': 'Evernote', 'description': 'Notes management app',
+'checkbox': True }, { 'logo': 'gitlab.svg', 'title': 'Gitlab', 'description':
+'DevOps platform', 'checkbox': False }, { 'logo': 'google-webdev.svg', 'title':
+'Google webdev', 'description': 'Building web expierences', 'checkbox': True } ]
+%}
+&lt;div class="kt-dropdown-menu light:border-input w-full max-w-[320px]"&gt;
+ &lt;div class="flex items-center justify-between gap-2.5 text-xs text-secondary-foreground font-medium px-5 py-3 border-b border-b-gray-200"&gt;
+  &lt;span&gt;
+   Apps
+  &lt;/span&gt;
+  &lt;span&gt;
+   Enabled
+  &lt;/span&gt;
+ &lt;/div&gt;
+ &lt;div class="flex flex-col kt-scrollable-y-auto max-h-[400px] divide-y divide-gray-200"&gt;
+  {% for item in items %}
+  &lt;div class="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5"&gt;
+   &lt;div class="flex items-center flex-wrap gap-2"&gt;
+    &lt;div class="flex items-center justify-center shrink-0 rounded-full bg-muted/30 border border-border size-10"&gt;
+     &lt;img alt="" class="size-6" src="{{ theme.getAssetUrl('media/brand-logos/' + item.logo) }}"/&gt;
+    &lt;/div&gt;
+    &lt;div class="flex flex-col"&gt;
+     &lt;a class="text-sm font-semibold text-mono" href="#"&gt;
+      {{ item.title }}
+     &lt;/a&gt;
+     &lt;span class="text-xs font-medium text-secondary-foreground"&gt;
+      {{ item.description }}
+     &lt;/span&gt;
+    &lt;/div&gt;
+   &lt;/div&gt;
+   &lt;div class="flex items-center gap-2 lg:gap-5"&gt;
+    {% if item.checkbox == True %}
+    &lt;label class="switch switch-sm"&gt;
+     &lt;input checked="" type="checkbox" value="1"/&gt;
+    &lt;/label&gt;
+    {% else %}
+    &lt;label class="switch switch-sm"&gt;
+     &lt;input type="checkbox" value="2"/&gt;
+    &lt;/label&gt;
+    {% endif %}
+   &lt;/div&gt;
+  &lt;/div&gt;
+  {% endfor %}
+ &lt;/div&gt;
+ &lt;div class="grid p-5 border-t border-t-gray-200"&gt;
+  &lt;a class="kt-btn kt-btn-outline justify-center" href="#"&gt;
+   Go to Apps
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="partial_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					{% set items = [
+	{
+		'name': 'Acme software development',
+		'team': theme.partial('common/avatars', {
+			'group': [
+				{'filename': '300-4.png'},
+				{'filename': '300-1.png'},
+				{'filename': '300-2.png'},
+			],
+			'more': {
+				'number': '3',
+				'variant': 'text-green-500-inverse ring-success-light bg-success'
+			}
+		}),
+		'dueDate': '24 Aug, 2024',
+		'progress': {
+			'variant': 'progress-primary',
+			'value': '60'
+		}
+	},
+
+	{
+		'name': 'Strategic Partnership Deal',
+		'team': theme.partial('common/avatars', {
+			'group': [
+				{'filename': '300-3.png'},
+				{'filename': '300-11.png'},
+				{'filename': '300-21.png'} 
+			],
+			'more': {
+				'number': '8',
+				'variant': 'text-green-500-inverse ring-success-light bg-success'
+			}
+		}),
+		'dueDate': '10 Sep, 2024',
+		'progress': {
+			'variant': '',
+			'value': '100'
+		}
+	},
+
+	{
+		'name': 'Client Onboarding',
+		'team': theme.partial('common/avatars', {
+			'group': [
+				{'filename': '300-1.png'},
+				{'filename': '300-14.png'},
+				{'filename': '300-4.png'},
+			],
+			'more': {
+				'number': '1',
+				'variant': 'text-green-500-inverse ring-success-light bg-success'
+			}
+		}),
+		'dueDate': '19 Sep, 2024',
+		'progress': {
+			'variant': 'progress-primary',
+			'value': '20'
+		}
+	},
+
+	{
+		'name': 'Widget Supply Agreement',
+		'team': theme.partial('common/avatars', {
+			'group': [
+				{'filename': '300-15.png'},
+				{'filename': '300-10.png'},
+				{'filename': '300-30.png'},
+			],
+			'more': {
+				'number': '4',
+				'variant': 'text-green-500-inverse ring-success-light bg-success'
+			}
+		}),
+		'dueDate': '5 May, 2024',
+		'progress': {
+			'variant': 'progress-success',
+			'value': '100'
+		}
+	},
+
+	{
+		'name': 'Project X Redesign',
+		'team': theme.partial('common/avatars', {
+			'group': [
+				{'filename': '300-2.png'},
+				{'filename': '300-23.png'},
+				{'filename': '300-3.png'} 
+			],
+			'more': {
+				'number': '9',
+				'variant': 'text-green-500-inverse ring-success-light bg-success'
+			}
+		}),
+		'dueDate': '1 Feb, 2025',
+		'progress': {
+			'variant': 'progress-primary',
+			'value': '80'
+		}
+	}
+] %}
+&lt;div class="kt-card"&gt;
+ &lt;div class="kt-card-header"&gt;
+  &lt;h3 class="kt-card-title"&gt;
+   Projects
+  &lt;/h3&gt;
+  &lt;button class="kt-btn kt-btn-icon kt-btn-outline"&gt;
+   {{ theme.getKeenIcon('dots-vertical') }}
+  &lt;/button&gt;
+ &lt;/div&gt;
+ &lt;div class="kt-card-table scrollable-x-auto"&gt;
+  &lt;table class="table text-right"&gt;
+   &lt;thead&gt;
+    &lt;tr&gt;
+     &lt;th class="text-left min-w-52"&gt;
+      Project Name
+     &lt;/th&gt;
+     &lt;th class="min-w-40"&gt;
+      Progress
+     &lt;/th&gt;
+     &lt;th class="min-w-32"&gt;
+      People
+     &lt;/th&gt;
+     &lt;th class="min-w-32"&gt;
+      Due Date
+     &lt;/th&gt;
+     &lt;th class="w-[30px]"&gt;
+     &lt;/th&gt;
+    &lt;/tr&gt;
+   &lt;/thead&gt;
+   &lt;tbody&gt;
+    {% for item in items %}
+    &lt;tr&gt;
+     &lt;td class="text-left"&gt;
+      &lt;a class="text-sm font-semibold text-mono hover:text-primary" href="#"&gt;
+       {{ item.name }}
+      &lt;/a&gt;
+     &lt;/td&gt;
+     &lt;td&gt;
+      &lt;div class="progress {{ item.progress.variant }}"&gt;
+       &lt;div class="progress-bar" style="width: {{ item.progress.value }}%"&gt;
+       &lt;/div&gt;
+      &lt;/div&gt;
+     &lt;/td&gt;
+     &lt;td&gt;
+      &lt;div class="flex justify-end shrink-0"&gt;
+       {{ item.team|safe }}
+      &lt;/div&gt;
+     &lt;/td&gt;
+     &lt;td class="text-sm font-medium text-secondary-foreground"&gt;
+      {{ item.dueDate }}
+     &lt;/td&gt;
+     &lt;td class="text-left"&gt;
+      &lt;button class="kt-btn kt-btn-icon kt-btn-outline"&gt;
+       {{ theme.getKeenIcon('dots-vertical') }}
+      &lt;/button&gt;
+     &lt;/td&gt;
+    &lt;/tr&gt;
+    {% endfor %}
+   &lt;/tbody&gt;
+  &lt;/table&gt;
+ &lt;/div&gt;
+ &lt;div class="kt-card-footer justify-center"&gt;
+  &lt;a class="kt-btn kt-btn-link" href="#"&gt;
+   All Projects
+  &lt;/a&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="page-views">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#page-views">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Page Views
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Page views, located in the
+        <code class="code">
+         views/pages
+        </code>
+        directory, 
+		contain HTML code specific to individual pages within the application, 
+		providing a structured representation of each page's content. 
+		
+		Each page is launched from the entry file
+        <code class="code">
+         index.html
+        </code>
+        within its respective directory in the application's structure.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="kt-toggle-group" data-kt-tabs="true">
+          <a class="kt-btn active" data-kt-tab-toggle="#page_1" href="#">
+           Page - Wrapper
+          </a>
+          <a class="kt-btn" data-kt-tab-toggle="#page_2" href="#">
+           Page - Content
+          </a>
+         </div>
+        </div>
+        <div class="" id="page_1">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					{% extends theme.layout('demo:main', render=False) %}
+
+{% set content_menu = theme.config.get('menu').get("sidebar")[3].get('children') %}
+
+{% block content %}
+	{{ theme.partial('navbar/begin') }}
+		{{ theme.partial('container/begin', {'id': 'hero_container'}) }}
+			{{ theme.partial('menu/navbar', {'items': content_menu}) }}
+		{{ theme.partial('container/end') }}
+	{{ theme.partial('navbar/end') }}
+	
+	{{ theme.partial('container/begin') }}
+		{{ theme.partial('toolbar/begin') }}
+			{{ theme.partial('toolbar/heading/begin') }}
+&lt;h1 class="text-2xl font-semibold leading-none text-mono mb1.5"&gt;
+ Account
+&lt;/h1&gt;
+&lt;div class="flex items-center gap-2 text-sm font-medium"&gt;
+ &lt;span class="text-secondary-foreground"&gt;
+  Jayson Tatum
+ &lt;/span&gt;
+ &lt;a class="text-secondary-foreground hover:text-primary" href="mailto:jaytatum@ktstudio.com"&gt;
+  jaytatum@ktstudio.com
+ &lt;/a&gt;
+ &lt;span class="size-0.75 bg-gray-600 rounded-full"&gt;
+ &lt;/span&gt;
+ &lt;a class="font-semibold kt-btn kt-btn-link text-primary" href="#"&gt;
+  Personal Info
+ &lt;/a&gt;
+&lt;/div&gt;
+{{ theme.partial('toolbar/heading/end') }}
+		{{ theme.partial('toolbar/end') }}
+	{{ theme.partial('container/end') }}
+
+	{{ theme.partial('container/begin') }}
+		{{ theme.page('account/home/get-started/-content') }}
+	{{ theme.partial('container/end') }}
+{% endblock %}
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="page_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="rounded-lg relative group bg-black !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 kt-btn bg-transparent kt-btn-icon kt-btn-icon-xl mt-3 mr-4 z-1" data-kt-clipboard="true">
+             <span class="flex group-[.copied]:hidden">
+              <i class="ki-outline ki-copy text-white hover:text-white">
+              </i>
+             </span>
+             <span class="hidden group-[.copied]:flex">
+              <i class="ki-outline ki-check text-white hover:text-white">
+              </i>
+             </span>
+            </button>
+            <pre class="!p-1 !bg-transparent kt-scrollable-auto language-html" style="max-height: 800px; --scrollbar-thumb-color: var(--color-gray-600)">
+				<code class="language-html !font-normal text-[13px]! bg-transparent! p-0!">
+					&lt;!-- begin: grid --&gt;
+&lt;div class="grid grid-cols-1 xl:grid-cols-3 gap-5 lg:gap-7.5"&gt;
+ &lt;div class="col-span-1"&gt;
+  &lt;div class="grid gap-5 lg:gap-7.5"&gt;
+   {{ theme.page('public-profile/profiles/default/_community-kt-badges', {'title': 'Community Badges'}) }}
+
+			{{ theme.page('public-profile/profiles/default/_about') }}
+
+			{{ theme.page('public-profile/profiles/default/_work-experience') }}
+
+			{{ theme.page('public-profile/profiles/default/_tags', {'title': 'Skills'}) }}
+
+			{{ theme.page('public-profile/profiles/default/_recent-uploads', {'title': 'Recent Uploads'}) }}
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="col-span-2"&gt;
+  &lt;div class="flex flex-col gap-5 lg:gap-7.5"&gt;
+   &lt;div class="flex flex-col gap-5 lg:gap-7.5"&gt;
+    {{ theme.page('public-profile/profiles/default/_unlock-partnerships') }}
+
+				{% if salesOverview %}
+					{{ theme.page('public-profile/profiles/default/_sales-overview') }}
+				{% else %}
+					{{ theme.page('public-profile/profiles/default/_media-uploads') }}
+				{% endif%}
+   &lt;/div&gt;
+   &lt;div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5"&gt;
+    {{ theme.page('public-profile/profiles/default/_contributors') }}
+
+				{{ theme.page('public-profile/profiles/default/_contributions', {'title': 'Assistance'}) }}
+   &lt;/div&gt;
+   {{ theme.page('public-profile/profiles/default/_projects') }}
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- end: grid --&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <a class="kt-btn kt-btn-outline justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="customization/optimization.html">
+       <i class="ki-outline ki-arrow-left text-lg group-hover:text-primary">
+       </i>
+       <span class="flex flex-col items-end">
+        <span class="text-xs font-medium text-muted-foreground">
+         Previous
+        </span>
+        <span class="text-sm font-medium text-mono group-hover:text-primary">
+         Optimization
+        </span>
+       </span>
+      </a>
+      <a class="kt-btn kt-btn-outline justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="components/accordion.html">
+       <span class="flex flex-col items-start">
+        <span class="text-xs font-medium text-muted-foreground">
+         Next
+        </span>
+        <span class="text-sm font-medium text-mono group-hover:text-primary">
+         Accordion
+        </span>
+       </span>
+       <i class="ki-outline ki-arrow-right text-lg group-hover:text-primary">
+       </i>
+      </a>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-sm">
+        <span class="text-muted-foreground">
+         2025©
+        </span>
+        <a class="text-secondary-foreground hover:text-primary" href="../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-sm text-secondary-foreground">
+        <a class="hover:text-primary" href="../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="getting-started/license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="getting-started/license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="[--kt-drawer-enable:true] lg:[--kt-drawer-enable:false] w-[280px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-background" data-kt-drawer="true" data-kt-drawer-class="kt-drawer kt-drawer-start" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 kt-scrollable-y-hover" data-kt-scrollable="true" data-kt-scrollable-dependencies="#header" data-kt-scrollable-height="auto" data-kt-scrollable-offset="15px" data-kt-scrollable-wrappers="#page" id="aside_content">
+      <div class="kt-card">
+       <div class="kt-card-content px-5 flex flex-col gap-2.5">
+        <h3 class="text-sm font-semibold text-mono">
+         On This Page
+        </h3>
+        <div class="flex flex-col gap-1.75 text-sm font-normal" data-kt-scrollspy="true" data-kt-scrollspy-offset="150px" data-kt-scrollspy-target="body">
+         <div class="flex flex-col gap-1.75" data-kt-scrollspy-group="true">
+          <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#about">
+           About
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#features">
+            Features
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#how-it-works">
+            How it Works
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#pricing">
+            Pricing
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#faq">
+            FAQ
+           </a>
+          </div>
+         </div>
+         <div class="flex flex-col gap-1.75" data-kt-scrollspy-group="true">
+          <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#getting-started">
+           Getting Started
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#preparation">
+            Preparation
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#installation">
+            Installation
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#static-html">
+            Static HTML Files Generation
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#troubleshooting">
+            Troubleshooting
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#api">
+            Theme API
+           </a>
+          </div>
+         </div>
+         <div class="flex flex-col gap-1.75" data-kt-scrollspy-group="true">
+          <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#configuration">
+           Configuration
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#app-settings">
+            App Settings
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#kt-menusettings">
+            Menu Settings
+           </a>
+          </div>
+         </div>
+         <div class="flex flex-col gap-1.75" data-kt-scrollspy-group="true">
+          <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#views">
+           Views
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#layout-views">
+            Layout Views
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#partial-views">
+            Partial Views
+           </a>
+           <a class="flex items-center gap-1 hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#page-views">
+            Page Views
+           </a>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <a data-kt-tooltip="true" data-kt-tooltip-container="body" data-kt-tooltip-placement="left" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+        <div class="kt-popover-header">
+         License Reminder
+        </div>
+        <div class="kt-popover-body">
+         One license allows using Metronic for a single deployment and all
+			subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with
+			paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+      <a href="https://reui.io/" target="_blank">
+       <img alt="browse ktui" class="rounded-lg w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/banners/reui-banner.png"/>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/vendors/ktui/ktui.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs/composer by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 19:31:28 GMT -->
+</html>

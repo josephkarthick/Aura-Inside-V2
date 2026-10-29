@@ -1,0 +1,1619 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.1.1
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-theme="true" data-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/getting-started/integration/blazor-server by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS Blazor Server
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="blazor-server.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="Integrate Blazor Server with the Tailwind CSS based toolkit for modern web applications." name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Metronic - Tailwind CSS Blazor Server" name="twitter:title"/>
+  <meta content="Integrate Blazor Server with the Tailwind CSS based toolkit for modern web applications." name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs-legacy/getting-started/integration/blazor-server" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS Blazor Server" property="og:title"/>
+  <meta content="Integrate Blazor Server with the Tailwind CSS based toolkit for modern web applications." property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet">
+   <!-- Google tag (gtag.js) -->
+   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+   </script>
+   <script>
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+   </script>
+  </link>
+ </head>
+ <body class="antialiased flex h-full text-base text-gray-700 dark:bg-coal-500">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+		let themeMode;
+
+		if ( document.documentElement ) {
+			if ( localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('theme');
+			} else if ( document.documentElement.hasAttribute('data-theme-mode')) {
+				themeMode = document.documentElement.getAttribute('data-theme-mode');
+			} else {
+				themeMode = defaultThemeMode;
+			}
+
+			if (themeMode === 'system') {
+				themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+
+			document.documentElement.classList.add(themeMode);
+		}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-b-gray-200 fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] bg-light dark:bg-coal-500">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden btn btn-icon btn-light btn-clear btn-sm -ml-2" data-drawer-toggle="#sidebar">
+      <i 'outline'}="" class="ki-{" default':="" ki-abstract-14="" text-lg'="">
+      </i>
+     </button>
+     <a class="" href="../../index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div id="docsearch">
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="btn btn-sm btn-light" href="../../../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="btn btn-sm btn-dark" data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border border-r-gray-200">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-gray-600 hover:text-primary" href="https://twitter.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-gray-600 hover:text-primary" href="https://github.com/keenthemes/metronic-tailwind-html-integration">
+       <i 'outline'}="" class="ki-{" default':="" ki-github="" text-lg'="">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="flex items-center text-gray-600 hover:text-primary dark:hidden" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-moon="" text-lg'="">
+        </i>
+       </button>
+       <button class="flex items-center text-gray-600 hover:text-primary hidden dark:flex" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-sun="" text-lg'="">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-drawer="true" data-drawer-class="drawer drawer-start" data-drawer-enable="true|lg:false" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 scrollable-y-auto" data-scrollable="true" data-scrollable-dependencies="none|lg:#header" data-scrollable-height="auto" data-scrollable-offset="30px|lg:20px" data-scrollable-wrappers="none|lg:#page" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2.5">
+       <a class="flex items-center gap-2" href="../installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-mouse-square text-success text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Quick Setup
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-info text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Changelog
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Support
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Figma
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-frame text-dark text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Composer
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../../../../products/metronic-pulse.html" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-wlan text-danger text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Pulse
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Pulse - Laravel REST API Boilerplate for Metronic 9 Tailwind React.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="menu flex flex-col grow" data-menu="true" id="sidebar_menu">
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Getting Started
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../index-2.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../file-structure.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../installation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item here show" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
+        <div class="menu-link py-1.5 pl-5 pr-2.5 flex gap-1 items-center grow cursor-pointer border-l-2 border-gray-200">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-gray-900 menu-item-show:text-gray-900 menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="menu-arrow justify-end -mr-2.5 w-5 text-gray-500">
+          <i 'outline'}="" class="ki-{" default':="" ki-plus="" menu-item-show:hidden'="" text-2xs="">
+          </i>
+          <i 'outline'}="" class="ki-{" default':="" hidden="" ki-minus="" menu-item-show:inline-flex'="" text-2xs="">
+          </i>
+         </span>
+        </div>
+        <div class="menu-accordion gap-0.5">
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="react.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            React
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="nextjs.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="vue.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="angular.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="laravel.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="menu-item active">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="blazor-server.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Nuxt
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Svelte
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Astro
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Remix
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Symfony
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Asp.Net Core
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Django
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Rails
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../multi-demo.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../license.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../references.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Customization
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../customization/webpack.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../customization/javascript.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../customization/theming.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../customization/dark-mode.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../customization/rtl.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../customization/optimization.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../composer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Base Components
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/accordion.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/avatar.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/badge.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/button.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/button-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Calendar
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/card.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/collapse.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/container.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Container
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/datatable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/dismiss.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/drawer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/dropdown.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/modal.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/progress.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/rating.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/reparent.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/scrollable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/table.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/theme.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theme
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/toggle.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/tooltip.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Navigation
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/menu.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/pagination.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/scrollspy.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/scrollto.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/stepper.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/sticky.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/tabs.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Forms
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/checkbox.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/file-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/image-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/input-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/radio.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/range.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Range
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/select.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/switch.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/textarea.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../components/toggle-password.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Datepicker
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dial Input
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Password Meter
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Plugins
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../plugins/apexcharts.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../plugins/formvalidation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          FormValidation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../plugins/clipboard.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../../plugins/keenicons.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <div class="flex flex-col gap-2.5 mb-5">
+      <div class="flex items-center gap-1.5 text-md font-semibold">
+       <span class="text-primary">
+        Getting Started
+       </span>
+       <span class="rounded-full size-1.5 bg-primary">
+       </span>
+       <span class="text-primary">
+        Integration
+       </span>
+      </div>
+      <div class="flex flex-col gap-2.5">
+       <h1 class="text-2xl font-bold text-gray-900">
+        Blazor Server
+       </h1>
+       <p class="text-sm font-normal text-gray-900">
+        This guide outlines the integration of the latest
+        <a class="link" href="https://react.dev/">
+         Blazor
+    Server
+        </a>
+        framework with Metronic Tailwind,
+providing a comprehensive foundation for building modern web applications.
+       </p>
+      </div>
+     </div>
+     <main class="text-gray-800 text-sm font-normal grow" id="content" role="content">
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="download">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#download">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Download
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Get started with your Blazor Server project by downloading the Metronic integration examples from our
+        <a class="link" href="https://github.com/keenthemes/metronic-tailwind-html-integration">
+         GitHub
+    repository
+        </a>
+        . These examples provide a quick way to integrate the Metronic styles into your Blazor Server project. This will give you a working starting point that you can customize to fit your needs.
+       </div>
+       <div class="mb-4">
+       </div>
+       <div class="flex items-center grow rounded-xl border border-dashed gap-4 p-4 border-primary bg-primary-light">
+        <i 'outline'}="" class="ki-{" default':="" ki-information-1="" text-3xl="" text-primary'="">
+        </i>
+        <div class="flex flex-col gap-0.5">
+         <p class="text text-2sm font-normal">
+          Please note that the sample project does not include the Metronic Tailwind CSS source files by default.
+To integrate the styles, you need to copy the Metronic Tailwind CSS source files from your downloaded Metronic folder.
+         </p>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Copy Source Folder
+          </h4>
+          <div class="mb-4">
+           Copy the entire
+           <code class="code">
+            metronic-tailwind-html
+           </code>
+           folder and paste it into the root directory of your Blazor app. Rename the copied folder to
+           <code class="code">
+            metronic
+           </code>
+           .
+This step imports the necessary styles and assets from the original HTML package into your Blazor Server project.
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          2
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Copy Media Folder
+          </h4>
+          <div class="mb-4">
+           Copy the media folder from
+           <code class="code">
+            metronic/dist/
+           </code>
+           and paste it into the
+           <code class="code">
+            wwwroot/
+           </code>
+           directory.
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          3
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Adjust webpack config output path
+          </h4>
+          <div class="mb-4">
+           Modify the
+           <code class="code">
+            webpack.config.js
+           </code>
+           file to make webpack output assets to
+           <code class="code">
+            wwwroot
+           </code>
+           folder:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-javascript" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-javascript !font-normal !text-[13px] !bg-transparent !p-0">
+					...
+const dist = value.dist.replace("../wwwroot/assets", "");
+...
+output: {
+...
+path: path.resolve(__dirname, "../wwwroot/assets"),
+...
+},
+...
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          4
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Install Packages &amp; Build Assets
+          </h4>
+          <div class="mb-4">
+           Open your terminal and navigate to the metronic directory:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					cd metronic
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           Install the necessary npm packages and build the theme assets by running the following command:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					npm install &amp; npm run dev
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          5
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Run Development Server
+          </h4>
+          <div class="mb-4">
+           Run devepopment server using the following command.
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					dotnet run watch
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="mb-4">
+       </div>
+       <div class="mb-4">
+        That's it! You now have the Metronic Tailwind template integrated into your Blazor Server project.
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="create-project">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#create-project">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Creating Project
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        This guide will lead you through the essential steps of creating Blazor project from scratch.
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Install Node.js, Npm and .NET
+          </h4>
+          Before starting with Blazor, ensure you have Node.js and npm (Node Package Manager) installed on your machine. Visit
+          <a class="link" href="https://nodejs.org/" rel="noopener noreferrer" target="_blank">
+           https://nodejs.org/
+          </a>
+          to download and install
+the latest NodeJS and
+          <a class="link" href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">
+           https://dotnet.microsoft.com/en-us/download/dotnet/8.0
+          </a>
+          to download and install .NET 8.
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          2
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Create Blazor Project
+          </h4>
+          <div class="mb-4">
+           Create new Blazor project using the following command.
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					dotnet new blazor -o metronic-tailwind-blazor-server
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          4
+         </div>
+         <div class="pt-1.5 pl-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Serve the Blazor Application
+          </h4>
+          <div class="mb-4">
+           Run the development server with the following command:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					dotnet run watch
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="">
+           Wait for the app to display that it's listening on
+           <code class="code">
+            http://localhost:[port
+    number]
+           </code>
+           and for the browser to launch at that address.
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="integrate-styles">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#integrate-styles">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Integrate Assets
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        This guide provides a detailed walkthrough of the key steps required to
+integrate the Metronic assets into your Blazor Server project.
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Copy Source Folder
+          </h4>
+          <div class="mb-4">
+           Copy the entire
+           <code class="code">
+            metronic-tailwind-html
+           </code>
+           folder and paste it into the root directory of your Blazor app. Rename the copied folder to
+           <code class="code">
+            metronic
+           </code>
+           .
+This step imports the necessary styles and assets from the original HTML package into your Blazor Server project.
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          2
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Copy Media Folder
+          </h4>
+          <div class="mb-4">
+           Copy the media folder from
+           <code class="code">
+            metronic/dist/
+           </code>
+           and paste it into the
+           <code class="code">
+            wwwroot/
+           </code>
+           directory.
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          3
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Adjust webpack config output path
+          </h4>
+          <div class="mb-4">
+           Modify the
+           <code class="code">
+            webpack.config.js
+           </code>
+           file to make webpack output assets to
+           <code class="code">
+            wwwroot
+           </code>
+           folder:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-javascript" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-javascript !font-normal !text-[13px] !bg-transparent !p-0">
+					...
+const dist = value.dist.replace("../wwwroot/assets", "");
+...
+output: {
+...
+path: path.resolve(__dirname, "../wwwroot/assets"),
+...
+},
+...
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          4
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Install Packages &amp; Build Assets
+          </h4>
+          <div class="mb-4">
+           Open your terminal and navigate to the metronic directory:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					cd metronic
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+          <div class="mb-4">
+          </div>
+          <div class="mb-4">
+           Install the necessary npm packages and build the theme assets by running the following command:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-bash" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-bash !font-normal !text-[13px] !bg-transparent !p-0">
+					npm install &amp; npm run dev
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="integrate-core">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#integrate-core">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Integrate Core
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        This guide provides a detailed walkthrough of the key steps required to
+integrate the Metronic core components into your Blazor Server project.
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="flex flex-col">
+        <div class="relative flex items-start">
+         <div class="w-9 left-0 top-9 my-2 absolute bottom-0 translate-x-1/2 border-l border-l-gray-300">
+         </div>
+         <div class="w-9 h-9 flex items-center justify-center shrink-0 rounded-full border border-gray-300 text-primary text-2sm font-bold">
+          1
+         </div>
+         <div class="pt-1.5 pl-5 mb-5 text-md grow">
+          <h4 class="text-base text-gray-900 font-semibold mb-3.5">
+           Initialize global components
+          </h4>
+          <div class="mb-4">
+           Create new
+           <code class="code">
+            MainLayout.razor
+           </code>
+           with your layout markup and paste the following initialization code:
+          </div>
+          <div class="grid">
+           <div class="min-w-full">
+            <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+             <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+              </i>
+              <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+              </i>
+             </button>
+             <pre class="!p-1 !bg-transparent scrollable-auto language-js" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-js !font-normal !text-[13px] !bg-transparent !p-0">
+					// MainLayout.razor
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+@code {
+protected override void OnAfterRender(bool firstRender){
+JS.InvokeVoidAsync("KTComponent.init");
+JS.InvokeVoidAsync("KTLayout.init");
+}
+}
+
+				</code>
+			</pre>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="laravel.html">
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-left="" text-3xl="">
+       </i>
+       <span class="flex flex-col items-end">
+        <span class="text-2xs font-medium text-gray-500">
+         Previous
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Laravel
+        </span>
+       </span>
+      </a>
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="../multi-demo.html">
+       <span class="flex flex-col items-start">
+        <span class="text-2xs font-medium text-gray-500">
+         Next
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Multi-Demo
+        </span>
+       </span>
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-right="" text-3xl="">
+       </i>
+      </a>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-2sm">
+        <span class="text-gray-500">
+         2025©
+        </span>
+        <a class="text-gray-600 hover:text-primary" href="../../../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-2sm text-gray-600">
+        <a class="hover:text-primary" href="../../../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="../license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="../license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="w-[280px] drawer drawer-start grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-overlay="true" data-overlay-enable="true|lg:false" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 scrollable-y-hover" data-scrollable="true" data-scrollable-dependencies="#header" data-scrollable-height="auto" data-scrollable-offset="15px" data-scrollable-wrappers="#page" id="aside_content">
+      <div class="card">
+       <div class="card-body px-5 flex flex-col gap-2.5">
+        <h3 class="text-sm font-semibold text-gray-900">
+         On This Page
+        </h3>
+        <div class="flex flex-col gap-1.75 text-sm font-normal" data-scrollspy="true" data-scrollspy-offset="80px|lg:150px" data-scrollspy-target="body">
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#download">
+          Download
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#create-project">
+          Create Project
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#integrate-styles">
+          Integrate Styles
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#integrate-core">
+          Integrate Core
+         </a>
+        </div>
+       </div>
+      </div>
+      <a data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/widgets/algolia-search.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/getting-started/integration/blazor-server by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:32 GMT -->
+</html>

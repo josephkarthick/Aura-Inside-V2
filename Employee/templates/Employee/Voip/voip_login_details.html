@@ -1,0 +1,436 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<title>{{ vendor }} Login Details</title>
+
+<style>
+.login-page {
+    position: fixed;
+    top: 80px;
+    left: 70px;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+    background: #f4f6f9;
+
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.login-card {
+    width: 450px;
+    max-width: 100%;
+
+    min-height: 450px;
+    height: auto;
+
+    background: #ffffff;
+    padding: 35px;
+
+    border-radius: 16px;
+
+    box-sizing: border-box;
+}
+
+    .login-icon {
+        width: 65px;
+        height: 65px;
+        background: #fff0eb;
+        color: #ff4b00;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin: 0 auto 18px;
+    }
+
+    .login-card h2 {
+        text-align: center;
+        margin-bottom: 8px;
+        color: #222;
+        font-size: 23px;
+        font-weight: 700;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 28px;
+        font-size: 14px;
+    }
+
+    .field {
+        margin-bottom: 20px;
+    }
+
+    .field label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #444;
+        font-size: 14px;
+    }
+
+    .value-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .value {
+        flex: 1;
+        min-width: 0;
+        padding: 12px 14px;
+        background: #f5f7fb;
+        border: 1px solid #e1e6ef;
+        border-radius: 8px;
+        word-break: break-word;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .copy-btn {
+        border: none;
+        background: #eef2f7;
+        color: #555;
+        padding: 11px 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+        background: #e3e8f0;
+    }
+
+    .login-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px;
+        background: #ff4b00;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 28px;
+        transition: 0.2s;
+    }
+
+    .login-link:hover {
+        background: #e64200;
+        color: white;
+    }
+
+    .notice {
+        background: #fff5e6;
+        color: #865b20;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .error-notice {
+        background: #fff0f0;
+        color: #b42318;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    .password-wrapper {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .password-wrapper .value {
+        flex: 1;
+    }
+
+    .toggle-btn {
+        border: none;
+        background: #eef2f7;
+        color: #555;
+        padding: 11px 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+@media (max-width: 768px) {
+
+    .login-page {
+        left: 0;
+        top: 70px;
+        padding: 20px 15px;
+    }
+
+    .login-card {
+        width: 100%;
+        padding: 25px 20px;
+    }
+
+}
+</style>
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        {% if has_account %}
+
+            <!-- Header -->
+            <div class="login-icon">
+                📞
+            </div>
+
+            <h2>{{ vendor }} Login Details</h2>
+
+            <div class="subtitle">
+                Use the details below to connect
+            </div>
+
+            <!-- Login Button -->
+            {% if login_url %}
+
+                <a href="{{ login_url }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="login-link">
+
+                    🔗 Open {{ vendor }} Login ↗
+
+                </a>
+
+            {% else %}
+
+                <div class="notice" style="margin-bottom: 25px;">
+                    Login link is not configured.
+                </div>
+
+            {% endif %}
+
+            <!-- Username -->
+            <div class="field">
+
+                <label>Username</label>
+
+                <div class="value-group">
+
+                    <div class="value" id="username">
+                        {{ username }}
+                    </div>
+
+                    <button type="button"
+                            class="copy-btn"
+                            onclick="copyValue('username', this)">
+                        Copy
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Password -->
+            <div class="field">
+
+                <label>Password</label>
+
+                <div class="password-wrapper">
+
+                    <div class="value"
+                         id="password"
+                         data-password="{{ password|escape }}">
+                        ••••••••
+                    </div>
+
+                    <button type="button"
+                            class="toggle-btn"
+                            onclick="togglePassword(this)">
+                        Show
+                    </button>
+
+                    <button type="button"
+                            class="copy-btn"
+                            onclick="copyPassword(this)">
+                        Copy
+                    </button>
+
+                </div>
+
+            </div>
+			
+            <!-- Company Code -->
+            {% if company_code %}
+
+                <div class="field">
+
+                    <label>Company Code / Tenant ID</label>
+
+                    <div class="value-group">
+
+                        <div class="value" id="company_code">
+                            {{ company_code }}
+                        </div>
+
+                        <button type="button"
+                                class="copy-btn"
+                                onclick="copyValue('company_code', this)">
+                            Copy
+                        </button>
+
+                    </div>
+
+                </div>
+
+            {% endif %}			
+
+            <!-- Notice -->
+            <div class="notice">
+
+                💡 Please open the login link and enter the above credentials
+                to connect to the calling system.
+
+            </div>
+
+        {% else %}
+
+            <!-- Account Not Found -->
+            <div class="login-icon">
+                📞
+            </div>
+
+            <h2>VoIP Account Not Found</h2>
+
+            <div class="subtitle">
+                Calling service unavailable
+            </div>
+
+            <div class="error-notice">
+
+                📞 {{ message }}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function copyText(text) {
+
+        if (navigator.clipboard && window.isSecureContext) {
+
+            return navigator.clipboard.writeText(text);
+
+        }
+
+        const textarea = document.createElement("textarea");
+
+        textarea.value = text;
+
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+
+        document.execCommand("copy");
+
+        document.body.removeChild(textarea);
+
+        return Promise.resolve();
+
+    }
+
+
+    function copyValue(elementId, button) {
+
+        const element = document.getElementById(elementId);
+
+        const text = element.innerText.trim();
+
+        copyText(text).then(() => {
+
+            const originalText = button.innerText;
+
+            button.innerText = "Copied!";
+
+            setTimeout(() => {
+
+                button.innerText = originalText;
+
+            }, 1500);
+
+        });
+
+    }
+
+
+    function togglePassword(button) {
+
+        const passwordElement = document.getElementById("password");
+
+        const password = passwordElement.dataset.password;
+
+        if (passwordElement.innerText === "••••••••") {
+
+            passwordElement.innerText = password;
+
+            button.innerText = "Hide";
+
+        } else {
+
+            passwordElement.innerText = "••••••••";
+
+            button.innerText = "Show";
+
+        }
+
+    }
+
+
+    function copyPassword(button) {
+
+        const passwordElement = document.getElementById("password");
+
+        const password = passwordElement.dataset.password;
+
+        copyText(password).then(() => {
+
+            const originalText = button.innerText;
+
+            button.innerText = "Copied!";
+
+            setTimeout(() => {
+
+                button.innerText = originalText;
+
+            }, 1500);
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

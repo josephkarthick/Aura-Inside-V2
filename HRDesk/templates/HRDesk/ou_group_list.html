@@ -1,0 +1,74 @@
+{% extends "Layout_Master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="header">
+                    <h2>Organizational Units (OUs)</h2>
+                </div>
+                <div class="body table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Distinguished Name (DN)</th>
+                                <th style="width: 100px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ou in ous %}
+                                <tr>
+                                    <td>{{ ou.name }}</td>
+                                    <td class="text-muted"><small>{{ ou.dn }}</small></td>
+                                    <td>
+                                        <a href="{% url 'HRDesk:delete_ldap_entry' ou.dn|urlencode %}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this OU?');">Delete</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="3" class="text-center">No OUs found</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{% url 'HRDesk:create_ou' %}" class="btn btn-primary btn-sm">➕ Add OU</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="header">
+                    <h2>Groups</h2>
+                </div>
+                <div class="body table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Distinguished Name (DN)</th>
+                                <th style="width: 100px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for group in groups %}
+                                <tr>
+                                    <td>{{ group.name }}</td>
+                                    <td class="text-muted"><small>{{ group.dn }}</small></td>
+                                    <td>
+                                        <a href="{% url 'HRDesk:delete_ldap_entry' group.dn|urlencode %}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this group?');">Delete</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="3" class="text-center">No groups found</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{% url 'HRDesk:create_group' %}" class="btn btn-primary btn-sm">➕ Add Group</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

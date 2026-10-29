@@ -1,0 +1,263 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    <!-- Container -->
+    <div class="kt-container-fixed" id="contentContainer"></div>
+    <!-- End of Container -->
+         <!-- End of Container -->
+     <div class="flex items-center flex-wrap md:flex-nowrap lg:items-end justify-between border-b border-b-border gap-3 lg:gap-6 mb-5 lg:mb-10">
+     </div>
+    <!-- Container -->
+
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">AD Users</h1>
+        <div class="flex items-center gap-2 font-medium">
+         <span class="text-sm text-secondary-foreground">
+          All Active Direcotry  User List
+              <!-- Django messages -->
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} text-sm py-2 px-3 rounded bg-opacity-90">
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+         </span>
+        </div>          
+        </div>
+<a href="{% url 'ADManager:sync_security_groups' %}"
+   class="btn btn-success">
+    <i class="fas fa-sync-alt"></i> Sync AD
+</a>              
+        <div class="flex items-center gap-2.5">
+          <a class="kt-btn kt-btn-outline" href="{% url 'ADManager:export_ldap_users' filetype='csv' %}">Export CSV</a>
+          <a class="kt-btn kt-btn-outline"  data-kt-dropdown-dismiss="true" data-kt-modal-toggle="#create_user">Create User</a>
+        </div>
+      </div>
+    </div>
+    <!-- End of Container -->
+    
+    <!-- Container -->
+	
+    <div class="kt-container-fixed">
+      <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full"><br>
+          <div class="kt-card-header flex-wrap gap-2">
+            <h3 class="kt-card-title text-sm">Totally {{ total_users }} users</h3>
+            <div class="flex flex-wrap gap-2 lg:gap-5">
+				<div class="flex">
+				<label class="kt-input">
+					<i class="ki-filled ki-magnifier"></i>
+<form method="GET" id="searchForm">
+    <input
+        id="searchInput"
+        name="search"
+        placeholder="Search users"
+        type="text"
+        value="{{ search_term }}"
+        class="kt-input"
+    />
+
+    <input
+        type="hidden"
+        name="status"
+        id="statusHidden"
+        value="{{ status_filter }}"
+    />
+</form>
+				</label>
+				</div>
+<div class="flex flex-wrap gap-2.5">
+    <select id="statusFilter" name="status" class="kt-select w-36">
+        <option value="enabled" {% if status_filter == 'enabled' %}selected{% endif %}>
+            Enabled
+        </option>
+        <option value="disabled" {% if status_filter == 'disabled' %}selected{% endif %}>
+            Disabled
+        </option>
+        <option value="all" {% if status_filter == 'all' %}selected{% endif %}>
+            All
+        </option>
+    </select>
+</div>
+            </div>
+          </div>          
+          <div class="kt-card-content">
+            <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="10">
+              <div class="kt-scrollable-x-auto">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true">
+  <thead>
+    <tr class="text-left">
+      <th class="min-w-[400px]">
+        <span class="kt-table-col">
+          <span class="kt-table-col-label">Employee Name</span>
+          <span class="kt-table-col-sort"></span>
+        </span>
+      </th>
+      <th class="min-w-[400px]">
+        <span class="kt-table-col">
+          <span class="kt-table-col-label">Username</span>
+          <span class="kt-table-col-sort"></span>
+        </span>
+      </th>
+      <th class="min-w-[175px]">
+        <span class="kt-table-col">
+          <span class="kt-table-col-label">Account Status</span>
+          <span class="kt-table-col-sort"></span>
+        </span>
+      </th>
+      <th class="min-w-[175px]">
+        <span class="kt-table-col">
+          <span class="kt-table-col-label">Lock Status</span>
+          <span class="kt-table-col-sort"></span>
+        </span>
+      </th>
+      <th class="w-50 text-center">
+        <span class="kt-table-col">
+          <span class="kt-table-col-label">Action</span>
+          <span class="kt-table-col-sort"></span>
+        </span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in employees %}
+    <tr>
+      <td>
+        <div class="flex items-center gap-2.5">
+          <img alt="{{ user.name }}" class="rounded-full size-7 shrink-0" src="{% static 'metronic/tailwind/dist/assets/media/avatars/300-3.png' %}" />
+          <div class="flex flex-col">
+            <a class="text-sm font-medium text-mono hover:text-primary mb-px" href="#">{{ user.name }}</a>
+            <a class="text-sm text-secondary-foreground font-normal hover:text-primary" href="#">{{ user.mail }}</a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <a class="text-sm text-secondary-foreground font-normal hover:text-primary" href="#">{{ user.username }}</a>
+      </td>
+      <td>
+        <span class="text-sm text-foreground font-medium">
+          {% if user.account_enabled %}✅ Enabled{% else %}🚫 Disabled{% endif %}
+        </span>
+      </td>
+      <td>
+        <span class="text-sm text-foreground font-medium">
+          {% if user.account_locked %}🔒 Locked{% else %}🔓 Unlocked{% endif %}
+        </span>
+      </td>
+      <td class="text-center">
+        <a class="kt-link kt-link-underlined kt-link-dashed" href="{% url 'ADManager:ad_user_detail' user.username %}">👤 View Details</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+              </div>
+              
+              <div class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+                <div class="flex items-center gap-2 order-2 md:order-1">
+                  Show
+                  <select class="kt-select w-16" data-kt-datatable-size="true" data-kt-select name="perpage"></select>
+                  per page
+                </div>
+                <div class="flex items-center gap-4 order-1 md:order-2">
+                  <span data-kt-datatable-info="true"></span>
+                  <div class="kt-datatable-pagination" data-kt-datatable-pagination="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Container -->
+  </main>
+
+<!-- Share Profile Modal -->
+<div class="kt-modal" data-kt-modal="true" id="create_user">
+  <div class="kt-modal-content max-w-[500px] top-5 lg:top-[15%]">
+
+<form method="post" action="{% url 'ADManager:create_ldap_user' %}">
+  {% csrf_token %}
+  <div class="kt-modal-header">
+    <h3 class="kt-modal-title">Create New User</h3>
+    <button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost shrink-0" data-kt-modal-dismiss="true" type="button">
+      <i class="ki-filled ki-cross"></i>
+    </button>
+  </div>
+
+  <div class="kt-modal-body grid gap-5 px-0 py-5">
+    <div class="flex flex-col px-5 gap-2.5">
+      <label>Username</label>
+      <input type="text" name="username" class="kt-input" required />
+
+      <label>Password</label>
+      <input type="password" name="password" class="kt-input" required />
+
+      <label>First Name</label>
+      <input type="text" name="first_name" class="kt-input" required />
+
+      <label>Last Name</label>
+      <input type="text" name="last_name" class="kt-input" required />
+
+      <label>Organizational Unit (OU)</label>
+      <select name="ou_dn" class="kt-input" required>
+        <option value="">Select OU</option>
+        {% for name, dn in ous %}
+          <option value="{{ dn }}">{{ name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="kt-modal-footer flex justify-end px-5 pb-5">
+    <button type="submit" class="kt-btn kt-btn-primary">Save</button>
+  </div>
+</form>
+
+  </div>
+</div>
+
+
+
+</div>
+<!-- End of Wrapper -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
+    const statusFilter = document.getElementById('statusFilter');
+    const statusHidden = document.getElementById('statusHidden');
+
+    let timer;
+
+    // Search
+    searchInput.addEventListener('keyup', function () {
+        clearTimeout(timer);
+
+        timer = setTimeout(function () {
+            searchForm.submit();
+        }, 500);
+    });
+
+    // Status filter
+    statusFilter.addEventListener('change', function () {
+        statusHidden.value = this.value;
+        searchForm.submit();
+    });
+
+});
+</script>
+
+
+
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

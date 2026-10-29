@@ -1,0 +1,453 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+     <!-- Container -->
+     <div class="kt-container-fixed" id="contentContainer">
+     </div>
+     <!-- End of Container -->
+     <div class="flex items-center flex-wrap md:flex-nowrap lg:items-end justify-between border-b border-b-border gap-3 lg:gap-6 mb-5 lg:mb-10">
+      <!-- Container -->
+      <div class="kt-container-fixed" id="hero_container">
+       <div class="grid">
+       </div>
+      </div>
+      <!-- End of Container -->
+     </div>
+     <!-- Container -->
+     <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+       <div class="flex flex-col justify-center gap-2">
+        <h1 class="text-xl font-medium leading-none text-mono">
+         User Profile
+        </h1>
+        <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
+         Central Hub for AD Server
+        </div>
+       </div>
+       <div class="flex items-center gap-2.5">
+        <a class="kt-btn kt-btn-primary" href="{% url 'ADManager:aduser' %}">
+         ← Back to List
+        </a>	   
+        <a id="profile-setting-btn" class="kt-btn kt-btn-primary" href="#">
+         Profile Setting
+        </a>
+        <a id="account-settings-btn" class="kt-btn kt-btn-outline" href="#">
+         Account Settings
+        </a>
+       </div>
+      </div>
+     </div>
+     <!-- End of Container -->
+     <!-- Container -->
+     <div class="kt-container-fixed">
+      <!-- begin: grid -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
+	  
+       <!-- Profile Setting Section -->
+       <div id="profile-setting-section" class="col-span-1">
+        <div class="grid gap-5 lg:gap-7.5">
+         <div class="kt-card min-w-full">
+          <div class="kt-card-header">
+           <h3 class="kt-card-title">
+            Personal Info
+           </h3>
+          </div>
+          <div class="kt-card-table kt-scrollable-x-auto pb-3">
+<table class="kt-table align-middle text-sm text-muted-foreground">
+  <!-- First Name -->
+  <tr>
+    <td class="py-2 min-w-28 text-secondary-foreground font-normal">First Name</td>
+    <td class="py-2 text-secondary-foreground font-normal min-w-60 text-sm">
+      <strong>{{ user.name|default:"-" }}</strong>
+    </td>
+    <td class="py-2 text-center">
+      <div class="flex justify-center items-center">
+        <div class="kt-image-input size-16" data-kt-image-input="true">
+          <input accept=".png, .jpg, .jpeg" name="avatar" type="file" />
+          <input name="avatar_remove" type="hidden" />
+          <button class="kt-image-input-remove" data-kt-image-input-remove="true" type="button">
+            <i class="ki-filled ki-cross"></i>
+            <span class="kt-tooltip">Click to remove or revert</span>
+          </button>
+          <div class="kt-image-input-placeholder border-2 border-green-500" data-kt-image-input-placeholder="true" style="background-image:url(../../../../../static/metronic/tailwind/dist/assets/media/avatars/blank.png)">
+            <div class="kt-image-input-preview" data-kt-image-input-preview="true" style="background-image:url('../../../../../media/avatars/300-2.html')"></div>
+            <div class="flex items-center justify-center cursor-pointer h-5 left-0 right-0 bottom-0 bg-black/25 absolute">
+              <!-- SVG placeholder -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+
+  <!-- Username -->
+  <tr>
+    <td class="py-2 text-secondary-foreground font-normal">Username</td>
+    <td class="py-2 text-foreground font-normal text-sm">{{ user.username|default:"-" }}</td>
+    <td class="py-2 text-center"><a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#"><i class="ki-filled ki-notepad-edit"></i></a></td>
+  </tr>
+
+  <!-- Email -->
+  <tr>
+    <td class="py-3 text-secondary-foreground font-normal">Email</td>
+    <td class="py-3 text-foreground font-normal text-sm">{{ user.email|default:"-" }}</td>
+    <td class="py-3 text-center"><a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#"><i class="ki-filled ki-notepad-edit"></i></a></td>
+  </tr>
+
+  <!-- Department -->
+  <tr>
+    <td class="py-3 text-secondary-foreground font-normal">Department</td>
+    <td class="py-3 text-secondary-foreground text-sm font-normal">{{ user.department|default:"-" }}</td>
+    <td class="py-3 text-center"><a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#"><i class="ki-filled ki-notepad-edit"></i></a></td>
+  </tr>
+
+  <!-- Account Enabled -->
+  <tr>
+    <td class="py-3 text-secondary-foreground font-normal">Account Enabled</td>
+    <td class="py-3 text-secondary-foreground text-sm font-normal">
+      {% if user.account_enabled %}
+        <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">Yes</span>
+      {% else %}
+        <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-danger">No</span>
+      {% endif %}
+    </td>
+    <td class="py-3 text-center"><a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#"><i class="ki-filled ki-notepad-edit"></i></a></td>
+  </tr>
+
+  <!-- Account Locked -->
+  <tr>
+    <td class="py-3 text-secondary-foreground font-normal">Account Locked</td>
+    <td class="py-3 text-secondary-foreground text-sm font-normal">
+      {% if user.account_locked %}
+        <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-danger">Yes</span>
+      {% else %}
+        <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success">No</span>
+      {% endif %}
+    </td>
+    <td class="py-3 text-center"><a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#"><i class="ki-filled ki-notepad-edit"></i></a></td>
+  </tr>
+
+<tr>
+  <td class="py-3 text-secondary-foreground font-normal">Password Last Set</td>
+  <td class="py-3 text-secondary-foreground text-sm font-normal">
+    {{ pwd_last_set|date:"d M Y H:i" }}
+  </td>
+  <td class="py-3 text-center">
+    <a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#">
+      <i class="ki-filled ki-notepad-edit"></i>
+    </a>
+  </td>
+</tr>
+
+<tr>
+  <td class="py-3 text-secondary-foreground font-normal">Password Expires</td>
+  <td class="py-3 text-secondary-foreground text-sm font-normal">
+    {% if password_expires == 'Never' %}
+      Never
+    {% else %}
+      {{ password_expires|date:"d M Y H:i" }}
+    {% endif %}
+  </td>
+  <td class="py-3 text-center">
+    <a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#">
+      <i class="ki-filled ki-notepad-edit"></i>
+    </a>
+  </td>
+</tr>
+
+<tr>
+  <td class="py-3 text-secondary-foreground font-normal">Account Expires</td>
+  <td class="py-3 text-secondary-foreground text-sm font-normal">
+{% if account_expires == 'Never' %}
+  Never Expires
+{% elif account_expires and account_expires.year >= 1601 %}
+  {{ account_expires|date:"d M Y H:i" }}
+{% else %}
+  Not Set
+{% endif %}
+
+
+  </td>
+  <td class="py-3 text-center">
+    <a class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" href="#">
+      <i class="ki-filled ki-notepad-edit"></i>
+    </a>
+  </td>
+</tr>
+
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+
+</table>
+
+
+          </div>
+         </div>
+
+        </div>
+       </div>
+	            <div  id="group-section" class="kt-card min-w-full">
+          <div class="kt-card-header">
+           <h3 class="kt-card-title">
+            Groups
+           </h3>
+           <div class="kt-menu" data-kt-menu="true">
+            <div class="kt-menu-item" 
+                 data-kt-menu-item-offset="0, 10px" 
+                 data-kt-menu-item-placement="bottom-end" 
+                 data-kt-menu-item-placement-rtl="bottom-start" 
+                 data-kt-menu-item-toggle="dropdown" 
+                 data-kt-menu-item-trigger="click">
+              <form method="post" class="mb-3 flex items-center gap-3">
+                {% csrf_token %}
+                <select name="group_dn" class="w-44 px-3 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-secondary-foreground bg-white">
+                  <option value="">-- Select Group --</option>
+                  {% for group_name, group_dn in all_groups %}
+                    <option value="{{ group_dn }}">{{ group_name }}</option>
+                  {% endfor %}
+                </select>
+                <input type="hidden" name="action" value="add_group" />
+                <button type="submit" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-primary kt-btn-outline rounded-full flex items-center justify-center">
+                  <i class="ki-filled ki-plus text-base"></i>
+                </button>
+              </form>
+            </div>
+           </div>
+          </div>
+          <div class="kt-card-table kt-scrollable-x-auto">
+           <div class="kt-scrollable-auto">
+            <table class="kt-table align-middle text-sm text-secondary-foreground">
+             <tr class="bg-accent/50">
+              <th class="text-start font-normal min-w-48 py-2.5">
+               Name
+              </th>
+              <th class="text-end font-normal min-w-20 py-2.5">
+               Action
+              </th>
+             </tr>
+             {% if user.groups %}
+               {% for name, dn in user.groups %}
+               <tr>
+                <td>
+                 <div class="flex items-center grow gap-2.5">
+                  <img alt="" class="rounded-full size-9 shrink-0" src="../../../../../static/metronic/tailwind/dist/assets/media/avatars/300-2.png">
+                   <div class="flex flex-col gap-1">
+                    <a class="text-sm font-medium text-mono hover:text-primary mb-px" href="">
+                     {{ name }}
+                    </a>
+                   </div>
+                  </img>
+                 </div>
+                </td>
+                <td class="py-2 text-end">
+                 <form method="POST" class="d-inline">    
+                   {% csrf_token %}
+                   <input type="hidden" name="action" value="remove_group">
+                   <input type="hidden" name="group_dn" value="{{ dn }}">
+                   <button type="submit" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-primary kt-btn-outline rounded-full">
+                    <i class="ki-filled ki-trash"></i>
+                   </button>
+                 </form>
+                </td>
+               </tr>
+               {% endfor %}
+             {% endif %}
+            </table>
+           </div>
+          </div>
+         </div>
+       <!-- End of Profile Setting Section -->
+         <!-- Account Settings Section -->
+<div id="account-settings-section" class="col-span-1" style="display: none;">
+    <div class="kt-card min-w-full">
+        <div class="kt-card-header">
+            <h3 class="kt-card-title">
+                Account Controls
+            </h3>
+        </div>
+        <div class="kt-card-body">
+            <table class="kt-table align-middle text-sm text-muted-foreground">
+
+                <tr>
+                    <td class="py-3 min-w-36 text-secondary-foreground font-normal">
+                        Organization Unit Location
+                    </td>
+                    <td class="py-3 text-secondary-foreground font-normal">
+                        {{ ou_path }}
+                    </td>
+                </tr>              
+              
+                <!-- Account Status Row -->
+                <tr>
+                    <td class="py-3 min-w-36 text-secondary-foreground font-normal">
+                        Account Status
+                    </td>
+                    <td class="py-3 text-secondary-foreground font-normal">
+                        {% if user.account_enabled %}
+                            <span class="kt-badge kt-badge-success">✅ Enabled</span>
+                        {% else %}
+                            <span class="kt-badge kt-badge-danger">🚫 Disabled</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-3 text-end">
+                        <div class="flex justify-end gap-2">
+                            <form method="post" class="inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="enable_account">
+                                <button type="submit" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-success" 
+                                    {% if user.account_enabled %}disabled{% endif %}>
+                                    <i class="ki-filled ki-check"></i>
+                                </button>
+                            </form>
+                            <form method="post" class="inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="disable_account">
+                                <button type="submit" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-danger" 
+                                    {% if not user.account_enabled %}disabled{% endif %}>
+                                    <i class="ki-filled ki-cross"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <!-- Lock Status Row -->
+                <tr>
+                    <td class="py-3 min-w-36 text-secondary-foreground font-normal">
+                        Lock Status
+                    </td>
+                    <td class="py-3 text-secondary-foreground font-normal">
+                        {% if user.account_locked %}
+                            <span class="kt-badge kt-badge-warning">🔒 Locked</span>
+                        {% else %}
+                            <span class="kt-badge kt-badge-success">🔓 Unlocked</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-3 text-end">
+                        <form method="post" class="inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="unlock_account">
+                            <button type="submit" class="kt-btn kt-btn-sm kt-btn-primary"
+                                {% if not user.account_locked %}disabled{% endif %}>
+                                <i class="ki-filled ki-lock-unlock"></i> Unlock
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Password Expiry Row -->
+                <tr>
+                    <td class="py-3 min-w-36 text-secondary-foreground font-normal">
+                        Password Expiry
+                    </td>
+                    <td class="py-3 text-secondary-foreground font-normal">
+                        {% if password_never_expires %}
+                            <span class="kt-badge kt-badge-info">🔐 Never Expires</span>
+                        {% else %}
+                            <span class="kt-badge">{{account_expires}}</span>
+                        {% endif %}
+                    </td>
+
+                </tr>
+
+                <!-- Last Password Change -->
+                <tr>
+                    <td class="py-3 min-w-36 text-secondary-foreground font-normal">
+                        Last Changed
+                    </td>
+                    <td class="py-3 text-secondary-foreground font-normal">
+                        {{ pwd_last_set }}
+                    </td>
+                    <td class="py-3 text-end">
+                        <button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost kt-btn-primary">
+                            <i class="ki-filled ki-history"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Danger Zone -->
+            <div class="mt-6 border-t border-dashed border-danger pt-4">
+                <h4 class="text-sm font-medium text-danger mb-3">
+                    <i class="ki-filled ki-shield-danger"></i> Danger Zone
+                </h4>
+                <a href="{% url 'ADManager:delete_ldap_user' username=user.username %}" 
+                   class="kt-btn kt-btn-sm kt-btn-danger" 
+                   onclick="return confirm('Are you sure you want to delete this account?');">
+                    <i class="ki-filled ki-trash"></i> Delete Account
+                </a>
+            </div><br>
+        </div>
+    </div>
+</div>   
+       <!-- End of Account Settings Section -->
+      </div>
+
+     </div>
+     <!-- End of Container -->
+    </main>
+    <!-- End of Content -->
+   </div>
+   <!-- End of Wrapper -->
+  </div>
+  
+  <!-- Toggle Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const profileBtn = document.getElementById('profile-setting-btn');
+  const accountBtn = document.getElementById('account-settings-btn');
+
+  const profileSection = document.getElementById('profile-setting-section');
+  const groupSection = document.getElementById('group-section');
+  const accountSection = document.getElementById('account-settings-section');
+
+  profileBtn?.addEventListener('click', function(e) {
+    e.preventDefault();
+    // Show profile and group
+    profileSection.style.display = 'block';
+    groupSection.style.display = 'block';
+    // Hide account
+    accountSection.style.display = 'none';
+
+    // Button styling
+    this.classList.add('kt-btn-primary');
+    this.classList.remove('kt-btn-outline');
+    accountBtn.classList.add('kt-btn-outline');
+    accountBtn.classList.remove('kt-btn-primary');
+  });
+
+  accountBtn?.addEventListener('click', function(e) {
+    e.preventDefault();
+    // Hide profile and group
+    profileSection.style.display = 'none';
+    groupSection.style.display = 'none';
+    // Show account
+    accountSection.style.display = 'block';
+
+    // Button styling
+    this.classList.add('kt-btn-primary');
+    this.classList.remove('kt-btn-outline');
+    profileBtn.classList.add('kt-btn-outline');
+    profileBtn.classList.remove('kt-btn-primary');
+  });
+
+  // Show profile + group by default
+  profileSection.style.display = 'block';
+  groupSection.style.display = 'block';
+  accountSection.style.display = 'none';
+});
+</script>
+
+  <!-- Scripts -->
+  <script src="../../../../../static/metronic/tailwind/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/dist/assets/vendors/ktui/ktui.min.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js">
+  </script>
+  <script src="../../../../../static/metronic/tailwind/dist/assets/js/layouts/demo1.js">
+  </script>

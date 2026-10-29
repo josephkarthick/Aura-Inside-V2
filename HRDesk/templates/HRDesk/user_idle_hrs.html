@@ -1,0 +1,131 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+<style>
+  .idle-time-red {
+  color: red;
+}
+
+</style>
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    
+    <!-- Header Container -->
+    <div class="kt-container-fixed mb-4">
+      <div class="flex flex-wrap items-center justify-between">
+        <div>
+          <h1 class="text-xl font-medium text-mono">Idle Users</h1>
+          <p class="text-sm text-secondary-foreground">Watch Users Idle Time</p>
+        </div>
+        <div class="flex gap-2">
+          <select id="designation-filter" class="border px-2 py-1 rounded text-sm">
+            <option value="">All</option>
+            {% for d in designations %}
+              <option value="{{ d }}">{{ d }}</option>
+            {% endfor %}
+          </select>
+
+          <input type="text" id="search-input" class="border px-2 py-1 rounded text-sm" placeholder="Search name, host...">
+
+          <a href="?export=csv_30days" class="btn btn-warning btn-sm">
+            Export Last 30 Days (CSV)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="kt-container-fixed">
+      <div class="kt-card kt-card-grid w-full">
+        <div class="kt-card-header">
+          <h3 class="kt-card-title text-sm">Totally {{ data|length }} users</h3>
+        </div>
+
+        <div class="kt-card-content">
+          <div class="kt-scrollable-x-auto">
+            <table class="kt-table table-fixed kt-table-border w-full text-sm text-secondary-foreground">
+              <thead>
+                <tr class="bg-accent/50">
+                  <th>Employee ID</th>   
+                  <th>User Name</th> 
+                  <th>Designation</th>            
+                  <th>Hostname</th>         
+                  <th>Logged IN</th>
+                  <th>Last Updated Time</th>          
+                  <th>Idle Hrs</th>
+                  <th>Total Working Hours</th>        
+                  <th>Total Logged In</th>                         
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in data %}
+                <tr class="data-row" data-designation="{{ item.designation|default:''|lower }}">
+                  <td>{{ item.username }}</td>
+                  <td>{{ item.full_name }}</td>
+                  <td>{{ item.designation }}</td>
+                  <td>{{ item.hostname }}</td>
+                  <td>{{ item.system_on_at }}</td>
+                  <td class="py-2 px-4">{{ item.last_activity }}</td>  
+                  <td class="py-2 px-4" style="color: red;">{{ item.idle_time }}</td>
+                  <td class="py-2 px-4">{{ item.total_working_hours }}</td>
+                  <td class="py-2 px-4">{{ item.total_logged_in_hours }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="9" class="text-center py-4">No data for today.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pagination (if applicable in future) -->
+        <div class="kt-card-footer justify-between flex-wrap gap-4 text-sm font-medium text-secondary-foreground mt-5">
+          <div class="flex items-center gap-2">
+            Show
+            <select class="kt-select w-16" name="perpage" data-kt-datatable-size="true">
+              <option>10</option>
+              <option>25</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+            per page
+          </div>
+          <div class="flex items-center gap-4">
+            <span data-kt-datatable-info="true"></span>
+            <div class="kt-datatable-pagination" data-kt-datatable-pagination="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- JavaScript: Filtering by Designation + Search -->
+<script>
+  const designationFilter = document.getElementById("designation-filter");
+  const searchInput = document.getElementById("search-input");
+
+  function filterTable() {
+    const selectedDesignation = designationFilter.value.toLowerCase();
+    const searchText = searchInput.value.toLowerCase();
+
+    document.querySelectorAll(".data-row").forEach(row => {
+      const rowDesignation = row.dataset.designation;
+      const rowText = row.innerText.toLowerCase();
+
+      const matchesDesignation = !selectedDesignation || rowDesignation === selectedDesignation;
+      const matchesSearch = !searchText || rowText.includes(searchText);
+
+      row.style.display = (matchesDesignation && matchesSearch) ? "" : "none";
+    });
+  }
+
+  designationFilter.addEventListener("change", filterTable);
+  searchInput.addEventListener("input", filterTable);
+</script>
+
+<!-- Optional: Metronic Assets -->
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

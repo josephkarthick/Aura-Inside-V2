@@ -1,0 +1,137 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fluid px-6">
+
+      <div class="kt-card">
+        <div class="kt-card-header">
+          <h3 class="text-lg font-semibold">
+            Apply for: {{ job.title }}
+          </h3>
+          <p class="text-sm text-gray-500">
+            {{ job.department }} • {{ job.location }}
+          </p>
+        </div>
+
+        <div class="kt-card-content">
+
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <!-- Full Name -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Full Name</label>
+                <input type="text" name="full_name" class="kt-input" required>
+              </div>
+
+              <!-- Email -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Email </label>
+                <input type="email" name="email" class="kt-input" required>
+              </div>
+
+              <!-- Phone -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Phone Number</label>
+                <input type="text" name="phone" class="kt-input" required>
+              </div>
+
+              <!-- Experience -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Total Experience</label>
+                <input type="text" name="experience" class="kt-input">
+			</div>	
+
+              <!-- Current Company -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Current Company</label>
+                <input type="text" name="current_company" class="kt-input">
+              </div>
+
+
+
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="mt-6 flex justify-end gap-3">
+              <a href="{% url 'Intranet:home' %}" class="kt-btn kt-btn-outline">
+                Cancel
+              </a>
+<button type="submit"
+        id="submitBtn"
+        class="kt-btn kt-btn-primary">
+    <span id="btnText">Submit Application</span>
+</button>
+
+			
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+	
+<div id="loadingOverlay" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:18px;
+">
+    Submitting application... Please wait.
+</div>
+	
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.querySelector("form");
+    const btn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const overlay = document.getElementById("loadingOverlay");
+
+    form.addEventListener("submit", function () {
+
+        // Prevent double click
+        btn.disabled = true;
+        btn.style.opacity = "0.6";
+        btn.style.cursor = "not-allowed";
+
+        btnText.innerText = "Please wait...";
+
+        if (overlay) {
+            overlay.style.display = "flex";
+        }
+    });
+
+});
+</script>
+
+<script>
+document.getElementById("working_status").addEventListener("change", function() {
+    let noticeStatus = document.getElementById("notice_status_div");
+    let noticeDays = document.getElementById("notice_days_div");
+
+    if (this.value === "working") {
+        noticeStatus.style.display = "block";
+        noticeDays.style.display = "block";
+    } else {
+        noticeStatus.style.display = "none";
+        noticeDays.style.display = "none";
+    }
+});
+</script>

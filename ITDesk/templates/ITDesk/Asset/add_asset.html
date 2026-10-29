@@ -1,0 +1,339 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <main class="grow pt-5">
+
+        <div class="kt-container-fixed">
+
+            <div class="flex items-center justify-between pb-7">
+                <div>
+                    <h1 class="text-2xl font-bold">Add IT Asset</h1>
+                    <p class="text-gray-500">
+                        IT Asset Management
+                    </p>
+                </div>
+
+                <a href="{% url 'ITDesk:assetlist' %}"
+                   class="kt-btn kt-btn-outline">
+                    Asset List
+                </a>
+
+            </div>
+
+            <div class="kt-card">
+
+                <div class="kt-card-header">
+                    <h3 class="kt-card-title">
+                        New Asset
+                    </h3>
+                </div>
+
+                <div class="kt-card-content">
+
+                    <form method="post"
+                          action="{% url 'ITDesk:addasset' %}">
+
+                        {% csrf_token %}
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            <!-- Asset Tag -->
+                            <div>
+                                <label class="font-semibold">
+                                    Asset Tag *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="asset_tag"
+                                    class="kt-input"
+                                    required>
+                            </div>
+
+							<div class="flex flex-col">
+								<label class="font-semibold">Category</label>
+							
+								<select id="category" name="category" class="kt-select" required>
+									<option value="">Select Category</option>
+							
+									{% for cat in categories %}
+									<option
+										value="{{ cat.id }}"
+										data-managed="{{ cat.is_managed|yesno:'true,false' }}">
+										{{ cat.name }}
+									</option>
+									{% endfor %}
+								</select>
+							</div>
+							
+							<!-- Hostname -->
+							<div class="manual-field">
+								<label class="font-semibold">
+									Hostname
+								</label>
+							
+								<input
+									type="text"
+									name="hostname"
+									class="kt-input"
+									placeholder="Computer Hostname">
+							</div>
+							
+							
+
+                            <!-- Product -->
+                            <div>
+                                <label class="font-semibold">
+                                    Product Name *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="product_name"
+                                    class="kt-input"
+                                    required>
+                            </div>
+
+                            <!-- Managed -->
+<input type="hidden" id="managed" name="managed" value="false">
+
+                            <!-- Brand -->
+                            <div class="manual-field">
+
+                                <label class="font-semibold">
+
+                                    Brand
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="brand"
+                                    class="kt-input">
+
+                            </div>
+
+                            <!-- Model -->
+                            <div class="manual-field">
+
+                                <label class="font-semibold">
+
+                                    Model
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="model"
+                                    class="kt-input">
+
+                            </div>
+
+                            <!-- Serial -->
+                            <div class="manual-field">
+
+                                <label class="font-semibold">
+
+                                    Serial Number
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="serial_number"
+                                    class="kt-input">
+
+                            </div>
+
+                            <!-- Category -->
+
+
+
+                            <!-- Invoice -->
+
+                            <div>
+
+                                <label class="font-semibold">
+
+                                    Invoice
+
+                                </label>
+
+                                <select
+                                    name="invoice"
+                                    class="kt-select">
+
+                                    <option value="">
+                                        Select Invoice
+                                    </option>
+
+                                    {% for invoice in invoices %}
+
+                                    <option value="{{ invoice.id }}">
+                                        {{ invoice.invoice_no }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                            <!-- Warranty -->
+
+                            <div>
+
+                                <label class="font-semibold">
+
+                                    Warranty Expiry
+
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="warranty_expiry"
+                                    class="kt-input">
+
+                            </div>
+
+                            <!-- Location -->
+
+                            <div>
+
+                                <label class="font-semibold">
+
+                                    Location
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="location"
+                                    class="kt-input">
+
+                            </div>
+
+                            <!-- Status -->
+
+                            <div>
+
+                                <label class="font-semibold">
+
+                                    Status
+
+                                </label>
+
+                                <select
+                                    name="status"
+                                    class="kt-select">
+
+                                    <option value="in_stock">
+                                        In Stock
+                                    </option>
+
+                                    <option value="in_use">
+                                        In Use
+                                    </option>
+
+                                    <option value="repair">
+                                        Under Repair
+                                    </option>
+
+                                    <option value="damaged">
+                                        Damaged
+                                    </option>
+
+                                    <option value="disposed">
+                                        Disposed
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Empty -->
+
+                            <div></div>
+
+                            <!-- Remarks -->
+
+                            <div class="md:col-span-2">
+
+                                <label class="font-semibold">
+
+                                    Remarks
+
+                                </label>
+
+                                <textarea
+                                    name="remarks"
+                                    rows="4"
+                                    class="kt-textarea"></textarea>
+
+                            </div>
+
+                        </div>
+
+                        <div class="flex justify-end gap-3 mt-8">
+
+                            <a href="{% url 'ITDesk:assetlist' %}"
+                               class="kt-btn kt-btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="kt-btn kt-btn-primary">
+
+                                Save Asset
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+const category = document.getElementById("category");
+const managed = document.getElementById("managed");
+
+const manualFields = document.querySelectorAll(".manual-field");
+
+function toggleFields() {
+
+    const selected = category.options[category.selectedIndex];
+
+    let isManaged = false;
+
+    if (selected && selected.dataset.managed) {
+        isManaged = selected.dataset.managed === "true";
+    }
+
+    managed.value = isManaged ? "true" : "false";
+
+    // Hide manual fields for managed assets
+    manualFields.forEach(function(field) {
+        field.style.display = isManaged ? "none" : "";
+    });
+
+}
+
+category.addEventListener("change", toggleFields);
+window.onload = toggleFields;
+
+</script>

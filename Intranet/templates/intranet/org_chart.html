@@ -1,0 +1,645 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<script src="{% static 'assets/js/org_chart.js' %}"></script>
+
+<style>
+    /* ===== Organization Chart Page ===== */
+    .org-page {
+        padding: 20px 24px 28px;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .org-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    .org-title {
+        margin: 0;
+        color: #172554;
+        font-size: 25px;
+        font-weight: 750;
+        letter-spacing: -0.5px;
+    }
+
+    .org-subtitle {
+        margin-top: 5px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .org-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 13px;
+        border: 1px solid #dbeafe;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .org-status-dot {
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+    }
+
+    /* ===== Tabs ===== */
+    .org-tabs {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        padding: 6px;
+        margin-bottom: 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #f8fafc;
+    }
+
+    .org-tabs .tab-btn {
+        position: relative;
+        padding: 11px 19px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: transparent;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s ease, color .2s ease,
+                    box-shadow .2s ease;
+    }
+
+    .org-tabs .tab-btn:hover {
+        color: #1d4ed8;
+        background: #eff6ff;
+    }
+
+    .org-tabs .tab-btn.active {
+        color: #1d4ed8;
+        border-color: #dbeafe;
+        background: #ffffff;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, .07);
+    }
+
+    /* ===== Chart Panel ===== */
+    .org-panel {
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        background: #ffffff;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, .045);
+    }
+
+    .org-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 15px 19px;
+        border-bottom: 1px solid #eef2f7;
+        background: #ffffff;
+    }
+
+    .org-panel-title {
+        margin: 0;
+        color: #1e293b;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .org-panel-hint {
+        margin-top: 4px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .org-panel-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .org-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border: 1px solid #dbe3ef;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #334155;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .org-action:hover {
+        border-color: #93c5fd;
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .org-chart-viewport {
+        position: relative;
+        width: 100%;
+        height: 72vh;
+        min-height: 500px;
+        max-height: 900px;
+        overflow: hidden;
+        background-color: #ffffff;
+        background-image: radial-gradient(#dbe4f0 0.8px, transparent 0.8px);
+        background-size: 20px 20px;
+    }
+
+    .org-chart-canvas {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+    }
+
+    .org-chart-canvas > div,
+    .org-chart-canvas canvas,
+    .org-chart-canvas svg {
+        max-width: 100%;
+    }
+
+    .org-empty {
+        padding: 40px 20px;
+        text-align: center;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+
+
+    @media (max-width: 768px) {
+        .org-page {
+            padding: 14px 10px 20px;
+        }
+
+        .org-title {
+            font-size: 21px;
+        }
+
+        .org-tabs {
+            gap: 4px;
+        }
+
+        .org-tabs .tab-btn {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 12px;
+        }
+
+        .org-panel-header {
+            align-items: flex-start;
+            padding: 13px;
+        }
+
+        .org-chart-viewport {
+            height: 68vh;
+            min-height: 420px;
+        }
+    }
+
+    @media print {
+        .org-tabs,
+        .org-panel-actions,
+        .org-status {
+            display: none !important;
+        }
+
+        .org-chart-viewport {
+            height: auto;
+            min-height: 500px;
+            max-height: none;
+        }
+
+        .org-panel {
+            box-shadow: none;
+        }
+    }
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+    <main class="grow pt-0" id="content" role="main">
+    <table class="kt-table table-fixed w-full mt-4" data-kt-datatable-table="true"></table> 
+        <div class="kt-container-fixed org-page">
+
+            <!-- Page Header -->
+            <div class="org-header">
+                <div>
+                    <h1 class="org-title">Organization Structure</h1>
+                    <p class="org-subtitle">
+                        Aura Inside · Organizational hierarchy
+                    </p>
+                </div>
+
+                <div class="org-status">
+                    <span class="org-status-dot"></span>
+                    Organization Overview
+                </div>
+            </div>
+
+            <!-- Chart Tabs -->
+            <div class="org-tabs" role="tablist"
+                 aria-label="Organization chart types">
+
+                <button type="button"
+                        onclick="switchTab('managementTab')"
+                        id="tabManagement"
+                        class="tab-btn active"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="managementTab">
+                    Management Chart
+                </button>
+
+                <button type="button"
+                        onclick="switchTab('currentTab')"
+                        id="tabCurrent"
+                        class="tab-btn"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="currentTab">
+                    Operation Chart
+                </button>
+            </div>
+
+            <!-- Management Chart -->
+            <section id="managementTab"
+                     class="tab-content"
+                     role="tabpanel"
+                     aria-labelledby="tabManagement">
+
+                <div class="org-panel">
+                    <div class="org-panel-header">
+                        <div>
+                            <h2 class="org-panel-title">
+                                Management Hierarchy
+                            </h2>
+
+                        </div>
+
+                        <div class="org-panel-actions">
+                            <button type="button"
+                                    class="org-action"
+                                    onclick="refreshActiveChart()">
+                                ↻ Refresh
+                            </button>
+
+                            <button type="button"
+                                    class="org-action"
+                                    onclick="toggleFullscreen('managementTab')">
+                                ⛶ Fullscreen
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="org-chart-viewport" id="managementViewport">
+                        <div id="managementChart"
+                             class="org-chart-canvas"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Operation Chart -->
+            <section id="currentTab"
+                     class="tab-content hidden"
+                     role="tabpanel"
+                     aria-labelledby="tabCurrent">
+
+                <div class="org-panel">
+                    <div class="org-panel-header">
+                        <div>
+                            <h2 class="org-panel-title">
+                                Operation Hierarchy
+                            </h2>
+
+                        </div>
+
+                        <div class="org-panel-actions">
+                            <button type="button"
+                                    class="org-action"
+                                    onclick="refreshActiveChart()">
+                                ↻ Refresh
+                            </button>
+
+                            <button type="button"
+                                    class="org-action"
+                                    onclick="toggleFullscreen('currentTab')">
+                                ⛶ Fullscreen
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="org-chart-viewport" id="currentViewport">
+                        <div id="orgChart"
+                             class="org-chart-canvas"></div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<script>
+(function () {
+    "use strict";
+
+    /*
+     * Keep the existing Django data structures.
+     * No changes to models, views, or employee relationships.
+     */
+    const data = {{ org_data|safe }};
+    const managementData = {{ management_data|default:"[]"|safe }};
+
+    let currentChart = null;
+    let managementChart = null;
+    let activeTab = "managementTab";
+    let resizeTimer = null;
+
+    /*
+     * Keep the existing point formatting and label structure.
+     */
+    function formatChartData(source) {
+        return source.map(function (item) {
+            return {
+                id: item.id,
+                parent: item.parent || "",
+                name: item.x,
+                attributes: item.attributes || {},
+                label: {
+                    text:
+                        `${item.attributes.photo || ''}<br>` +
+                        `<b>${item.x}</b><br>` +
+                        `<span style="color:gray">` +
+                        `${item.attributes.role || ''}</span>`
+                }
+            };
+        });
+    }
+
+    /*
+     * Shared chart configuration.
+     */
+    function getChartOptions(points) {
+        return {
+            type: "organizational",
+
+				defaultSeries: {
+					color: "#ffffff",
+					defaultPoint: {
+						tooltip: {
+							enabled: false
+						},
+						label: {
+							style: {
+								fontSize: "12px",
+								color: "#334155",
+								textAlign: "center"
+							}
+						},
+						outline: {
+							color: "#d5deea",
+							width: 1
+						},
+						connectorLine: {
+							color: "#b8c6d8",
+							radius: [6, 3]
+						}
+					}
+				},
+
+            navigation: {
+                enabled: true,
+                mouseWheelZoom: true,
+                pan: true
+            },
+
+            toolbar: {
+                visible: true
+            },
+
+            series: [{
+                points: points
+            }]
+        };
+    }
+
+    /*
+     * Initialize a chart only when its tab is visible and has
+     * a real width and height.
+     */
+    function initializeChart(tabId) {
+        const isManagement = tabId === "managementTab";
+        const chartId = isManagement ? "managementChart" : "orgChart";
+        const container = document.getElementById(chartId);
+
+        if (!container || container.clientWidth === 0 ||
+            container.clientHeight === 0) {
+            return;
+        }
+
+        if (typeof JSC === "undefined" ||
+            typeof JSC.chart !== "function") {
+            console.error(
+                "JSCharting is unavailable. Check assets/js/org_chart.js."
+            );
+            return;
+        }
+
+        if (isManagement) {
+            if (managementChart) {
+                resizeExistingChart(managementChart);
+                return;
+            }
+
+            const points = formatChartData(managementData);
+            managementChart = JSC.chart(
+                chartId,
+                getChartOptions(points)
+            );
+        } else {
+            if (currentChart) {
+                resizeExistingChart(currentChart);
+                return;
+            }
+
+            const points = formatChartData(data);
+            currentChart = JSC.chart(
+                chartId,
+                getChartOptions(points)
+            );
+        }
+
+        /*
+         * Allow the browser to complete layout before resizing.
+         */
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                const chart = isManagement
+                    ? managementChart
+                    : currentChart;
+
+                resizeExistingChart(chart);
+            });
+        });
+    }
+
+    /*
+     * Use the chart library's resize method if this version
+     * provides it. Do not apply a fake mouse-wheel zoom.
+     */
+    function resizeExistingChart(chart) {
+        if (!chart) return;
+
+        if (typeof chart.resize === "function") {
+            chart.resize();
+        }
+    }
+
+    /*
+     * Tab switching:
+     * Make the selected panel visible first, then initialize or
+     * resize its chart after the layout has been calculated.
+     */
+    window.switchTab = function (tabId) {
+        activeTab = tabId;
+
+        document.querySelectorAll(".tab-content").forEach(function (el) {
+            el.classList.add("hidden");
+        });
+
+        document.querySelectorAll(".org-tabs .tab-btn").forEach(
+            function (btn) {
+                btn.classList.remove("active");
+                btn.setAttribute("aria-selected", "false");
+            }
+        );
+
+        const selectedTab = document.getElementById(tabId);
+        const selectedButton = tabId === "managementTab"
+            ? document.getElementById("tabManagement")
+            : document.getElementById("tabCurrent");
+
+        if (selectedTab) {
+            selectedTab.classList.remove("hidden");
+        }
+
+        if (selectedButton) {
+            selectedButton.classList.add("active");
+            selectedButton.setAttribute("aria-selected", "true");
+        }
+
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                initializeChart(tabId);
+            });
+        });
+    };
+
+    /*
+     * Refresh button: resize the currently displayed chart.
+     */
+    window.refreshActiveChart = function () {
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                initializeChart(activeTab);
+
+                const chart = activeTab === "managementTab"
+                    ? managementChart
+                    : currentChart;
+
+                resizeExistingChart(chart);
+            });
+        });
+    };
+
+    /*
+     * Optional fullscreen view for the selected chart panel.
+     */
+    window.toggleFullscreen = async function (tabId) {
+        const panel = document.querySelector(
+            "#" + tabId + " .org-panel"
+        );
+
+        if (!panel) return;
+
+        try {
+            if (!document.fullscreenElement) {
+                await panel.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.error("Fullscreen could not be enabled:", error);
+        }
+    };
+
+    /*
+     * Recalculate chart layout when the browser window changes size.
+     */
+    window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+
+        resizeTimer = setTimeout(function () {
+            const chart = activeTab === "managementTab"
+                ? managementChart
+                : currentChart;
+
+            resizeExistingChart(chart);
+        }, 150);
+    });
+
+    /*
+     * Fullscreen changes also alter the chart's available dimensions.
+     */
+    document.addEventListener("fullscreenchange", function () {
+        setTimeout(function () {
+            const chart = activeTab === "managementTab"
+                ? managementChart
+                : currentChart;
+
+            resizeExistingChart(chart);
+        }, 100);
+    });
+
+    /*
+     * Start only after the page and its initial layout are ready.
+     */
+    function startOrganizationChart() {
+        window.switchTab("managementTab");
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            startOrganizationChart
+        );
+    } else {
+        startOrganizationChart();
+    }
+})();
+</script>
+
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

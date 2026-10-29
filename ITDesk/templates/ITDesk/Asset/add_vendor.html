@@ -1,0 +1,150 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Page Header -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">Organization Structure</h1>
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">Senior Management</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <a href="{% url 'ITDesk:vendor_list' %} " class="kt-btn kt-btn-outline" data-kt-modal-toggle="#share_profile_modal">List Vendors</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="kt-container-fixed">
+      <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full">
+
+          <!-- Card Header -->
+          <div class="kt-card-header flex-wrap py-5">
+            <h3 class="kt-card-title">Teams</h3>
+            <div class="flex items-center gap-6">
+              <label class="kt-input">
+                <i class="ki-filled ki-magnifier"></i>
+                <input data-kt-datatable-search="#team_crew_table" placeholder="Search teams" type="text" value="" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="kt-card-content">
+            <div data-kt-datatable="true" data-kt-datatable-page-size="10" id="team_crew_table">
+            <table class="kt-table table-fixed kt-table-border">
+                <!-- Modal -->
+ <!-- Modal -->
+<div data-kt-modal="true" id="share_profile_modal">
+  <div class="kt-card w-full max-w-[700px] p-5 border rounded-xl bg-white shadow">
+<form method="post" action="{% url 'ITDesk:addvendor' %}" id="VendorForm">
+  {% csrf_token %}
+  <div class="grid gap-5">
+    <!-- First Row: Vendor Name, GST Number -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Vendor Name</label>
+        <input type="text" name="name" class="kt-input" placeholder="Enter Vendor Name" required>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">GST Number</label>
+        <input type="text" name="gst_number" class="kt-input" placeholder="Enter GST Number">
+      </div>
+    </div>
+
+    <!-- Second Row: Contact Number, Email -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Contact Number</label>
+        <input type="text" name="contact_number" class="kt-input" placeholder="Enter Contact Number" pattern="\d{10}" maxlength="10" title="Enter a valid 10-digit number"  required>
+      </div>
+
+      <div class="flex flex-col">	
+        <label class="font-semibold">Email</label>
+        <input type="email" name="email" class="kt-input" placeholder="Enter Email Address">
+      </div>
+    </div>
+
+    <!-- Third Row: Address -->
+    <div class="flex flex-col">
+      <label class="font-semibold">Address</label>
+      <textarea name="address" class="kt-input" placeholder="Enter Vendor Address"></textarea>
+    </div>
+
+    <!-- Footer Buttons -->
+    <div class="flex justify-end gap-3">
+      <button type="submit" class="kt-btn kt-btn-primary" id="createButton" onclick="disableCreateButton()">Save</button>
+      <button type="button" class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="true">Cancel</button>
+    </div>
+
+  </div>
+</form>
+
+  </div>
+</div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/ui/trumbowyg.min.css">
+<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/trumbowyg.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#editor').trumbowyg();
+
+    $('#category').on('change', function () {
+      const categoryId = $(this).val();
+      $('#subcategory').empty().append('<option value="">Select Subcategory</option>');
+      $('#priority').val('');
+
+      if (categoryId) {
+        $.ajax({
+          url: "{% url 'ITDesk:fetch_subcategories' %}",
+          data: { category_id: categoryId },
+          dataType: "json",
+          success: function (data) {
+            $.each(data, function (index, item) {
+              $('#subcategory').append(`<option value="${item.id}" data-priority="${item.priority}">${item.subcategory}</option>`);
+            });
+          }
+        });
+      }
+    });
+
+    $('#subcategory').on('change', function () {
+      const selected = $(this).find(':selected');
+      const priority = selected.data('priority');
+      $('#priority').val(priority || '');
+    });
+  });
+
+  function disableCreateButton() {
+    const btn = document.getElementById('createButton');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please wait...';
+    btn.form.submit();
+  }
+</script>

@@ -1,0 +1,743 @@
+{% load static %}
+
+{% include 'Layout_Master/base.html' %}
+
+<style>
+    /* Layout Master page refinements */
+    #content .kt-container-fixed { max-width: 1500px; margin-inline: auto; padding-inline: 24px; }
+    .lm-page-header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    .lm-page-header h1 { font-size:25px; line-height:1.25; letter-spacing:-.025em; color:#172033; }
+    .lm-page-header p { font-size:13px; color:#64748b; margin-top:6px; }
+    .lm-main-card { overflow:hidden; border:1px solid #e2e8f0; border-radius:14px; background:#fff; box-shadow:0 8px 24px rgba(15,23,42,.045); }
+    .lm-card-heading { display:flex; align-items:center; gap:10px; padding:18px 22px; border-bottom:1px solid #e8edf4; background:linear-gradient(180deg,#fff,#fafcff); }
+    .lm-card-heading h3 { font-size:16px; font-weight:700; color:#1e293b; }
+    .lm-card-heading p { font-size:12px; color:#64748b; margin-top:3px; }
+    .lm-card-body { padding:22px; }
+    .lm-select-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; padding:16px; border:1px solid #e5eaf1; border-radius:12px; background:#f8fafc; }
+    .lm-field label { display:block; font-size:12px; font-weight:700; color:#475569; margin-bottom:8px; }
+    .lm-field select { width:100%; min-height:42px; padding:9px 12px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; color:#1e293b; font-size:13px; outline:none; }
+    .lm-field select:focus, .lm-search:focus { border-color:#818cf8; box-shadow:0 0 0 3px rgba(99,102,241,.12); }
+    .lm-section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .lm-section-title label { font-size:14px; font-weight:700; color:#243247; }
+    .lm-section-subtitle { color:#64748b; font-size:12px; line-height:1.5; margin:-2px 0 12px; }
+    .lm-list-panel { height:300px; max-height:300px; overflow:auto; border:1px solid #dbe3ed; border-radius:10px; padding:12px; background:#fff; }
+    .lm-list-panel .lm-check-row { display:flex; align-items:flex-start; gap:10px; padding:8px 9px; margin:0 0 3px; border-radius:7px; cursor:pointer; color:#334155; font-size:12px; line-height:1.4; }
+    .lm-list-panel .lm-check-row:hover { background:#f1f5f9; }
+    .lm-check-row input { margin-top:2px; accent-color:#4f46e5; flex:0 0 auto; }
+    .lm-search { width:100%; height:38px; padding:8px 11px; margin-bottom:9px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; font-size:12px; outline:none; }
+    .lm-list-meta { display:flex; justify-content:space-between; gap:8px; margin:0 2px 8px; color:#64748b; font-size:11px; }
+    #accessSection { margin-top:22px; padding:18px; border:1px solid #e5eaf1; border-radius:12px; background:#f8fafc; }
+    .lm-access-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+    .lm-access-panel { min-width:0; padding:14px; border:1px solid #e2e8f0; border-radius:11px; background:#fff; }
+    .lm-save-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:20px; }
+    #savePermission { min-width:155px; min-height:42px; border-radius:9px; font-weight:700; box-shadow:0 4px 10px rgba(79,70,229,.15); }
+    #statusMessage { border:1px solid #dbeafe; border-radius:9px; background:#f8fafc; }
+    @media(max-width:1100px) { .lm-select-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .lm-access-grid { grid-template-columns:1fr; } .lm-list-panel { height:240px; max-height:240px; } }
+    @media(max-width:600px) { #content .kt-container-fixed { padding-inline:12px; } .lm-card-body { padding:14px; } .lm-select-grid { grid-template-columns:1fr; padding:12px; } .lm-page-header h1 { font-size:21px; } .lm-save-row { align-items:stretch; flex-direction:column; } #savePermission { width:100%; } }
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+
+    <main class="grow pt-5" id="content" role="main">
+
+        <!-- KEEP THIS TABLE -->
+        <table
+            class="kt-table table-fixed kt-table-border w-full"
+            data-kt-datatable-table="true"
+        ></table>
+
+
+        <div class="kt-container-fixed">
+
+            <!-- ========================================================= -->
+            <!-- HEADER -->
+            <!-- ========================================================= -->
+
+            <div class="lm-page-header">
+
+                <div>
+
+                    <h1 class="text-xl font-semibold text-gray-900">
+                        Layout Master
+                    </h1>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Manage menu and access permissions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================================= -->
+            <!-- MAIN CARD -->
+            <!-- ========================================================= -->
+
+            <div class="kt-card lm-main-card">
+
+                <div class="kt-card-header lm-card-heading">
+
+                    <div>
+                        <h3 class="kt-card-title">Menu Access Management</h3>
+                        <p>Choose a menu level, then configure who can access it.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="kt-card-content lm-card-body">
+
+
+                    <!-- ================================================= -->
+                    <!-- MENU / ACCESS / SUBMENU / CHILD -->
+                    <!-- ================================================= -->
+
+                    <div class="lm-select-grid">
+
+
+                        <!-- ================================================= -->
+                        <!-- MENU -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Menu
+                            </label>
+
+                            <select
+                                id="menuSelect"
+                                class="kt-select w-full"
+                            >
+
+                                <option value="">
+                                    Select Menu
+                                </option>
+
+                                {% for menu in menus %}
+
+                                    <option value="{{ menu.id }}">
+                                        {{ menu.name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- ACCESS TYPE - SECOND -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Access Type
+                            </label>
+
+                            <select
+                                id="visibilitySelect"
+                                class="kt-select w-full"
+                            >
+
+                                <option value="public">
+                                    Public
+                                </option>
+
+                                <option value="authenticated">
+                                    Login Required
+                                </option>
+
+                                <option value="department">
+                                    Department Based
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- SUB MENU -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Sub Menu
+                            </label>
+
+                            <select
+                                id="submenuSelect"
+                                class="kt-select w-full"
+                                disabled
+                            >
+
+                                <option value="">
+                                    Select Sub Menu
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- CHILD MENU -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Child Menu
+                            </label>
+
+                            <select
+                                id="childmenuSelect"
+                                class="kt-select w-full"
+                                disabled
+                            >
+
+                                <option value="">
+                                    Select Child Menu
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- DEPARTMENT + DESIGNATION
+                         ONLY FOR DEPARTMENT BASED
+                    -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="accessSection"
+                        class="mt-8 hidden"
+                    >
+
+                        <div class="lm-access-grid">
+
+
+                            <!-- ================================================= -->
+                            <!-- DEPARTMENT -->
+                            <!-- ================================================= -->
+
+                            <div class="lm-access-panel">
+
+                                <div class="lm-section-title"><label>Department</label></div>
+
+                                <div
+                                    class="lm-list-panel"
+                                >
+
+                                    {% for department in departments %}
+
+                                        <label
+                                            class="lm-check-row"
+                                        >
+
+                                            <input
+                                                type="checkbox"
+                                                class="department-checkbox"
+                                                value="{{ department.id }}"
+                                            >
+
+                                            <span>
+                                                {{ department.name }}
+                                            </span>
+
+                                        </label>
+
+                                    {% empty %}
+
+                                        <div class="text-sm text-gray-500">
+                                            No departments found.
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ================================================= -->
+                            <!-- DESIGNATION -->
+                            <!-- ================================================= -->
+
+                            <div class="lm-access-panel">
+
+                                <div class="lm-section-title"><label>Designation</label></div>
+
+                                <div
+                                    id="designationContainer"
+                                    class="lm-list-panel"
+                                >
+
+                                    <div class="text-sm text-gray-500">
+                                        Select a department first.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ================================================= -->
+                            <!-- SPECIFIC USERS -->
+                            <!-- ================================================= -->
+
+                            <div class="lm-access-panel">
+
+                                <div class="lm-section-title"><label>Specific Users</label><span id="userSelectedCount" class="lm-list-meta">0 selected</span></div>
+
+                                <p class="lm-section-subtitle">
+                                    Specific users are granted access directly, even if their department or designation differs.
+                                </p>
+                                <input type="search" id="userSearch" class="lm-search" placeholder="Search name or username..." autocomplete="off">
+                                <div class="lm-list-meta"><span>Employee access list</span><span>Use checkboxes to select</span></div>
+                                <div id="userContainer" class="lm-list-panel">
+
+                                    {% for employee in users %}
+
+                                        <label class="lm-check-row">
+                                            <input
+                                                type="checkbox"
+                                                class="user-checkbox"
+                                                value="{{ employee.id }}"
+                                            >
+
+                                            <span>
+                                                {% if employee.get_full_name %}
+                                                    {{ employee.get_full_name }} ({{ employee.username }})
+                                                {% else %}
+                                                    {{ employee.username }}
+                                                {% endif %}
+                                            </span>
+                                        </label>
+
+                                    {% empty %}
+
+                                        <div class="text-sm text-gray-500">
+                                            No users found.
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- SAVE BUTTON -->
+                    <!-- ================================================= -->
+
+                    <div class="lm-save-row">
+                        <div class="text-xs text-gray-500">
+                            Permissions apply to the selected Menu, Sub Menu, or Child Menu.
+                            <span style="display:block;margin-top:8px;">Checked options grant access. Unchecking an option and saving removes that permission for the selected menu level.</span>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="savePermission"
+                            class="kt-btn kt-btn-primary"
+                        >
+                            Save Permission
+                        </button>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- STATUS -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="statusMessage"
+                        class="hidden mt-5 p-4 rounded-lg text-sm"
+                    ></div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const menuSelect = document.getElementById("menuSelect");
+    const visibilitySelect = document.getElementById("visibilitySelect");
+    const submenuSelect = document.getElementById("submenuSelect");
+    const childmenuSelect = document.getElementById("childmenuSelect");
+    const accessSection = document.getElementById("accessSection");
+    const designationContainer = document.getElementById("designationContainer");
+    const userContainer = document.getElementById("userContainer");
+    const userSearch = document.getElementById("userSearch");
+    const userSelectedCount = document.getElementById("userSelectedCount");
+    const savePermission = document.getElementById("savePermission");
+    const statusMessage = document.getElementById("statusMessage");
+
+    let permissionRequestNo = 0;
+    let designationRequestNo = 0;
+
+    const menuData = {
+        {% for menu in menus %}
+        "{{ menu.id }}": {
+            name: "{{ menu.name|escapejs }}",
+            visibility: "{{ menu.visibility|escapejs }}",
+            submenus: {
+                {% for submenu in menu.submenus.all %}
+                "{{ submenu.id }}": {
+                    name: "{{ submenu.name|escapejs }}",
+                    visibility: "{{ submenu.visibility|escapejs }}",
+                    childmenus: {
+                        {% for child in submenu.child_menus.all %}
+                        "{{ child.id }}": {
+                            name: "{{ child.name|escapejs }}",
+                            visibility: "{{ child.visibility|escapejs }}"
+                        }{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    }
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            }
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    };
+
+    function normalizeIds(items) {
+        if (!Array.isArray(items)) return [];
+        return items.map(item => {
+            if (item && typeof item === "object") return String(item.id ?? item.pk ?? item.value ?? "");
+            return String(item ?? "");
+        }).filter(id => id && id !== "undefined" && id !== "null");
+    }
+
+    function checkedIds(selector) {
+        return Array.from(document.querySelectorAll(selector + ":checked"))
+            .map(checkbox => String(checkbox.value));
+    }
+
+    function updateUserSelectedCount() {
+        if (userSelectedCount) {
+            userSelectedCount.textContent = `${document.querySelectorAll(".user-checkbox:checked").length} selected`;
+        }
+    }
+
+    function updateAccessSection() {
+        accessSection.classList.toggle("hidden", visibilitySelect.value !== "department");
+    }
+
+    function showStatus(message, success = true) {
+        statusMessage.textContent = message;
+        statusMessage.classList.remove("hidden", "text-green-600", "text-red-600");
+        statusMessage.classList.add(success ? "text-green-600" : "text-red-600");
+    }
+
+    function hideStatus() {
+        statusMessage.classList.add("hidden");
+        statusMessage.textContent = "";
+    }
+
+    function clearSelections() {
+        document.querySelectorAll(".department-checkbox, .designation-checkbox, .user-checkbox")
+            .forEach(checkbox => { checkbox.checked = false; });
+        designationContainer.innerHTML = '<div class="text-sm text-gray-500">Select a department first.</div>';
+        updateUserSelectedCount();
+    }
+
+    function resetSubmenu() {
+        submenuSelect.innerHTML = '<option value="">Select Sub Menu</option>';
+        submenuSelect.disabled = true;
+    }
+
+    function resetChildmenu() {
+        childmenuSelect.innerHTML = '<option value="">Select Child Menu</option>';
+        childmenuSelect.disabled = true;
+    }
+
+    function getCookie(name) {
+        const cookie = document.cookie.split(";").map(item => item.trim())
+            .find(item => item.startsWith(name + "="));
+        return cookie ? decodeURIComponent(cookie.substring(name.length + 1)) : null;
+    }
+
+    function getPermissionParams() {
+        if (childmenuSelect.value) return { childmenu_id: childmenuSelect.value };
+        if (submenuSelect.value) return { submenu_id: submenuSelect.value };
+        if (menuSelect.value) return { menu_id: menuSelect.value };
+        return null;
+    }
+
+    async function loadExistingPermission(params) {
+        const requestNo = ++permissionRequestNo;
+        hideStatus();
+        clearSelections();
+        if (!params) {
+            visibilitySelect.value = "public";
+            updateAccessSection();
+            return;
+        }
+        try {
+            const url = "{% url 'Layout_Master:get_permission' %}?" + new URLSearchParams(params).toString();
+            const response = await fetch(url, { method: "GET", cache: "no-store", credentials: "same-origin", headers: { "Accept": "application/json" } });
+            const data = await response.json();
+            if (requestNo !== permissionRequestNo) return;
+            if (!response.ok || !data.success) throw new Error(data.message || "Unable to load saved permissions.");
+            visibilitySelect.value = data.visibility || "public";
+            updateAccessSection();
+            if (data.visibility !== "department") return;
+
+            const departmentIds = normalizeIds(data.departments);
+            document.querySelectorAll(".department-checkbox").forEach(cb => { cb.checked = departmentIds.includes(String(cb.value)); });
+            const userIds = normalizeIds(data.users);
+            document.querySelectorAll(".user-checkbox").forEach(cb => { cb.checked = userIds.includes(String(cb.value)); });
+            updateUserSelectedCount();
+
+            const pairs = (data.designation_pairs || []).map(pair => `${pair.department_id}:${pair.designation_id}`);
+            await loadDesignations(pairs, requestNo);
+        } catch (error) {
+            if (requestNo !== permissionRequestNo) return;
+            console.error("Permission loading error:", error);
+            showStatus(error.message || "Unable to load existing permission.", false);
+        }
+    }
+
+    async function loadDesignations(selectedPairValues = [], parentPermissionRequestNo = null) {
+        const requestNo = ++designationRequestNo;
+        const previousChecked = checkedIds(".designation-checkbox");
+        const selectedPairs = new Set([...selectedPairValues, ...previousChecked]);
+        const departmentIds = checkedIds(".department-checkbox");
+        if (!departmentIds.length) {
+            designationContainer.innerHTML = '<div class="text-sm text-gray-500">Select a department first.</div>';
+            return;
+        }
+        designationContainer.innerHTML = '<div class="text-sm text-gray-500">Loading department-specific designations...</div>';
+        try {
+            const results = await Promise.all(departmentIds.map(async departmentId => {
+                const savedDesignationIds = Array.from(selectedPairs)
+                    .map(value => value.split(":"))
+                    .filter(parts => parts[0] === String(departmentId))
+                    .map(parts => parts[1]);
+                const params = new URLSearchParams({ department_id: departmentId });
+                if (savedDesignationIds.length) params.set("include_ids", savedDesignationIds.join(","));
+                const url = "{% url 'Layout_Master:get_designations' %}?" + params.toString();
+                const response = await fetch(url, { cache: "no-store", credentials: "same-origin", headers: { "Accept": "application/json" } });
+                if (!response.ok) throw new Error("Unable to load designations for department " + departmentId);
+                return { departmentId, data: await response.json() };
+            }));
+            if (requestNo !== designationRequestNo) return;
+            if (parentPermissionRequestNo !== null && parentPermissionRequestNo !== permissionRequestNo) return;
+
+            const rows = new Map();
+            results.forEach(({departmentId, data}) => {
+                (data.designations || []).forEach(designation => {
+                    const key = `${departmentId}:${designation.id}`;
+                    rows.set(key, {
+                        id: String(designation.id),
+                        departmentId: String(departmentId),
+                        title: designation.title || designation.name || String(designation.id),
+                        departmentName: designation.department_name || (document.querySelector(`.department-checkbox[value="${departmentId}"]`)?.parentElement?.textContent || "Department").trim()
+                    });
+                });
+            });
+
+            designationContainer.innerHTML = "";
+            if (!rows.size && !selectedPairs.size) {
+                designationContainer.innerHTML = '<div class="text-sm text-gray-500">No designations found for the selected departments.</div>';
+                return;
+            }
+            rows.forEach((row, key) => {
+                const label = document.createElement("label");
+                label.className = "lm-check-row";
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "designation-checkbox";
+                checkbox.value = key;
+                checkbox.dataset.departmentId = row.departmentId;
+                checkbox.dataset.designationId = row.id;
+                checkbox.checked = selectedPairs.has(key);
+                const span = document.createElement("span");
+                span.textContent = `${row.title} — ${row.departmentName}`;
+                label.append(checkbox, span);
+                designationContainer.appendChild(label);
+            });
+            const missingPairs = Array.from(selectedPairs).filter(pair => !rows.has(pair));
+            if (missingPairs.length) {
+                const note = document.createElement("div");
+                note.className = "text-sm text-amber-700";
+                note.style.marginTop = "8px";
+                note.textContent = "Some previously saved designation pairs are no longer assigned to active employees in the selected departments. They are preserved unless Replace existing permissions is selected.";
+                designationContainer.appendChild(note);
+            }
+        } catch (error) {
+            if (requestNo !== designationRequestNo) return;
+            console.error("Designation loading error:", error);
+            designationContainer.innerHTML = '<div class="text-sm text-red-500">Unable to load designations. Check the Django server log.</div>';
+        }
+    }
+
+    menuSelect.addEventListener("change", async function () {
+        hideStatus();
+        resetSubmenu();
+        resetChildmenu();
+        const menu = menuData[this.value];
+        if (!menu) {
+            await loadExistingPermission(null);
+            return;
+        }
+        Object.entries(menu.submenus || {}).forEach(([id, submenu]) => {
+            const option = document.createElement("option");
+            option.value = id;
+            option.textContent = submenu.name;
+            submenuSelect.appendChild(option);
+        });
+        submenuSelect.disabled = Object.keys(menu.submenus || {}).length === 0;
+        await loadExistingPermission({ menu_id: this.value });
+    });
+
+    submenuSelect.addEventListener("change", async function () {
+        hideStatus();
+        resetChildmenu();
+        const menu = menuData[menuSelect.value];
+        const submenu = menu && menu.submenus ? menu.submenus[this.value] : null;
+        if (submenu) {
+            Object.entries(submenu.childmenus || {}).forEach(([id, child]) => {
+                const option = document.createElement("option");
+                option.value = id;
+                option.textContent = child.name;
+                childmenuSelect.appendChild(option);
+            });
+            childmenuSelect.disabled = Object.keys(submenu.childmenus || {}).length === 0;
+            await loadExistingPermission({ submenu_id: this.value });
+        } else {
+            await loadExistingPermission(menuSelect.value ? { menu_id: menuSelect.value } : null);
+        }
+    });
+
+    childmenuSelect.addEventListener("change", async function () {
+        hideStatus();
+        if (this.value) {
+            await loadExistingPermission({ childmenu_id: this.value });
+        } else if (submenuSelect.value) {
+            await loadExistingPermission({ submenu_id: submenuSelect.value });
+        } else if (menuSelect.value) {
+            await loadExistingPermission({ menu_id: menuSelect.value });
+        } else {
+            await loadExistingPermission(null);
+        }
+    });
+
+    visibilitySelect.addEventListener("change", updateAccessSection);
+
+    document.addEventListener("change", function (event) {
+        if (event.target.classList.contains("user-checkbox")) updateUserSelectedCount();
+        if (event.target.classList.contains("department-checkbox")) {
+            // Rebuild designation/department pairs for the newly selected departments.
+            loadDesignations(checkedIds(".designation-checkbox"));
+        }
+    });
+
+    if (userSearch) {
+        userSearch.addEventListener("input", function () {
+            const query = this.value.trim().toLowerCase();
+            userContainer.querySelectorAll(".lm-check-row").forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(query) ? "flex" : "none";
+            });
+        });
+    }
+
+    savePermission.addEventListener("click", async function () {
+        hideStatus();
+        const params = getPermissionParams();
+        if (!params) {
+            showStatus("Please select a menu.", false);
+            return;
+        }
+
+        const formData = new FormData();
+        Object.entries(params).forEach(([key, value]) => formData.append(key, value));
+        formData.append("visibility", visibilitySelect.value);
+
+        if (visibilitySelect.value === "department") {
+            checkedIds(".department-checkbox").forEach(id => formData.append("departments", id));
+            checkedIds(".user-checkbox").forEach(id => formData.append("users", id));
+            document.querySelectorAll(".designation-checkbox:checked").forEach(cb => {
+                formData.append("designation_pairs", cb.value);
+                formData.append("designations", cb.dataset.designationId);
+            });
+        }
+
+        const csrfToken = getCookie("csrftoken");
+        if (!csrfToken) {
+            showStatus("CSRF token was not found. Refresh the page and try again.", false);
+            return;
+        }
+
+        savePermission.disabled = true;
+        savePermission.textContent = "Saving...";
+        try {
+            const response = await fetch("{% url 'Layout_Master:save_permission' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrfToken,
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Accept": "application/json"
+                },
+                body: formData,
+                credentials: "same-origin"
+            });
+            const raw = await response.text();
+            let data;
+            try { data = JSON.parse(raw); }
+            catch (e) { throw new Error("Unexpected server response (HTTP " + response.status + "). Check the Django terminal."); }
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || ("Unable to save permission (HTTP " + response.status + ")."));
+            }
+
+            // Reload the exact selected level first. Reloading hides the previous status.
+            await loadExistingPermission(params);
+
+            // Show the success message after reload so it remains visible.
+            showStatus(
+                data.message || "Permissions updated successfully!",
+                true
+            );
+        } catch (error) {
+            console.error("Save permission error:", error);
+            showStatus(error.message || "Error saving permission.", false);
+        } finally {
+            savePermission.disabled = false;
+            savePermission.textContent = "Save Permission";
+        }
+    });
+
+    updateUserSelectedCount();
+    updateAccessSection();
+
+    // Restore the current menu after refresh, if the browser retained a selection.
+    if (menuSelect.value) {
+        menuSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+});
+</script>

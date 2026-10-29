@@ -1,0 +1,250 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ book.title }}</title>
+
+<style>
+
+/* ===== REMOVE FULL PAGE SCROLL ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #f3f4f6;
+}
+
+/* ===== MAIN WRAPPER ===== */
+.modern-book-wrapper {
+  display: flex;
+    height: 80vh; 
+  margin: 20px;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,.08);
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.modern-book-sidebar {
+  width: 28%;
+  background: #111827;
+  color: #fff;
+  padding: 25px 20px;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+/* ===== CHAPTER LIST ===== */
+.chapter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chapter-item {
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all .25s ease;
+}
+
+.chapter-item:hover {
+  background: #1f2937;
+}
+
+.chapter-item.active {
+  background: #2563eb;
+}
+
+/* ===== RIGHT CONTENT ===== */
+.modern-book-content {
+  width: 72%;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.content-panel {
+  display: none;
+  animation: fadeIn .25s ease-in-out;
+}
+
+.content-panel.active {
+  display: block;
+}
+
+.content-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+
+/* ===== FADE ANIMATION ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+.modern-book-sidebar::-webkit-scrollbar,
+.modern-book-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modern-book-sidebar::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 6px;
+}
+
+.modern-book-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 6px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .modern-book-wrapper {
+    flex-direction: column;
+    height: calc(100vh - 90px);
+  }
+  .modern-book-sidebar,
+  .modern-book-content {
+    width: 100%;
+  }
+}
+
+.content-body {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #374151;
+  max-width: 850px;
+}
+
+/* FIX LISTS */
+.content-body ul {
+  list-style-type: disc !important;
+  padding-left: 25px !important;
+}
+
+.content-body ol {
+  list-style-type: decimal !important;
+  padding-left: 25px !important;
+}
+
+.content-body li {
+  margin-bottom: 6px;
+}
+
+
+
+
+</style>
+</head>
+
+<body>
+
+<div class="kt-wrapper flex grow flex-col" style="height:100%;">
+<main class="grow pt-5" id="content" style="height:100%;">
+
+<div class="kt-card-content" style="height:100%;">
+
+<div class="modern-book-wrapper">
+
+  <!-- ================= LEFT SIDE ================= -->
+  <div class="modern-book-sidebar">
+    <h2 class="sidebar-title">
+      {{ book.title }}
+    </h2>
+
+<ul class="chapter-list">
+  {% for page in pages %}
+    {% if page.heading %}
+      <li class="chapter-item"
+          data-target="page-{{ forloop.counter }}">
+          {{ page.heading }}
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+  </div>
+
+  <!-- ================= RIGHT SIDE ================= -->
+<div class="modern-book-content">
+  {% for page in pages %}
+    <div class="content-panel"
+         id="page-{{ forloop.counter }}">
+
+      {% if page.heading %}
+        <h2 class="content-title">
+          {{ page.heading }}
+        </h2>
+      {% endif %}
+
+      {% if page.paragraph %}
+        <div class="content-body">
+          {{ page.paragraph|safe }}
+        </div>
+      {% endif %}
+
+    </div>
+  {% endfor %}
+</div>
+
+
+</div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+</div>
+</main>
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const items = document.querySelectorAll(".chapter-item");
+  const panels = document.querySelectorAll(".content-panel");
+
+  function activatePage(targetId) {
+    panels.forEach(p => p.classList.remove("active"));
+    items.forEach(i => i.classList.remove("active"));
+
+    const panel = document.getElementById(targetId);
+    const item = document.querySelector(`[data-target="${targetId}"]`);
+
+    if (panel) panel.classList.add("active");
+    if (item) item.classList.add("active");
+  }
+
+  // Auto activate first page
+  if (items.length > 0) {
+    activatePage(items[0].dataset.target);
+  }
+
+  // Click event
+  items.forEach(item => {
+    item.addEventListener("click", function () {
+      activatePage(this.dataset.target);
+    });
+  });
+
+});
+</script>
+
+</body>
+</html>

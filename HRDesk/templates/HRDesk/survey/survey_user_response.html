@@ -1,0 +1,161 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ survey.title }} - Your Responses</title>
+
+    <style>
+        /* ===== PAGE BASE ===== */
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ===== TITLE ===== */
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+
+            background: linear-gradient(
+                #ffffff 0%,
+                #c084fc 35%,
+                #a855f7 60%,
+                #7c3aed 100%
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            text-shadow:
+                0 0 12px rgba(168,85,247,0.35),
+                0 0 24px rgba(124,58,237,0.25);
+        }
+
+        /* ===== SURVEY CARD ===== */
+        .survey-container {
+            width: 90vw;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* ===== QUESTIONS ===== */
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .answer {
+            padding-left: 15px;
+        }
+
+        .answer p {
+            margin: 0;
+        }
+
+        /* ===== BUTTON ===== */
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 0.8rem 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            background-color: #4f46e5;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn:hover {
+            background-color: #4338ca;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="kt-wrapper flex grow flex-col">
+    <main class="grow pt-5" id="content" role="main">
+
+        <div class="survey-container">
+            <h1>{{ survey.title }}</h1>
+
+            {% if survey.description %}
+                <p>{{ survey.description }}</p>
+            {% endif %}
+
+            <hr>
+
+            {% for question in survey.questions.all %}
+                <div class="question">
+                    <div class="question-text">
+                        {{ forloop.counter }}. {{ question.text }}
+                    </div>
+
+                    <div class="answer">
+                        {% with existing_response.answers.all as all_answers %}
+
+                            {% if question.question_type == "text" %}
+                                {% for ans in all_answers %}
+                                    {% if ans.question.id == question.id %}
+                                        <input type="text" class="form-control"
+                                               value="{{ ans.text_answer }}" disabled>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% elif question.question_type == "radio" %}
+                                {% for ans in all_answers %}
+                                    {% if ans.question.id == question.id %}
+                                        {% for option in question.options.all %}
+                                            {% if ans.option.id == option.id %}
+                                                <p>✔ {{ option.text }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% elif question.question_type == "checkbox" %}
+                                {% for ans in all_answers %}
+                                    {% if ans.question.id == question.id %}
+                                        <p>✔ {{ ans.option.text }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                        {% endwith %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <a href="{% url 'Intranet:home' %}" class="btn">
+                Back to Home
+            </a>
+        </div>
+
+    </main>
+</div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+</body>
+</html>

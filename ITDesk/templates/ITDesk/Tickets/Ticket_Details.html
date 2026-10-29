@@ -1,0 +1,1003 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+    .td-page {
+        padding: 24px;
+        color: #1e293b;
+        font-family: Arial, sans-serif;
+    }
+
+    .td-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 22px;
+    }
+
+    .td-header h2 {
+        margin: 0 0 6px;
+        color: #172554;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .td-muted {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .td-btn {
+        display: inline-block;
+        padding: 9px 14px;
+        border: 1px solid #dbe3ee;
+        border-radius: 7px;
+        background: #fff;
+        color: #334155 !important;
+        text-decoration: none !important;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .td-btn-primary {
+        background: #2563eb;
+        color: #fff !important;
+        border-color: #2563eb;
+    }
+
+    .td-btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+    .td-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 11px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, .04);
+    }
+
+    .td-card-heading {
+        padding: 17px 20px;
+        border-bottom: 1px solid #e8edf4;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .td-card-heading h3 {
+        font-size: 15px;
+        font-weight: 700;
+        margin: 0;
+        color: #1e293b;
+    }
+
+    .td-card-body {
+        padding: 21px;
+    }
+
+    .td-summary {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .td-summary-item {
+        padding: 16px;
+        border: 1px solid #e8edf4;
+        border-radius: 9px;
+        background: #f8fafc;
+        overflow-wrap: anywhere;
+    }
+
+    .td-label {
+        display: block;
+        color: #64748b;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .td-value {
+        color: #1e293b;
+        font-size: 13px;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .td-ticket-id {
+        color: #2563eb;
+        font-size: 19px;
+        font-weight: 800;
+    }
+
+    .td-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .td-status-new,
+    .td-status-viewed {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .td-status-pending,
+    .td-status-on_hold {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .td-status-in_progress {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .td-status-resolved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .td-status-closed {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+    .td-priority-high {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .td-priority-medium {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .td-priority-low {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .td-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 36px;
+    }
+
+    .td-info-item {
+        padding: 14px 0;
+        border-bottom: 1px solid #edf2f7;
+        overflow-wrap: anywhere;
+    }
+
+    /* Render editor HTML cleanly */
+    .td-richtext {
+        background: #f8fafc;
+        border: 1px solid #e8edf4;
+        border-radius: 8px;
+        padding: 17px;
+        color: #334155;
+        font-size: 13px;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .td-richtext p {
+        margin: 0 0 10px;
+    }
+
+    .td-richtext p:last-child {
+        margin-bottom: 0;
+    }
+
+    .td-richtext ul,
+    .td-richtext ol {
+        padding-left: 24px;
+        margin: 8px 0;
+    }
+
+    .td-richtext img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .td-sla-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .td-sla-item {
+        border: 1px solid #e8edf4;
+        border-radius: 8px;
+        padding: 16px;
+    }
+
+    .td-history {
+        position: relative;
+        padding: 4px 0 4px 28px;
+    }
+
+    .td-history:before {
+        content: "";
+        position: absolute;
+        left: 8px;
+        top: 14px;
+        bottom: 18px;
+        width: 2px;
+        background: #dbeafe;
+    }
+
+    .td-history-entry {
+        position: relative;
+        padding: 0 0 24px 14px;
+    }
+
+    .td-history-entry:last-child {
+        padding-bottom: 0;
+    }
+
+    .td-history-dot {
+        position: absolute;
+        left: -26px;
+        top: 5px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #2563eb;
+        border: 3px solid #dbeafe;
+        box-sizing: content-box;
+    }
+
+    .td-history-box {
+        border: 1px solid #e2e8f0;
+        border-radius: 9px;
+        padding: 16px;
+        background: #fff;
+    }
+
+    .td-history-top {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .td-history-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .td-history-date {
+        font-size: 11px;
+        color: #64748b;
+    }
+
+    .td-history-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 12px;
+        font-size: 12px;
+        color: #475569;
+    }
+
+    .td-notes {
+        padding: 12px 14px;
+        border-radius: 7px;
+        background: #f8fafc;
+        border-left: 3px solid #93c5fd;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #475569;
+        overflow-wrap: anywhere;
+    }
+
+    .td-notes-label {
+        display: block;
+        font-size: 10px;
+        font-weight: 800;
+        color: #64748b;
+        letter-spacing: .5px;
+        margin-bottom: 5px;
+    }
+
+    .td-empty {
+        text-align: center;
+        padding: 30px 15px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .td-form-control {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        color: #334155;
+        background: #fff;
+        border: 1px solid #cbd5e1;
+        border-radius: 7px;
+        font-size: 13px;
+    }
+
+    .td-form-control:focus {
+        outline: none;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+    }
+
+    .td-form-group {
+        margin-bottom: 18px;
+    }
+
+    .td-form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .td-footer {
+        color: #94a3b8;
+        text-align: center;
+        font-size: 10px;
+        padding: 10px 0;
+    }
+
+    @media (max-width: 900px) {
+        .td-summary {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 600px) {
+        .td-page {
+            padding: 14px;
+        }
+
+        .td-summary,
+        .td-info-grid,
+        .td-sla-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .td-card-body {
+            padding: 15px;
+        }
+    }
+
+    /*
+     * Print layout:
+     * - Print only the ticket report, not the shared website shell.
+     * - Use the printable page width and remove large screen-only gaps.
+     * - Let long sections flow naturally across pages.
+     */
+    @page {
+        size: auto;
+        margin: 8mm;
+    }
+
+    @media print {
+        html,
+        body {
+            width: 100% !important;
+            min-width: 0 !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff !important;
+            overflow: visible !important;
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+
+        /* Hide the shared layout visually while retaining the report below. */
+        body * {
+            visibility: hidden !important;
+        }
+
+        .td-page,
+        .td-page * {
+            visibility: visible !important;
+        }
+
+        .td-page {
+            position: absolute !important;
+            inset: 0 auto auto 0 !important;
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #111827 !important;
+            font-size: 10pt !important;
+        }
+
+        .td-no-print,
+        .td-page .td-no-print,
+        button,
+        form,
+        .td-footer {
+            display: none !important;
+        }
+
+        /* Compact spacing so content doesn't get pushed onto extra pages. */
+        .td-header {
+            margin: 0 0 8px !important;
+            padding: 0 !important;
+            gap: 4px !important;
+        }
+
+        .td-header h2 {
+            margin: 0 0 3px !important;
+            font-size: 17pt !important;
+        }
+
+        .td-muted {
+            font-size: 8pt !important;
+        }
+
+        .td-card {
+            margin: 0 0 8px !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 5px !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+            break-inside: auto !important;
+            page-break-inside: auto !important;
+        }
+
+        .td-card-heading {
+            padding: 7px 9px !important;
+            gap: 5px !important;
+            break-after: avoid-page;
+            page-break-after: avoid;
+        }
+
+        .td-card-heading h3 {
+            font-size: 10pt !important;
+        }
+
+        .td-card-body {
+            padding: 8px 9px !important;
+        }
+
+        .td-summary {
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            gap: 6px !important;
+        }
+
+        .td-summary-item {
+            padding: 7px !important;
+            border-radius: 4px !important;
+            background: #fff !important;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .td-label {
+            margin-bottom: 3px !important;
+            font-size: 7pt !important;
+            letter-spacing: .2px !important;
+        }
+
+        .td-value {
+            font-size: 8.5pt !important;
+        }
+
+        .td-ticket-id {
+            font-size: 11pt !important;
+        }
+
+        .td-badge {
+            padding: 3px 6px !important;
+            font-size: 7pt !important;
+        }
+
+        .td-info-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 0 18px !important;
+        }
+
+        .td-info-item {
+            padding: 6px 0 !important;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .td-richtext {
+            padding: 8px !important;
+            border-radius: 4px !important;
+            font-size: 9pt !important;
+            line-height: 1.45 !important;
+            background: #fff !important;
+            overflow-wrap: anywhere !important;
+        }
+
+        .td-richtext p {
+            margin: 0 0 5px !important;
+        }
+
+        .td-richtext ul,
+        .td-richtext ol {
+            margin: 4px 0 !important;
+            padding-left: 18px !important;
+        }
+
+        .td-history {
+            padding: 0 0 0 18px !important;
+        }
+
+        .td-history:before {
+            left: 5px !important;
+            top: 8px !important;
+            bottom: 8px !important;
+        }
+
+        .td-history-entry {
+            padding: 0 0 8px 8px !important;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .td-history-dot {
+            left: -19px !important;
+            top: 3px !important;
+            width: 8px !important;
+            height: 8px !important;
+            border-width: 2px !important;
+        }
+
+        .td-history-box {
+            padding: 8px !important;
+            border-radius: 5px !important;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .td-history-top,
+        .td-history-meta {
+            gap: 6px !important;
+            margin-bottom: 5px !important;
+        }
+
+        .td-history-title {
+            font-size: 9pt !important;
+        }
+
+        .td-history-date,
+        .td-history-meta,
+        .td-notes {
+            font-size: 8pt !important;
+        }
+
+        .td-notes {
+            padding: 6px 8px !important;
+            line-height: 1.45 !important;
+        }
+
+        .td-notes-label {
+            margin-bottom: 3px !important;
+            font-size: 7pt !important;
+        }
+
+        .td-empty {
+            padding: 8px !important;
+        }
+
+        /* Avoid splitting headings and small information blocks. */
+        .td-card-heading,
+        .td-summary-item,
+        .td-info-item {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        a {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+    }
+</style>
+
+{% with t=ticket %}
+
+<div class="kt-wrapper flex grow flex-col">
+<main class="grow pt-5" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<div class="kt-container-fluid">
+
+<div class="td-page">
+
+    <!-- Page header -->
+    <div class="td-header">
+        <div>
+            <h2>IT Service Desk</h2>
+            <p class="td-muted">
+                Ticket details, SLA information and complete activity history.
+            </p>
+        </div>
+
+        <div class="td-no-print">
+            <button type="button" class="td-btn"
+                    onclick="window.print()">
+                Print Report
+            </button>
+
+            <button type="button" class="td-btn"
+                    onclick="window.history.back()">
+                Back
+            </button>
+        </div>
+    </div>
+
+    <!-- Ticket summary -->
+    <section class="td-card">
+        <div class="td-card-heading">
+            <h3>Ticket Summary</h3>
+
+            <span class="td-badge td-status-{{ t.status|lower }}">
+                {{ t.status|upper }}
+            </span>
+        </div>
+
+        <div class="td-card-body">
+            <div class="td-summary">
+
+                <div class="td-summary-item">
+                    <span class="td-label">Ticket ID</span>
+                    <div class="td-ticket-id">{{ t.ticket_id }}</div>
+                </div>
+
+                <div class="td-summary-item">
+                    <span class="td-label">Current Status</span>
+                    <div class="td-value">{{ t.status|upper }}</div>
+                </div>
+
+                <div class="td-summary-item">
+                    <span class="td-label">Priority</span>
+                    <div class="td-value">{{ t.priority }}</div>
+                </div>
+
+                <div class="td-summary-item">
+                    <span class="td-label">Created</span>
+                    <div class="td-value">
+                        {{ t.created_at|date:"d M Y, h:i A" }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Ticket information -->
+    <section class="td-card">
+        <div class="td-card-heading">
+            <h3>Ticket Information</h3>
+        </div>
+
+        <div class="td-card-body">
+            <div class="td-info-grid">
+
+                <div class="td-info-item">
+                    <span class="td-label">Reported By</span>
+                    <div class="td-value">
+                        {% if t.reported_by %}
+                            {{ t.reported_by }}
+                        {% elif t.created_by %}
+                            {{ t.created_by }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="td-info-item">
+                    <span class="td-label">Affected User</span>
+                    <div class="td-value">
+                        {% if t.affected_user %}
+                            {{ t.affected_user }}
+                        {% else %}
+                            Not user related
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="td-info-item">
+                    <span class="td-label">Category</span>
+                    <div class="td-value">{{ t.category }}</div>
+                </div>
+
+                <div class="td-info-item">
+                    <span class="td-label">Subcategory</span>
+                    <div class="td-value">{{ t.subcategory }}</div>
+                </div>
+
+                <div class="td-info-item">
+                    <span class="td-label">Assigned To</span>
+                    <div class="td-value">
+                        {% if t.assigned_to %}
+                            {{ t.assigned_to }}
+                        {% else %}
+                            Unassigned
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="td-info-item">
+                    <span class="td-label">Asset Type</span>
+                    <div class="td-value">
+                        {% if t.asset_type %}
+                            {{ t.asset_type }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="td-info-item">
+                    <span class="td-label">Asset</span>
+                    <div class="td-value">
+                        {% if t.asset %}
+                            {{ t.asset }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Issue description -->
+    <section class="td-card">
+        <div class="td-card-heading">
+            <h3>Issue Description</h3>
+        </div>
+
+        <div class="td-card-body">
+            <div class="td-richtext">
+                {{ t.description|default:"No description provided."|safe }}
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Ticket history -->
+    <section class="td-card">
+        <div class="td-card-heading">
+            <div>
+                <h3>Ticket History</h3>
+                <p class="td-muted" style="margin:5px 0 0;">
+                    Chronological record of ticket status changes and updates.
+                </p>
+            </div>
+
+            <span class="td-badge">{{ history|length }} Updates</span>
+        </div>
+
+        <div class="td-card-body">
+
+            {% if history %}
+            <div class="td-history">
+
+                {% for item in history %}
+                <div class="td-history-entry">
+                    <span class="td-history-dot"></span>
+
+                    <div class="td-history-box">
+
+                        <div class="td-history-top">
+                            <div class="td-history-title">
+                                {% if item.previous_status and item.new_status %}
+                                    {{ item.previous_status|upper }}
+                                    &nbsp;→&nbsp;
+                                    {{ item.new_status|upper }}
+                                {% elif item.new_status %}
+                                    {{ item.new_status|upper }}
+                                {% else %}
+                                    Ticket Updated
+                                {% endif %}
+                            </div>
+
+                            <div class="td-history-date">
+                                {{ item.changed_at|date:"d M Y, h:i A" }}
+                            </div>
+                        </div>
+
+                        <div class="td-history-meta">
+                            <span>
+                                <strong>Updated by:</strong>
+                                {{ item.changed_by|default:"System" }}
+                            </span>
+
+                            {% if item.assigned_to %}
+                            <span>
+                                <strong>Assigned to:</strong>
+                                {{ item.assigned_to }}
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        {% if item.notes %}
+                        <div class="td-notes">
+                            <span class="td-notes-label">UPDATE NOTES</span>
+                            <div class="td-richtext">
+                                {{ item.notes|safe }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            {% else %}
+                <div class="td-empty">
+                    No ticket history has been recorded yet.
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+
+    <!-- Update ticket -->
+    <section class="td-card">
+        <div class="td-card-heading">
+            <div>
+                <h3>Update Ticket</h3>
+                <p class="td-muted" style="margin:5px 0 0;">
+                    Update status, assignment and progress notes.
+                </p>
+            </div>
+
+            {% if t.status|upper == "CLOSED" %}
+                <span class="td-badge td-status-closed">Ticket Closed</span>
+            {% else %}
+                <span class="td-badge td-status-in_progress">Update Available</span>
+            {% endif %}
+        </div>
+
+        <div class="td-card-body">
+
+            {% if is_it_user and t.status|upper != "CLOSED" %}
+
+            <form method="POST"
+                  action="{% url 'ITDesk:it_ticket_detail' t.ticket_id %}">
+                {% csrf_token %}
+
+                <div class="td-info-grid">
+
+                    <div class="td-form-group">
+                        <label for="ticket_status">Status of Issue</label>
+
+                        <select id="ticket_status"
+                                name="status"
+                                class="td-form-control"
+                                required>
+                            <option value="NEW"
+                                {% if t.status|upper == "NEW" %}selected{% endif %}>
+                                New
+                            </option>
+                            <option value="VIEWED"
+                                {% if t.status|upper == "VIEWED" %}selected{% endif %}>
+                                Viewed
+                            </option>
+                            <option value="IN_PROGRESS"
+                                {% if t.status|upper == "IN_PROGRESS" %}selected{% endif %}>
+                                In Progress
+                            </option>
+                            <option value="PENDING"
+                                {% if t.status|upper == "PENDING" %}selected{% endif %}>
+                                Pending
+                            </option>
+                            <option value="ON_HOLD"
+                                {% if t.status|upper == "ON_HOLD" %}selected{% endif %}>
+                                On Hold
+                            </option>
+                            <option value="RESOLVED"
+                                {% if t.status|upper == "RESOLVED" %}selected{% endif %}>
+                                Resolved
+                            </option>
+                            <option value="CLOSED"
+                                {% if t.status|upper == "CLOSED" %}selected{% endif %}>
+                                Closed
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="td-form-group">
+                        <label for="assigned_to">Assign To IT Technician</label>
+
+                        <select id="assigned_to"
+                                name="assigned_to"
+                                class="td-form-control">
+                            <option value="">
+                                Keep Current Assignment
+                            </option>
+
+                            <option value="unassigned">
+                                Unassign Ticket
+                            </option>
+
+                            {% for person in IT_persons %}
+                            <option value="{{ person.id }}"
+                                {% if t.assigned_to_id == person.id %}selected{% endif %}>
+                                {{ person.first_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="td-form-group">
+                    <label for="ticket_notes">Update Notes</label>
+
+                    <textarea id="ticket_notes"
+                              name="notes"
+                              class="td-form-control"
+                              rows="5"
+                              placeholder="Describe the work performed, findings, reason for the status change, or next steps..."></textarea>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="submit" class="td-btn td-btn-primary">
+                        Save Ticket Update
+                    </button>
+
+                    <button type="button" class="td-btn"
+                            onclick="window.history.back()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+            {% elif t.status|upper == "CLOSED" %}
+
+            <div class="alert alert-secondary mb-0">
+                <strong>This ticket is closed.</strong>
+                Status and assignment updates are no longer allowed.
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning mb-0">
+                Only authorized IT staff can update this ticket.
+            </div>
+
+            {% endif %}
+
+        </div>
+    </section>
+
+    <div class="td-footer">
+        IT Service Desk · Confidential — Internal Use Only
+    </div>
+
+</div>
+</div>
+</main>
+</div>
+
+{% endwith %}

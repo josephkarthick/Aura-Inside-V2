@@ -1,0 +1,167 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    <!-- Header Section -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">Answer Report</h1>
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">Summary</span>
+          </div>          
+        </div>
+        <div class="flex items-center gap-2.5">
+          <a class="kt-btn kt-btn-outline"  href="{% url 'Assessment:qst_paper'%}" >Back to Qst Papers</a>
+        </div>		
+      </div>
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+
+<main class="grow pt-5" id="content">
+
+    <div class="kt-container-fixed">
+
+
+            <!-- Statistics -->
+
+            <div class="grid grid-cols-6 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+
+                <div class="kt-card">
+                    <div class="kt-card-content p-4 text-center">
+                        <div class="text-gray-500">Questions</div>
+                        <div class="text-3xl font-bold">
+                            {{ total_questions }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kt-card">
+                    <div class="kt-card-content p-4 text-center">
+                        <div class="text-gray-500">Correct</div>
+                        <div class="text-3xl font-bold text-green-600">
+                            {{ correct_count }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kt-card">
+                    <div class="kt-card-content p-4 text-center">
+                        <div class="text-gray-500">Wrong</div>
+                        <div class="text-3xl font-bold text-yellow-600">
+                            {{ wrong_count }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kt-card">
+                    <div class="kt-card-content p-4 text-center">
+                        <div class="text-gray-500">Marks</div>
+                        <div class="text-3xl font-bold">
+                            {{ attempt.obtained_marks }}/{{ attempt.total_marks }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kt-card">
+                    <div class="kt-card-content p-4 text-center">
+                        <div class="text-gray-500">Percentage</div>
+                        <div class="text-3xl font-bold">
+                            {{ attempt.percentage|floatformat:2 }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Review -->
+
+            <div class="kt-card">
+
+                <div class="kt-card-header">
+                    <h3 class="kt-card-title">
+                        Question Review
+                    </h3>
+                </div>
+
+                <div class="kt-card-content">
+
+                    {% for answer in answers %}
+
+                    <div class="border rounded-lg p-5 mb-5">
+
+                        <div class="flex justify-between items-start mb-4">
+
+                            <h4 class="font-semibold text-lg">
+
+                                Q{{ forloop.counter }}.
+                                {{ answer.question.question_text }}
+
+                            </h4>
+
+                            {% if answer.is_correct %}
+
+                                <span class="kt-badge kt-badge-success">
+                                    Correct
+                                </span>
+
+                            {% else %}
+
+                                <span class="kt-badge kt-badge-destructive">
+                                    Wrong
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <strong>Your Answer:</strong>
+
+                            {% if answer.selected_option %}
+                                {{ answer.selected_option.option_text }}
+                            {% else %}
+                                Not Answered
+                            {% endif %}
+
+                        </div>
+
+                        <div>
+
+                            <strong>Correct Answer:</strong>
+
+                            {% for option in answer.question.options.all %}
+                                {% if option.is_correct %}
+                                    <div class="text-green-600">
+                                        ✓ {{ option.option_text }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <div class="text-center text-gray-500 py-10">
+                        No answers found.
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+</div>

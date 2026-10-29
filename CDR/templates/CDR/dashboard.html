@@ -1,0 +1,687 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}}
+
+{% block content %}
+<div class="kt-wrapper flex grow flex-col">
+
+    <main class="grow pt-5" id="content">
+
+        <div class="kt-container-fixed">
+
+			<div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+<div class="kt-container-fixed">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="kt-card-title text-xl font-semibold">
+            CDR Dashboard
+        </h2>
+
+        <form method="get" class="flex items-center gap-2">
+			<a href="{% url 'CDR:employee_summary' %}?from_date={{ from_date|date:'Y-m-d' }}&to_date={{ to_date|date:'Y-m-d' }}"
+			class="kt-btn kt-btn-outline kt-btn-sm">
+			
+				<i class="ki-filled ki-chart-line"></i>
+			
+				Employee Summary
+			
+			</a>
+						<input
+							type="date"
+							name="from_date"
+							value="{{ from_date|date:'Y-m-d' }}"
+							class="kt-input" required>
+						
+						<input
+							type="date"
+							name="to_date"
+							value="{{ to_date|date:'Y-m-d' }}"
+							class="kt-input w-40"
+							required>
+
+            <button type="submit"
+                    class="kt-btn kt-btn-primary">
+
+                <i class="ki-filled ki-magnifier"></i>
+                Search
+
+            </button>
+
+        </form>
+
+    </div>
+<div class="kt-card mb-5">
+    <div class="kt-card-content p-4">
+
+        <div class="flex justify-between">
+
+            <div>
+                <div class="text-xs text-gray-500 uppercase">
+                    Current Period
+                </div>
+
+                <div class="font-semibold text-lg">
+                    {{ current_period.from }} → {{ current_period.to }} | 
+                </div>
+            </div>
+
+            {% if previous_period %}
+            <div class="text-right">
+                <div class="text-xs text-gray-500 uppercase">
+                    Compared With
+                </div>
+
+                <div class="font-semibold text-lg">
+                    | {{ previous_period.from }} → {{ previous_period.to }}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+
+    <!-- KPI Cards -->
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-6">
+	
+	
+
+<div class="kt-card border-l-4 border-blue-500 bg-blue-50">
+    <div class="kt-card-content p-5">
+
+        <div class="flex justify-between items-start">
+
+            <div>
+                <div class="text-sm text-blue-600 font-medium">
+                    Total Calls
+                </div>
+
+                <div class="text-3xl font-bold mt-2">
+                    {{ summary.total_calls }}
+                </div>
+            </div>
+
+            <div class="text-right">
+
+                {% if comparison.total_calls.up %}
+                    <div class="text-green-600 font-semibold">
+                        ▲ {{ comparison.total_calls.percent }}%
+                    </div>
+
+                    <div class="text-xs text-green-600">
+                        +{{ comparison.total_calls.difference }} Calls
+                    </div>
+
+                {% elif comparison.total_calls.down %}
+                    <div class="text-red-600 font-semibold">
+                        ▼ {{ comparison.total_calls.percent }}%
+                    </div>
+
+                    <div class="text-xs text-red-600">
+                        {{ comparison.total_calls.difference }} Calls
+                    </div>
+
+                {% else %}
+                    <div class="text-gray-500 font-semibold">
+                        ● No Change
+                    </div>
+                {% endif %}
+
+                <div class="text-xs text-gray-500">
+                    Compared to {{ comparison_label }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="kt-card border-l-4 border-green-500 bg-green-50">
+    <div class="kt-card-content p-5">
+<div class="flex justify-between items-start">
+    <div>
+        <div class="text-sm text-green-600 font-medium">
+            Active Users
+        </div>
+
+        <div class="text-3xl font-bold mt-2">
+            {{ summary.active_users }}
+        </div>
+    </div>
+
+    <div class="text-right">
+        {% if comparison.active_users.up %}
+            <div class="text-green-600 font-semibold">
+                ▲ {{ comparison.active_users.percent }}%
+            </div>
+            <div class="text-xs text-green-600">
+                +{{ comparison.active_users.difference }} Users
+            </div>
+
+        {% elif comparison.active_users.down %}
+            <div class="text-red-600 font-semibold">
+                ▼ {{ comparison.active_users.percent }}%
+            </div>
+            <div class="text-xs text-red-600">
+                {{ comparison.active_users.difference }} Users
+            </div>
+
+        {% else %}
+            <div class="text-gray-500 font-semibold">
+                ● 0%
+            </div>
+        {% endif %}
+
+        <div class="text-xs text-gray-500 mt-1">
+            Compared to {{ comparison_label }}
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<div class="kt-card border-l-4 border-purple-500 bg-purple-50">
+    <div class="kt-card-content p-5">
+
+        <div class="flex justify-between items-start">
+
+            <div>
+                <div class="text-sm text-purple-600 font-medium">
+                    Talk Time
+                </div>
+
+                <div class="text-3xl font-bold mt-2">
+                    {{ summary.total_duration }}
+                </div>
+            </div>
+
+            <div class="text-right">
+
+                {% if comparison.talk_time.up %}
+                    <div class="text-green-600 font-semibold">
+                        ▲ {{ comparison.talk_time.percent }}%
+                    </div>
+
+                    <div class="text-xs text-green-600">
+                        +{{ comparison.talk_time.difference_time }}
+                    </div>
+
+                {% elif comparison.talk_time.down %}
+                    <div class="text-red-600 font-semibold">
+                        ▼ {{ comparison.talk_time.percent }}%
+                    </div>
+
+                    <div class="text-xs text-red-600">
+                        -{{ comparison.talk_time.difference_time }}
+                    </div>
+
+                {% else %}
+                    <div class="text-gray-500 font-semibold">
+                        ● No Change
+                    </div>
+                {% endif %}
+
+                <div class="text-xs text-gray-500">
+                    Compared to {{ comparison_label }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="kt-card border-l-4 border-orange-500 bg-yellow-50">
+    <div class="kt-card-content p-5">
+
+        <div class="flex justify-between items-start">
+
+            <div>
+                <div class="text-sm text-orange-600 font-medium">
+                    Average Call
+                </div>
+
+                <div class="text-3xl font-bold mt-2">
+                    {{ summary.avg_duration }}
+                </div>
+            </div>
+
+            <div class="text-right">
+
+                {% if comparison.avg_call.up %}
+                    <div class="text-green-600 font-semibold">
+                        ▲ {{ comparison.avg_call.percent }}%
+                    </div>
+
+                    <div class="text-xs text-green-600">
+                        +{{ comparison.avg_call.difference_time }}
+                    </div>
+
+                {% elif comparison.avg_call.down %}
+                    <div class="text-red-600 font-semibold">
+                        ▼ {{ comparison.avg_call.percent }}%
+                    </div>
+
+                    <div class="text-xs text-red-600">
+                        -{{ comparison.avg_call.difference_time }}
+                    </div>
+
+                {% else %}
+                    <div class="text-gray-500 font-semibold">
+                        ● No Change
+                    </div>
+                {% endif %}
+
+                <div class="text-xs text-gray-500">
+                    Compared to {{ comparison_label }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+    </div>
+
+
+    <!-- Call Category -->
+
+<div class="grid lg:grid-cols-2 gap-5 lg:gap-7.5 items-stretch">
+    <div class="lg:col-span-1">
+    <div class="kt-card h-full">
+
+        <div class="kt-card-header">
+            <h3 class="kt-card-title">
+                Call Duration Summary
+            </h3>
+        </div>
+
+        <div class="kt-card-content flex flex-col gap-4 p-5 lg:p-7.5 lg:pt-4">
+
+            <div class="flex flex-col gap-0.5">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-3xl font-semibold text-mono">
+                        {{ summary.total_calls }}
+                    </span>
+                </div>
+
+                <span class="text-sm font-normal text-secondary-foreground">
+                    Total Calls
+                </span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="flex items-center gap-1 mb-1.5 w-full">
+
+                <div class="h-2 rounded-xs bg-yellow-500"
+                     style="flex-grow: {{ summary.less1_calls }};"
+                     title="Less Than 1 Min">
+                </div>
+
+                <div class="h-2 rounded-xs bg-green-500"
+                     style="flex-grow: {{ summary.one3_calls }};"
+                     title="1–3 Mins">
+                </div>
+
+                <div class="h-2 rounded-xs bg-blue-500"
+                     style="flex-grow: {{ summary.gt3_calls }};"
+                     title="Greater Than 3 Mins">
+                </div>
+
+				<div class="h-2 rounded-xs"
+					style="
+						background-color:#EF4444;
+						flex-grow:{{ summary.hold_calls }};
+					">
+				</div>
+
+            </div>
+
+            <!-- Legend -->
+
+            <div class="flex flex-wrap gap-4">
+
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-yellow-500"></span>
+                    <span class="text-sm">Less Than 1 Min</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-green-500"></span>
+                    <span class="text-sm">1–3 Mins</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-blue-500"></span>
+                    <span class="text-sm">3Mins - 1Hrs</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full" style="background-color:#EF4444"></span>
+                    <span class="text-sm">Above 1Hr</span>
+                </div>
+
+            </div>
+
+            <div class="border-b border-input"></div>
+
+            <!-- Counts -->
+
+            <div class="grid gap-3">
+
+                <div class="flex justify-between">
+                    <span class="flex items-center gap-2">
+                        <i class="ki-filled ki-timer text-yellow-500"></i>
+                        Less Than 1 Min
+                    </span>
+
+                    <span class="font-semibold">
+                        {{ summary.less1_calls }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="flex items-center gap-2">
+                        <i class="ki-filled ki-timer text-green-500"></i>
+                        1–3 Mins
+                    </span>
+
+                    <span class="font-semibold">
+                        {{ summary.one3_calls }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="flex items-center gap-2">
+                        <i class="ki-filled ki-timer text-blue-500"></i>
+                        3Mins - 1Hrs
+                    </span>
+
+                    <span class="font-semibold">
+                        {{ summary.gt3_calls }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+					<span class="flex items-center gap-2">
+						<i class="ki-filled ki-timer text-yellow-500"></i>
+						Above 1Hr
+					</span>
+
+                    <span class="font-semibold">
+                        {{ summary.hold_calls }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+    <!-- Peak Hour -->
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+
+        <div class="kt-card ">
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    🔥 Peak Calling Hour
+                </h3>
+            </div>
+
+            <div class="kt-card-content p-5 ">
+
+                {% if peak_hour %}
+                    <div class="text-4xl font-bold">
+                        {{ peak_hour.hour }}
+                    </div>
+
+                    <div class="text-gray-500 mt-2">
+                        {{ peak_hour.total_calls }} Calls
+                    </div>
+                {% else %}
+                    No Data
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="kt-card">
+
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    💤 Lowest Calling Hour
+                </h3>
+            </div>
+
+            <div class="kt-card-content p-5">
+
+                {% if low_hour %}
+                    <div class="text-4xl font-bold">
+                        {{ low_hour.hour }}
+                    </div>
+
+                    <div class="text-gray-500 mt-2">
+                        {{ low_hour.total_calls }} Calls
+                    </div>
+                {% else %}
+                    No Data
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+    </div> <br>
+
+
+    <!-- Top Tables -->
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+
+        <!-- Talk Time -->
+
+        <div class="kt-card">
+
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    Top 3 Talk Time
+                </h3>
+            </div>
+
+            <div class="kt-card-content">
+
+                <table class="kt-table">
+
+                    <thead>
+
+                    <tr>
+                        <th>Employee</th>
+                        <th class="text-right">Duration</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in top_duration %}
+
+                    <tr>
+
+                        <td>{{ row.employee_name }}</td>
+
+                        <td class="text-right">
+
+                            {{ row.duration }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Call Count -->
+
+        <div class="kt-card">
+
+            <div class="kt-card-header">
+
+                <h3 class="kt-card-title">
+
+                    Top 3 Calls
+
+                </h3>
+
+            </div>
+
+            <div class="kt-card-content">
+
+                <table class="kt-table">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th class="text-right">
+
+                            Calls
+
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in top_calls %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ row.employee_name }}
+
+                        </td>
+
+                        <td class="text-right">
+
+                            {{ row.total_calls }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Lowest Talk Time -->
+
+        <div class="kt-card">
+
+            <div class="kt-card-header">
+
+                <h3 class="kt-card-title">
+
+                    Lowest Talk Time
+
+                </h3>
+
+            </div>
+
+            <div class="kt-card-content">
+
+                <table class="kt-table">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th class="text-right">
+
+                            Duration
+
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in low_duration %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ row.employee_name }}
+
+                        </td>
+
+                        <td class="text-right">
+
+                            {{ row.duration }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+{% endblock %}

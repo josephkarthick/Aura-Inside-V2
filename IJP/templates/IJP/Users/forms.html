@@ -1,0 +1,206 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+    <main class="grow pt-5" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fixed">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        Internal Job Postings
+                    </h1>
+                    <p class="text-gray-500 mt-1">
+                        Browse and apply for internal career opportunities.
+                    </p>
+                </div>
+            </div>
+
+            {% if ijps %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                {% for ijp in ijps %}
+
+                <div class="kt-card">
+
+					<div class="kt-card-header flex items-center justify-between">
+					
+						<h3 class="kt-card-title text-lg font-semibold">
+							{{ ijp.title }}
+						</h3>
+					
+						<button
+							type="button"
+							class="kt-btn kt-btn-outline kt-btn-sm"
+							onclick="toggleDetails('{{ ijp.id }}', this)">
+							View Details
+						</button>
+					
+					</div>
+					
+						<!-- Hidden Details -->
+						<div id="details-{{ ijp.id }}" class="hidden kt-card-content">
+						
+							<div class="border-t my-4"></div>
+						
+								<div class="space-y-3">
+							
+									<div class="flex justify-between">
+										<span class="text-gray-500">Minimum Experience</span>
+										<span class="font-medium">{{ ijp.minimum_experience_months }} Months</span>
+									</div>
+							
+									<div class="flex justify-between">
+										<span class="text-gray-500">Appraisal</span>
+										<span class="font-medium">
+											{{ ijp.minimum_appraisal_rating }}/5 ( Last Appraisal)
+										</span>
+									</div>
+							
+									<div class="flex justify-between">
+										<span class="text-gray-500">Attendance</span>
+										<span class="font-medium">
+											{{ ijp.minimum_attendance_rating }}/100 (Last Three Months)
+										</span>
+									</div>
+							
+									<div class="flex justify-between">
+										<span class="text-gray-500">End Date</span>
+										<span class="font-medium">{{ ijp.application_end_date }}</span>
+									</div>
+							
+								</div>
+						
+							<div class="border-t my-4"></div>
+
+					</div>
+					<script>
+					function toggleDetails(id, button) {
+						const details = document.getElementById('details-' + id);
+					
+						if (details.classList.contains('hidden')) {
+							details.classList.remove('hidden');
+							button.innerText = 'Hide Details';
+						} else {
+							details.classList.add('hidden');
+							button.innerText = 'View Details';
+						}
+					}
+					</script>
+					<div class="kt-card-content">
+					
+						<p class="text-gray-600 min-h-[60px]">
+							{% if ijp.description %}
+								{{ ijp.description }}
+							{% else %}
+								No description available.
+							{% endif %}
+						</p>
+
+                    <div class="mt-6">
+
+						{% if ijp.application_status == "expired" %}
+						
+							<button
+								class="kt-btn kt-btn-danger w-full"
+								disabled
+							>
+								⛔ Applications Closed
+							</button>
+						
+						{% elif ijp.application_status == "not_suitable" %}
+						
+							<button
+								class="kt-btn kt-btn-light w-full"
+								disabled
+							>
+								Not Suitable
+							</button>
+						
+						{% elif ijp.already_applied %}
+						
+							<button
+								class="kt-btn kt-btn-success w-full"
+								disabled
+							>
+								✔ Already Applied
+							</button>
+						
+						{% elif ijp.eligible %}
+						
+							<a
+								href="{% url 'IJP:apply_ijp' ijp.id %}"
+								class="kt-btn kt-btn-primary w-full"
+							>
+								Apply Now
+							</a>
+						
+						{% else %}
+						
+							<button
+								class="kt-btn kt-btn-light w-full"
+								disabled
+							>
+								Not Eligible
+							</button>
+						
+						{% endif %}
+					
+					{% if ijp.eligible %}
+
+							
+                        {% else %}
+						<div class="border-t my-4"></div>
+                            <div class="text-red-600 text-sm mb-3 ">
+							
+                                <strong>Reason</strong>
+
+                                {% if ijp.reasons %}
+                                <ul class="list-disc ml-5 mt-2">
+                                    {% for reason in ijp.reasons %}
+                                        <li>{{ reason }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="kt-card">
+                <div class="kt-card-content text-center py-16">
+
+                    <div class="text-6xl mb-4">
+                        💼
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-2">
+                        No Internal Job Postings Available
+                    </h3>
+
+                    <p class="text-gray-500">
+                        There are currently no open internal vacancies.
+                    </p>
+
+                </div>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+</div>

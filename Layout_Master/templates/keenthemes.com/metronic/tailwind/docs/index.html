@@ -1,0 +1,2118 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.2.2
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-kt-theme="true" data-kt-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 19:20:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="index.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="" name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:kt-card"/>
+  <meta content="Metronic - Tailwind CSS " name="twitter:title"/>
+  <meta content="" name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs/" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS " property="og:title"/>
+  <meta content="" property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../static/metronic/tailwind/docs/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet"/>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+  </script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+  </script>
+ </head>
+ <body class="antialiased flex h-full text-base text-foreground bg-background">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+			let themeMode;
+
+			if (document.documentElement) {
+				if (localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('kt-theme');
+				} else if (
+					document.documentElement.hasAttribute('data-kt-theme-mode')
+				) {
+					themeMode =
+						document.documentElement.getAttribute('data-kt-theme-mode');
+				} else {
+					themeMode = defaultThemeMode;
+				}
+
+				if (themeMode === 'system') {
+					themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+				}
+
+				document.documentElement.classList.add(themeMode);
+			}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-border fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] backdrop-blur-md bg-background/70">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden kt-btn kt-btn-icon kt-btn-outline -ml-2" data-kt-drawer-toggle="#sidebar">
+      <i class="ki-outline ki-abstract-14 text-lg">
+      </i>
+     </button>
+     <a class="" href="index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../static/metronic/tailwind/docs/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../static/metronic/tailwind/docs/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../static/metronic/tailwind/docs/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="kt-btn kt-btn-outline" href="../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="kt-btn kt-btn-mono" data-kt-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="kt-popover max-w-72">
+        <div class="kt-popover-header">
+         License Reminder
+        </div>
+        <div class="kt-popover-body">
+         One license allows using Metronic for a single deployment and all
+					subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model
+					with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border-e border-input">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-secondary-foreground hover:text-primary" href="https://x.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-secondary-foreground hover:text-primary" href="https://github.com/keenthemes/ktui">
+       <i class="ki-outline ki-github text-lg">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="cursor-pointer flex items-center text-secondary-foreground hover:text-primary dark:hidden" data-kt-theme-switch-toggle="true">
+        <i class="ki-outline ki-moon text-lg">
+        </i>
+       </button>
+       <button class="cursor-pointer flex items-center text-secondary-foreground hover:text-primary hidden dark:flex" data-kt-theme-switch-toggle="true">
+        <i class="ki-outline ki-sun text-lg">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="[--kt-drawer-enable:true] lg:[--kt-drawer-enable:false] w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-background" data-kt-drawer="true" data-kt-drawer-class="drawer drawer-start" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 kt-scrollable-y-auto lg:[--kt-scrollable-dependencies:#header] lg:[--kt-scrollable-wrappers:#page] [--kt-scrollable-offset:30px] lg:[--kt-scrollable-offset:20px]" data-kt-scrollable="true" data-kt-scrollable-height="auto" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2">
+       <a class="flex items-center gap-2" href="getting-started/installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-mouse-square text-green-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Quick Setup
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-violet-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Changelog - v9.2.1
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Support
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Figma
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-frame text-fuchsia-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Composer
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="kt-menu flex flex-col grow" data-kt-menu="true" id="sidebar_menu">
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Getting Started
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="index-2.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/file-structure.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/installation.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item" data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
+        <div class="kt-menu-link py-1.5 pl-0 flex gap-1 items-center grow cursor-pointer">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-mono kt-menu-item-show:text-mono kt-menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="kt-menu-arrow justify-end -mr-2.5 w-5 text-muted-foreground">
+          <span class="inline-flex kt-menu-item-show:hidden">
+           <i class="ki-outline ki-plus text-xs">
+           </i>
+          </span>
+          <span class="hidden kt-menu-item-show:inline-flex">
+           <i class="ki-outline ki-minus text-xs">
+           </i>
+          </span>
+         </span>
+        </div>
+        <div class="kt-menu-accordion gap-0.5">
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="https://docs.keenthemes.com/metronic-react">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            React
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="https://docs.keenthemes.com/metronic-nextjs">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/vue.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/angular.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/laravel.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="getting-started/integration/blazor-server.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+        </div>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/multi-demo.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/license.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="getting-started/references.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../docs-legacy/index.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          v9.1.2 Docs
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Customization
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/webpack.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/javascript.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/theming.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/dark-mode.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/rtl.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="customization/optimization.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="composer.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Base Components
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/accordion.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/avatar.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/badge.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/button.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/button-group.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/card.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/collapse.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/datatable.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/dismiss.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/drawer.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/dropdown.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/modal.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/progress.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/rating.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/reparent.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/select.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/scrollable.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/table.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/theme-switch.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Theme Switch
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/toggle.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/toast.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toast
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/tooltip.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Navigation
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/menu.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/pagination.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/scrollspy.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/scrollto.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/stepper.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/sticky.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/tabs.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Forms
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/checkbox.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/file-input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/image-input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/input-group.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/radio.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/select.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/switch.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/textarea.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="components/toggle-password.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         3rd-Party Plugins
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="plugins/keenicons.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="plugins/apexcharts.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="plugins/clipboard.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <main class="text-sm font-normal grow" id="content" role="content">
+      <div class="flex gap-8 mb-16">
+       <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-1 text-sm font-normal">
+         <span class="text-primary">
+          Getting Started
+         </span>
+        </div>
+        <div class="flex flex-col gap-1.5">
+         <h1 class="text-3xl font-semibold text-mono" id="overview">
+          Metronic - Tailwind CSS Toolkit
+         </h1>
+         <p>
+          Metronic is a comprehensive toolkit of UI components built with Tailwind
+				CSS, enabling you to create modern, scalable web applications quickly
+				and efficiently.
+         </p>
+        </div>
+        <div class="flex gap-3.5">
+         <div class="flex flex-col items-center justify-center p-3.5 gap-2 rounded-lg bg-muted/70 min-w-[100px]">
+          <div class="text-mono text-lg font-semibold leading-none">
+           1000+
+          </div>
+          <div class="text-secondary-foreground text-sm leading-none">
+           UI Elements
+          </div>
+         </div>
+         <div class="flex flex-col items-center justify-center p-3.5 gap-2 rounded-lg bg-muted/70 min-w-[100px]">
+          <div class="text-mono text-lg font-semibold leading-none">
+           10
+          </div>
+          <div class="text-secondary-foreground text-sm leading-none">
+           Demos
+          </div>
+         </div>
+         <div class="flex flex-col items-center justify-center p-3.5 gap-2 rounded-lg bg-muted/70 min-w-[100px]">
+          <div class="text-mono text-lg font-semibold leading-none">
+           120+
+          </div>
+          <div class="text-secondary-foreground text-sm leading-none">
+           Pages
+          </div>
+         </div>
+         <div class="flex flex-col items-center justify-center p-3.5 gap-2 rounded-lg bg-muted/70 min-w-[100px]">
+          <div class="text-mono text-lg font-semibold leading-none">
+           50+
+          </div>
+          <div class="text-secondary-foreground text-sm leading-none">
+           Components
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-center justify-center pr-9">
+        <img class="max-h-[340px] dark:hidden" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/13.png"/>
+        <img class="max-h-[340px] hidden dark:block" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/13-dark.png"/>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="quicklinks">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#quicklinks">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Quick Links
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="flex flex-wrap gap-2.5">
+        <a class="kt-btn kt-btn-outline" href="getting-started/installation.html">
+         Installation
+        </a>
+        <a class="kt-btn kt-btn-outline" href="getting-started/file-structure.html">
+         File Structure
+        </a>
+        <a class="kt-btn kt-btn-outline" href="customization/webpack.html">
+         Webpack
+        </a>
+        <a class="kt-btn kt-btn-outline" href="customization/javascript.html">
+         JavaScript
+        </a>
+        <a class="kt-btn kt-btn-outline" href="customization/theming.html">
+         Theming
+        </a>
+        <a class="kt-btn kt-btn-outline" href="customization/dark-mode.html">
+         Dark Mode
+        </a>
+        <a class="kt-btn kt-btn-outline" href="customization/optimization.html">
+         Optimization
+        </a>
+        <a class="kt-btn kt-btn-outline" href="getting-started/references.html">
+         References
+        </a>
+        <a class="kt-btn kt-btn-outline" href="getting-started/license.html">
+         FAQ
+        </a>
+        <a class="kt-btn kt-btn-outline" href="composer.html">
+         Composer
+        </a>
+        <a class="kt-btn kt-btn-outline" href="getting-started/license.html">
+         License
+        </a>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="preview">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#preview">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Preview Demos
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Metronic offers a collection of unique demos, each representing a distinct template designed for real-world applications. Every demo integrates Metronic components seamlessly, providing a comprehensive preview of how these layouts and concepts can be utilized in various scenarios.
+       </div>
+       <div class="mb-4">
+        <div class="grid lg:grid-cols-3 gap-5 mb-7.5">
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo1/index.html" target="_blank">
+            <img alt="Demo 1 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/1.png"/>
+            <img alt="Demo 1 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/1-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 1
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Main layout with multi-level menu options for advanced navigation.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo1/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo1/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo1.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo2/index.html" target="_blank">
+            <img alt="Demo 2 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/2.png"/>
+            <img alt="Demo 2 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/2-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 2
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Full-width layout with a horizontal navigation menu.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo2/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo2/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo2.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo3/index.html" target="_blank">
+            <img alt="Demo 3 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/3.png"/>
+            <img alt="Demo 3 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/3-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 3
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Compact sidebar combined with a sticky header and navbar.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo3/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo3/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo3.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo4/index.html" target="_blank">
+            <img alt="Demo 4 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/4.png"/>
+            <img alt="Demo 4 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/4-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 4
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Two-column sidebar layout with a fluid content area.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo4/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo4/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo4.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo5/index.html" target="_blank">
+            <img alt="Demo 5 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/5.png"/>
+            <img alt="Demo 5 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/5-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 5
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Dual-row header paired with a sticky sidebar and content area.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo5/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo5/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo5.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo6/index.html" target="_blank">
+            <img alt="Demo 6 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/6.png"/>
+            <img alt="Demo 6 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/6-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 6
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Advanced sidebar with multi-level navigation menus.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo6/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo6/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo6.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo7/index.html" target="_blank">
+            <img alt="Demo 7 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/7.png"/>
+            <img alt="Demo 7 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/7-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 7
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Multi-column header with mega menu and topbar.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo7/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo7/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo7.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo8/index.html" target="_blank">
+            <img alt="Demo 8 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/8.png"/>
+            <img alt="Demo 8 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/8-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 8
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Mini-sidebar with a dropdown menu and scrollable sticky content.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo8/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo8/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo8.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo9/index.html" target="_blank">
+            <img alt="Demo 9 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/9.png"/>
+            <img alt="Demo 9 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/9-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 9
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Multi-row header with an extended topbar and mega-menu.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo9/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo9/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo9.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="../demo10/index.html" target="_blank">
+            <img alt="Demo 10 preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/10.png"/>
+            <img alt="Demo 10 dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/10-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Demo 10
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Dark sidebar layout with scrollable sticky content area.
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="../demo10/index.html" target="_blank">
+              HTML
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../react/demo10/index.html" target="_blank">
+              React
+             </a>
+             <div class="h-[0.75rem] border-s border-input">
+             </div>
+             <a class="text-sm font-semibold text-primary" href="../nextjs/demo10.html" target="_blank">
+              Next.js
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5 border border-border" href="https://metronic-saas.keenthemes.com/" target="_blank">
+            <img alt="Landing - SaaS preview" class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/landing-saas.png"/>
+            <img alt="Landing - SaaS dark preview" class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/preview/landing-saas.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Landing - SaaS
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Next.js Landing Template for SaaS Products
+            </div>
+            <div class="flex gap-1.5 items-center">
+             <a class="text-sm font-semibold text-primary" href="https://metronic-saas.keenthemes.com/" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="components">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#components">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Components
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        From basic elements like buttons and
+        <code class="code">
+         forms
+        </code>
+        to advanced
+components like
+        <code class="code">
+         menus
+        </code>
+        and
+        <code class="code">
+         datatables
+        </code>
+        , the Metronic
+Tooltik has it all. Each component is designed with a focus on usability and
+aesthetics, ensuring your project looks professional and functions smoothly.
+       </div>
+       <div class="mb-4">
+        <div class="grid lg:grid-cols-3 gap-5 mb-7.5">
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="customization/theming.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/12.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/12-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Theming
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Customize in-depth colors
+and styles for a unique UI.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="customization/theming.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/button.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/1.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/1-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             UI Elements
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Essential building blocks for
+impressive interfaces.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/button.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/scrollspy.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/2.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/2-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Navigations
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Flexible navigation components for seamless user
+experience.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/scrollspy.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/menu.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/3.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/3-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Menus
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Adaptable menu options to enhance user interaction.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/menu.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/input.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/4.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/4-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Forms
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Customizable form elements for efficient data collection.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/input.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/datatable.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/5.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/5-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Datatables
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Robust tables for organizing and displaying data effectively.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/datatable.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/modal.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/6.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/6-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Overlays
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Overlay components for enhanced visual interactions.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/modal.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/tooltip.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/7.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/7-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Feedback
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Interactive feedback components for better user experience.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/tooltip.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/kt-card.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/8.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/8-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Cards
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Stylish kt-card layouts for displaying content.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/kt-card.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="components/avatar.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/9.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/9-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Users
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             User profile components to
+manage user interactions.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="components/avatar.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="plugins/keenicons.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/10.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/10-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Icons
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Extensive icon library for visual
+enhancements.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="plugins/keenicons.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="kt-card">
+          <div class="kt-card-content p-2">
+           <a class="block rounded-lg bg-muted/30 dark:bg-transparent overflow-hidden mb-3.5" href="plugins/apexcharts.html">
+            <img class="dark:hidden w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/11.png"/>
+            <img class="hidden dark:block w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/docs/11-dark.png"/>
+           </a>
+           <div class="flex flex-col gap-2 p-2">
+            <h3 class="text-base font-semibold text-mono">
+             Charts
+            </h3>
+            <div class="text-sm font-medium text-secondary-foreground">
+             Advanced charting tools for data visualization.
+            </div>
+            <a class="text-sm font-semibold text-primary" href="plugins/apexcharts.html">
+             View
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <a class="text-sm text-primary font-semibold" href="components/accordion.html">
+         View All Components
+        </a>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="pricing">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#pricing">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Pricing
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Make Metronic your trusted development companion to accelerate your
+Tailwind-based projects. Choose the right license for your needs and enjoy
+lifetime free updates.
+       </div>
+       <div class="py-5">
+        <div class="flex items-stretch gap-6 w-full grow-1 flex-wrap xl:flex-nowrap">
+         <div class="flex flex-col gap-3 grow xl:w-[33%]">
+          <h3 class="text-base font-semibold text-primary">
+           Regular License
+          </h3>
+          <p class="text-sm">
+           Use, by you or
+one client, in a single end product for which end users are not charged.
+          </p>
+          <div class="text-4xl font-semibold text-mono py-2">
+           $49
+          </div>
+          <div class="flex flex-col gap-2 grow mb-3">
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Premium support
+            </div>
+           </div>
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Lifetime free updates
+            </div>
+           </div>
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Unlimited end users
+            </div>
+           </div>
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Refund guarantee
+            </div>
+           </div>
+          </div>
+          <a class="kt-btn kt-btn-lg kt-btn-primary justify-center w-full" href="https://1.envato.market/Vm7VRE" target="_blank">
+           Purchase Metronic
+          </a>
+         </div>
+         <div class="hidden xl:block w-px border-l border-border my-4">
+         </div>
+         <div class="flex flex-col gap-3 grow xl:w-[33%]">
+          <h3 class="text-base font-semibold text-primary">
+           Extended License
+          </h3>
+          <p class="text-sm">
+           Use by you or your one
+client in a single end product for which end users can be charged.
+          </p>
+          <div class="text-4xl font-semibold text-mono py-2">
+           $969
+          </div>
+          <div class="flex flex-col gap-2 grow mb-3">
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Premium support
+            </div>
+           </div>
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Lifetime free updates
+            </div>
+           </div>
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Unlimited paying users
+            </div>
+           </div>
+           <div class="flex items-center gap-1.5">
+            <i class="ki-solid ki-check-circle text-xs text-green-500">
+            </i>
+            <div class="text-sm text-secondary-foreground">
+             Refund
+guarantee
+            </div>
+           </div>
+          </div>
+          <a class="kt-btn kt-btn-lg kt-btn-primary justify-center w-full" href="https://1.envato.market/daX0Ej" target="_blank">
+           Purchase Metronic
+          </a>
+         </div>
+         <div class="hidden xl:block w-px border-l border-border my-4">
+         </div>
+         <div class="flex flex-col gap-3 grow xl:w-[33%]">
+          <h3 class="text-base font-semibold text-green-500">
+           Custom License
+          </h3>
+          <p class="text-sm">
+           Using Metronic for large-scale enterprise projects and need a custom
+				license model? Contact us to obtain a tailored license that fits your
+				business needs.
+          </p>
+          <div class="grow flex items-center justify-center p-2 mb-2">
+           <img class="dark:hidden max-w-full h-36" src="../../../static/metronic/tailwind/docs/dist/assets/media/illustrations/28.svg"/>
+           <img class="hidden dark:block max-w-full h-36" src="../../../static/metronic/tailwind/docs/dist/assets/media/illustrations/28-dark.svg"/>
+          </div>
+          <a class="kt-btn kt-btn-lg bg-green-500 justify-center w-full" href="../../../contact.html" target="_blank">
+           Contact Us
+          </a>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-mono font-semibold text-xl mb-4" id="faq">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#faq">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-muted-foreground shadow-md hover:text-secondary-foreground hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        FAQ
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Check out the FAQ section below to learn more about Metronic before making a purchase decision.
+		If you have any questions, feel free to contact our
+        <a class="link" href="../../../contact.html" target="_blank">
+         Keenthemes Pre-sale Support
+        </a>
+        .
+       </div>
+       <div class="kt-card">
+        <div class="kt-card-content">
+         <div data-kt-accordion="true">
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_1">
+           <button aria-controls="accordion_1_content_1" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_1">
+            <span class="text-base text-mono font-medium">
+             Does each use of Metronic require a separate license ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_1">
+            <div class="text-secondary-foreground text-md pb-4">
+             A single license can be used for one production deployment and unlimited testing and development environments. 
+		However, each unique production deployment needs its own license
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_2">
+           <button aria-controls="accordion_1_content_2" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_2">
+            <span class="text-base text-mono font-medium">
+             Can a single Metronic license be used for a project with multiple subdomains ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_2">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, a single license allows the use of Metronic in a project where users log in from a central domain and access different modules via subdomains
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_3">
+           <button aria-controls="accordion_1_content_3" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_3">
+            <span class="text-base text-mono font-medium">
+             Can licenses be transferred to a client or another company ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_3">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, a single license allows the use of Metronic in a project where users log in from a central domain and access different modules via subdomains
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_4">
+           <button aria-controls="accordion_1_content_4" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_4">
+            <span class="text-base text-mono font-medium">
+             Can a single Metronic license be used for a project with multiple subdomains ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_4">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, licenses can be transferred if the end product's use remains consistent with the license terms.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_5">
+           <button aria-controls="accordion_1_content_5" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_5">
+            <span class="text-base text-mono font-medium">
+             What if I need Metronic for multiple sites within the same company ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_5">
+            <div class="text-secondary-foreground text-md pb-4">
+             Each site or project requires its own license, although custom licensing options are available for large-scale use.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_6">
+           <button aria-controls="accordion_1_content_6" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_6">
+            <span class="text-base text-mono font-medium">
+             How do updates work with Metronic licenses ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_6">
+            <div class="text-secondary-foreground text-md pb-4">
+             License purchases include ongoing updates, ensuring you have access to the latest features and improvements.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_7">
+           <button aria-controls="accordion_1_content_7" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_7">
+            <span class="text-base text-mono font-medium">
+             Are lifetime free updates provided with each license ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_7">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, each Metronic license comes with lifetime free updates, allowing you access to the latest features and improvements without additional cost.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_8">
+           <button aria-controls="accordion_1_content_8" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_8">
+            <span class="text-base text-mono font-medium">
+             Can Metronic be used for an open-source project ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_8">
+            <div class="text-secondary-foreground text-md pb-4">
+             No, Metronic cannot be used for open-source projects as each use of Metronic requires a separate license and the source code, including Metronic, cannot be distributed publicly.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_9">
+           <button aria-controls="accordion_1_content_9" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_9">
+            <span class="text-base text-mono font-medium">
+             Is there a difference in support between the Regular and Extended Licenses ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_9">
+            <div class="text-secondary-foreground text-md pb-4">
+             No, both licenses receive the same level of support from KeenThemes. For more information, visit the
+             <a class="link" href="../../../support.html" target="_blank">
+              Support Policy
+             </a>
+             .
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_10">
+           <button aria-controls="accordion_1_content_10" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_10">
+            <span class="text-base text-mono font-medium">
+             Can a single Metronic license be used for a project with multiple subdomains ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_10">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, a single license allows the use of Metronic in a project where users log in from a central domain and access different modules via subdomains
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_11">
+           <button aria-controls="accordion_1_content_11" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_11">
+            <span class="text-base text-mono font-medium">
+             Can I get a refund if I no longer need Metronic ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_11">
+            <div class="text-secondary-foreground text-md pb-4">
+             Refund eligibility is determined by
+             <a class="link" href="https://themeforest.net/page/customer_refund_policy" target="_blank">
+              ThemeForest’s Refund Policy
+             </a>
+             and typically depends on the product meeting certain criteria.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_12">
+           <button aria-controls="accordion_1_content_12" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_12">
+            <span class="text-base text-mono font-medium">
+             How often does Metronic receive updates ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_12">
+            <div class="text-secondary-foreground text-md pb-4">
+             Metronic is updated regularly based on a development roadmap and user feedback.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_13">
+           <button aria-controls="accordion_1_content_13" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_13">
+            <span class="text-base text-mono font-medium">
+             Can Metronic be used for a multi-tenant application under one license ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_13">
+            <div class="text-secondary-foreground text-md pb-4">
+             Metronic can be used for multi-tenant applications, such as SaaS, where multiple end-users can create separate accounts, but this requires an Extended License.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_14">
+           <button aria-controls="accordion_1_content_14" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_14">
+            <span class="text-base text-mono font-medium">
+             Can I include Metronic in a hardware product I sell?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_14">
+            <div class="text-secondary-foreground text-md pb-4">
+             Licensing for inclusion in a hardware product depends on the nature of the product and how Metronic is used. It’s best to consult with KeenThemes for such specific use cases.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_15">
+           <button aria-controls="accordion_1_content_15" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_15">
+            <span class="text-base text-mono font-medium">
+             What is included in the Metronic package ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_15">
+            <div class="text-secondary-foreground text-md pb-4">
+             All the features shown on the
+             <a class="link" href="../index.html" target="_blank">
+              Metronic Preview Site
+             </a>
+             are included in the package as per
+             <a class="link" href="getting-started/file-structure.html" target="_blank">
+              Metronic File Structure Guide
+             </a>
+             .
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_16">
+           <button aria-controls="accordion_1_content_16" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_16">
+            <span class="text-base text-mono font-medium">
+             Can Metronic be used to build a commercial product that can be sold to a client ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_16">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, Metronic can be used to develop a commercial product that can be sold to a client. A separate license, either Regular or Extended, must be purchased depending on the nature of the end product.
+            </div>
+           </div>
+          </div>
+          <div class="kt-accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-kt-accordion-item="true" id="accordion_1_item_17">
+           <button aria-controls="accordion_1_content_17" class="kt-accordion-toggle py-4 group" data-kt-accordion-toggle="#accordion_1_content_17">
+            <span class="text-base text-mono font-medium">
+             Can an eCommerce site use a Regular License ?
+            </span>
+            <span class="kt-accordion-active:hidden block">
+             <i class="ki-outline ki-plus text-muted-foreground text-2sm">
+             </i>
+            </span>
+            <span class="kt-accordion-active:block hidden">
+             <i class="ki-outline ki-minus text-muted-foreground text-2sm">
+             </i>
+            </span>
+           </button>
+           <div class="kt-accordion-content hidden" id="accordion_1_content_17">
+            <div class="text-secondary-foreground text-md pb-4">
+             Yes, an eCommerce site can operate under a Regular License if the site itself is not selling the Metronic theme or a product that includes the theme as part of its packaged software.
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <div>
+      </div>
+      <div>
+      </div>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-sm">
+        <span class="text-muted-foreground">
+         2025©
+        </span>
+        <a class="text-secondary-foreground hover:text-primary" href="../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-sm text-secondary-foreground">
+        <a class="hover:text-primary" href="../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="getting-started/license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="getting-started/license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="[--kt-drawer-enable:true] lg:[--kt-drawer-enable:false] w-[280px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-background" data-kt-drawer="true" data-kt-drawer-class="kt-drawer kt-drawer-start" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 kt-scrollable-y-hover" data-kt-scrollable="true" data-kt-scrollable-dependencies="#header" data-kt-scrollable-height="auto" data-kt-scrollable-offset="15px" data-kt-scrollable-wrappers="#page" id="aside_content">
+      <div class="kt-card">
+       <div class="kt-card-content px-5 flex flex-col gap-2.5">
+        <h3 class="text-sm font-semibold text-mono">
+         On This Page
+        </h3>
+        <div class="flex flex-col gap-1.75 text-sm font-normal" data-kt-scrollspy="true" data-kt-scrollspy-offset="150px" data-kt-scrollspy-target="body">
+         <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#overview">
+          Overview
+         </a>
+         <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#quicklinks">
+          Quick Links
+         </a>
+         <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#preview">
+          Preview Demos
+         </a>
+         <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#components">
+          Components
+         </a>
+         <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#pricing">
+          Pricing
+         </a>
+         <a class="hover:text-primary kt-scrollspy-active:text-primary" data-kt-scrollspy-anchor="true" href="#faq">
+          FAQ
+         </a>
+        </div>
+       </div>
+      </div>
+      <a data-kt-tooltip="true" data-kt-tooltip-container="body" data-kt-tooltip-placement="left" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+        <div class="kt-popover-header">
+         License Reminder
+        </div>
+        <div class="kt-popover-body">
+         One license allows using Metronic for a single deployment and all
+			subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with
+			paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+      <a href="https://reui.io/" target="_blank">
+       <img alt="browse ktui" class="rounded-lg w-full" src="../../../static/metronic/tailwind/docs/dist/assets/media/banners/reui-banner.png"/>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/vendors/ktui/ktui.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 19:21:05 GMT -->
+</html>

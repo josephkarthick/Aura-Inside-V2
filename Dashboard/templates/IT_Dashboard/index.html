@@ -1,0 +1,267 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    <!-- Header Section -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">IT Dashboard</h1>
+        
+        </div>
+	
+      </div>
+    </div>
+
+    <!-- Main Table -->
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+
+       <!-- begin: grid -->
+       <div class="grid lg:grid-cols-3 gap-5 lg:gap-7.5 items-stretch">
+        <div class="lg:col-span-1">
+         <div class="kt-card h-full">
+          <div class="kt-card-header">
+           <h3 class="kt-card-title">
+            Voip Record
+           </h3>
+           <div class="kt-menu" data-kt-menu="true">
+            <div class="kt-menu-item" data-kt-menu-item-offset="0, 10px" data-kt-menu-item-placement="bottom-start" data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click">
+             <button class="kt-menu-toggle kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost">
+              <i class="ki-filled ki-dots-vertical text-lg">
+              </i>
+             </button>
+             <div class="kt-menu-dropdown kt-menu-default w-full max-w-[200px]" data-kt-menu-dismiss="true">
+              <div class="kt-menu-item">
+               <a class="kt-menu-link" data-kt-modal-toggle="#report_user_modal"  href="{% url 'ITDesk:export_voip_excel' %}">
+                <span class="kt-menu-icon">
+                 <i class="ki-filled ki-file-down"></i>
+
+                 </i>
+                </span>
+                <span class="kt-menu-title">
+                 Report
+                </span>
+               </a>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+		  
+          <div class="kt-card-content flex flex-col gap-4 p-5 lg:p-7.5 lg:pt-4">
+           <div class="flex flex-col gap-0.5">
+            <div class="flex items-center gap-2.5">
+             <span class="text-3xl font-semibold text-mono">
+               {{ overall_count }}
+             </span>
+            </div>
+			<span class="text-sm font-normal text-secondary-foreground">
+				Over All VoIP Account Count
+            </span>
+           </div>
+		   
+<div class="flex items-center gap-1 mb-1.5 w-full">
+  {% for v in vendor_counts %}
+    <div class="h-2 rounded-xs"
+         title="{{ v.vendor__name }} – {{ v.total }}"
+         style="
+           background-color: {{ v.color }};
+           flex-grow: {{ v.total }};
+           min-width: 6px;
+         ">
+    </div>
+  {% endfor %}
+</div>
+
+
+           <div class="flex items-center flex-wrap gap-4 mb-1">
+            <div class="flex items-center gap-1.5">
+				<div class="flex items-center flex-wrap gap-4 mb-1">
+				{% for v in vendor_counts %}
+				<div class="flex items-center gap-1.5">
+					<span class="rounded-full size-2"
+						style="background-color: {{ v.color }};"></span>
+					<span class="text-sm font-normal text-foreground">
+					{{ v.vendor__name }}
+					</span>
+				</div>
+				{% endfor %}
+				</div>
+            </div>
+           </div>
+           <div class="border-b border-input">
+           </div>
+			<div class="grid gap-3">
+			{% for v in vendor_counts %}
+			<div class="flex items-center justify-between flex-wrap gap-2">
+				<div class="flex items-center gap-1.5">
+				<i class="ki-filled ki-shop text-base"
+					style="color: {{ v.color }};"></i>
+				<span class="text-sm font-normal text-mono">
+					{{ v.vendor__name }}
+				</span>
+				</div>
+			
+				<div class="flex items-center text-sm font-medium text-foreground gap-6">
+				<span class="lg:text-right">
+					{{ v.total }}
+				</span>
+				</div>
+			</div>
+			{% empty %}
+			<div class="text-sm text-muted-foreground">
+				No VOIP records available
+			</div>
+			{% endfor %}
+			</div>
+			
+
+          </div>
+         </div>
+        </div>
+		
+		
+        <div class="lg:col-span-2">
+         <div class="kt-card h-full">
+          <div class="kt-card-header">
+           <h3 class="kt-card-title">
+            Reminder
+           </h3>
+
+          </div>
+          <div class="kt-card-content flex flex-col justify-end items-stretch grow px-3 py-1">
+           <div class="kt-card-table">
+            <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="5" id="teams_datatable">
+             <div class="kt-scrollable-x-auto">
+              <table class="kt-table kt-table-border table-fixed" data-kt-datatable-table="true" id="kt_datatable_1">
+               <thead>
+                <tr>
+
+                 <th class="w-[280px]">
+                  <span class="kt-table-col">
+                   <span class="kt-table-col-label">
+                    Title
+                   </span>
+                   <span class="kt-table-col-sort">
+                   </span>
+                  </span>
+                 </th>
+                 <th class="w-[125px]">
+                  <span class="kt-table-col">
+                   <span class="kt-table-col-label">
+                    priority
+                   </span>
+                   <span class="kt-table-col-sort">
+                   </span>
+                  </span>
+                 </th>
+                 <th class="w-[135px]">
+                  <span class="kt-table-col">
+                   <span class="kt-table-col-label">
+                    Due Date
+                   </span>
+                   <span class="kt-table-col-sort">
+                   </span>
+                  </span>
+                 </th>
+                 <th class="w-[125px]">
+                  <span class="kt-table-col">
+                   <span class="kt-table-col-label">
+                    Owner
+                   </span>
+                   <span class="kt-table-col-sort">
+                   </span>
+                  </span>
+                 </th>
+                </tr>
+               </thead>
+<tbody>
+{% for event in it_reminders %}
+<tr>
+  <!-- Title -->
+  <td>
+    <div class="flex flex-col gap-2">
+      <span class="leading-none font-medium text-sm text-mono">
+        {{ event.title }}
+      </span>
+      <span class="text-2sm text-secondary-foreground font-normal leading-3">
+        {{ event.description|default:"No description" }}
+      </span>
+    </div>
+  </td>
+
+  <!-- Priority -->
+  <td>
+    <span class="kt-badge kt-badge-sm
+      {% if event.priority == 'high' %}kt-badge-danger
+      {% elif event.priority == 'normal' %}kt-badge-primary
+      {% else %}kt-badge-secondary{% endif %}">
+      {{ event.priority|title }}
+    </span>
+  </td>
+
+  <!-- Due Date -->
+  <td>
+    {{ event.start|date:"d M, Y H:i" }}
+  </td>
+
+  <!-- Owner -->
+  <td>
+    <div class="flex items-center gap-2">
+      <i class="ki-filled ki-user text-muted-foreground"></i>
+      <span class="text-sm font-medium text-mono">
+        {{ event.owner.get_full_name|default:event.owner.username }}
+      </span>
+    </div>
+  </td>
+
+</tr>
+{% empty %}
+<tr>
+  <td colspan="4" class="text-center text-sm text-muted-foreground py-6">
+    No IT reminders available
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+
+              </table>
+             </div>
+             <div class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+
+              <div class="flex items-center gap-4 order-1 md:order-2">
+               <span data-kt-datatable-info="true">
+               </span>
+               <div class="kt-datatable-pagination" data-kt-datatable-pagination="true">
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <!-- end: grid -->
+
+</table>
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+
+
+       

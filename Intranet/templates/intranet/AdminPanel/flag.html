@@ -1,0 +1,184 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+
+<style>
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.3; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite !important;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Controls */
+
+#left {
+    width: 50%;
+}
+
+.meter {
+    display: flex;
+    width: 80%;
+    margin: 14px auto;
+}
+
+.meter p {
+    width: 120px;
+    margin: 0;
+}
+
+input[type='range'] {
+    width: 260px;
+}
+
+/* Floating flag container */
+#flag-wrapper {
+    position: fixed;
+    /* Start from saved position */
+    left: 50%; /* will be overridden by JS */
+    top: 50%;  /* will be overridden by JS */
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 400px;
+    z-index: 99999;
+    cursor: grab;
+    user-select: none;
+}
+
+#renderArea {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+#flag-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-0" id="content" role="main">
+    <div class="kt-container-fixed mt-4">
+<h1 style="text-align:center;">Movable Waving Flag (Saved)</h1>
+    <div id="left">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+        <label class="kt-label">Flag Title</label>
+        <input type="text"
+               name="title"
+               class="kt-input"
+               value="{{ flag.title|default:'Aura Flag' }}"
+               required>
+    </div>
+
+    <div class="meter">
+        <p>Color</p>
+        <input type="color"
+               id="color"
+               name="color"
+               value="{{ flag.color|default:'#ffffff' }}"
+               onchange="setColor()">
+    </div>
+
+    <div class="meter">
+        <p>Image</p>
+        <input type="file"
+               name="image"
+               accept="image/*"
+               onchange="loadTexture(this.files)">
+        {% if flag.image %}
+            <small class="text-muted">Current: {{ flag.image.url }}</small>
+        {% endif %}
+    </div>
+
+    <div class="meter">
+        <p>Camera</p>
+        <input type="range"
+               id="angle"
+               name="camera_angle"
+               min="-180"
+               max="180"
+               value="0"
+               oninput="setCamera()">
+        <span id="textAngle">[0°]</span>
+    </div>
+
+    <div class="meter">
+        <p>Horizontal</p>
+        <input type="range"
+               id="h"
+               name="wave_horizontal"
+               min="0"
+               max="1"
+               step="0.1"
+               value="{{ flag.wave_horizontal|default:0.5 }}">
+    </div>
+
+    <div class="meter">
+        <p>Vertical</p>
+        <input type="range"
+               id="v"
+               name="wave_vertical"
+               min="0"
+               max="1"
+               step="0.1"
+               value="{{ flag.wave_vertical|default:0.3 }}">
+    </div>
+
+    <div class="meter">
+        <p>Swing</p>
+        <input type="range"
+               id="w"
+               name="wave_strength"
+               min="0"
+               max="1"
+               step="0.1"
+               value="{{ flag.wave_strength|default:0.2 }}">
+    </div>
+
+    <div class="meter">
+        <p>Speed</p>
+        <input type="range"
+               id="s"
+               name="wave_speed"
+               min="0"
+               max="1"
+               step="0.1"
+               value="{{ flag.wave_speed|default:0.5 }}">
+    </div>
+    <input type="hidden" id="width" name="width" value="{{ flag.width|default:30 }}">
+    <input type="hidden" id="height" name="height" value="{{ flag.height|default:20 }}">
+    <input type="hidden" id="pos_x" name="pos_x" value="{{ flag.pos_x|default:200 }}">
+    <input type="hidden" id="pos_y" name="pos_y" value="{{ flag.pos_y|default:200 }}">
+
+<div class="flex items-center justify-center min-h-screen">
+  <div class="flex gap-3">
+    <button type="submit" value="SAVE" class="kt-btn kt-btn-primary">
+      Save
+    </button>
+    <input type="button" value="RESET" onclick="resetFlag()">
+  </div>
+</div>
+</form>
+
+		
+    </div>
+</html>
+
+</div>
+    <table class="kt-table table-fixed w-full mt-4" data-kt-datatable-table="true"></table>
+  </main>
+</div>

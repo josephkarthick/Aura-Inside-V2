@@ -1,0 +1,205 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+<main class="grow pt-5">
+
+<div class="kt-container-fixed">
+
+<div class="flex items-center justify-between mb-5">
+
+<div>
+<h2 class="text-2xl font-bold">
+🏆 Recognition Posters
+</h2>
+
+<p class="text-gray-500">
+Manage all recognition posters.
+</p>
+</div>
+
+<a href="{% url 'HRDesk:recognition_create' %}"
+class="kt-btn kt-btn-primary">
+
+➕ Create Poster
+
+</a>
+
+</div>
+
+<div class="kt-card">
+
+<div class="kt-card-content">
+
+<table class="kt-table table-fixed kt-table-border w-full text-sm">
+
+<thead>
+
+<tr>
+
+<th width="80">Preview</th>
+
+<th>Title</th>
+
+<th>Description</th>
+
+<th width="120">Employees</th>
+
+<th width="120">Start</th>
+
+<th width="120">End</th>
+
+<th width="100">Status</th>
+
+<th width="200">Created By</th>
+
+<th width="220">Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for poster in posters %}
+
+<tr>
+
+<td>
+
+<img
+src="{{ poster.background.url }}"
+style="width:70px;height:50px;object-fit:cover;border-radius:8px;">
+
+</td>
+
+<td>
+
+<strong>{{ poster.title }}</strong>
+
+</td>
+
+<td>
+
+{{ poster.description|default:"-"|truncatechars:60 }}
+
+</td>
+
+<td class="text-center">
+
+{{ poster.employees.count }}
+
+</td>
+
+<td>
+
+{{ poster.start_date }}
+
+</td>
+
+<td>
+
+{{ poster.end_date }}
+
+</td>
+
+<td>
+
+{% if poster.is_active %}
+
+<span class="kt-badge kt-badge-success">
+
+Active
+
+</span>
+
+{% else %}
+
+<span class="kt-badge kt-badge-danger">
+
+Inactive
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{{ poster.created_by.get_full_name|default:"System" }}
+
+</td>
+
+<td>
+
+<div class="flex gap-2">
+
+    <!-- View -->
+    <a
+        href="{% url 'HRDesk:recognition_poster' %}"
+        class="kt-btn kt-btn-sm kt-btn-success"
+        title="View Poster">
+
+        👁 View
+
+    </a>
+
+    <!-- Edit -->
+    <a
+        href="{% url 'HRDesk:recognition_edit' poster.id %}"
+        class="kt-btn kt-btn-sm kt-btn-warning"
+        title="Edit Poster">
+
+        ✏ Edit
+
+    </a>
+
+    <!-- Delete -->
+    <a
+        href="{% url 'HRDesk:recognition_delete' poster.id %}"
+        class="kt-btn kt-btn-sm kt-btn-danger"
+        onclick="return confirm('Are you sure you want to delete this recognition poster?');"
+        title="Delete Poster">
+
+        🗑 Delete
+
+    </a>
+
+</div>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="9">
+
+<div class="text-center py-10 text-gray-500">
+
+No Recognition Posters Found.
+
+</div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>

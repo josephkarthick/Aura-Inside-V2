@@ -1,0 +1,243 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fixed">
+
+        <div class="kt-card sticky top-0 z-10 mb-5">
+
+            <div class="kt-card-content">
+
+                <div class="flex justify-between items-center">
+
+                    <div>
+
+                        <h2 class="text-2xl font-bold">
+                            {{ test.title }}
+                        </h2>
+
+                        <p class="text-gray-500">
+                            {{ test.description }}
+                        </p>
+
+                        <div class="mt-2 text-sm text-gray-600">
+
+                            Total Questions :
+                            <strong>{{ questions.count }}</strong>
+
+                            |
+
+                            Pass Mark :
+                            <strong>{{ test.passing_marks }}%</strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-right">
+
+                        <div class="text-sm text-gray-500">
+                            Time Remaining
+                        </div>
+
+                        <div id="timer"
+                             class="text-red-600 text-3xl font-bold">
+                            00:00
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <form id="assessmentForm"
+              method="POST"
+              action="{% url 'Assessment:submit_assessment' test.id %}">
+
+            {% csrf_token %}
+
+            {% for question in questions %}
+
+            <div class="kt-card mb-5">
+
+                <div class="kt-card-header">
+
+                    <h3 class="kt-card-title">
+
+                        Question {{ forloop.counter }}
+                        of {{ questions.count }}
+
+                    </h3>
+
+                </div>
+
+                <div class="kt-card-content">
+
+                    <h4 class="font-semibold text-lg mb-4">
+
+                        {{ question.question_text }}
+
+                        <span class="text-primary">
+
+                            ({{ question.marks }}
+                            Mark{{ question.marks|pluralize }})
+
+                        </span>
+
+                    </h4>
+
+                    {% if question.question_type == 'single' %}
+
+                        {% for option in question.options.all %}
+
+                        <label class="flex items-center gap-3 mb-3 cursor-pointer">
+
+                            <input type="radio"
+                                   name="question_{{ question.id }}"
+                                   value="{{ option.id }}">
+
+                            <span>
+                                {{ option.option_text }}
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        {% for option in question.options.all %}
+
+                        <label class="flex items-center gap-3 mb-3 cursor-pointer">
+
+                            <input type="checkbox"
+                                   name="question_{{ question.id }}"
+                                   value="{{ option.id }}">
+
+                            <span>
+                                {{ option.option_text }}
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <div class="text-center mb-10">
+
+                <button type="submit"
+                        class="kt-btn kt-btn-success px-10">
+
+                    Submit Assessment
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+```
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    let duration = {{ test.duration_minutes }} * 60;
+
+    const timer =
+        document.getElementById("timer");
+
+    const form =
+        document.getElementById("assessmentForm");
+
+    let submitted = false;
+
+    function updateTimer() {
+
+        let minutes =
+            Math.floor(duration / 60);
+
+        let seconds =
+            duration % 60;
+
+        timer.innerHTML =
+            String(minutes).padStart(2, '0')
+            +
+            ":"
+            +
+            String(seconds).padStart(2, '0');
+
+        duration--;
+
+        if (duration < 0) {
+
+            clearInterval(interval);
+
+            submitted = true;
+
+            alert(
+                "Time is up. Assessment will be submitted automatically."
+            );
+
+            form.submit();
+        }
+    }
+
+    updateTimer();
+
+    const interval =
+        setInterval(updateTimer, 1000);
+
+    form.addEventListener("submit", function(e){
+
+        if(submitted){
+            return true;
+        }
+
+        if(
+            !confirm(
+                "Are you sure you want to submit your assessment?"
+            )
+        ){
+            e.preventDefault();
+        }else{
+            submitted = true;
+        }
+
+    });
+
+    window.addEventListener("beforeunload", function(e){
+
+        if(!submitted){
+
+            e.preventDefault();
+
+            e.returnValue =
+                "Assessment is in progress.";
+
+        }
+
+    });
+
+});
+
+</script>

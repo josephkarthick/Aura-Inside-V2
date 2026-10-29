@@ -1,0 +1,176 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5">
+        <div>
+          <h1 class="text-xl font-medium text-mono">Edit Book</h1>
+          <p class="text-sm text-secondary-foreground">Update book details and pages</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="kt-container-fixed">
+      <div class="kt-card w-full max-w-[900px] p-6 border rounded-xl bg-white shadow">
+
+        <form method="post"
+              action="{% url 'aura_books:edit_book' book.id %}"
+              enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="grid gap-6">
+
+            <!-- Book Meta -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div>
+                <label class="font-semibold">Title</label>
+                <input name="title" class="kt-input" value="{{ book.title }}" required>
+              </div>
+              <div>
+                <label class="font-semibold">Author</label>
+                <input name="author" class="kt-input" value="{{ book.author }}">
+              </div>
+              <div>
+                <label class="font-semibold">Year</label>
+                <input name="year" type="number" class="kt-input" value="{{ book.year }}" required>
+              </div>
+            </div>
+
+            <!-- Covers -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="font-semibold">Front Cover</label>
+                <input type="file" name="front_cover_image" class="kt-input">
+              </div>
+              <div>
+                <label class="font-semibold">Back Cover</label>
+                <input type="file" name="back_cover_image" class="kt-input">
+              </div>
+            </div>
+
+            <!-- Pages -->
+            <h3 class="font-semibold text-lg">Edit Pages</h3>
+
+            <div id="pagesContainer">
+
+              {% for page in pages %}
+              <div class="page-wrapper border p-4 rounded-lg mb-6">
+                <h4 class="font-semibold mb-3">Page #{{ forloop.counter }}</h4>
+
+                <input type="hidden" name="page_order[]" value="{{ forloop.counter }}">
+
+                <div class="mb-3">
+                  <label class="font-semibold">Heading</label>
+                  <input name="heading[]" class="kt-input" value="{{ page.heading }}">
+                </div>
+
+                <div class="flex flex-col">
+                  <label class="font-semibold">Paragraph</label>
+                  <textarea class="page-editor"
+                            name="paragraph[]">{{ page.paragraph|safe }}</textarea>
+                </div>
+              </div>
+              {% endfor %}
+
+            </div>
+
+            <button type="button"
+                    class="kt-btn kt-btn-secondary"
+                    id="addPageBtn">
+              + Add Another Page
+            </button>
+
+            <div class="flex justify-end gap-3 mt-6">
+              <button type="submit"
+                      class="kt-btn kt-btn-primary">
+                Update Book
+              </button>
+              <a href="{% url 'aura_books:book_list' %}"
+                 class="kt-btn kt-btn-secondary">
+                Cancel
+              </a>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>
+
+<!-- ===== FIX BULLET RESET ===== -->
+<style>
+.trumbowyg-editor ul {
+    list-style-type: disc !important;
+    padding-left: 20px !important;
+}
+.trumbowyg-editor ol {
+    list-style-type: decimal !important;
+    padding-left: 20px !important;
+}
+.trumbowyg-editor li {
+    margin-bottom: 5px;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/ui/trumbowyg.min.css">
+<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/trumbowyg.min.js"></script>
+
+<script>
+$(document).ready(function () {
+
+  let pageCount = {{ pages|length }};
+
+  function initEditor($editor) {
+    $editor.trumbowyg({
+      btns: [
+        ['bold', 'italic', 'underline'],
+        ['unorderedList', 'orderedList'],
+        ['indent', 'outdent'],
+        ['link'],
+        ['undo', 'redo']
+      ]
+    });
+  }
+
+  $('.page-editor').each(function () {
+    initEditor($(this));
+  });
+
+  $('#addPageBtn').click(function () {
+
+    pageCount++;
+
+    let newPage = `
+      <div class="page-wrapper border p-4 rounded-lg mb-6">
+        <h4 class="font-semibold mb-3">Page #${pageCount}</h4>
+
+        <input type="hidden" name="page_order[]" value="${pageCount}">
+
+        <div class="mb-3">
+          <label class="font-semibold">Heading</label>
+          <input name="heading[]" class="kt-input">
+        </div>
+
+        <div class="flex flex-col">
+          <label class="font-semibold">Paragraph</label>
+          <textarea class="page-editor"
+                    name="paragraph[]"></textarea>
+        </div>
+      </div>
+    `;
+
+    $('#pagesContainer').append(newPage);
+
+    initEditor($('.page-editor').last());
+  });
+
+});
+</script>

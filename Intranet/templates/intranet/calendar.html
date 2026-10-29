@@ -1,0 +1,225 @@
+{% load static %}
+{% include 'intranet/base.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+
+<div class="row g-3 clearfix">
+    <div class="col-lg-8">
+        <div class="card">
+            <br/>
+            <div class="ui container">
+                <div class="ui grid">
+                    <div class="ui sixteen column">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="col-lg-4">
+{% for group in request.user.groups.all %}
+    {% if group.name == "IT" %}
+<div class="card mb-3">
+    <div class="card-body">
+        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add New Event
+        </button>
+    </div>
+</div>
+	  {% endif %}
+{% endfor %}	
+
+
+    <div class="card mb-3">
+        <div class="card-body" id="event-list">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Title</th>
+						{% for group in request.user.groups.all %}
+    {% if group.name == "IT" %}
+                        <th>Action</th>
+	  {% endif %}
+{% endfor %}						
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.start_date|date:"Y-m-d H:i" }}</td>
+                        <td>{{ event.end_date|date:"Y-m-d H:i" }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>
+{% for group in request.user.groups.all %}
+    {% if group.name == "IT" %}
+                                <a href="{% url 'intranet:delete_event' event.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+	  {% endif %}
+{% endfor %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No events available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal to Add Event -->
+<form method="POST" action="{% url 'intranet:add_event' %}">
+    {% csrf_token %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Event</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="event-start-date" class="form-label">Start Date & Time</label>
+                        <input type="datetime-local" class="form-control" id="event-start-date" name="start_date" placeholder="Start" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-end-date" class="form-label">End Date & Time</label>
+                        <input type="datetime-local" class="form-control" id="event-end-date" name="end_date" placeholder="End (optional)">
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="event-title" name="title" placeholder="Event Title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-desc" class="form-label">Description</label>
+                        <textarea class="form-control" rows="4" id="event-desc" name="description" placeholder="Event Description..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add Event</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
+
+<style>
+/* Hide the default time placement */
+.fc-time {
+    display: none !important;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,basicWeek,basicDay'
+        },
+        defaultDate: '{{ today|date:"Y-m-d" }}',
+        navLinks: true,
+        editable: false,
+        eventLimit: true,
+        timeFormat: 'h A',
+        events: [
+            {% for event in events %}
+            {
+                title: "{{ event.title|escapejs }}",
+                start: "{{ event.start_date|date:'Y-m-d H:i:s' }}",
+                {% if event.end_date %}
+                end: "{{ event.end_date|date:'Y-m-d H:i:s' }}",
+                {% endif %}
+                description: "{{ event.description|escapejs }}"
+            }{% if not forloop.last %},{% endif %}
+            {% empty %}
+            {
+                title: "No Events",
+                start: "{{ today|date:'Y-m-d' }}",
+                description: "No events available today."
+            }
+            {% endfor %}
+        ],
+        eventRender: function (event, element) {
+            // Get formatted time from the event start
+            const startDate = moment(event.start);
+            const formattedTime = startDate.format("h A");
+
+            // Custom event content
+            const customHTML = `
+                <div style="position: relative;">
+                    <div style="position: absolute; top: 0; right: 0; font-size: 12px; color: #FFD700;">
+                        ${formattedTime}
+                    </div>
+                    <div style="font-size: 12px; font-weight: bold; color: #87CEFA;">
+                        ${event.title}
+                    </div>
+                    ${event.description ? `<div style="font-size: 15px; color: #EAEAEA;">${event.description}</div>` : ''}
+                </div>
+            `;
+
+            element.find('.fc-title').html(customHTML);
+
+
+        }
+    });
+
+    // Handle form submission
+    $('#submit-event').click(function () {
+        const csrfToken = $('[name=csrfmiddlewaretoken]').val();
+        const title = $('#event-title').val();
+        const description = $('#event-desc').val();
+        const start_date = $('#event-start-date').val();
+        const end_date = $('#event-end-date').val();
+
+        if (!title || !description || !start_date) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        const eventData = {
+            title: title,
+            description: description,
+            start_date: start_date,
+            end_date: end_date,
+            csrfmiddlewaretoken: csrfToken
+        };
+
+        console.log(eventData);
+
+        $.ajax({
+            url: '/add_event/',
+            type: 'POST',
+            data: eventData,
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('#calendar').fullCalendar('refetchEvents');
+                    $('#exampleModal').modal('hide');
+                    $('.modal input, .modal textarea').val('');
+                    alert('Event added successfully!');
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error: ", error);
+                alert('An error occurred while saving the event.');
+            }
+        });
+    });
+});
+</script>
+

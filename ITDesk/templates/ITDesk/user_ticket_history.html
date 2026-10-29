@@ -1,0 +1,96 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    <!-- Container -->
+    <div class="kt-container-fixed" id="contentContainer"></div>
+    <!-- End of Container -->
+         <!-- End of Container -->
+     <div class="flex items-center flex-wrap md:flex-nowrap lg:items-end justify-between border-b border-b-border gap-3 lg:gap-6 mb-5 lg:mb-10">
+     </div>
+    <!-- Container -->
+    
+    <!-- Container -->
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true">
+</table>
+    
+  <div class="kt-container-fixed">
+
+    <!-- Ticket History Card -->
+    <div class="flex gap-5 lg:gap-7.5">
+      <div class="kt-card grow" id="activity_2024">
+        <div class="kt-card-header justify-between flex items-center">
+          <h3 class="kt-card-title">Ticket Activity User View</h3>
+        </div>
+
+        <div class="kt-card-content flex flex-col">
+          <!-- Initial Ticket Creation -->
+          <div class="flex items-start relative mb-7">
+            <div class="w-9 absolute top-9 bottom-0 start-0 border-s border-s-input"></div>
+            <div class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-input size-9 text-secondary-foreground">
+              <i class="ki-filled ki-people text-base"></i>
+            </div>
+            <div class="ps-2.5 text-base grow">
+              <div class="text-sm text-foreground">
+                Raised a New Ticket for <strong>{{ Dticket.category }}</strong>
+              </div>
+              <div class="text-sm text-foreground">
+                Problem: <strong>{{ Dticket.subcategory }}</strong>
+              </div>
+              <div class="text-sm text-foreground">
+                Details: {{ Dticket.description|safe }}
+              </div>
+              <span class="text-xs text-secondary-foreground block mt-1">
+                At {{ Dticket.created_at }} | By {{ Dticket.created_by.username }}
+              </span>
+              <span class="text-xs text-secondary-foreground block">
+                Assigned To: {{ Dticket.assigned_to }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Ticket Status History -->
+          {% if Dticket.history.all %}
+            {% for log in Dticket.history.all %}
+              {% ifchanged log.new_status %}
+                <div class="flex items-start relative mb-7">
+                  <div class="w-9 absolute top-9 bottom-0 start-0 border-s border-s-input"></div>
+                  <div class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-input size-9 text-secondary-foreground">
+                    <i class="ki-filled ki-entrance-left text-base"></i>
+                  </div>
+                  <div class="ps-2.5 text-base grow">
+                    <div class="text-sm text-foreground">
+                      Status changed: <strong>{{ log.previous_status }}</strong> → <strong>{{ log.new_status }}</strong>
+                    </div>
+                    <span class="text-xs text-secondary-foreground block">
+                      By: {{ log.changed_by|upper }} | At {{ log.changed_at }}
+                    </span>
+                    {% if log.notes %}
+                      <div class="mt-2 alert alert-info p-2">
+                        <strong>NOTES:</strong> {{ log.notes|safe }}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endifchanged %}
+            {% endfor %}
+          {% else %}
+            <div class="flex items-start relative mb-7">
+              <div class="w-9 absolute top-9 bottom-0 start-0 border-s border-s-input"></div>
+              <div class="flex items-center justify-center shrink-0 rounded-full bg-muted/60 border border-input size-9 text-secondary-foreground">
+                <i class="ki-filled ki-alert-circle text-base"></i>
+              </div>
+              <div class="ps-2.5 text-base grow">
+                <div class="text-sm text-muted">No Status Updates Yet</div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</main>

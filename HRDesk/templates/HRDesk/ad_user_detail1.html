@@ -1,0 +1,180 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row clearfix">
+
+        <!-- Left Profile Panel -->
+        <div class="col-lg-4 col-md-12">
+            <div class="card mb-3 profile-header">
+                <div class="card-body text-center">
+                    <div class="profile-image mb-3">
+                        <img src="{% static 'assets/images/user.png' %}" class="rounded-circle" alt="User Profile Picture">
+                    </div>
+                    <h4><strong>{{ user.first_name }}</strong> {{ user.last_name }}</h4>
+                    <span>{{ user.title }} | {{ user.department }}</span>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header"><h6 class="card-title">Contact Info</h6></div>
+                <div class="card-body">
+                    <p><small class="text-muted">Email:</small><br>{{ user.email }}</p>
+                    <hr>
+                    <p><small class="text-muted">Phone:</small><br>{{ user.phone }}</p>
+                    <hr>
+                    <p><small class="text-muted">Manager:</small><br>{{ user.manager }}</p>
+                    <hr>
+                    <p><small class="text-muted">OU:</small><br>{{ user.ou }}</p>
+                    <hr>
+                    <p><small class="text-muted">Department:</small><br>{{ user.department }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Tabs for Detail View -->
+        <div class="col-lg-5 col-md-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#userinfo">User Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#groups">Groups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'HRDesk:ldap_employee_list' %}">← Back to List</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <!-- User Info Tab -->
+                <div class="tab-pane fade show active" id="userinfo">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-bordered mb-0">
+                                <tr><th>Username</th><td>{{ user.username }}</td></tr>
+                                <tr><th>Full Name</th><td>{{ user.name }}</td></tr>
+                                <tr><th>Title</th><td>{{ user.title }}</td></tr>
+                                <tr><th>Email</th><td>{{ user.email }}</td></tr>
+                                <tr><th>Phone</th><td>{{ user.phone }}</td></tr>
+                                <tr><th>Manager</th><td>{{ user.manager }}</td></tr>
+                                <tr><th>Distinguished Name</th><td><code style="font-size:13px">{{ user.dn }}</code></td></tr>
+                                <tr><th>Account Status</th><td>{% if user.account_enabled %}✅ Enabled{% else %}🚫 Disabled{% endif %}</td></tr>
+                                <tr><th>Locked</th><td>{% if user.account_locked %}🔒 Locked{% else %}🔓 Unlocked{% endif %}</td></tr>
+                                <tr><th>Password Last Set</th><td>{{ pwd_last_set }}</td></tr>
+                                <tr><th>Account Expires</th><td>{% if account_expires == "Never" %}♾️ Never{% else %}{{ account_expires }}{% endif %}</td></tr>
+                                <tr>
+                                    <th>User Account Control</th>
+                                    <td>
+                                        {{ user_account_control }}<br>
+                                        {% if is_disabled %}🚫 Account Disabled<br>{% endif %}
+                                        {% if is_locked %}🔒 Locked<br>{% endif %}
+                                        {% if password_never_expires %}🔐 Password Never Expires<br>{% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <form method="post" class="mt-3">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="enable_password_expiry">
+                                <button class="btn btn-warning btn-sm" type="submit">Enable Password Expiry</button>
+                            </form>
+
+                            <div class="mt-3 d-flex flex-wrap align-items-center gap-2">
+                                <!-- Enable Account -->
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="enable_account">
+                                    <button type="submit" class="btn btn-success btn-sm">✅ Enable</button>
+                                </form>
+
+                                <!-- Disable Account -->
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="disable_account">
+                                    <button type="submit" class="btn btn-warning btn-sm">🚫 Disable</button>
+                                </form>
+
+                                <!-- Unlock Account -->
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="unlock_account">
+                                    <button type="submit" class="btn btn-primary btn-sm">🔓 Unlock</button>
+                                </form>
+
+                                <!-- Delete Account -->
+                                <a href="{% url 'HRDesk:delete_ldap_user' username=user.username %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this account?');">🗑️ Delete Account</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Groups Tab -->
+                <div class="tab-pane fade" id="groups">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" class="mb-3 d-flex gap-2">
+                                {% csrf_token %}
+                                <select name="group_dn" class="form-control" style="color: black;">
+                                    <option value="">-- Select Group --</option>
+                                    {% for group_name, group_dn in all_groups %}
+                                        <option value="{{ group_dn }}">{{ group_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" name="action" value="add_group" />
+                                <button type="submit" class="btn btn-success">+</button>
+                            </form>
+
+                            {% if user.groups %}
+                                <ul class="list-group">
+                                    {% for name, dn in user.groups %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ name }}
+                                            <form method="POST" class="d-inline">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="remove_group">
+                                                <input type="hidden" name="group_dn" value="{{ dn }}">
+                                                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                            </form>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No groups assigned.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Info Stats -->
+        <div class="col-lg-3 col-md-12">
+            <div class="card mb-3">
+                <ul class="row text-center list-unstyled mb-0">
+                    <li class="col-6">
+                        <div class="card-body">
+                            <i class="fa fa-briefcase fa-2x"></i>
+                            <h5 class="mb-0">{{ user.exp }} Yrs</h5>
+                            <small>Experience</small>
+                        </div>
+                    </li>
+                    <li class="col-6">
+                        <div class="card-body">
+                            <i class="fa fa-desktop fa-2x"></i>
+                            <h5 class="mb-0">137</h5>
+                            <small>System Number</small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

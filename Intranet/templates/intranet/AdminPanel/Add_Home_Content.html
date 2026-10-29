@@ -1,0 +1,136 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Page Header -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-xl font-medium text-mono">➕ Add Home Page Content</h1>
+          <span class="text-sm text-secondary-foreground">
+            Create new announcements, banners or updates for the homepage
+          </span>
+        </div>
+
+        <a href="{% url 'Intranet:admin_list_content' %}" class="kt-btn kt-btn-secondary">
+          ← Back to List
+        </a>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="kt-container-fixed">
+      <form method="post" action="{% url 'Intranet:add_home_content' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+          <!-- ================= LEFT SIDE ================= -->
+          <div class="kt-card p-6">
+            <h3 class="text-lg font-semibold mb-5">📝 Content Details</h3>
+
+            <label class="font-semibold">Content Category</label>
+            <select name="content_type" class="kt-input w-full">
+              <option value="">Select category</option>
+              {% for value, label in content_types %}
+                <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+
+            <label class="font-semibold mt-4">Content Title</label>
+            <input type="text" name="title" class="kt-input w-full"
+              placeholder="Eg: Company Announcement" required>
+
+            <label class="font-semibold mt-4">Description / Link</label>
+            <textarea name="description" class="kt-input w-full"
+              rows="4" placeholder="Short description or website link"></textarea>
+
+            <label class="font-semibold mt-4">Display Image (Optional)</label>
+            <input type="file" name="photo" class="kt-input w-full" accept="image/*">
+          </div>
+
+          <!-- ================= RIGHT SIDE ================= -->
+          <div class="flex flex-col gap-8">
+
+            <!-- Assignment -->
+            <div class="kt-card p-6">
+              <h3 class="text-lg font-semibold mb-5">👤 Additional Details (Optional)</h3>
+
+              <label class="font-semibold">Select User </label>
+              <select name="username" class="kt-input w-full">
+                <option value="nothing">None</option>
+                {% for user in users %}
+                  <option value="{{ user.id }}">{{ user.username }} -{{ user.first_name }}</option>
+                {% endfor %}
+              </select>
+
+            </div>
+
+            <!-- Additional Info -->
+            <div class="kt-card p-6">
+              <h3 class="text-lg font-semibold mb-5">🧩 Additional Information</h3>
+
+              <label class="font-semibold">User Data 1</label>
+              <select name="field1" class="kt-input w-full">
+                <option value="nothing">None</option>
+                {% for value, label in user_fields %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+
+              <label class="font-semibold mt-4">User Data 2</label>
+              <select name="field2" class="kt-input w-full">
+                <option value="nothing">None</option>
+                {% for value, label in user_fields %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+			  
+
+              <label class="font-semibold mt-4">Related Project</label>
+              <input type="text" name="project" class="kt-input w-full"placeholder="Eg: Website Revamp">
+			  			  
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= BOTTOM SETTINGS ================= -->
+        <div class="kt-card p-6 mt-8">
+          <h3 class="text-lg font-semibold mb-5">⚙️ Display Settings</h3>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div>
+              <label class="font-semibold">Show on Home Page</label>
+              <select name="show" class="kt-input w-full">
+                <option value="True">✅ Visible</option>
+                <option value="False">❌ Hidden</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-semibold">Display Priority</label>
+              <input type="number" name="order_no" class="kt-input w-full"
+                placeholder="Lower number = higher priority" required>
+            </div>
+
+            <div class="flex items-end justify-end gap-3">
+              <a href="{% url 'Intranet:add_home_content' %}" class="kt-btn kt-btn-secondary">
+                Cancel
+              </a>
+              <button type="submit" class="kt-btn kt-btn-primary">
+                Save Content
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>

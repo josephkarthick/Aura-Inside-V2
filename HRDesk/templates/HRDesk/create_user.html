@@ -1,0 +1,100 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="row clearfix h-100">
+    <div class="col-lg-12 h-100">
+        <div class="card h-100">
+            <div class="chat_app d-flex flex-column h-100">
+                <div class="chat w-100 h-100 d-flex flex-column">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Create Test Paper</h6>
+                    </div>
+
+                    <div class="card-body">
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label>Test Title</label>
+                                    <input type="text"
+                                           name="title"
+                                           class="form-control"
+                                           required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Duration (Minutes)</label>
+                                    <input type="number"
+                                           name="duration_minutes"
+                                           value="30"
+                                           class="form-control"
+                                           required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Passing Marks (%)</label>
+                                    <input type="number"
+                                           name="passing_marks"
+                                           value="60"
+                                           class="form-control"
+                                           required>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>Description</label>
+                                    <textarea name="description"
+                                              rows="4"
+                                              class="form-control"></textarea>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="shuffle_questions"
+                                               checked>
+
+                                        <label class="form-check-label">
+                                            Shuffle Questions
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="active"
+                                               checked>
+
+                                        <label class="form-check-label">
+                                            Active
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button type="submit"
+                                            class="btn btn-success mt-4 w-100">
+                                        Create Test
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>

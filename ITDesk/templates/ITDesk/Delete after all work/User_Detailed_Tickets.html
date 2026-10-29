@@ -1,0 +1,75 @@
+{% load static %}
+{% include 'Intranet/base.html' %}
+<style>
+.timeline-item img {
+    max-width: 90%; /* Ensure image fits within its container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the whole image is visible */
+    border-radius: 5px; /* Optional: Rounded corners */
+    display: block; /* Prevent inline spacing issues */
+    margin-top: 5px; /* Add spacing */
+}
+
+</style>
+<body>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- Ticket Details -->
+<div class="timeline-item green">
+    <span class="date">{{ Dticket.created_at }}</span>
+    <h5>{{ Dticket.category }}</h5>
+    <h6>{{ Dticket.subcategory }}</h6>
+    <p>{{ Dticket.description|safe }}</p>
+<ul class="list-unstyled mb-0">
+    <li><small class="text-muted">Raised By: {{ user.username }}</small></li>
+	</ul>
+	<ul class="list-unstyled  mb-0">
+    <li><small class="text-muted">Assigned To: {{ Dticket.assigned_to }} </small></li>
+</ul>
+
+</div>
+
+
+
+<!-- Ticket Status History -->
+{% if Dticket.history.all %}
+    {% for log in Dticket.history.all %}
+        {% ifchanged log.new_status %}
+            <div class="timeline-item {{ log.new_status|lower }}">
+                <span class="date">{{ log.changed_at }}</span>
+                <span>From: <strong>{{ log.previous_status }}</strong> → <strong>{{ log.new_status }}</strong></span><br>
+                <span>BY: <a href="javascript:void(0);" title="">{{ log.changed_by|upper }}</a></span>
+            </div>
+        {% endifchanged %}
+    {% endfor %}
+{% else %}
+    <div class="timeline-item">
+        <span class="date">{{ Dticket.created_at }}</span>
+        <h6>No Status Updates Yet</h6>
+    </div>
+{% endif %}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- core js file -->
+<script src="assets/bundles/libscripts.bundle.js"></script>
+
+<!-- page js file -->
+<script src="assets/bundles/mainscripts.bundle.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,787 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+    <main class="grow pt-5" id="content" role="main">
+
+        <!-- Page Header -->
+        <div class="kt-container-fixed">
+
+            <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+
+                <div class="flex flex-col justify-center gap-2">
+
+                    <h1 class="text-xl font-medium leading-none text-mono">
+                        Internal Job Posting (IJP)
+                    </h1>
+
+                    <span class="text-sm text-secondary-foreground">
+                        Edit Internal Job Posting
+                    </span>
+
+                </div>
+
+                <a href="{% url 'IJP:hr_ijp_list' %}"
+                   class="kt-btn kt-btn-outline">
+                    Back
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="kt-card-content">
+
+            <div class="kt-card w-full p-6 border rounded-xl bg-white shadow">
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="grid gap-6">
+
+
+                        <!-- Row 1 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Job Title
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="title"
+                                    class="kt-input"
+                                    value="{{ ijp.title }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Vacancies
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="vacancies"
+                                    class="kt-input"
+                                    value="{{ ijp.vacancies }}"
+                                    min="1"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Row 2 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+<div>
+    <label class="font-semibold mb-2 block">
+        Department
+    </label>
+
+    <div class="relative" id="departmentDropdown">
+
+        <button
+            type="button"
+            class="kt-input w-full text-left flex items-center justify-between"
+            onclick="toggleIJPDropdown('departmentDropdown')"
+        >
+            <span id="departmentLabel" class="text-gray-500">
+                Select Department
+            </span>
+
+            <span>▼</span>
+        </button>
+
+        <div
+            id="departmentMenu"
+            class="hidden absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-50 p-3"
+            style="max-height: 250px; overflow-y: auto;"
+        >
+
+            {% for department in departments %}
+
+            <label class="flex items-center gap-2 px-2 py-2 hover:bg-gray-100 cursor-pointer">
+
+				<input
+					type="checkbox"
+					class="ijp-department-checkbox"
+					name="department"
+					value="{{ department.id }}"
+					data-name="{{ department.name|escapejs }}"
+					onchange="updateIJPDepartments()"
+				>
+
+                <span>
+                    {{ department.name }}
+                </span>
+
+            </label>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+
+
+<div>
+    <label class="font-semibold mb-2 block">
+        Designation
+    </label>
+
+    <div class="relative" id="designationDropdown">
+
+        <button
+            type="button"
+            class="kt-input w-full text-left flex items-center justify-between"
+            onclick="toggleIJPDropdown('designationDropdown')"
+        >
+            <span id="designationLabel" class="text-gray-500">
+                Select Designation
+            </span>
+
+            <span>▼</span>
+        </button>
+
+        <div
+            id="designationMenu"
+            class="hidden absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-50 p-3"
+            style="max-height: 250px; overflow-y: auto;"
+        >
+
+            <div id="designationList">
+                <span class="text-gray-400">
+                    Select Department First
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+                        </div>
+
+
+                        <!-- Row 3 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Minimum Experience (Months)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="minimum_experience_months"
+                                    class="kt-input"
+                                    value="{{ ijp.minimum_experience_months }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Minimum Appraisal Rating
+                                </label>
+
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    min="0"
+                                    max="5"
+                                    name="minimum_appraisal_rating"
+                                    class="kt-input"
+                                    value="{{ ijp.minimum_appraisal_rating }}"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Row 4 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Appraisal Year
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="appraisal_year"
+                                    class="kt-input"
+                                    value="{{ ijp.appraisal_year }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Minimum Attendance Rating
+                                </label>
+
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    min="0"
+                                    max="100"
+                                    name="minimum_attendance_rating"
+                                    class="kt-input"
+                                    value="{{ ijp.minimum_attendance_rating }}"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Row 5 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Attendance Year
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="attendance_year"
+                                    class="kt-input"
+                                    value="{{ ijp.attendance_year }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Status
+                                </label>
+
+                                <select
+                                    name="status"
+                                    class="kt-select w-full"
+                                    required
+                                >
+
+                                    <option
+                                        value="Open"
+                                        {% if ijp.status == "Open" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Open
+                                    </option>
+
+                                    <option
+                                        value="Closed"
+                                        {% if ijp.status == "Closed" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Closed
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Row 6 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Application Start Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="application_start_date"
+                                    class="kt-input"
+                                    value="{{ ijp.application_start_date|date:'Y-m-d' }}"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label class="font-semibold">
+                                    Application End Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="application_end_date"
+                                    class="kt-input"
+                                    value="{{ ijp.application_end_date|date:'Y-m-d' }}"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Description -->
+                        <div>
+
+                            <label class="font-semibold">
+                                Job Description
+                            </label>
+
+                            <textarea
+                                name="description"
+                                rows="5"
+                                class="kt-textarea"
+                            >{{ ijp.description }}</textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <hr class="my-6">
+
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end gap-3">
+
+                        <a
+                            href="{% url 'IJP:hr_ijp_list' %}"
+                            class="kt-btn kt-btn-light"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="kt-btn kt-btn-primary"
+                        >
+                            💾 Update
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    </main>
+
+</div>
+
+<script>
+
+const departmentDesignations =
+    {{ department_designations|safe }};
+
+
+// ==========================================================
+// Toggle Dropdown
+// ==========================================================
+
+function toggleIJPDropdown(dropdownId) {
+
+    const dropdown =
+        document.getElementById(dropdownId);
+
+    const menu =
+        dropdown.querySelector(
+            '[id$="Menu"], [id$="menu"]'
+        );
+
+    // Close other dropdowns
+    document.querySelectorAll(
+        "#departmentMenu, #designationMenu"
+    ).forEach(function(item) {
+
+        if (item !== menu) {
+            item.classList.add("hidden");
+        }
+
+    });
+
+    menu.classList.toggle("hidden");
+}
+
+
+// ==========================================================
+// Department Selection
+// ==========================================================
+
+function updateIJPDepartments() {
+
+    const selected =
+        Array.from(
+            document.querySelectorAll(
+                ".ijp-department-checkbox:checked"
+            )
+        );
+
+    const label =
+        document.getElementById("departmentLabel");
+
+    if (!selected.length) {
+
+        label.textContent =
+            "Select Department";
+
+        label.classList.add("text-gray-500");
+
+    } else if (selected.length <= 2) {
+
+        label.textContent =
+            selected.map(
+                item => item.dataset.name
+            ).join(", ");
+
+        label.classList.remove("text-gray-500");
+
+    } else {
+
+        label.textContent =
+            `${selected.length} departments selected`;
+
+        label.classList.remove("text-gray-500");
+    }
+
+    loadIJPDesignations();
+
+    rebuildIJPHiddenFields();
+}
+
+
+// ==========================================================
+// Load Designations
+// ==========================================================
+
+function loadIJPDesignations() {
+
+    const selectedDepartments =
+        Array.from(
+            document.querySelectorAll(
+                ".ijp-department-checkbox:checked"
+            )
+        ).map(
+            checkbox => String(checkbox.value)
+        );
+
+    const designationList =
+        document.getElementById("designationList");
+
+    const designationLabel =
+        document.getElementById("designationLabel");
+
+    designationList.innerHTML = "";
+
+    designationLabel.textContent =
+        "Select Designation";
+
+    designationLabel.classList.add(
+        "text-gray-500"
+    );
+
+    if (!selectedDepartments.length) {
+
+        designationList.innerHTML = `
+            <span class="text-gray-400">
+                Select Department First
+            </span>
+        `;
+
+        return;
+    }
+
+
+    // ------------------------------------------------------
+    // Combine designations from selected departments
+    // ------------------------------------------------------
+
+    const designationMap = new Map();
+
+    selectedDepartments.forEach(
+        function(departmentId) {
+
+            const designations =
+                departmentDesignations[departmentId] || [];
+
+            designations.forEach(
+                function(designation) {
+
+                    if (
+                        !designationMap.has(
+                            String(designation.id)
+                        )
+                    ) {
+
+                        designationMap.set(
+                            String(designation.id),
+                            designation
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    const designations =
+        Array.from(
+            designationMap.values()
+        ).sort(
+            (a, b) =>
+                a.title.localeCompare(b.title)
+        );
+
+
+    if (!designations.length) {
+
+        designationList.innerHTML = `
+            <span class="text-gray-400">
+                No Designation Available
+            </span>
+        `;
+
+        return;
+    }
+
+
+    // ------------------------------------------------------
+    // Create Designation Checkboxes
+    // ------------------------------------------------------
+
+    designations.forEach(
+        function(designation) {
+
+            const label =
+                document.createElement("label");
+
+            label.className =
+                "flex items-center gap-2 px-2 py-2 hover:bg-gray-100 cursor-pointer";
+
+				label.innerHTML = `
+					<input
+						type="checkbox"
+						class="ijp-designation-checkbox"
+						name="designation"
+						value="${designation.id}"
+						data-name="${escapeHtml(designation.title)}"
+						onchange="updateIJPDesignations()"
+					>
+				
+					<span>
+						${escapeHtml(designation.title)}
+					</span>
+				`;
+
+            designationList.appendChild(label);
+
+        }
+    );
+}
+
+
+// ==========================================================
+// Designation Selection
+// ==========================================================
+
+function updateIJPDesignations() {
+
+    const selected =
+        Array.from(
+            document.querySelectorAll(
+                ".ijp-designation-checkbox:checked"
+            )
+        );
+
+    const label =
+        document.getElementById("designationLabel");
+
+
+    if (!selected.length) {
+
+        label.textContent =
+            "Select Designation";
+
+        label.classList.add(
+            "text-gray-500"
+        );
+
+    } else if (selected.length <= 2) {
+
+        label.textContent =
+            selected.map(
+                item => item.dataset.name
+            ).join(", ");
+
+        label.classList.remove(
+            "text-gray-500"
+        );
+
+    } else {
+
+        label.textContent =
+            `${selected.length} designations selected`;
+
+        label.classList.remove(
+            "text-gray-500"
+        );
+    }
+
+    rebuildIJPHiddenFields();
+}
+
+
+// ==========================================================
+// Hidden Fields For Django POST
+// ==========================================================
+
+function rebuildIJPHiddenFields() {
+
+    const container =
+        document.getElementById(
+            "ijpHiddenFields"
+        );
+
+    container.innerHTML = "";
+
+
+    // Departments
+    document.querySelectorAll(
+        ".ijp-department-checkbox:checked"
+    ).forEach(
+        function(checkbox) {
+
+            addIJPHiddenField(
+                container,
+                "department",
+                checkbox.value
+            );
+
+        }
+    );
+
+
+    // Designations
+    document.querySelectorAll(
+        ".ijp-designation-checkbox:checked"
+    ).forEach(
+        function(checkbox) {
+
+            addIJPHiddenField(
+                container,
+                "designation",
+                checkbox.value
+            );
+
+        }
+    );
+}
+
+
+// ==========================================================
+// Add Hidden Input
+// ==========================================================
+
+function addIJPHiddenField(
+    container,
+    name,
+    value
+) {
+
+    const input =
+        document.createElement("input");
+
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+
+    container.appendChild(input);
+}
+
+
+// ==========================================================
+// Escape HTML
+// ==========================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+// ==========================================================
+// Close When Clicking Outside
+// ==========================================================
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            !event.target.closest(
+                "#departmentDropdown"
+            ) &&
+            !event.target.closest(
+                "#designationDropdown"
+            )
+        ) {
+
+            document
+                .getElementById("departmentMenu")
+                .classList.add("hidden");
+
+            document
+                .getElementById("designationMenu")
+                .classList.add("hidden");
+        }
+
+    }
+);
+
+</script>

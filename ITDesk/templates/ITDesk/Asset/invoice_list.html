@@ -1,0 +1,177 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+ <body class="antialiased flex h-full text-base text-foreground bg-background demo1 kt-sidebar-fixed kt-header-fixed">
+  <!-- Theme Mode -->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+			let themeMode;
+
+			if (document.documentElement) {
+				if (localStorage.getItem('kt-theme')) {
+					themeMode = localStorage.getItem('kt-theme');
+				} else if (
+					document.documentElement.hasAttribute('data-kt-theme-mode')
+				) {
+					themeMode =
+						document.documentElement.getAttribute('data-kt-theme-mode');
+				} else {
+					themeMode = defaultThemeMode;
+				}
+
+				if (themeMode === 'system') {
+					themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+				}
+
+				document.documentElement.classList.add(themeMode);
+			}
+  </script>
+  <!-- End of Theme Mode -->
+  <!-- Page -->
+  <!-- Main -->
+  <div class="flex grow">
+     </div>
+    </div>
+   </div>
+   <!-- End of Sidebar -->
+   <!-- Wrapper -->
+   
+   <div class="kt-wrapper flex grow flex-col">
+   <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <!-- Content -->
+    <main class="grow pt-5" id="content" role="content">
+     <!-- Container -->
+     <div class="kt-container-fixed" id="contentContainer">
+     </div>
+     <!-- End of Container -->
+     <!-- Container -->
+     <div class="kt-container-fixed">
+      <div class="flex flex-col items-stretch gap-7">
+       <div class="flex items-center gap-3 w-full">
+        <div class="kt-input w-full">
+         <i class="ki-filled ki-magnifier">
+         </i>
+         <input placeholder="Search" type="text"/>
+        </div>
+		
+        <a href="{% url 'ITDesk:addinvoice' %}" class="kt-dropdown-toggle kt-btn kt-btn-primary" data-kt-drawer-toggle="#drawers_shop_filter">
+         <i class="ki-filled ki-filter">
+         </i>
+         Add Invoice
+        </a>		
+		</div>
+	   
+       <!-- begin: toolbar -->
+       <div class="flex flex-wrap items-center gap-5 justify-between mt-3">
+        <h3 class="text-sm text-mono font-medium">
+        List Of
+         <span class="text-destructive">
+          Invoice
+         </span>
+        </h3>
+        <div class="flex items-center gap-2.5">
+
+        </div>
+       </div>
+       <!-- end: toolbar -->
+
+<!-- begin: list -->
+<div id="shop1_lists">
+  <!-- begin: grid -->
+  <div class="grid grid-cols-1 gap-5">
+    {% for invoice in invoices %}
+    <div class="kt-card">
+      <div class="kt-card-content flex items-center flex-wrap justify-between p-2 pe-5 gap-4.5">
+
+        <!-- Invoice Info -->
+        <div class="flex items-center gap-3.5">
+<div class="kt-card flex items-center justify-center bg-accent/50 h-[70px] w-[90px] shrink-0 shadow-none">
+  {% if invoice.uploaded_copy %}
+    {% with invoice.uploaded_copy.name|lower as file_name %}
+      {% if ".jpg" in file_name or ".jpeg" in file_name or ".png" in file_name or ".gif" in file_name %}
+        <img alt="Invoice Image" class="h-[70px] object-contain" src="{{ invoice.uploaded_copy.url }}" />
+      {% elif ".pdf" in file_name %}
+        <a href="{{ invoice.uploaded_copy.url }}" target="_blank" class="text-xs text-primary">
+          <i class="ki-solid ki-file-pdf"></i> PDF
+        </a>
+      {% else %}
+        <span class="text-xs text-red-600 font-semibold">Inv Not Found</span>
+      {% endif %}
+    {% endwith %}
+  {% else %}
+    <span class="text-xs text-red-600 font-semibold">Inv Not Found</span>
+  {% endif %}
+</div>
+
+
+
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2.5 -mt-1">
+              <a class="hover:text-primary text-sm font-medium text-mono leading-5.5" href="#">
+                {{ invoice.invoice_no }}
+              </a>
+            </div>
+
+            <div class="flex items-center flex-wrap gap-3">
+              <span class="text-xs font-normal text-secondary-foreground">
+                Vendor: <span class="text-xs font-medium text-foreground">{{ invoice.vendor.name }}</span>
+              </span>
+              <span class="text-xs font-normal text-secondary-foreground">
+                Date: <span class="text-xs font-medium text-foreground">{{ invoice.date_of_purchase }}</span>
+              </span>
+              <span class="text-xs font-normal text-secondary-foreground">
+                Amount:  <span class="kt-badge kt-badge-success kt-badge-sm rounded-full gap-1">₹{{ invoice.total_amount }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions: Delete -->
+        <div class="flex items-center gap-1.5">
+          <form method="post" action="{% url 'ITDesk:deleteinvoice' invoice.id %}" 
+                onsubmit="return confirm('Are you sure you want to delete this invoice?');">
+            {% csrf_token %}
+            <button type="submit" class="kt-btn kt-btn-danger ms-2 shrink-0">
+              <i class="ki-filled ki-trash"></i> Delete
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- end: list -->
+
+        
+        
+       </div>
+       <!-- end: list -->
+      </div>
+     </div>
+     <!-- End of Container -->
+    </main>
+    <!-- End of Content -->
+    <!-- Footer -->
+ 
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- End of Page -->
+  <!-- Scripts -->
+  <script src="../../../../static/metronic/tailwind/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/dist/assets/vendors/ktui/ktui.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/dist/assets/js/layouts/demo1.js">
+  </script>
+  <!-- End of Scripts -->
+ </body>
+
+
+</html>

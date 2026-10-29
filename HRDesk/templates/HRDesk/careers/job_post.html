@@ -1,0 +1,134 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fluid px-6">
+
+      <div class="kt-card">
+        <div class="kt-card-header flex justify-between items-center">
+          <h3 class="kt-card-title text-lg font-semibold">
+            ➕ Create Job Posting
+          </h3>
+        </div>
+
+        <div class="kt-card-content">
+
+          <form method="POST">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <!-- Job Title -->
+				<div class="flex flex-col">
+                <label class="font-semibold">Job Title</label>
+                <input type="text" name="title" class="kt-input" placeholder="Enter Product Name" required>
+              </div>
+
+
+              <!-- Department -->
+				<div class="flex flex-col">
+                <label class="font-semibold">Department Title</label>
+                <input type="text" name="department" class="kt-input" placeholder="Enter Product Name" required>
+              </div>
+
+              <!-- Location -->
+				<div class="flex flex-col">
+                <label class="font-semibold">Location</label>
+                <input type="text" name="location" class="kt-input" placeholder="Enter Product Name" >
+              </div>
+
+              <!-- Employment Type -->
+				<div class="flex flex-col">
+                <label class="font-semibold">Employment Type</label>
+                <select name="employment_type" class="kt-select" required>
+                  <option value="">Select</option>
+                  <option value="full_time">Full Time</option>
+                  <option value="part_time">Part Time</option>
+                  <option value="internship">Internship</option>
+                  <option value="contract">Contract</option>
+                </select>
+              </div>
+			  
+		  
+
+              <!-- Shift -->
+				<div class="flex flex-col">
+                <label class="font-semibold">Shift</label>
+                <select name="shift" class="kt-select" required>
+                  <option value="Morning">Morning Shift</option>
+                  <option value="mid">Mid Shift</option>
+                  <option value="night">Night Shift</option>
+                  <option value="rotational">Rotational Shift</option>
+                </select>
+              </div>
+
+              <!-- Experience -->
+			<div class="flex flex-col">
+                <label class="font-semibold">Experience Required</label>
+                <input type="text" name="experience_required" class="kt-input" placeholder="Enter Product Name" required>
+              </div>			  
+
+              <!-- Salary -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Salary Range</label>
+                <input type="text" name="salary_range" class="kt-input" placeholder="Enter Product Name" >
+              </div>
+
+              <!-- Openings -->
+				<div class="flex flex-col">
+                <label class="font-semibold">Number Of Opening</label>
+                <input type="number" name="openings" class="kt-input" placeholder="Enter Product Name" required>
+              </div>
+
+              <!-- Last Date -->
+			<div class="flex flex-col">
+				<label class="font-semibold">Last Date To Apply</label>
+				<input type="date" name="last_date" class="kt-input" required>
+			</div>
+
+			<!-- Description -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Job Description</label>
+                <input type="text" name="description" class="kt-input" placeholder="Enter Product Name" >
+              </div>
+
+            <!-- Responsibilities -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Responsibilities</label>
+                <input type="text" name="responsibilities" class="kt-input" placeholder="Enter Product Name" >
+              </div>
+			
+
+            <!-- Skills -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Required Skills</label>
+                <input type="text" name="required_skills" class="kt-input" placeholder="Enter Product Name" >
+              </div>
+
+            <!-- Qualification -->
+			  <div class="flex flex-col">
+                <label class="font-semibold">Qualification</label>
+                <input type="text" name="qualification" class="kt-input" placeholder="Enter Product Name" >
+              </div>
+
+            <!-- Buttons -->
+            <div class="mt-6 flex justify-end gap-3">
+              <a href="{% url 'HRDesk:hr_job_list' %}" class="kt-btn kt-btn-outline">
+                Cancel
+              </a>
+              <button type="submit" class="kt-btn kt-btn-primary">
+                Publish Job
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>

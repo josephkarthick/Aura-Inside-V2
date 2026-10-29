@@ -1,0 +1,235 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content">
+    <table class="kt-table table-fixed w-full mt-4" data-kt-datatable-table="true"></table>
+    <!-- HEADER -->
+    <div class="kt-container-fixed">
+      <div class="flex justify-between items-center pb-6">
+        <h1 class="text-xl font-semibold">Organization Structure</h1>
+
+        <button class="kt-btn kt-btn-primary" data-kt-modal-toggle="#share_profile_modal">
+          + Add Member
+        </button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="kt-container-fixed">
+      <div class="kt-card">
+        <div class="kt-card-content">
+
+          <table class="kt-table kt-table-border w-full">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Manager</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for member in board_members %}
+              <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    {% if member.photo %}
+                      <img src="{{ member.photo.url }}" class="w-10 h-10 rounded-full">
+                    {% else %}
+                      <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                    {% endif %}
+
+                    <div>
+                      <div class="font-medium">{{ member.name }}</div>
+                      <div class="text-sm text-gray-500">{{ member.role }}</div>
+                    </div>
+                  </div>
+                </td>
+
+                <td>{{ member.role }}</td>
+
+                <td>{{ member.manager.name|default:"-" }}</td>
+
+                <td>
+                  <span class="kt-badge kt-badge-primary">
+                    {{ member.chart_type|title }}
+                  </span>
+                </td>
+
+                <td class="flex gap-2">
+
+                  <!-- EDIT -->
+                  <button
+                    class="kt-btn kt-btn-icon open-edit-modal"
+                    data-member-id="{{ member.id }}"
+                    data-name="{{ member.name }}"
+                    data-role="{{ member.role }}"
+                    data-chart-type="{{ member.chart_type }}"
+                    data-manager-id="{{ member.manager.id|default_if_none:'' }}"
+                  >
+                    ✏️
+                  </button>
+
+                  <!-- DELETE -->
+                  <form method="post" action="{% url 'Intranet:delete_board_member' member.id %}">
+                    {% csrf_token %}
+                    <button class="kt-btn kt-btn-icon"
+                      onclick="return confirm('Delete {{ member.name }}?')">
+                      🗑
+                    </button>
+                  </form>
+
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- ================= ADD MODAL ================= -->
+<div class="kt-modal" data-kt-modal="true" id="share_profile_modal">
+  <div class="kt-modal-content max-w-[700px]">
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'Intranet:add_board_member' %}">
+      {% csrf_token %}
+
+      <div class="kt-modal-header">
+        <h3 class="kt-modal-title">Add Member</h3>
+      </div>
+
+      <div class="kt-modal-body">
+        <div class="grid grid-cols-2 gap-5">
+
+          <div>
+            <label>Name</label>
+            <input type="text" name="name" class="kt-input" required>
+          </div>
+
+          <div>
+            <label>Role</label>
+            <input type="text" name="role" class="kt-input" required>
+          </div>
+
+          <div>
+            <label>Chart Type</label>
+            <select name="chart_type" class="kt-select">
+              <option value="operation">Operation</option>
+              <option value="management">Management</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Manager</label>
+            <select name="manager" class="kt-select">
+              <option value="">None</option>
+              {% for m in board_members %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-span-2">
+            <label>Photo</label>
+            <input type="file" name="photo" class="kt-input">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="kt-modal-footer">
+        <button type="submit" class="kt-btn kt-btn-primary">Save</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- ================= EDIT MODAL ================= -->
+<div class="kt-modal" data-kt-modal="true" id="edit_profile_modal">
+  <div class="kt-modal-content max-w-[700px]">
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'Intranet:edit_board_member' %}">
+      {% csrf_token %}
+
+      <input type="hidden" name="member_id" id="edit_member_id">
+
+      <div class="kt-modal-header">
+        <h3 class="kt-modal-title">Edit Member</h3>
+      </div>
+
+      <div class="kt-modal-body">
+        <div class="grid grid-cols-2 gap-5">
+
+          <div>
+            <label>Name</label>
+            <input type="text" name="name" id="edit_name" class="kt-input">
+          </div>
+
+          <div>
+            <label>Role</label>
+            <input type="text" name="role" id="edit_role" class="kt-input">
+          </div>
+
+          <div>
+            <label>Chart Type</label>
+            <select name="chart_type" id="edit_chart_type" class="kt-select">
+              <option value="operation">Operation</option>
+              <option value="management">Management</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Manager</label>
+            <select name="manager" id="edit_manager" class="kt-select">
+              <option value="">None</option>
+              {% for m in board_members %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-span-2">
+            <label>Update Photo</label>
+            <input type="file" name="photo" class="kt-input">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="kt-modal-footer">
+        <button type="submit" class="kt-btn kt-btn-primary">Update</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- ================= JS ================= -->
+<script>
+document.addEventListener("click", function (e) {
+
+  const btn = e.target.closest(".open-edit-modal");
+  if (!btn) return;
+
+  document.getElementById("edit_member_id").value = btn.dataset.memberId;
+  document.getElementById("edit_name").value = btn.dataset.name;
+  document.getElementById("edit_role").value = btn.dataset.role;
+  document.getElementById("edit_manager").value = btn.dataset.managerId || "";
+  document.getElementById("edit_chart_type").value = btn.dataset.chartType || "operation";
+
+  KTModal.getOrCreateInstance(document.querySelector("#edit_profile_modal")).show();
+});
+</script>

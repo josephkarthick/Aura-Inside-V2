@@ -1,0 +1,883 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.2.2
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-kt-theme="true" data-kt-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs/components/input-group by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 19:32:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS Input Group
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="input-group.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="Input Group component styled with the Tailwind CSS based toolkit." name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:kt-card"/>
+  <meta content="Metronic - Tailwind CSS Input Group" name="twitter:title"/>
+  <meta content="Input Group component styled with the Tailwind CSS based toolkit." name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs/components/input-group" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS Input Group" property="og:title"/>
+  <meta content="Input Group component styled with the Tailwind CSS based toolkit." property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../../static/metronic/tailwind/docs/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet"/>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+  </script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+  </script>
+ </head>
+ <body class="antialiased flex h-full text-base text-foreground bg-background">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+			let themeMode;
+
+			if (document.documentElement) {
+				if (localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('kt-theme');
+				} else if (
+					document.documentElement.hasAttribute('data-kt-theme-mode')
+				) {
+					themeMode =
+						document.documentElement.getAttribute('data-kt-theme-mode');
+				} else {
+					themeMode = defaultThemeMode;
+				}
+
+				if (themeMode === 'system') {
+					themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+				}
+
+				document.documentElement.classList.add(themeMode);
+			}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-border fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] backdrop-blur-md bg-background/70">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden kt-btn kt-btn-icon kt-btn-outline -ml-2" data-kt-drawer-toggle="#sidebar">
+      <i class="ki-outline ki-abstract-14 text-lg">
+      </i>
+     </button>
+     <a class="" href="../index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../../static/metronic/tailwind/docs/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../../static/metronic/tailwind/docs/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../../static/metronic/tailwind/docs/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="kt-btn kt-btn-outline" href="../../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="kt-btn kt-btn-mono" data-kt-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="kt-popover max-w-72">
+        <div class="kt-popover-header">
+         License Reminder
+        </div>
+        <div class="kt-popover-body">
+         One license allows using Metronic for a single deployment and all
+					subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model
+					with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border-e border-input">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-secondary-foreground hover:text-primary" href="https://x.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-secondary-foreground hover:text-primary" href="https://github.com/keenthemes/ktui">
+       <i class="ki-outline ki-github text-lg">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="cursor-pointer flex items-center text-secondary-foreground hover:text-primary dark:hidden" data-kt-theme-switch-toggle="true">
+        <i class="ki-outline ki-moon text-lg">
+        </i>
+       </button>
+       <button class="cursor-pointer flex items-center text-secondary-foreground hover:text-primary hidden dark:flex" data-kt-theme-switch-toggle="true">
+        <i class="ki-outline ki-sun text-lg">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="[--kt-drawer-enable:true] lg:[--kt-drawer-enable:false] w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-background" data-kt-drawer="true" data-kt-drawer-class="drawer drawer-start" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 kt-scrollable-y-auto lg:[--kt-scrollable-dependencies:#header] lg:[--kt-scrollable-wrappers:#page] [--kt-scrollable-offset:30px] lg:[--kt-scrollable-offset:20px]" data-kt-scrollable="true" data-kt-scrollable-height="auto" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2">
+       <a class="flex items-center gap-2" href="../getting-started/installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-mouse-square text-green-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Quick Setup
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-violet-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Changelog - v9.2.1
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Support
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Figma
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-border rounded-lg">
+         <i class="ki-solid ki-frame text-fuchsia-500 text-lg">
+         </i>
+        </span>
+        <span class="text-sm font-semibold text-mono active:text-primary hover:text-primary" data-kt-tooltip="true" data-kt-tooltip-delay-show="500" data-kt-tooltip-placement="right">
+         Composer
+         <div class="kt-popover" data-kt-tooltip-content="true">
+          <div class="kt-popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="kt-menu flex flex-col grow" data-kt-menu="true" id="sidebar_menu">
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Getting Started
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../index-2.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../getting-started/file-structure.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../getting-started/installation.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item" data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
+        <div class="kt-menu-link py-1.5 pl-0 flex gap-1 items-center grow cursor-pointer">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-mono kt-menu-item-show:text-mono kt-menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="kt-menu-arrow justify-end -mr-2.5 w-5 text-muted-foreground">
+          <span class="inline-flex kt-menu-item-show:hidden">
+           <i class="ki-outline ki-plus text-xs">
+           </i>
+          </span>
+          <span class="hidden kt-menu-item-show:inline-flex">
+           <i class="ki-outline ki-minus text-xs">
+           </i>
+          </span>
+         </span>
+        </div>
+        <div class="kt-menu-accordion gap-0.5">
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="https://docs.keenthemes.com/metronic-react">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            React
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="https://docs.keenthemes.com/metronic-nextjs">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="../getting-started/integration/vue.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="../getting-started/integration/angular.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="../getting-started/integration/laravel.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="kt-menu-item">
+          <a class="kt-menu-link py-1.5 pl-5 gap-1 kt-menu-item-active:border-primary" href="../getting-started/integration/blazor-server.html">
+           <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+        </div>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../getting-started/multi-demo.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../getting-started/license.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../getting-started/references.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../../docs-legacy/index.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          v9.1.2 Docs
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Customization
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../customization/webpack.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../customization/javascript.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../customization/theming.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../customization/dark-mode.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../customization/rtl.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../customization/optimization.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../composer.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Base Components
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="accordion.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="avatar.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="badge.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="button.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="button-group.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="card.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="collapse.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="datatable.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="dismiss.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="drawer.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="dropdown.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="modal.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="progress.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="rating.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="reparent.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="select.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="scrollable.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="table.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="theme-switch.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Theme Switch
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="toggle.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="toast.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toast
+         </span>
+         <span class="kt-badge kt-badge-sm kt-badge-outline kt-badge-success -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="tooltip.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Navigation
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="menu.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="pagination.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="scrollspy.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="scrollto.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="stepper.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="sticky.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="tabs.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         Forms
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="checkbox.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="file-input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="image-input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="input.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item active">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="input-group.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="radio.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="select.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="switch.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="textarea.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="toggle-password.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item pt-7 mb-3">
+        <h2 class="kt-menuheading text-[15px] font-semibold text-mono">
+         3rd-Party Plugins
+        </h2>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../plugins/keenicons.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../plugins/apexcharts.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="kt-menu-item">
+        <a class="kt-menu-link py-1.5 pl-0 gap-1 kt-menu-item-active:border-primary" href="../plugins/clipboard.html">
+         <span class="kt-menu-title text-sm font-medium text-accent-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-item-here:text-primary kt-menu-item-show:text-primary kt-menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <div class="flex flex-col gap-2.5 mb-5">
+      <div class="flex items-center gap-1.5 text-md font-semibold">
+       <span class="text-primary">
+        Forms
+       </span>
+      </div>
+      <div class="flex flex-col gap-2.5">
+       <h1 class="text-2xl font-bold text-mono">
+        Tailwind CSS Input Group
+       </h1>
+       <p class="text-sm font-normal text-mono">
+        The Tailwind CSS Input Group allows you to combine text, icons, input fields, and buttons into a unified and functional unit.
+        <div class="text-sm pt-1">
+         Metronic integrates the
+         <span class="font-semibold">
+          KTUI Input
+         </span>
+         component to deliver a flexible and user-friendly interface for Tailwind CSS Input Group. 
+	For detailed guidance on implementation and customization, 
+	refer to the
+         <span class="inline-flex items-center gap-px">
+          <a class="kt-link kt-link-underlined kt-link-dashed font-semibold" href="https://ktui.io/docs/input" target="_blank">
+           KTUI Input
+          </a>
+          <i class="ki-filled ki-arrow-up-right text-primary text-2sm">
+          </i>
+         </span>
+         documentation.
+        </div>
+       </p>
+      </div>
+     </div>
+     <main class="text-sm font-normal grow" id="content" role="content">
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <a class="kt-btn kt-btn-outline justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="input.html">
+       <i class="ki-outline ki-arrow-left text-lg group-hover:text-primary">
+       </i>
+       <span class="flex flex-col items-end">
+        <span class="text-xs font-medium text-muted-foreground">
+         Previous
+        </span>
+        <span class="text-sm font-medium text-mono group-hover:text-primary">
+         Input
+        </span>
+       </span>
+      </a>
+      <a class="kt-btn kt-btn-outline justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="radio.html">
+       <span class="flex flex-col items-start">
+        <span class="text-xs font-medium text-muted-foreground">
+         Next
+        </span>
+        <span class="text-sm font-medium text-mono group-hover:text-primary">
+         Radio
+        </span>
+       </span>
+       <i class="ki-outline ki-arrow-right text-lg group-hover:text-primary">
+       </i>
+      </a>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-sm">
+        <span class="text-muted-foreground">
+         2025©
+        </span>
+        <a class="text-secondary-foreground hover:text-primary" href="../../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-sm text-secondary-foreground">
+        <a class="hover:text-primary" href="../../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="../getting-started/license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="../getting-started/license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="[--kt-drawer-enable:true] lg:[--kt-drawer-enable:false] w-[280px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-background" data-kt-drawer="true" data-kt-drawer-class="kt-drawer kt-drawer-start" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 kt-scrollable-y-hover" data-kt-scrollable="true" data-kt-scrollable-dependencies="#header" data-kt-scrollable-height="auto" data-kt-scrollable-offset="15px" data-kt-scrollable-wrappers="#page" id="aside_content">
+      <a data-kt-tooltip="true" data-kt-tooltip-container="body" data-kt-tooltip-placement="left" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../../static/metronic/tailwind/docs/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="kt-popover max-w-72" data-kt-tooltip-content="true">
+        <div class="kt-popover-header">
+         License Reminder
+        </div>
+        <div class="kt-popover-body">
+         One license allows using Metronic for a single deployment and all
+			subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with
+			paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+      <a href="https://reui.io/" target="_blank">
+       <img alt="browse ktui" class="rounded-lg w-full" src="../../../../static/metronic/tailwind/docs/dist/assets/media/banners/reui-banner.png"/>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../../static/metronic/tailwind/docs/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs/dist/assets/vendors/ktui/ktui.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs/components/input-group by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 19:32:05 GMT -->
+</html>

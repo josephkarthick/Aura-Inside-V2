@@ -1,0 +1,138 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fluid px-6">
+
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h3 class="text-lg font-semibold">
+            Applicants for: {{ job.title }}
+          </h3>
+          <p class="text-sm text-gray-500">
+            {{ job.department }} • {{ job.location }}
+          </p>
+        </div>
+
+        <div>
+          <span class="kt-badge kt-badge-primary">
+            Total Applicants: {{ applications|length }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Table Card -->
+      <div class="kt-card">
+        <div class="kt-card-content">
+
+          <div class="overflow-x-auto">
+            <table class="kt-table table-auto w-full border">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="p-3 text-left">#</th>
+                  <th class="p-3 text-left">Name</th>
+                  <th class="p-3 text-left">Email</th>
+                  <th class="p-3 text-left">Phone</th>
+                  <th class="p-3 text-left">Experience</th>
+                  <th class="p-3 text-left">Current Company</th>
+                  <th class="p-3 text-left">Notice</th>
+                  <th class="p-3 text-left">Expected Salary</th>
+                  <th class="p-3 text-left">Resume</th>
+                  <th class="p-3 text-left">Applied On</th>
+				  <th class="p-3 text-left">Applied By</th>
+
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for app in applications %}
+                <tr class="border-t hover:bg-gray-50">
+                  <td class="p-3">{{ forloop.counter }}</td>
+
+                  <td class="p-3 font-medium">
+                    {{ app.full_name }}
+                  </td>
+
+                  <td class="p-3">
+                    {{ app.email }}
+                  </td>
+
+                  <td class="p-3">
+                    {{ app.phone }}
+                  </td>
+
+                  <td class="p-3">
+                    {{ app.experience }}
+                  </td>
+
+                  <td class="p-3">
+                    {{ app.current_company|default:"—" }}
+                  </td>
+
+                  <td class="p-3">
+                    {% if app.notice_period_days %}
+                      {{ app.notice_period_days }} Days
+                    {% else %}
+                      Immediate
+                    {% endif %}
+                  </td>
+
+                  <td class="p-3">
+                    {{ app.expected_salary }}
+                  </td>
+
+                  <td class="p-3">
+                    {% if app.resume %}
+                    <a href="{{ app.resume.url }}"
+                       target="_blank"
+                       class="kt-btn kt-btn-sm kt-btn-outline-primary">
+                       View Resume
+                    </a>
+                    {% else %}
+                      —
+                    {% endif %}
+                  </td>
+
+                  <td class="p-3 text-sm text-gray-500">
+                    {{ app.applied_at|date:"d M Y, h:i A" }}
+                  </td>
+				  
+				<td class="p-3">
+				{% if app.applied_by %}
+					<span 
+					class="hover-user"
+					title="Login ID: {{ app.applied_by.username }}"
+					style="cursor:pointer;"
+					>
+					{{ app.applied_by.first_name }} {{ app.applied_by.last_name }}
+					</span>
+				{% else %}
+					<span class="text-gray-400">External Applicant</span>
+				{% endif %}
+				</td>
+				
+				  
+
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="10" class="text-center p-6 text-gray-400">
+                    No applicants yet.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>

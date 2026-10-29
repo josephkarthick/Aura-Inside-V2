@@ -1,0 +1,746 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+html,
+body,
+.kt-wrapper,
+main,
+#content {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.kt-container-fixed {
+    width: 100%;
+    max-width: 100%;
+}
+
+.hourly-table-wrapper{
+    width:100%;
+    max-width:100%;
+    max-height:670px;
+
+    overflow-x:auto;
+    overflow-y:auto;
+}
+
+/* Employee */
+.sticky-employee{
+    position: sticky;
+    left: 0;
+    min-width: 240px;
+    width: 240px;
+    background: #fff;
+    z-index: 30;
+}
+
+/* Emp ID */
+.sticky-empid{
+    position: sticky;
+    left: 240px;
+    min-width: 120px;
+    width: 120px;
+    background: #fff;
+    z-index: 30;
+}
+
+/* Security Groups */
+.sticky-group{
+    position: sticky;
+    left: 360px;
+    min-width: 220px;
+    width: 220px;
+    background: #fff;
+    z-index: 30;
+}
+
+thead .sticky-employee,
+thead .sticky-empid,
+thead .sticky-group{
+    z-index: 40;
+}
+
+
+
+.hour-duration{
+    text-align:right;
+    font-weight:600;
+}
+
+.hour-count{
+    text-align:center;
+    width:70px;
+}
+
+/* Freeze table header */
+#hourlyReportTable thead th{
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 50;
+    white-space: nowrap;
+}
+
+/* Sticky header for frozen columns */
+#hourlyReportTable thead .sticky-employee,
+#hourlyReportTable thead .sticky-empid,
+#hourlyReportTable thead .sticky-group{
+    top: 0;
+    z-index: 60;
+    background: #fff;
+}
+
+/* Optional border/shadow */
+#hourlyReportTable thead th{
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,.05);
+}
+
+.switch{
+    position:relative;
+    display:inline-block;
+    width:54px;
+    height:30px;
+}
+
+.switch input{
+    opacity:0;
+    width:0;
+    height:0;
+}
+
+.slider{
+    position:absolute;
+    cursor:pointer;
+    inset:0;
+    background:#d1d5db;
+    transition:.3s;
+    border-radius:30px;
+}
+
+.slider:before{
+    position:absolute;
+    content:"";
+    width:24px;
+    height:24px;
+    left:3px;
+    top:3px;
+    background:white;
+    transition:.3s;
+    border-radius:50%;
+    box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+
+.switch input:checked + .slider{
+    background:#0d6efd;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(24px);
+}
+
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <main class="grow pt-5" id="content">
+
+        <div class="kt-container-fixed">
+
+			<div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+				<div>
+			
+					<h1 class="text-xl font-medium">
+						Hourly Report
+					</h1>
+			
+					<span class="text-sm text-secondary-foreground">
+						Employee Calls by Hour
+					</span>
+			
+				</div>
+			
+				<div class="flex items-center gap-2">
+			
+					<a href="{% url 'CDR:employee_summary' %}?from_date={{ from_date }}&to_date={{ to_date }}"
+					class="kt-btn kt-btn-outline kt-btn-sm">
+			
+						<i class="ki-filled ki-chart-line"></i>
+			
+						Employee Summary
+			
+					</a>
+					
+					
+					<a href="{% url 'CDR:export_hourly_report' %}?from_date={{ from_date }}&to_date={{ to_date }}"
+					class="kt-btn kt-btn-success">
+						<i class="ki-filled ki-file-down"></i>
+						Export Excel
+					</a>
+
+
+					
+				</div>
+			</div>
+
+        </div>
+		
+
+        <div class="kt-container-fixed">
+
+            <div class="kt-card kt-card-grid w-full">
+
+                <!-- Header -->
+				<div class="kt-card-header flex items-center justify-between flex-wrap gap-4">
+				
+					<h3 class="kt-card-title">
+						<div class="flex items-center gap-3">
+						
+							<span class="text-sm font-medium">
+								Duration
+							</span>
+						
+							<label class="switch">
+								<input id="viewToggle" type="checkbox">
+								<span class="slider"></span>
+							</label>
+						
+							<span class="text-sm font-medium">
+								Start Time
+							</span>
+						
+						</div>
+					</h3>
+				
+					<form method="get" class="flex items-center gap-4 flex-wrap">
+				
+						<div class="flex flex-wrap items-center gap-2">
+							<span class="text-sm font-medium whitespace-nowrap">
+								From Date
+							</span>
+				
+							<input type="date" name="from_date" value="{{ from_date }}" class="kt-input w-40" required>
+						</div>
+				
+						<div class="flex items-center gap-2">
+							<span class="text-sm font-medium whitespace-nowrap">
+								To Date
+							</span>
+				
+							<input type="date" name="to_date" value="{{ to_date }}" class="kt-input w-40" required>
+						</div>
+				
+						<button type="submit" class="kt-btn kt-btn-primary">
+							Search
+						</button>
+				
+						<a href="{% url 'CDR:employee_summary' %}"
+						class="kt-btn kt-btn-outline">
+							Reset
+						</a>
+				
+					</form>
+
+					<div class="flex items-center gap-2">
+
+
+
+			
+						<label class="kt-input">
+				
+							<i class="ki-filled ki-magnifier"></i>
+				
+							<input
+								id="searchInput"
+								type="text"
+								placeholder="Search Employee">
+				
+						</label>
+				
+					</div>
+				</div>
+
+                <!-- Table -->
+
+<div class="kt-card-content p-0">
+
+    <div class="hourly-table-wrapper">
+
+<table
+    id="hourlyReportTable"
+    class="kt-table text-sm text-secondary-foreground"
+    style="min-width:max-content;">
+
+<thead>
+
+<tr class="bg-accent/50">
+
+    <th class="sticky-employee">
+        Employee
+    </th>
+
+    <th class="sticky-empid">
+        Emp ID
+    </th>
+
+    <th class="sticky-group">
+        Project
+    </th>
+
+    {% for hour in visible_hours %}
+        <th class="text-center">
+            {{ hour.label }}
+        </th>
+    {% endfor %}
+
+    <th class="text-center total-column">
+        Total
+    </th>
+
+    <th class="text-center total-column">
+        Count
+    </th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for row in report %}
+
+<tr class="bg-accent/50">
+
+    <!-- Employee -->
+
+<td class="sticky-employee">
+
+    <a href="javascript:void(0);"
+       class="employee-toggle font-semibold text-primary"
+       data-employee="{{ row.employee_id }}">
+
+        <span class="toggle-icon">▶</span>
+
+        {{ row.employee_name }}
+
+    </a>
+
+</td>
+
+    <!-- Emp ID -->
+
+    <td class="sticky-empid">
+        {{ row.employee_id|upper }}
+    </td>
+
+    <!-- Project -->
+
+    <td class="sticky-group">
+
+        {% for sg in row.security_groups %}
+            <span class="kt-badge kt-badge-outline kt-badge-primary me-1 mb-1">
+                {{ sg }}
+            </span>
+        {% empty %}
+            -
+        {% endfor %}
+
+    </td>
+
+    <!-- Hourly -->
+
+    {% for item in row.visible_hourly %}
+
+    <td class="text-center">
+
+        <!-- Duration Mode -->
+
+        <div class="duration-view">
+
+            <div class="fw-semibold">
+
+                {{ item.duration }}
+
+            </div>
+
+            <div class="text-muted small">
+
+                ({{ item.calls }})
+
+            </div>
+
+        </div>
+
+        <!-- Start Time Mode -->
+
+        <div class="start-view hidden">
+
+            <span class="fw-semibold">
+
+                {{ item.first_call|default:"-" }}
+
+            </span>
+
+        </div>
+
+    </td>
+
+    {% endfor %}
+
+    <!-- Total Duration -->
+
+    <td class="text-center fw-bold total-column">
+
+        {{ row.total_duration }}
+
+    </td>
+
+    <!-- Total Calls -->
+
+    <td class="text-center fw-bold total-column">
+
+        {{ row.total_calls }}
+
+    </td>
+
+</tr>
+
+{% for day in row.daily %}
+
+<tr class="daily-row daily-{{ row.employee_id }}" style="display:none;">
+
+    <td class="sticky-employee ps-8">
+		<a href="{% url 'CDR:daily_report' row.employee_id day.date|date:'Y-m-d' %}?from_date={{ from_date }}&to_date={{ to_date }}">
+			📅 {{ day.date|date:"F d, Y" }}
+		</a>
+    </td>
+
+    <!-- Empty Emp ID -->
+    <td class="sticky-empid"></td>
+
+    <!-- Empty Project -->
+    <td class="sticky-group"></td>
+
+    {% for item in day.visible_hourly %}
+
+    <td class="text-center">
+
+        <div class="duration-view">
+
+            {{ item.duration }}
+
+            <br>
+
+            ({{ item.calls }})
+
+        </div>
+
+        <div class="start-view hidden">
+
+            {{ item.first_call }}
+
+        </div>
+
+    </td>
+
+    {% endfor %}
+
+    <td class="text-center total-column">
+
+        {{ day.total_duration }}
+
+    </td>
+
+    <td class="text-center total-column">
+
+        {{ day.total_calls }}
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+{% empty %}
+
+<tr>
+
+    <td colspan="100" class="text-center py-5">
+
+        No Records Found
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+document.querySelectorAll(".employee-toggle").forEach(function(link){
+
+    link.addEventListener("click", function(){
+
+        const employee = this.dataset.employee;
+
+        const rows = document.querySelectorAll(".daily-" + employee);
+
+        const icon = this.querySelector(".toggle-icon");
+
+        let open = false;
+
+        rows.forEach(function(row){
+
+            if(row.style.display === "none"){
+
+                row.style.display = "";
+
+                open = true;
+
+            }else{
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+        icon.textContent = open ? "▼" : "▶";
+
+    });
+
+});
+</script>
+
+
+<script>
+const toggle = document.getElementById("viewToggle");
+const dot = document.getElementById("toggleDot");
+
+toggle.addEventListener("change", function () {
+
+    // Duration ↔ Start Time
+    document.querySelectorAll(".duration-view").forEach(el => {
+        el.classList.toggle("hidden", this.checked);
+    });
+
+    document.querySelectorAll(".start-view").forEach(el => {
+        el.classList.toggle("hidden", !this.checked);
+    });
+
+    // Hide Total & Count columns in Start Time mode
+    document.querySelectorAll(".total-column").forEach(el => {
+        el.style.display = this.checked ? "none" : "";
+    });
+
+    dot.style.left = this.checked ? "24px" : "4px";
+
+});
+</script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("searchInput");
+
+    // Only employee rows
+    const employeeRows = document.querySelectorAll("tbody > tr.bg-accent\\/50");
+
+    input.addEventListener("keyup", function () {
+
+        const value = this.value.toLowerCase().trim();
+
+        employeeRows.forEach(function (employeeRow) {
+
+            const employeeName = employeeRow.innerText.toLowerCase();
+
+            const employeeId =
+                employeeRow.querySelector(".employee-toggle").dataset.employee;
+
+            const dailyRows =
+                document.querySelectorAll(".daily-" + employeeId);
+
+            const matched = employeeName.includes(value);
+
+            employeeRow.style.display = matched ? "" : "none";
+
+            dailyRows.forEach(function (row) {
+
+                if (!matched) {
+
+                    row.style.display = "none";
+
+                }
+
+            });
+
+        });
+
+    });
+
+});
+</script>
+
+<script>
+document.getElementById("copyTableBtn").addEventListener("click", function () {
+
+    const table = document.getElementById("hourlyReportTable");
+    const btn = this;
+
+    let text = "";
+
+    /* -----------------------------
+       Build Header (supports rowspan/colspan)
+    ----------------------------- */
+
+    const headerRows = table.querySelectorAll("thead tr");
+
+    if (headerRows.length >= 2) {
+
+        const first = [];
+        const second = [];
+
+        headerRows[0].querySelectorAll("th").forEach(th => {
+
+            const value = th.innerText.replace(/\n/g, " ").trim();
+            const rowspan = parseInt(th.getAttribute("rowspan") || "1");
+            const colspan = parseInt(th.getAttribute("colspan") || "1");
+
+            if (rowspan === 2) {
+
+                first.push(value);
+                second.push("");
+
+            } else {
+
+                first.push(value);
+
+                for (let i = 1; i < colspan; i++) {
+                    first.push("");
+                }
+
+            }
+
+        });
+
+        headerRows[1].querySelectorAll("th").forEach(th => {
+
+            second.push(
+                th.innerText.replace(/\n/g, " ").trim()
+            );
+
+        });
+
+        text += first.join("\t") + "\n";
+        text += second.join("\t") + "\n";
+    }
+
+    /* -----------------------------
+       Body
+    ----------------------------- */
+
+    table.querySelectorAll("tbody tr").forEach(function (row) {
+
+        if (row.style.display === "none") return;
+
+        const values = [];
+
+        row.querySelectorAll("td").forEach(function (cell) {
+
+            values.push(
+                cell.innerText
+                    .replace(/\n/g, " ")
+                    .replace(/\s+/g, " ")
+                    .trim()
+            );
+
+        });
+
+        text += values.join("\t") + "\n";
+
+    });
+
+    /* -----------------------------
+       Success UI
+    ----------------------------- */
+
+    function copiedSuccess() {
+
+        btn.innerHTML =
+            '<i class="ki-filled ki-check"></i> Copied!';
+
+        setTimeout(function () {
+
+            btn.innerHTML =
+                '<i class="ki-filled ki-copy"></i> Copy Table';
+
+        }, 2000);
+
+    }
+
+    /* -----------------------------
+       Clipboard
+    ----------------------------- */
+
+    if (navigator.clipboard && window.isSecureContext) {
+
+        navigator.clipboard.writeText(text)
+            .then(copiedSuccess)
+            .catch(fallbackCopy);
+
+    } else {
+
+        fallbackCopy();
+
+    }
+
+    function fallbackCopy() {
+
+        const textarea = document.createElement("textarea");
+
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+
+        try {
+
+            document.execCommand("copy");
+            copiedSuccess();
+
+        } catch (err) {
+
+            alert("Copy failed.");
+
+        }
+
+        document.body.removeChild(textarea);
+
+    }
+
+});
+</script>
+
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

@@ -1,0 +1,204 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<body class="antialiased flex h-full text-base text-foreground bg-background demo1 kt-sidebar-fixed kt-header-fixed">
+
+<script>
+const defaultThemeMode='light';
+let themeMode=localStorage.getItem('kt-theme')||defaultThemeMode;
+if(themeMode==='system'){
+ themeMode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+}
+document.documentElement.classList.add(themeMode);
+</script>
+
+<div class="kt-wrapper flex grow flex-col">
+<main class="grow pt-5">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<div class="kt-container-fixed">
+
+<!-- Summary -->
+<div class="grid grid-cols-6 gap-4 mb-5">
+  <div class="kt-card p-4"><h6>Total Assets</h6><h2>{{ total_assets }}</h2></div>
+  <div class="kt-card p-4"><h6>Managed</h6><h2>{{ managed_count }}</h2></div>
+  <div class="kt-card p-4"><h6>Non Managed</h6><h2>{{ non_managed_count }}</h2></div>
+  <div class="kt-card p-4"><h6>In Use</h6><h2>{{ in_use_count }}</h2></div>
+  <div class="kt-card p-4"><h6>In Stock</h6><h2>{{ in_stock_count }}</h2></div>
+  <div class="kt-card p-4"><h6>Repair</h6><h2>{{ repair_count }}</h2></div>
+</div>
+
+<div class="flex items-center justify-between mb-4">
+  <div class="kt-input w-96">
+    <i class="ki-filled ki-magnifier"></i>
+    <input id="searchInput" type="text" placeholder="Search by Asset Tag, Hostname, Brand, Model...">
+  </div>
+
+  <a href="{% url 'ITDesk:addasset' %}" class="kt-btn kt-btn-primary">
+    <i class="ki-filled ki-plus"></i> Add Asset
+  </a>
+</div>
+
+<div class="overflow-x-auto">
+
+<table class="kt-table kt-table-border w-full">
+<thead>
+<tr>
+<th>Asset Tag</th>
+<th>Category</th>
+<th>Managed</th>
+<th>Asset Details</th>
+<th>Location</th>
+<th>Warranty</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for asset in assets %}
+
+<tr class="asset-row">
+
+    <!-- Asset Tag -->
+    <td>
+        <strong>{{ asset.asset_tag }}</strong>
+    </td>
+
+    <!-- Category -->
+    <td>
+        {{ asset.category.name }}
+    </td>
+
+    <!-- Managed -->
+    <td>
+        {% if asset.category.is_managed %}
+            <span class="kt-badge kt-badge-info">
+                Managed
+            </span>
+        {% else %}
+            <span class="kt-badge kt-badge-secondary">
+                Non Managed
+            </span>
+        {% endif %}
+    </td>
+
+    <!-- Asset Details -->
+    <td>
+
+        {% if asset.category.is_managed %}
+
+            <div><strong>Hostname :</strong> {{ asset.hostname|default:"Waiting for Agent" }}</div>
+            <div><strong>Brand :</strong> {{ asset.brand|default:"-" }}</div>
+            <div><strong>Model :</strong> {{ asset.model|default:"-" }}</div>
+            <div><strong>Serial :</strong> {{ asset.serial_number|default:"-" }}</div>
+
+        {% else %}
+
+            <div><strong>Brand :</strong> {{ asset.brand|default:"-" }}</div>
+            <div><strong>Model :</strong> {{ asset.model|default:"-" }}</div>
+            <div><strong>Serial :</strong> {{ asset.serial_number|default:"-" }}</div>
+
+        {% endif %}
+
+    </td>
+
+    <!-- Location -->
+    <td>
+        {{ asset.location|default:"-" }}
+    </td>
+
+    <!-- Warranty -->
+    <td>
+        {% if asset.warranty_expiry %}
+            {{ asset.warranty_expiry|date:"d-M-Y" }}
+        {% else %}
+            -
+        {% endif %}
+    </td>
+
+    <!-- Status -->
+    <td>
+
+        {% if asset.status == "in_use" %}
+            <span class="kt-badge kt-badge-primary">In Use</span>
+
+        {% elif asset.status == "in_stock" %}
+            <span class="kt-badge kt-badge-success">In Stock</span>
+
+        {% elif asset.status == "repair" %}
+            <span class="kt-badge kt-badge-warning">Repair</span>
+
+        {% elif asset.status == "damaged" %}
+            <span class="kt-badge kt-badge-warning">Damaged</span>
+
+        {% elif asset.status == "disposed" %}
+            <span class="kt-badge kt-badge-danger">Disposed</span>
+
+        {% else %}
+            <span class="kt-badge kt-badge-secondary">{{ asset.status }}</span>
+        {% endif %}
+
+    </td>
+
+    <!-- Actions -->
+    <td class="whitespace-nowrap">
+
+        <a href="{% url 'ITDesk:editasset' asset.id %}"
+           class="kt-btn kt-btn-sm kt-btn-primary">
+            <i class="ki-solid ki-pencil"></i>
+            Edit
+        </a>
+
+        <form method="post"
+              action="{% url 'ITDesk:deleteasset' asset.id %}"
+              style="display:inline-block;"
+              onsubmit="return confirm('Delete this asset?');">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="kt-btn kt-btn-sm kt-btn-danger">
+                <i class="ki-solid ki-trash"></i>
+                Delete
+            </button>
+
+        </form>
+
+    </td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+    <td colspan="8" class="text-center py-8">
+        No assets found.
+    </td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</main>
+</div>
+
+<script>
+document.getElementById("searchInput").addEventListener("keyup",function(){
+const value=this.value.toLowerCase();
+
+document.querySelectorAll(".asset-row").forEach(function(row){
+row.style.display=row.innerText.toLowerCase().includes(value)?"":"none";
+});
+});
+</script>
+
+</body>

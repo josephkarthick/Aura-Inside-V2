@@ -1,0 +1,186 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <main class="grow pt-5" id="content" role="main">
+
+        <div class="kt-container-fixed">
+
+            <!-- Header -->
+
+            <div class="flex items-center justify-between mb-8">
+
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        Question Papers
+                    </h1>
+
+                    <p class="text-gray-500 mt-1">
+                        View and attend your assigned assessments.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Papers -->
+
+            {% if tests %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                {% for test in tests %}
+
+                <div class="kt-card">
+
+                    <div class="kt-card-header">
+
+                        <div>
+
+                            <h3 class="kt-card-title text-lg font-semibold">
+
+                                {{ test.title }}
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <div class="kt-card-content">
+
+                        <p class="text-gray-600 min-h-[60px]">
+
+                            {% if test.description %}
+                                {{ test.description }}
+                            {% else %}
+                                No description available.
+                            {% endif %}
+
+                        </p>
+
+                        <div class="border-t my-4"></div>
+
+                        <div class="space-y-3">
+
+                            <div class="flex justify-between">
+
+                                <span class="text-gray-500">
+                                    Duration
+                                </span>
+
+                                <span class="font-medium">
+                                    {{ test.duration_minutes }} Minutes
+                                </span>
+
+                            </div>
+
+					
+
+                            <div class="flex justify-between">
+
+                                <span class="text-gray-500">
+                                    Questions
+                                </span>
+
+                                <span class="font-medium">
+                                    {{ test.questions.count }}
+                                </span>
+
+                            </div>
+
+								<div class="flex justify-between">
+									<span class="text-gray-500">Starts</span>
+									<span class="font-medium">
+										{{ test.start_datetime|date:"d M Y h:i A" }}
+									</span>
+								</div>
+								
+								<div class="flex justify-between">
+									<span class="text-gray-500">Ends</span>
+									<span class="font-medium">
+										{{ test.end_datetime|date:"d M Y h:i A" }}
+									</span>
+								</div>
+
+                        </div>
+
+							<div class="mt-6">
+							
+							{% if test.user_attempt %}
+							
+								<a href="{% url 'Assessment:assessment_result' test.user_attempt.id %}"
+								class="kt-btn kt-btn-success w-full">
+									View Result
+								</a>
+							
+							{% elif test.assessment_status == 'active' %}
+							
+								<a href="{% url 'Assessment:start_assessment' test.id %}"
+								class="kt-btn kt-btn-primary w-full">
+									Start Assessment
+								</a>
+							
+							{% elif test.assessment_status == 'upcoming' %}
+							
+								<button class="kt-btn kt-btn-warning w-full" disabled>
+									⏳ Starts Soon
+								</button>
+							
+							{% elif test.assessment_status == 'missed' %}
+							
+								<button class="kt-btn kt-btn-danger w-full" disabled>
+									❌ Assessment Missed
+								</button>
+							
+							{% else %}
+							
+								<button class="kt-btn kt-btn-secondary w-full" disabled>
+									🔒 Inactive
+								</button>
+							
+							{% endif %}
+							
+							</div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="kt-card">
+
+                <div class="kt-card-content text-center py-16">
+
+                    <div class="text-6xl mb-4">
+                        📝
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-2">
+
+                        No Question Papers Available
+
+                    </h3>
+
+                    <p class="text-gray-500">
+
+                        There are currently no assessments assigned.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</div>

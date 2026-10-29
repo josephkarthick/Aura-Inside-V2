@@ -1,0 +1,152 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+    <main class="grow pt-5">
+	<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fixed">
+
+            <div class="kt-card">
+
+                <div class="kt-card-header">
+                    <h3 class="kt-card-title">
+                        CDR Column Mapping
+                    </h3>
+                </div>
+
+                <div class="kt-card-content">
+
+                    <form method="post" action="{% url 'CDR:generate_cdr' %}">
+
+                        {% csrf_token %}
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                            {% for vendor in vendors %}
+
+                            <div class="border rounded-lg shadow-sm bg-gray-50">
+
+                                <div class="flex items-center justify-between border-b px-5 py-4">
+
+                                    <div>
+                                        <h4 class="text-lg font-semibold">
+                                            {{ vendor.name }}
+                                        </h4>
+
+                                        <small class="text-gray-500">
+                                            {{ vendor.columns|length }} Columns Detected
+                                        </small>
+                                    </div>
+
+                                    <span class="kt-badge kt-badge-success">
+                                        Ready
+                                    </span>
+
+                                </div>
+
+                                <div class="p-5">
+
+                                    <table class="table table-bordered align-middle">
+
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th width="35%">Common Field</th>
+                                                <th>Excel Column</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            {% for field in common_fields %}
+
+                                            <tr>
+
+                                                <td>
+                                                    <strong>{{ field.label }}</strong>
+                                                </td>
+
+                                                <td>
+
+                                                    <select
+                                                        class="form-select"
+                                                        name="{{ vendor.name }}__{{ field.name }}">
+
+                                                        <option value="">
+                                                            Select Column
+                                                        </option>
+
+                                                        {% for col in vendor.columns %}
+
+                                                        <option
+                                                            value="{{ col }}"
+
+                                                            {% if field.name == "from_number" and vendor.mapping.from_number == col %}
+                                                                selected
+                                                            {% endif %}
+
+                                                            {% if field.name == "to_number" and vendor.mapping.to_number == col %}
+                                                                selected
+                                                            {% endif %}
+
+                                                            {% if field.name == "call_datetime" and vendor.mapping.call_datetime == col %}
+                                                                selected
+                                                            {% endif %}
+
+                                                            {% if field.name == "duration" and vendor.mapping.duration == col %}
+                                                                selected
+                                                            {% endif %}
+
+                                                            {% if field.name == "call_status" and vendor.mapping.call_status == col %}
+                                                                selected
+                                                            {% endif %}>
+
+                                                            {{ col }}
+
+                                                        </option>
+
+                                                        {% endfor %}
+
+                                                    </select>
+
+                                                </td>
+
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+
+                            <button type="submit" class="btn btn-success">
+
+                                <i class="ki-filled ki-check-circle"></i>
+
+                                Generate CDR
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>

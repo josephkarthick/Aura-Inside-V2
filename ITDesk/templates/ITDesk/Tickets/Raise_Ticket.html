@@ -1,0 +1,404 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<div class="kt-container-fluid w-full max-w-none px-6">
+
+      <!-- Page Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-xl font-semibold text-mono">Raise a Ticket</h1>
+          <p class="text-sm text-secondary-foreground mt-2">
+            Report an IT issue and provide the affected employee and asset details.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Ticket Modal -->
+      <div data-kt-modal="true" id="share_profile_modal">
+        <div class="kt-card w-full max-w-none p-6 border rounded-xl bg-white shadow">
+
+          <div class="flex justify-between items-center mb-5">
+            <div>
+              <h2 class="text-lg font-semibold">Create Support Ticket</h2>
+              <p class="text-sm text-secondary-foreground mt-1">
+                Fields marked * are required.
+              </p>
+            </div>
+          </div>
+
+          <form
+            method="post"
+            action="{% url 'ITDesk:raise_ticket' %}"
+            id="TicketForm">
+
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              <!-- Reported By -->
+              <div class="flex flex-col gap-2">
+                <label class="font-semibold">Reported By</label>
+                <input
+                  type="text"
+                  class="kt-input"
+                  value="{{ request.user.get_full_name|default:request.user.username }}"
+                  readonly>
+                <p class="text-xs text-secondary-foreground">
+                  Automatically recorded from your login.
+                </p>
+              </div>
+
+              <!-- Affected Employee -->
+              <div class="flex flex-col gap-2">
+                <label for="affected_user" class="font-semibold">
+                  Affected Employee
+                </label>
+
+                <select
+                  id="affected_user"
+                  name="affected_user"
+                  class="kt-select">
+				  <option value="">Not An User Related</option>
+                  <option value="">Same as reported by</option>
+				   
+
+                  {% for employee in users %}
+                    <option value="{{ employee.id }}">
+                      {{ employee.get_full_name|default:employee.username }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Category -->
+              <div class="flex flex-col gap-2">
+                <label for="category" class="font-semibold">
+                  Category *
+                </label>
+
+                <select
+                  id="category"
+                  name="category"
+                  class="kt-select"
+                  required>
+                  <option value="">Select Category</option>
+
+                  {% for cat in categories %}
+                    <option value="{{ cat.id }}">
+                      {{ cat.category }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Subcategory -->
+              <div class="flex flex-col gap-2">
+                <label for="subcategory" class="font-semibold">
+                  Subcategory *
+                </label>
+
+                <select
+                  id="subcategory"
+                  name="subcategory"
+                  class="kt-select"
+                  required
+                  disabled>
+                  <option value="">Select Category First</option>
+                </select>
+              </div>
+
+              <!-- Priority -->
+              <div class="flex flex-col gap-2">
+                <label for="priority" class="font-semibold">
+                  Priority *
+                </label>
+
+                <select
+                  id="priority"
+                  name="priority"
+                  class="kt-select"
+                  required>
+                  <option value="">Select Priority</option>
+
+                  {% for item in priorities %}
+                    <option value="{{ item.id }}">
+                      {{ item.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Assign To -->
+              <div class="flex flex-col gap-2">
+                <label for="assigned_to" class="font-semibold">
+                  Assign To
+                </label>
+
+                <select
+                  id="assigned_to"
+                  name="assigned_to"
+                  class="kt-select">
+                  <option value="">Leave Unassigned</option>
+					{% for employee in assigned_users %}
+						<option value="{{ employee.pk }}">
+							{{ employee.first_name }}
+							{% if employee.department %}
+								- {{ employee.department }}
+							{% endif %}
+						</option>
+					{% endfor %}
+                </select>
+              </div>
+
+              <!-- Asset Type -->
+              <div class="flex flex-col gap-2">
+                <label for="asset_type" class="font-semibold">
+                  Asset Type
+                </label>
+
+                <select
+                  id="asset_type"
+                  name="asset_type"
+                  class="kt-select">
+                  <option value="">Select Asset Type</option>
+
+                  {% for asset_type in asset_types %}
+                    <option value="{{ asset_type.id }}">
+                      {{ asset_type.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Asset -->
+              <div class="flex flex-col gap-2">
+                <label for="asset" class="font-semibold">
+                  Affected Asset
+                </label>
+
+                <select
+                  id="asset"
+                  name="asset"
+                  class="kt-select"
+                  disabled>
+                  <option value="">Select Asset Type First</option>
+
+                  {% for asset in assets %}
+                    <option
+                      value="{{ asset.id }}"
+                      data-asset-type="{{ asset.category_id }}">
+                      {{ asset.asset_tag }} - {{ asset.product_name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+
+<!-- Description - Full Width -->
+<div class="flex flex-col gap-2 md:col-span-2 w-full">
+  <label for="editor" class="font-semibold">
+    Issue Description *
+  </label>
+
+  <textarea
+    id="editor"
+    name="description"
+    class="kt-textarea w-full min-h-[200px]"
+    rows="8"
+    placeholder="Describe the issue, error message, and troubleshooting already attempted..."
+    required></textarea>
+</div>
+
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-end gap-3 mt-6">
+              <button
+                type="button"
+                class="kt-btn kt-btn-secondary"
+                data-kt-modal-dismiss="true">
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="kt-btn kt-btn-primary"
+                id="createButton">
+                Submit Ticket
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Trumbowyg -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/ui/trumbowyg.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/trumbowyg.min.js"></script>
+
+<script>
+$(function () {
+
+  // Rich text editor
+  $('#editor').trumbowyg();
+
+  const categorySelect = $('#category');
+  const subcategorySelect = $('#subcategory');
+  const prioritySelect = $('#priority');
+
+  // Load subcategories for the selected category.
+  categorySelect.on('change', function () {
+
+    const categoryId = $(this).val();
+
+    subcategorySelect
+      .empty()
+      .append('<option value="">Loading subcategories...</option>')
+      .prop('disabled', true);
+
+    prioritySelect.val('');
+
+    if (!categoryId) {
+      subcategorySelect
+        .empty()
+        .append('<option value="">Select Category First</option>');
+
+      return;
+    }
+
+    $.ajax({
+      url: "{% url 'ITDesk:fetch_subcategories' %}",
+      type: 'GET',
+      data: { category_id: categoryId },
+      dataType: 'json',
+
+      success: function (data) {
+
+        subcategorySelect
+          .empty()
+          .append('<option value="">Select Subcategory</option>');
+
+        $.each(data, function (index, item) {
+
+          const option = $('<option>', {
+            value: item.id,
+            text: item.subcategory
+          });
+
+          // The API must return the related priority ID.
+          if (item.priority_id) {
+            option.attr('data-priority-id', item.priority_id);
+          }
+
+          subcategorySelect.append(option);
+        });
+
+        subcategorySelect.prop('disabled', false);
+      },
+
+      error: function () {
+        subcategorySelect
+          .empty()
+          .append('<option value="">Unable to load subcategories</option>');
+
+        alert('Unable to load subcategories. Please try again.');
+      }
+    });
+  });
+
+  // Automatically select the priority configured for a subcategory.
+  subcategorySelect.on('change', function () {
+
+    const selectedOption = $(this).find(':selected');
+    const priorityId = selectedOption.attr('data-priority-id');
+
+    if (priorityId) {
+      prioritySelect.val(priorityId);
+    } else {
+      prioritySelect.val('');
+    }
+  });
+
+  // Filter assets by the selected asset type.
+  const assetTypeSelect = $('#asset_type');
+  const assetSelect = $('#asset');
+
+  const allAssetOptions = assetSelect.find('option').clone();
+
+  assetTypeSelect.on('change', function () {
+
+    const selectedType = $(this).val();
+
+    assetSelect.empty();
+
+    if (!selectedType) {
+      assetSelect
+        .append('<option value="">Select Asset Type First</option>')
+        .prop('disabled', true);
+
+      return;
+    }
+
+    assetSelect.append(
+      $('<option>', {
+        value: '',
+        text: 'Select Affected Asset'
+      })
+    );
+
+    allAssetOptions.each(function () {
+
+      const option = $(this);
+
+      if (!option.val()) {
+        return;
+      }
+
+      if (option.attr('data-asset-type') === selectedType) {
+        assetSelect.append(option.clone());
+      }
+    });
+
+    assetSelect.prop('disabled', false);
+  });
+
+  // Prevent duplicate submissions.
+  $('#TicketForm').on('submit', function (event) {
+
+    const form = this;
+
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      form.reportValidity();
+      return;
+    }
+
+    const button = $('#createButton');
+
+    if (button.prop('disabled')) {
+      event.preventDefault();
+      return;
+    }
+
+    button
+      .prop('disabled', true)
+      .text('Submitting...');
+
+  });
+
+});
+</script>

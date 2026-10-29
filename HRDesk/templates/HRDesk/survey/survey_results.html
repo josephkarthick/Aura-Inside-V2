@@ -1,0 +1,138 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <div class="kt-container-fixed mb-4">
+      <div class="flex flex-wrap items-center justify-between">
+        <div>
+          <h1 class="text-xl font-medium text-mono">Survey Results</h1>
+          <p class="text-sm text-secondary-foreground">Survey: {{ survey.title }}</p>
+        </div>
+		<div class="flex items-center gap-2.5">
+			<a href="{% url 'HRDesk:export_survey_results_csv' survey.id %}" class="kt-btn kt-btn-success">
+				Export CSV
+			</a>
+        </div>		
+      </div>
+    </div>
+	
+
+
+    <div class="kt-container-fixed">
+      <div class="kt-card kt-card-grid w-full">
+        <div class="kt-card-header">
+<div class="grid grid-cols-6 gap-4 mt-4">
+
+  <!-- Responded -->
+  <a href="{% url 'HRDesk:survey_user_list' survey.id 'responded' %}" class="block">
+    <div class="kt-card bg-green-100 p-3 rounded hover:shadow-lg transition">
+      <h3 class="kt-card-title text-sm">Total users</h3>
+      <p class="text-lg font-bold">{{ user_stats.total_users }}</p>
+    </div>
+  </a>  
+
+
+  <!-- Responded -->
+  <a href="{% url 'HRDesk:survey_user_list' survey.id 'responded' %}" class="block">
+    <div class="kt-card bg-green-100 p-3 rounded hover:shadow-lg transition">
+      <h3 class="kt-card-title text-sm">Total Responded</h3>
+      <p class="text-lg font-bold">{{ user_stats.responded }}</p>
+    </div>
+  </a>
+
+<!-- Pending -->
+<a href="{% url 'HRDesk:survey_user_list' survey.id 'pending' %}" class="block">
+  <div class="kt-card bg-blue-100 p-3 rounded hover:shadow-lg transition relative">
+    <h3 class="kt-card-title text-sm">Pending</h3>
+    <div class="flex items-center justify-between">
+      <p class="text-lg font-bold">{{ user_stats.pending }}</p>
+      <div class="text-right text-xs">
+        <p>D: {{ user_stats.day_pending_count }}</p>
+        <p>N: {{ user_stats.night_pending_count }}</p>
+      </div>
+    </div>
+  </div>
+</a>
+
+
+  <!-- Day Shift Responded -->
+  <a href="{% url 'HRDesk:survey_user_list' survey.id 'day_responded' %}" class="block">
+    <div class="kt-card bg-green-100 p-3 rounded hover:shadow-lg transition">
+      <h3 class="kt-card-title text-sm">Day Shift Responses</h3>
+      <p class="text-lg font-bold">{{ user_stats.day_shift }}</p>
+    </div>
+  </a>
+
+  <!-- Night Shift Responded -->
+  <a href="{% url 'HRDesk:survey_user_list' survey.id 'night_responded' %}" class="block">
+    <div class="kt-card bg-purple-100 p-3 rounded hover:shadow-lg transition">
+      <h3 class="kt-card-title text-sm">Night Shift Responses</h3>
+      <p class="text-lg font-bold">{{ user_stats.night_shift }}</p>
+    </div>
+  </a>
+
+</div>
+
+
+
+        <div class="kt-card-content">
+          <div class="kt-scrollable-x-auto">
+            <table class="kt-table table-fixed kt-table-border w-full text-sm text-secondary-foreground">
+              <thead>
+                <tr class="bg-accent/50">
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th># Users / Usernames</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for r in results %}
+                <tr class="data-row">
+                  <td>{{ r.question }}</td>
+<td>
+  {{ r.answer }}
+
+  {% if r.file_url %}
+    <div class="mt-2">
+      <a href="{{ r.file_url }}"
+         target="_blank"
+         class="kt-btn kt-btn-sm kt-btn-primary">
+         📥 Download
+      </a>
+    </div>
+  {% endif %}
+</td>
+
+<td>
+{% if r.count and r.answer_id %}
+  <a href="{% url 'HRDesk:survey_answer_users' survey.id r.question_id r.answer_id %}" class="text-blue-600 underline">
+    {{ r.count }}
+  </a>
+{% elif r.usernames %}
+  <a href="{% url 'HRDesk:survey_text_answer_users' survey.id r.question_id %}?text={{ r.answer|urlencode }}" class="text-blue-600 underline">
+    {{ r.usernames|length }}
+  </a>
+{% else %}
+  -
+{% endif %}
+
+
+
+</td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="3" class="text-center py-4">No results found.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>

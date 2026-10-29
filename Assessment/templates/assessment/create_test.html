@@ -1,0 +1,244 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+<div class="kt-wrapper flex grow flex-col">
+    <main class="grow pt-5" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fixed mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold">Assessment Creation Wizard</h1>
+                    <p class="text-gray-500">Create assessments, assign LDAP groups and configure questions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-container-fixed">
+            <div class="kt-card max-w-4xl mx-auto">
+
+                <div class="kt-card-content p-6">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="space-y-6">
+
+                            <div class="kt-card border">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Assessment Information</h3>
+                                </div>
+                                <div class="kt-card-content">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <div>
+                                            <label class="block mb-2">Assessment Title</label>
+                                            <input type="text" class="kt-input" name="title" required>
+                                        </div>
+
+                                        <div>
+                                            <label class="block mb-2">Duration (Minutes)</label>
+                                            <input type="number" class="kt-input" name="duration_minutes" value="30" min="1" required>
+                                        </div>
+
+                                        <div class="md:col-span-2">
+                                            <label class="block mb-2">Description</label>
+                                            <textarea class="kt-input" rows="4" name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <br>
+
+                            <div class="kt-card border">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Schedule Information</h3>
+                                </div>
+                                <div class="kt-card-content">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <div>
+                                            <label class="block mb-2">Start Date & Time</label>
+                                            <input type="datetime-local" class="kt-input" name="start_datetime" required>
+                                        </div>
+
+                                        <div>
+                                            <label class="block mb-2">End Date & Time</label>
+                                            <input type="datetime-local" class="kt-input" name="end_datetime" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <br>
+
+                            <div class="kt-card border">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Project Access</h3>
+                                </div>
+                                <div class="kt-card-content">
+                                    <label class="block mb-2">Allowed Groups</label>
+
+                                    <select id="groupSelect" name="group_dn[]" multiple>
+                                        {% for group_name, group_dn in ldap_groups %}
+                                        <option value="{{ group_dn }}">{{ group_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div><br>
+
+                            <div class="kt-card border">
+                                <div class="kt-card-header">
+                                    <h3 class="kt-card-title">Assessment Settings</h3>
+                                </div>
+                                <div class="kt-card-content">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                        <div>
+                                            <label class="block mb-2">Passing Marks (%)</label>
+                                            <input type="number" class="kt-input" name="passing_marks" value="60" required>
+                                        </div>
+
+                                        <div>
+                                            <label class="block mb-2">Maximum Attempts</label>
+                                            <input type="number" class="kt-input" name="max_attempts" value="1">
+                                        </div>
+
+                                        <div>
+                                            <label class="block mb-2">Status</label>
+                                            <select class="kt-select" name="active">
+                                                <option value="1">Active</option>
+                                                <option value="0">Deactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg font-semibold">Assessment Questions</h3>
+                                    <p class="text-gray-500 text-sm">Add questions and answers.</p>
+                                </div>
+                            </div><br>
+
+<div id="questions-container" class="space-y-5"></div>
+
+<div class="flex justify-between items-center mt-6">
+
+    <button type="button"
+            class="kt-btn kt-btn-primary"
+            onclick="addQuestion()">
+        ➕ Add Question
+    </button>
+
+    <button type="submit"
+            class="kt-btn bg-green-600 hover:bg-green-700 text-white">
+        ✅ Save Assessment
+    </button>
+
+</div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+let questionIndex = 0;
+
+function addOption(qIndex) {
+    const container = document.querySelector(`#question-${qIndex} .options-container`);
+    const optionIndex = container.querySelectorAll('.option-row').length;
+
+    const div = document.createElement('div');
+    div.className = 'option-row flex items-center gap-3 mb-2';
+
+    div.innerHTML = `
+        <input type="checkbox" name="correct_${qIndex}[]" value="${optionIndex}">
+        <input type="text" name="option_${qIndex}[]" class="kt-input" placeholder="Option ${optionIndex + 1}" required>
+        <button type="button" class="kt-btn kt-btn-danger kt-btn-sm" onclick="this.parentElement.remove()">✕</button>
+    `;
+
+    container.appendChild(div);
+}
+
+function addQuestion() {
+    const container = document.getElementById('questions-container');
+
+    const qDiv = document.createElement('div');
+    qDiv.id = `question-${questionIndex}`;
+    qDiv.className = 'kt-card border';
+
+    qDiv.innerHTML = `
+        <div class="kt-card-content p-5">
+
+            <div class="flex justify-between items-center mb-4">
+                <h5 class="font-semibold">Question #${questionIndex + 1}</h5>
+
+                <button type="button"
+                        class="kt-btn kt-btn-danger kt-btn-sm"
+                        onclick="removeQuestion(this)">
+                    Remove
+                </button>
+            </div>
+
+            <input type="text"
+                   name="question_text"
+                   class="kt-input mb-3"
+                   placeholder="Question Text"
+                   required>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <select name="question_type" class="kt-select">
+                    <option value="single">Single Choice</option>
+                    <option value="multiple">Multiple Choice</option>
+                </select>
+
+                <input type="number"
+                       name="marks"
+                       class="kt-input"
+                       value="1"
+                       min="1" required>
+            </div>
+
+            <div class="options-container">
+                <div class="option-row flex items-center gap-3 mb-2">
+                    <input type="checkbox" name="correct_${questionIndex}[]" value="0">
+                    <input type="text" name="option_${questionIndex}[]" class="kt-input" placeholder="Option 1" required>
+                </div>
+
+                <div class="option-row flex items-center gap-3 mb-2">
+                    <input type="checkbox" name="correct_${questionIndex}[]" value="1">
+                    <input type="text" name="option_${questionIndex}[]" class="kt-input" placeholder="Option 2" required>
+                </div>
+            </div>
+
+            <button type="button"
+                    class="kt-btn kt-btn-outline kt-btn-sm mt-2"
+                    onclick="addOption(${questionIndex})">
+                Add Option
+            </button>
+
+        </div>
+    `;
+
+    container.appendChild(qDiv);
+    questionIndex++;
+}
+
+function removeQuestion(btn) {
+    btn.closest('.kt-card').remove();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    new TomSelect('#groupSelect', {
+        plugins:['remove_button'],
+        create:false,
+        hideSelected:true,
+        closeAfterSelect:false
+    });
+
+    addQuestion();
+});
+</script>

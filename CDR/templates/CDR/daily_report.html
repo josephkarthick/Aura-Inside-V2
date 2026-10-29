@@ -1,0 +1,162 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+{% block content %}
+<div class="kt-wrapper flex grow flex-col">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <main class="grow pt-5" id="content">
+
+        <div class="kt-container-fixed">
+
+			<div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+				<div>
+			
+					<h1 class="text-xl font-medium">
+						Daily Report
+					</h1>
+			
+					<span class="text-sm text-secondary-foreground">
+						Employee of a day
+					</span>
+			
+				</div>
+			
+				<div class="flex items-center gap-2">
+			
+					<a href="{% url 'CDR:hourly_report' %}?from_date={{ call_date }}&to_date={{ call_date }}"
+					class="kt-btn kt-btn-outline kt-btn-sm">
+			
+						<i class="ki-filled ki-chart-line"></i>
+			
+						Back
+			
+					</a>
+					<a href="{% url 'CDR:export_cdr_report' %}?from_date={{ from_date }}&to_date={{ to_date }}"
+					class="kt-btn kt-btn-success">
+					
+						<i class="ki-filled ki-file-down"></i>
+					
+						Export Source
+					
+					</a>
+					 <!-- copy table
+					<button type="button" id="copyTableBtn" class="kt-btn kt-btn-info"> <i class="ki-filled ki-copy"></i>Copy Table</button> -->
+					
+				</div>
+			</div>
+
+        </div>
+		
+
+        <div class="kt-container-fixed">
+
+            <div class="kt-card kt-card-grid w-full">
+
+                <!-- Header -->
+				<div class="kt-card-header flex items-center justify-between flex-wrap gap-4">
+				
+					<h3 class="kt-card-title">
+						    {{ employee_name }} - Calls of {{ call_date }}
+					</h3>
+				
+
+				</div>
+
+
+<div class="kt-container-fixed">
+
+    <div class="card">
+
+        <div class="card-body p-0">
+
+            <table class="kt-table">
+
+<thead>
+
+<tr>
+
+    <th>#</th>
+
+    <th>Time</th>
+
+    <th>Direction</th>
+
+    <th>Source</th>
+
+    <th>Destination</th>
+
+    <th>Duration</th>
+
+    <th>Status</th>
+
+    <th>Hour</th>
+
+    <th>Vendor</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for call in calls %}
+
+<tr>
+
+    <td>{{ forloop.counter }}</td>
+
+    <td>{{ call.ist_time|time:"h:i:s A" }}</td>
+
+    <td>{{ call.call_category }}</td>
+
+    <td>{{ call.source }}</td>
+
+    <td>{{ call.destination }}</td>
+
+    <td>{{ call.duration }}</td>
+
+    <td>
+
+        {% if call.call_status == "Answered" %}
+            <span class="kt-badge kt-badge-success">
+                Answered
+            </span>
+        {% else %}
+            <span class="kt-badge kt-badge-danger">
+                {{ call.call_status }}
+            </span>
+        {% endif %}
+
+    </td>
+
+    <td>{{ call.hour }}</td>
+
+    <td>{{ call.vendor }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="9" class="text-center py-10">
+
+No Calls Found
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,1512 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.1.1
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-theme="true" data-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/getting-started/license by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS License
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="license.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="License information for the Tailwind CSS based HTML and JavaScript toolkit." name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Metronic - Tailwind CSS License" name="twitter:title"/>
+  <meta content="License information for the Tailwind CSS based HTML and JavaScript toolkit." name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs-legacy/getting-started/license" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS License" property="og:title"/>
+  <meta content="License information for the Tailwind CSS based HTML and JavaScript toolkit." property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet">
+   <!-- Google tag (gtag.js) -->
+   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+   </script>
+   <script>
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+   </script>
+  </link>
+ </head>
+ <body class="antialiased flex h-full text-base text-gray-700 dark:bg-coal-500">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+		let themeMode;
+
+		if ( document.documentElement ) {
+			if ( localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('theme');
+			} else if ( document.documentElement.hasAttribute('data-theme-mode')) {
+				themeMode = document.documentElement.getAttribute('data-theme-mode');
+			} else {
+				themeMode = defaultThemeMode;
+			}
+
+			if (themeMode === 'system') {
+				themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+
+			document.documentElement.classList.add(themeMode);
+		}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-b-gray-200 fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] bg-light dark:bg-coal-500">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden btn btn-icon btn-light btn-clear btn-sm -ml-2" data-drawer-toggle="#sidebar">
+      <i 'outline'}="" class="ki-{" default':="" ki-abstract-14="" text-lg'="">
+      </i>
+     </button>
+     <a class="" href="../index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div id="docsearch">
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="btn btn-sm btn-light" href="../../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="btn btn-sm btn-dark" data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border border-r-gray-200">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-gray-600 hover:text-primary" href="https://twitter.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-gray-600 hover:text-primary" href="https://github.com/keenthemes/metronic-tailwind-html-integration">
+       <i 'outline'}="" class="ki-{" default':="" ki-github="" text-lg'="">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="flex items-center text-gray-600 hover:text-primary dark:hidden" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-moon="" text-lg'="">
+        </i>
+       </button>
+       <button class="flex items-center text-gray-600 hover:text-primary hidden dark:flex" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-sun="" text-lg'="">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-drawer="true" data-drawer-class="drawer drawer-start" data-drawer-enable="true|lg:false" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 scrollable-y-auto" data-scrollable="true" data-scrollable-dependencies="none|lg:#header" data-scrollable-height="auto" data-scrollable-offset="30px|lg:20px" data-scrollable-wrappers="none|lg:#page" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2.5">
+       <a class="flex items-center gap-2" href="installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-mouse-square text-success text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Quick Setup
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-info text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Changelog
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Support
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Figma
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-frame text-dark text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Composer
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../../../products/metronic-pulse.html" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-wlan text-danger text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Pulse
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Pulse - Laravel REST API Boilerplate for Metronic 9 Tailwind React.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="menu flex flex-col grow" data-menu="true" id="sidebar_menu">
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Getting Started
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../index-2.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="file-structure.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="installation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
+        <div class="menu-link py-1.5 pl-5 pr-2.5 flex gap-1 items-center grow cursor-pointer border-l-2 border-gray-200">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-gray-900 menu-item-show:text-gray-900 menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="menu-arrow justify-end -mr-2.5 w-5 text-gray-500">
+          <i 'outline'}="" class="ki-{" default':="" ki-plus="" menu-item-show:hidden'="" text-2xs="">
+          </i>
+          <i 'outline'}="" class="ki-{" default':="" hidden="" ki-minus="" menu-item-show:inline-flex'="" text-2xs="">
+          </i>
+         </span>
+        </div>
+        <div class="menu-accordion gap-0.5">
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="integration/react.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            React
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="integration/nextjs.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="integration/vue.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="integration/angular.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="integration/laravel.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="integration/blazor-server.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Nuxt
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Svelte
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Astro
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Remix
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Symfony
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Asp.Net Core
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Django
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Rails
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="multi-demo.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="menu-item active">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="license.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="references.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Customization
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/webpack.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/javascript.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/theming.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/dark-mode.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/rtl.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/optimization.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../composer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Base Components
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/accordion.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/avatar.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/badge.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/button.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/button-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Calendar
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/card.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/collapse.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/container.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Container
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/datatable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/dismiss.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/drawer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/dropdown.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/modal.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/progress.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/rating.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/reparent.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/scrollable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/table.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/theme.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theme
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/toggle.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/tooltip.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Navigation
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/menu.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/pagination.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/scrollspy.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/scrollto.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/stepper.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/sticky.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/tabs.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Forms
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/checkbox.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/file-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/image-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/input-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/radio.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/range.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Range
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/select.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/switch.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/textarea.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../components/toggle-password.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Datepicker
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dial Input
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Password Meter
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Plugins
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/apexcharts.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/formvalidation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          FormValidation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/clipboard.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/keenicons.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <div class="flex flex-col gap-2.5 mb-5">
+      <div class="flex items-center gap-1.5 text-md font-semibold">
+       <span class="text-primary">
+        Getting Started
+       </span>
+      </div>
+      <div class="flex flex-col gap-2.5">
+       <h1 class="text-2xl font-bold text-gray-900">
+        Metronic ThemeForest License
+       </h1>
+       <p class="text-sm font-normal text-gray-900">
+        When you purchase Metronic, the premier admin dashboard template from
+        <a class="link" href="https://1.envato.market/Vm7VRE" target="_blank">
+         ThemeForest
+        </a>
+        , 
+  comprehending the licensing terms is crucial to ensure your usage complies with legal requirements. 
+  This guide aims to demystify these terms, highlighting the differences 
+  between Regular and Extended licenses and their application to your use of Metronic.
+       </p>
+      </div>
+     </div>
+     <main class="text-gray-800 text-sm font-normal grow" id="content" role="content">
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="themeforest-licenses">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#themeforest-licenses">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Themeforest Licenses
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        ThemeForest, as part of Envato Market, offers digital products with specific licensing terms. 
+		There are two main types of licenses: Regular and Extended. 
+		These licenses govern how you can use the purchased product.
+       </div>
+       <div class="mb-4">
+        This guide is created in full compliance with ThemeForest’s official licensing terms and 
+		is intended to provide additional clarity based on frequently asked questions from our users. 
+		For the official, detailed license terms, please visit
+        <a class="link" href="https://themeforest.net/licenses/standard">
+         ThemeForest’s Licensing Terms page
+        </a>
+        .
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="regular-license">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#regular-license">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Regular License: Ideal for Standard Use
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The Regular License allows you to use Metronic for a single end product, 
+		which end users can access for free. Key points include.
+       </div>
+       <div class="flex flex-col gap-4">
+        <div class="flex">
+         <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+         </div>
+         <div class="font-medium text-sm text-gray-700">
+          <span class="font-semibold text-gray-900">
+           Single Use -
+          </span>
+          One license per end product.
+         </div>
+        </div>
+        <div class="flex">
+         <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+         </div>
+         <div class="font-medium text-sm text-gray-700">
+          <span class="font-semibold text-gray-900">
+           Non-SaaS -
+          </span>
+          The end product can't charge end users.
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="extended-license">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#extended-license">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Extended License: For SaaS Projects
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The Extended License is required for using Metronic in a product you intend to charge for, such as a SaaS application. However, it's important to note.
+       </div>
+       <div class="flex flex-col gap-4">
+        <div class="flex">
+         <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+         </div>
+         <div class="font-medium text-sm text-gray-700">
+          <span class="font-semibold text-gray-900">
+           SaaS Usage -
+          </span>
+          Perfect for paid web applications where users access the service by paying a fee.
+         </div>
+        </div>
+        <div class="flex">
+         <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+         </div>
+         <div class="font-medium text-sm text-gray-700">
+          <span class="font-semibold text-gray-900">
+           Unlimited Paying Users -
+          </span>
+          Allows unlimited paying users who are charged for using the SaaS service.
+         </div>
+        </div>
+        <div class="flex">
+         <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+         </div>
+         <div class="font-medium text-sm text-gray-700">
+          <span class="font-semibold text-gray-900">
+           Tailored Access -
+          </span>
+          Allow users to access the service whether via the main domain, subdomain, or own domain.
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="custom-license">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#custom-license">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Custom License
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        For unique or large-scale requirements, we at KeenThemes can provide custom licensing solutions tailored to your needs.
+        <a class="link" href="../../../../contact.html" target="_blank">
+         Contact Us
+        </a>
+        directly to discuss the possibilities and ensure the right fit for your project.
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="faq">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#faq">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        FAQ
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Check out the FAQ section below to learn more about Metronic before making a purchase decision.
+		If you have any questions, feel free to contact our
+        <a class="link" href="../../../../contact.html" target="_blank">
+         Keenthemes Pre-sale Support
+        </a>
+        .
+       </div>
+       <div class="card">
+        <div class="card-body">
+         <div data-accordion="true">
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_1">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_1">
+            <span class="text-base text-gray-900 font-medium">
+             Does each use of Metronic require a separate license ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_1">
+            <div class="text-gray-700 text-md pb-4">
+             A single license can be used for one production deployment and unlimited testing and development environments. 
+		However, each unique production deployment needs its own license
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_2">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_2">
+            <span class="text-base text-gray-900 font-medium">
+             Can a single Metronic license be used for a project with multiple subdomains ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_2">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, a single license allows the use of Metronic in a project where users log in from a central domain and access different modules via subdomains
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_3">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_3">
+            <span class="text-base text-gray-900 font-medium">
+             Can licenses be transferred to a client or another company ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_3">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, a single license allows the use of Metronic in a project where users log in from a central domain and access different modules via subdomains
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_4">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_4">
+            <span class="text-base text-gray-900 font-medium">
+             Can a single Metronic license be used for a project with multiple subdomains ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_4">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, licenses can be transferred if the end product's use remains consistent with the license terms.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_5">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_5">
+            <span class="text-base text-gray-900 font-medium">
+             What if I need Metronic for multiple sites within the same company ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_5">
+            <div class="text-gray-700 text-md pb-4">
+             Each site or project requires its own license, although custom licensing options are available for large-scale use.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_6">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_6">
+            <span class="text-base text-gray-900 font-medium">
+             How do updates work with Metronic licenses ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_6">
+            <div class="text-gray-700 text-md pb-4">
+             License purchases include ongoing updates, ensuring you have access to the latest features and improvements.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_7">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_7">
+            <span class="text-base text-gray-900 font-medium">
+             Are lifetime free updates provided with each license ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_7">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, each Metronic license comes with lifetime free updates, allowing you access to the latest features and improvements without additional cost.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_8">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_8">
+            <span class="text-base text-gray-900 font-medium">
+             Can Metronic be used for an open-source project ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_8">
+            <div class="text-gray-700 text-md pb-4">
+             No, Metronic cannot be used for open-source projects as each use of Metronic requires a separate license and the source code, including Metronic, cannot be distributed publicly.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_9">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_9">
+            <span class="text-base text-gray-900 font-medium">
+             Is there a difference in support between the Regular and Extended Licenses ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_9">
+            <div class="text-gray-700 text-md pb-4">
+             No, both licenses receive the same level of support from KeenThemes. For more information, visit the
+             <a class="link" href="../../../../support.html" target="_blank">
+              Support Policy
+             </a>
+             .
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_10">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_10">
+            <span class="text-base text-gray-900 font-medium">
+             Can a single Metronic license be used for a project with multiple subdomains ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_10">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, a single license allows the use of Metronic in a project where users log in from a central domain and access different modules via subdomains
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_11">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_11">
+            <span class="text-base text-gray-900 font-medium">
+             Can I get a refund if I no longer need Metronic ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_11">
+            <div class="text-gray-700 text-md pb-4">
+             Refund eligibility is determined by
+             <a class="link" href="https://themeforest.net/page/customer_refund_policy" target="_blank">
+              ThemeForest’s Refund Policy
+             </a>
+             and typically depends on the product meeting certain criteria.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_12">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_12">
+            <span class="text-base text-gray-900 font-medium">
+             How often does Metronic receive updates ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_12">
+            <div class="text-gray-700 text-md pb-4">
+             Metronic is updated regularly based on a development roadmap and user feedback.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_13">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_13">
+            <span class="text-base text-gray-900 font-medium">
+             Can Metronic be used for a multi-tenant application under one license ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_13">
+            <div class="text-gray-700 text-md pb-4">
+             Metronic can be used for multi-tenant applications, such as SaaS, where multiple end-users can create separate accounts, but this requires an Extended License.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_14">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_14">
+            <span class="text-base text-gray-900 font-medium">
+             Can I include Metronic in a hardware product I sell?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_14">
+            <div class="text-gray-700 text-md pb-4">
+             Licensing for inclusion in a hardware product depends on the nature of the product and how Metronic is used. It’s best to consult with KeenThemes for such specific use cases.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_15">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_15">
+            <span class="text-base text-gray-900 font-medium">
+             What is included in the Metronic package ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_15">
+            <div class="text-gray-700 text-md pb-4">
+             All the features shown on the
+             <a class="link" href="../../index.html" target="_blank">
+              Metronic Preview Site
+             </a>
+             are included in the package as per
+             <a class="link" href="file-structure.html" target="_blank">
+              Metronic File Structure Guide
+             </a>
+             .
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_16">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_16">
+            <span class="text-base text-gray-900 font-medium">
+             Can Metronic be used to build a commercial product that can be sold to a client ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_16">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, Metronic can be used to develop a commercial product that can be sold to a client. A separate license, either Regular or Extended, must be purchased depending on the nature of the end product.
+            </div>
+           </div>
+          </div>
+          <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_17">
+           <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_17">
+            <span class="text-base text-gray-900 font-medium">
+             Can an eCommerce site use a Regular License ?
+            </span>
+            <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+            </i>
+            <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+            </i>
+           </button>
+           <div class="accordion-content hidden" id="accordion_1_content_17">
+            <div class="text-gray-700 text-md pb-4">
+             Yes, an eCommerce site can operate under a Regular License if the site itself is not selling the Metronic theme or a product that includes the theme as part of its packaged software.
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="buy-metronic">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#buy-metronic">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Support Metronic's Future Growth
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Your license purchase is vital for sustaining Metronic's development, enhancing support, growing the community, and ensuring long-term viability. 
+		By
+        <a class="link" href="https://1.envato.market/Vm7VRE">
+         Buying License
+        </a>
+        , you invest in a tool that evolves with your needs and 
+		contributes to a leading admin dashboard template's future.
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="multi-demo.html">
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-left="" text-3xl="">
+       </i>
+       <span class="flex flex-col items-end">
+        <span class="text-2xs font-medium text-gray-500">
+         Previous
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Multi-Demo
+        </span>
+       </span>
+      </a>
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="references.html">
+       <span class="flex flex-col items-start">
+        <span class="text-2xs font-medium text-gray-500">
+         Next
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         References
+        </span>
+       </span>
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-right="" text-3xl="">
+       </i>
+      </a>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-2sm">
+        <span class="text-gray-500">
+         2025©
+        </span>
+        <a class="text-gray-600 hover:text-primary" href="../../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-2sm text-gray-600">
+        <a class="hover:text-primary" href="../../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="w-[280px] drawer drawer-start grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-overlay="true" data-overlay-enable="true|lg:false" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 scrollable-y-hover" data-scrollable="true" data-scrollable-dependencies="#header" data-scrollable-height="auto" data-scrollable-offset="15px" data-scrollable-wrappers="#page" id="aside_content">
+      <div class="card">
+       <div class="card-body px-5 flex flex-col gap-2.5">
+        <h3 class="text-sm font-semibold text-gray-900">
+         On This Page
+        </h3>
+        <div class="flex flex-col gap-1.75 text-sm font-normal" data-scrollspy="true" data-scrollspy-offset="80px|lg:150px" data-scrollspy-target="body">
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#themeforest-licenses">
+          ThemeForest Licenses
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#regular-license">
+          Regular License
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#extended-license">
+          Extended License
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#custom-license">
+          Custom License
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#faq">
+          FAQ
+         </a>
+         <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#buy-metronic">
+          Support Metronic
+         </a>
+        </div>
+       </div>
+      </div>
+      <a data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/widgets/algolia-search.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/getting-started/license by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:32 GMT -->
+</html>

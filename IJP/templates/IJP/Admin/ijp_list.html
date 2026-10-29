@@ -1,0 +1,47 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <div class="kt-container-fluid px-6">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-semibold">💼 Internal Job Postings</h3>
+        <a href="{% url 'IJP:create_ijp' %}" class="kt-btn kt-btn-primary">➕ Create New IJP</a>
+      </div>
+      <div class="kt-card">
+        <div class="kt-card-content overflow-x-auto">
+          <table class="kt-table kt-table-border w-full">
+            <thead><tr>
+              <th>Job Title</th><th>Department</th><th>Designation</th><th>Vacancies</th>
+              <th>Min. Experience</th><th>Appraisal</th><th>Attendance</th>
+              <th>Application Period</th><th>Status</th><th>Posted On</th><th class="text-end">Actions</th>
+            </tr></thead>
+            <tbody>
+              {% for ijp in ijps %}
+              <tr>
+                <td class="font-semibold">{{ ijp.title }}</td>
+                <td>{% for department in ijp.departments.all %}{{ department.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}</td>
+                <td>{% for designation in ijp.designations.all %}{{ designation.title }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}</td>
+                <td>{{ ijp.vacancies }}</td>
+                <td>{{ ijp.minimum_experience_months }} months</td>
+                <td>{{ ijp.minimum_appraisal_rating }}<br><span class="text-xs text-gray-500">{{ ijp.appraisal_year }}</span></td>
+                <td>{{ ijp.minimum_attendance_rating }}<br><span class="text-xs text-gray-500">{{ ijp.attendance_year }}</span></td>
+                <td>{{ ijp.application_start_date|date:"d M Y" }}<br><span class="text-xs text-gray-500">to {{ ijp.application_end_date|date:"d M Y" }}</span></td>
+                <td>{% if ijp.status == "Open" %}<span class="kt-badge kt-badge-success">Open</span>{% else %}<span class="kt-badge kt-badge-danger">{{ ijp.status }}</span>{% endif %}</td>
+                <td>{{ ijp.created_at|date:"d M Y" }}</td>
+                <td class="text-end whitespace-nowrap">
+                  <a href="{% url 'IJP:ijp_results' ijp.id %}" class="kt-btn kt-btn-sm kt-btn-outline-primary">Result</a>
+                  <a href="{% url 'IJP:edit_ijp' ijp.id %}" class="kt-btn kt-btn-sm kt-btn-outline-warning">Edit</a>
+                </td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="11" class="text-center text-gray-400 py-6">No Internal Job Postings created yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>

@@ -1,0 +1,417 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Page Header -->
+    <div class="kt-container-fixed">
+
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+
+        <div class="flex flex-col justify-center gap-2">
+
+          <h1 class="text-xl font-medium leading-none text-mono">
+            VoIP Account
+          </h1>
+
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">
+              Edit VoIP
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="flex items-center gap-2.5">
+
+          <a href="{% url 'ITDesk:list_voip' %}"
+             class="kt-btn kt-btn-outline">
+
+            List VoIP
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Main Container -->
+    <div class="kt-container-fixed">
+
+      <div class="grid gap-5 lg:gap-7.5">
+
+        <div class="kt-card kt-card-grid min-w-full">
+
+
+          <!-- Card Header -->
+          <div class="kt-card-header flex-wrap py-5">
+
+            <h3 class="kt-card-title">
+              Edit VoIP Account
+            </h3>
+
+          </div>
+
+
+          <!-- Card Content -->
+          <div class="kt-card-content p-5">
+
+            <form method="post"
+                  action="{% url 'ITDesk:edit_voip' voip.id %}"
+                  id="VoipForm">
+
+              {% csrf_token %}
+
+
+              <!-- ========================================= -->
+              <!-- VOIP ACCOUNT DETAILS -->
+              <!-- ========================================= -->
+
+              <h2 class="text-lg font-semibold mb-5">
+                VoIP Account Details
+              </h2>
+
+
+              <!-- Vendor / Callback -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+
+                <!-- Vendor -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Select Vendor
+                  </label>
+
+                  <select name="vendor"
+                          class="kt-select"
+                          required>
+
+                    <option value="">
+                      Choose Vendor
+                    </option>
+
+                    {% for vendor in vendors %}
+
+                      <option value="{{ vendor.id }}"
+                        {% if voip.vendor_id == vendor.id %}
+                          selected
+                        {% endif %}>
+
+                        {{ vendor.name }}
+
+                      </option>
+
+                    {% endfor %}
+
+                  </select>
+
+                </div>
+
+
+                <!-- Callback Number -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Callback Number
+                  </label>
+
+                  <input type="text"
+                         name="callback_number"
+                         class="kt-input"
+                         value="{{ voip.callback_number }}"
+                         required>
+
+                </div>
+
+              </div>
+
+
+              <!-- Username / Password -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+
+                <!-- Username -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Username
+                  </label>
+
+                  <input type="text"
+                         name="username"
+                         class="kt-input"
+                         value="{{ voip.username }}"
+                         required>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Password
+                  </label>
+
+                  <input type="text"
+                         name="password"
+                         class="kt-input"
+                         value="{{ voip.password }}"
+                         required>
+
+                </div>
+
+              </div>
+
+
+              <!-- Domain / CDR -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+
+                <!-- Domain -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Domain
+                  </label>
+
+                  <input type="text"
+                         name="domain"
+                         class="kt-input"
+                         value="{{ voip.domain }}"
+                         required>
+
+                </div>
+
+
+                <!-- CDR ID -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    CDR ID
+                  </label>
+
+                  <input type="text"
+                         name="cdr_id"
+                         class="kt-input"
+                         value="{{ voip.cdr_id|default:'' }}">
+
+                </div>
+
+              </div>
+
+
+              <!-- ========================================= -->
+              <!-- WEBRTC DETAILS -->
+              <!-- ========================================= -->
+
+              <h2 class="text-lg font-semibold mt-8 mb-5">
+                WebRTC Details
+              </h2>
+
+
+              <!-- WebRTC URL / Company Code -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+
+                <!-- WebRTC URL -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    WebRTC Login URL
+                  </label>
+
+                  <input type="url"
+                         name="url_webrtc"
+                         class="kt-input"
+                         value="{{ voip.url_webrtc|default:'' }}"
+                         placeholder="https://example.com/login">
+
+                </div>
+
+
+                <!-- Company Code -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Company Code
+                  </label>
+
+                  <input type="text"
+                         name="company_code"
+                         class="kt-input"
+                         value="{{ voip.company_code|default:'' }}"
+                         placeholder="Enter Company Code">
+
+                </div>
+
+              </div>
+
+
+              <!-- Tenant ID -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Tenant ID
+                  </label>
+
+                  <input type="text"
+                         name="tenant_id"
+                         class="kt-input"
+                         value="{{ voip.tenant_id|default:'' }}"
+                         placeholder="Enter Tenant ID">
+
+                </div>
+
+              </div>
+
+
+              <!-- ========================================= -->
+              <!-- USER DETAILS -->
+              <!-- ========================================= -->
+
+              <h2 class="text-lg font-semibold mt-8 mb-5">
+                User Details
+              </h2>
+
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+
+                <!-- Employee -->
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Employee
+                  </label>
+
+                  <select name="empid"
+                          class="kt-select"
+                          required>
+
+                    <option value="">
+                      Select Employee
+                    </option>
+
+
+                    <!-- Free -->
+                    <option value="free"
+                      {% if voip.is_free %}
+                        selected
+                      {% endif %}>
+
+                      Free
+
+                    </option>
+
+
+                    <!-- Employees -->
+                    {% for emp in employeeid %}
+
+                      <option value="{{ emp.id }}"
+                        {% if voip.empid and voip.empid.id == emp.id %}
+                          selected
+                        {% endif %}>
+
+                        {{ emp.first_name }}
+                        {{ emp.last_name }}
+                        ({{ emp.username }})
+
+                      </option>
+
+                    {% endfor %}
+
+                  </select>
+
+
+                  <span class="text-xs text-secondary-foreground mt-1">
+
+                    Assign this VoIP account to an active employee.
+                    If you assign another account to the same employee,
+                    their previous account will automatically become Free.
+
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- ========================================= -->
+              <!-- BUTTONS -->
+              <!-- ========================================= -->
+
+              <div class="mt-8 flex justify-end gap-3">
+
+
+                <a href="{% url 'ITDesk:list_voip' %}"
+                   class="kt-btn kt-btn-outline">
+
+                  Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="kt-btn kt-btn-primary"
+                        id="updateVoipButton">
+
+                  Update VoIP
+
+                </button>
+
+              </div>
+
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- ========================================= -->
+<!-- Scripts -->
+<!-- ========================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("VoipForm");
+    const updateButton = document.getElementById("updateVoipButton");
+
+    if (form && updateButton) {
+
+        form.addEventListener("submit", function () {
+
+            updateButton.disabled = true;
+
+            updateButton.innerHTML =
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating...';
+
+        });
+
+    }
+
+});
+
+</script>

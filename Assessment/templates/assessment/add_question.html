@@ -1,0 +1,181 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Create Question - {{ test.title }}</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label>Question</label>
+                    <textarea name="question_text"
+                              class="form-control"
+                              rows="3"
+                              required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label>Question Type</label>
+                    <select name="question_type"
+                            class="form-control">
+                        <option value="single">Single Choice</option>
+                        <option value="multiple">Multiple Choice</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Marks</label>
+                    <input type="number"
+                           name="marks"
+                           value="1"
+                           min="1"
+                           class="form-control">
+                </div>
+
+                <hr>
+
+                <h5>Options</h5>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="10%">Correct</th>
+                            <th>Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <input type="checkbox"
+                                       name="correct_answer"
+                                       value="0">
+                            </td>
+                            <td>
+                                <input type="text"
+                                       name="option_text"
+                                       class="form-control"
+                                       required>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <input type="checkbox"
+                                       name="correct_answer"
+                                       value="1">
+                            </td>
+                            <td>
+                                <input type="text"
+                                       name="option_text"
+                                       class="form-control"
+                                       required>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <input type="checkbox"
+                                       name="correct_answer"
+                                       value="2">
+                            </td>
+                            <td>
+                                <input type="text"
+                                       name="option_text"
+                                       class="form-control"
+                                       required>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <input type="checkbox"
+                                       name="correct_answer"
+                                       value="3">
+                            </td>
+                            <td>
+                                <input type="text"
+                                       name="option_text"
+                                       class="form-control"
+                                       required>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Save Question
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Saved Questions</h4>
+        </div>
+
+        <div class="card-body">
+
+            {% for question in test.questions.all %}
+
+                <div class="border p-3 mb-3">
+
+                    <h5>
+                        {{ forloop.counter }}.
+                        {{ question.question_text }}
+                    </h5>
+
+                    <small>
+                        Type:
+                        {{ question.get_question_type_display }}
+                        |
+                        Marks:
+                        {{ question.marks }}
+                    </small>
+
+                    <ul class="mt-2">
+
+                        {% for option in question.options.all %}
+
+                            <li>
+                                {{ option.option_text }}
+
+                                {% if option.is_correct %}
+                                    <span class="badge bg-success">
+                                        Correct
+                                    </span>
+                                {% endif %}
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            {% empty %}
+
+                <p>No questions added yet.</p>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

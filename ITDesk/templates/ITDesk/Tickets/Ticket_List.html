@@ -1,0 +1,539 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+    .ticket-page {
+        width: 100%;
+        padding: 24px;
+        color: #1e293b;
+        font-family: Arial, sans-serif;
+        box-sizing: border-box;
+    }
+
+    .ticket-page * {
+        box-sizing: border-box;
+    }
+
+    .ticket-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .ticket-heading h2 {
+        margin: 0 0 6px;
+        font-size: 25px;
+        font-weight: 700;
+        color: #172554;
+    }
+
+    .ticket-heading p {
+        margin: 0;
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .ticket-export {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: #15803d;
+        color: #fff !important;
+        border: 1px solid #15803d;
+        border-radius: 8px;
+        text-decoration: none !important;
+        font-size: 13px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+    .ticket-export:hover {
+        background: #166534;
+    }
+
+    .ticket-panel {
+        width: 100%;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+        overflow: hidden;
+    }
+
+    .ticket-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 20px 22px;
+        border-bottom: 1px solid #e8edf4;
+    }
+
+    .ticket-panel-header h3 {
+        margin: 0 0 5px;
+        font-size: 17px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .ticket-panel-header p {
+        margin: 0;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .ticket-total {
+        display: inline-block;
+        padding: 7px 12px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .ticket-table-wrap {
+        width: 100%;
+        padding: 18px 22px 22px;
+    }
+
+    #ticket_list {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0;
+        font-size: 13px;
+        color: #334155;
+    }
+
+    #ticket_list thead th {
+        padding: 14px 13px;
+        background: #f8fafc;
+        color: #475569;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .35px;
+        white-space: nowrap;
+    }
+
+    #ticket_list tbody td {
+        padding: 15px 13px;
+        border-bottom: 1px solid #edf2f7;
+        vertical-align: middle;
+        background: #fff;
+    }
+
+    #ticket_list tbody tr:hover td {
+        background: #f8fbff;
+    }
+
+    #ticket_list tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .ticket-id {
+        color: #2563eb;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .ticket-date {
+        white-space: nowrap;
+        color: #475569;
+    }
+
+    .ticket-user {
+        color: #334155;
+        font-weight: 600;
+    }
+
+    .ticket-muted {
+        color: #94a3b8;
+    }
+
+    .ticket-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .priority-high {
+        color: #b91c1c;
+        background: #fee2e2;
+    }
+
+    .priority-medium {
+        color: #92400e;
+        background: #fef3c7;
+    }
+
+    .priority-low {
+        color: #1d4ed8;
+        background: #dbeafe;
+    }
+
+    .priority-other {
+        color: #475569;
+        background: #f1f5f9;
+    }
+
+    .status-new {
+        color: #1d4ed8;
+        background: #dbeafe;
+    }
+
+    .status-viewed {
+        color: #0369a1;
+        background: #e0f2fe;
+    }
+
+    .status-pending {
+        color: #92400e;
+        background: #fef3c7;
+    }
+
+    .status-resolved {
+        color: #166534;
+        background: #dcfce7;
+    }
+
+    .status-closed {
+        color: #475569;
+        background: #e2e8f0;
+    }
+
+    .status-other {
+        color: #475569;
+        background: #f1f5f9;
+    }
+
+    .ticket-view-btn {
+        display: inline-block;
+        padding: 7px 12px;
+        background: #fff;
+        color: #2563eb !important;
+        border: 1px solid #bfdbfe;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none !important;
+        white-space: nowrap;
+        transition: .2s;
+    }
+
+    .ticket-view-btn:hover {
+        background: #2563eb;
+        color: #fff !important;
+        border-color: #2563eb;
+    }
+
+    .ticket-empty {
+        padding: 45px 15px !important;
+        text-align: center;
+        color: #64748b;
+    }
+
+    .ticket-empty strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #334155;
+        font-size: 15px;
+    }
+
+    .ticket-empty span {
+        font-size: 12px;
+    }
+
+    .ticket-table-wrap .dataTables_wrapper {
+        width: 100%;
+    }
+
+    .ticket-table-wrap .dataTables_length,
+    .ticket-table-wrap .dataTables_filter {
+        margin-bottom: 18px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .ticket-table-wrap .dataTables_filter {
+        text-align: right;
+    }
+
+    .ticket-table-wrap .dataTables_filter input,
+    .ticket-table-wrap .dataTables_length select {
+        padding: 8px 10px;
+        background: #fff;
+        border: 1px solid #cbd5e1;
+        border-radius: 7px;
+        outline: none;
+        font-size: 12px;
+    }
+
+    .ticket-table-wrap .dataTables_filter input:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+    }
+
+    .ticket-table-wrap .dataTables_info {
+        padding-top: 16px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .ticket-table-wrap .dataTables_paginate {
+        padding-top: 12px;
+        font-size: 12px;
+    }
+
+    .ticket-table-wrap .dataTables_paginate .paginate_button {
+        margin-left: 3px;
+        padding: 6px 10px;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 6px;
+        color: #475569 !important;
+        background: #fff !important;
+    }
+
+    .ticket-table-wrap .dataTables_paginate .paginate_button.current {
+        background: #2563eb !important;
+        color: #fff !important;
+        border-color: #2563eb !important;
+    }
+
+    @media (max-width: 768px) {
+        .ticket-page {
+            padding: 15px;
+        }
+
+        .ticket-panel-header,
+        .ticket-table-wrap {
+            padding: 15px;
+        }
+
+        .ticket-heading h2 {
+            font-size: 21px;
+        }
+    }
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+    <main class="grow pt-5" id="content" role="main">
+	    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fluid">
+
+            <div class="ticket-page">
+
+                <!-- Page heading -->
+                <div class="ticket-heading">
+                    <div>
+                        <h2>Support Tickets</h2>
+                        <p>Manage, search and track support requests.</p>
+                    </div>
+
+                    <a href="{% url 'ITDesk:export_tickets_excel' %}"
+                       class="ticket-export">
+                        <span>↓</span> Export Excel
+                    </a>
+                </div>
+
+                <!-- Ticket table only -->
+                <div class="ticket-panel">
+
+                    <div class="ticket-panel-header">
+                        <div>
+                            <h3>Ticket Register</h3>
+                            <p>
+                                {% if is_it_user %}
+                                    View and manage all support tickets.
+                                {% else %}
+                                    View the support tickets you raised.
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <span class="ticket-total">
+                            {{ ticket_count|default:0 }} Tickets
+                        </span>
+                    </div>
+
+                    <div class="ticket-table-wrap">
+
+                        <table id="ticket_list">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Date Raised</th>
+                                    <th>Created By</th>
+                                    <th>Category</th>
+                                    <th>Subcategory</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for ticket in tickets %}
+                                <tr>
+                                    <td>
+                                        <span class="ticket-id">
+                                            {{ ticket.ticket_id|default:ticket.id }}
+                                        </span>
+                                    </td>
+
+                                    <td class="ticket-date">
+                                        {% if ticket.created_at %}
+                                            {{ ticket.created_at|date:"d-M-Y" }}
+                                            <br>
+                                            <span class="ticket-muted">
+                                                {{ ticket.created_at|date:"h:i A" }}
+                                            </span>
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <span class="ticket-user">
+                                            {% if ticket.reported_by %}
+                                                {{ ticket.reported_by.username }}
+                                            {% elif ticket.created_by %}
+                                                {{ ticket.created_by }}
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </span>
+                                    </td>
+
+                                    <td>{{ ticket.category|default:"—" }}</td>
+
+                                    <td>{{ ticket.subcategory|default:"—" }}</td>
+
+                                    <td>
+                                        {% with priority_name=ticket.priority.name|default:ticket.priority %}
+                                            {% if priority_name == "High" %}
+                                                <span class="ticket-badge priority-high">
+                                                    {{ priority_name }}
+                                                </span>
+                                            {% elif priority_name == "Medium" %}
+                                                <span class="ticket-badge priority-medium">
+                                                    {{ priority_name }}
+                                                </span>
+                                            {% elif priority_name == "Low" %}
+                                                <span class="ticket-badge priority-low">
+                                                    {{ priority_name }}
+                                                </span>
+                                            {% else %}
+                                                <span class="ticket-badge priority-other">
+                                                    {{ priority_name|default:"—" }}
+                                                </span>
+                                            {% endif %}
+                                        {% endwith %}
+                                    </td>
+
+                                    <td>
+                                        {% if ticket.status == "New" %}
+                                            <span class="ticket-badge status-new">New</span>
+                                        {% elif ticket.status == "Viewed" %}
+                                            <span class="ticket-badge status-viewed">Viewed</span>
+                                        {% elif ticket.status == "Pending" %}
+                                            <span class="ticket-badge status-pending">Pending</span>
+                                        {% elif ticket.status == "Resolved" %}
+                                            <span class="ticket-badge status-resolved">Resolved</span>
+                                        {% elif ticket.status == "Closed" %}
+                                            <span class="ticket-badge status-closed">Closed</span>
+                                        {% else %}
+                                            <span class="ticket-badge status-other">
+                                                {{ ticket.status|default:"New" }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if ticket.assigned_to %}
+                                            <span class="ticket-user">
+                                                {{ ticket.assigned_to.username|default:ticket.assigned_to }}
+                                            </span>
+                                        {% else %}
+                                            <span class="ticket-muted">Unassigned</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+										{% if ticket.ticket_id %}
+											<a href="{% url 'ITDesk:it_ticket_detail' ticket.ticket_id %}">
+												View Details
+											</a>
+										{% else %}
+											<span class="text-gray-400">Ticket ID missing</span>
+										{% endif %}
+                                    </td>
+                                </tr>
+
+                                {% empty %}
+                                <tr>
+                                    <td colspan="9" class="ticket-empty">
+                                        <strong>No tickets found</strong>
+                                        <span>There are currently no tickets to display.</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="{% static 'assets/bundles/dataTables.bundle.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+    if ($.fn.DataTable &&
+        !$.fn.DataTable.isDataTable('#ticket_list')) {
+
+        $('#ticket_list').DataTable({
+            responsive: true,
+            pageLength: 10,
+            autoWidth: false,
+            order: [[1, 'desc']],
+            language: {
+                search: 'Search tickets:',
+                searchPlaceholder: 'Ticket ID, category, user...',
+                lengthMenu: 'Show _MENU_ entries',
+                info: 'Showing _START_ to _END_ of _TOTAL_ tickets',
+                infoEmpty: 'No tickets available',
+                zeroRecords: 'No matching tickets found',
+                emptyTable: 'No tickets available',
+                paginate: {
+                    previous: '← Previous',
+                    next: 'Next →'
+                }
+            },
+            columnDefs: [
+                {
+                    targets: [8],
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    }
+});
+</script>

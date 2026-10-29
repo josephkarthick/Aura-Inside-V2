@@ -1,0 +1,187 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fixed mb-6">
+      <ul class="flex border-b text-sm font-medium text-gray-600">
+        <li class="mr-4"><button class="tab-link active" data-tab="create">📝 Create Survey</button></li>
+      </ul>
+    </div>
+
+    <!-- Create Survey Tab -->
+    <div class="kt-container-fixed tab-section" data-tab="create">
+      <div class="kt-card max-w-4xl mx-auto">
+        <div class="kt-card-header">
+          <h3 class="kt-card-title text-base font-semibold">Create New Survey with Questions</h3>
+        </div>
+        <div class="kt-card-content">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="grid gap-4 mb-6">
+              <input type="text" class="kt-input" placeholder="Survey Title" name="title" required>
+              <textarea class="kt-input" placeholder="Description" name="description" rows="2"></textarea>
+              <label>Start Time:</label>
+              <input type="datetime-local" class="kt-input" name="start_time" required>
+              <label>End Time:</label>
+              <input type="datetime-local" class="kt-input" name="end_time" required>
+            </div>
+
+            <hr class="my-6">
+
+            <h4 class="font-semibold mb-3">Questions</h4>
+            <div id="questions-container" class="space-y-6">
+              <!-- Question blocks inserted here -->
+            </div>
+
+            <button type="button" class="kt-btn kt-btn-outline" onclick="addQuestion()">➕ Add Question</button>
+
+            <button type="submit" class="kt-btn kt-btn-primary w-full mt-8">✅ Create Survey</button>
+          </form>
+        </div>
+      </div>
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full text-sm text-secondary-foreground"></table>
+  </main>
+</div>
+
+<script>
+let questionIndex = 0;
+
+function addOption(qIndex) {
+  const container = document.querySelector(`#question-${qIndex} .options-container`);
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.name = `option_${qIndex}[]`;
+  input.placeholder = 'Option text';
+  input.className = 'kt-input mt-1';
+
+  // Check question type and set required accordingly
+  const qType = document.querySelector(`#question-${qIndex} select[name="question_type"]`).value;
+  if (qType !== 'text') {
+    input.setAttribute('required', 'required');
+  }
+
+  container.appendChild(input);
+}
+
+
+function toggleOptionsVisibility(qIndex) {
+  const qType = document.querySelector(`#question-${qIndex} select[name="question_type"]`).value;
+  const optionsDiv = document.querySelector(`#question-${qIndex} .options-section`);
+  const optionInputs = document.querySelectorAll(`#question-${qIndex} .options-container input`);
+
+  if (qType === 'text') {
+    optionsDiv.style.display = 'none';
+    // Remove required attribute on option inputs
+    optionInputs.forEach(input => input.removeAttribute('required'));
+  } else {
+    optionsDiv.style.display = 'block';
+    // Add required attribute on option inputs
+    optionInputs.forEach(input => input.setAttribute('required', 'required'));
+  }
+}
+
+
+function addQuestion() {
+  const container = document.getElementById('questions-container');
+
+  const qDiv = document.createElement('div');
+  qDiv.id = `question-${questionIndex}`;
+  qDiv.className = 'border border-gray-300 rounded p-4';
+
+  qDiv.innerHTML = `
+    <div class="flex justify-between items-center mb-2">
+      <h5 class="font-semibold">Question #${questionIndex + 1}</h5>
+	<button type="button"
+        onclick="removeQuestion(this)"
+        class="kt-btn kt-btn-sm kt-btn-danger">
+
+        Remove
+      </button>
+    </div>
+
+    <input type="text"
+           class="kt-input mb-2"
+           name="question_text"
+           placeholder="Question text"
+           required>
+
+    <select name="question_type"
+            class="kt-select mb-3"
+            onchange="toggleOptionsVisibility(${questionIndex})"
+            required>
+      <option value="radio">Single Choice (Radio)</option>
+      <option value="checkbox">Multiple Choice (Checkbox)</option>
+      <option value="text">Text Answer</option>
+    </select>
+
+    <!-- ✅ Upload Toggle -->
+    <div class="flex items-center gap-2 mb-3">
+      <input type="checkbox"
+             name="allow_file_upload"
+             value="${questionIndex}"
+             id="upload_${questionIndex}">
+      <label for="upload_${questionIndex}" class="text-sm">
+        Allow File Upload (PDF, JPG, PNG, DOC)
+      </label>
+    </div>
+
+    <div class="options-section" style="display:block;">
+      <label class="font-semibold mb-1">Options:</label>
+      <div class="options-container flex flex-col mb-2">
+        <input type="text"
+               name="option_${questionIndex}[]"
+               placeholder="Option 1"
+               class="kt-input mb-1"
+               required>
+
+        <input type="text"
+               name="option_${questionIndex}[]"
+               placeholder="Option 2"
+               class="kt-input mb-1"
+               required>
+      </div>
+
+      <button type="button"
+              class="kt-btn kt-btn-outline kt-btn-sm"
+              onclick="addOption(${questionIndex})">
+        Add Option
+      </button>
+    </div>
+  `;
+
+  container.appendChild(qDiv);
+  questionIndex++;
+}
+
+function removeQuestion(button) {
+  const questionBlock = button.closest('[id^="question-"]');
+  if (questionBlock) {
+    questionBlock.remove();
+  }
+}
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const links = document.querySelectorAll('.tab-link');
+  const sections = document.querySelectorAll('.tab-section');
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      const target = link.dataset.tab;
+
+      links.forEach(l => l.classList.remove('active', 'text-blue-600', 'border-blue-600'));
+      link.classList.add('active', 'text-blue-600', 'border-b-2', 'border-blue-600');
+
+      sections.forEach(sec => {
+        sec.classList.add('hidden');
+        if (sec.dataset.tab === target) sec.classList.remove('hidden');
+      });
+    });
+  });
+});
+</script>

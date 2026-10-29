@@ -1,0 +1,203 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+                <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true">
+                </table>
+    <!-- Tab Navigation -->
+    <div class="kt-container-fixed mb-6">
+      <ul class="flex border-b text-sm font-medium text-gray-600">
+        <li class="mr-4"><button class="tab-link active" data-tab="create">📝 Create Task</button></li>
+        <li class="mr-4"><button class="tab-link" data-tab="schedule">📅 Schedule Task</button></li>
+        <li class="mr-4"><button class="tab-link" data-tab="announcements">📢 Announcements</button></li>
+        <li><button class="tab-link" data-tab="agent">🧩 Voice Agent</button></li>
+      </ul>
+    </div>
+
+    <!-- Create Task Tab -->
+    <div class="kt-container-fixed  tab-section" data-tab="create">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-7.5">
+        <div class="kt-card">
+          <div class="kt-card-header"><h3 class="kt-card-title text-base font-semibold">Create New Task</h3></div>
+          <div class="kt-card-content">
+            <form method="POST" action="{% url 'auravoice:create_task' %}">
+              {% csrf_token %}
+              <div class="grid gap-4">
+                <input type="text" class="kt-input" placeholder="Title" name="title" required>
+                <textarea class="kt-input" placeholder="Description" name="description" rows="3" required></textarea>
+                <button type="submit" class="kt-btn kt-btn-primary w-full">➕ Create Task</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="kt-card">
+          <div class="kt-card-header"><h3 class="kt-card-title text-base font-semibold">Existing Tasks</h3></div>
+          <div class="kt-card-content">
+            <ul class="list-disc list-inside text-sm space-y-2">
+              {% for task in tasks %}
+                <li>
+                  <strong>{{ task.title }}</strong> - {{ task.description }}
+                  <form method="POST" action="{% url 'auravoice:delete_task' task.id %}" class="inline" onsubmit="return confirm('Delete this task?');">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-600 text-xs ml-2">🗑</button>
+                  </form>
+                </li>
+              {% empty %}
+                <li>No tasks available.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedule Task Tab -->
+    <div class="kt-container-fixed tab-section hidden" data-tab="schedule">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-7.5">
+        <div class="kt-card">
+          <div class="kt-card-header"><h3 class="kt-card-title text-base font-semibold">Schedule a Task</h3></div>
+          <div class="kt-card-content">
+            <form method="POST" action="{% url 'auravoice:create_schedule' %}">
+              {% csrf_token %}
+              <div class="grid gap-4">
+                <select name="task_id" class="kt-select w-full" required>
+                  <option value="">Select Task</option>
+                  {% for task in tasks %}
+                    <option value="{{ task.id }}">{{ task.title }}</option>
+                  {% endfor %}
+                </select>
+                <input type="time" name="start_time" class="kt-input" required>
+                <input type="time" name="end_time" class="kt-input" required>
+                <input type="number" name="repeat_minutes" class="kt-input" placeholder="Repeat every (minutes)" min="1" max="60" required>
+
+                <div id="voiceOptions">
+                  <label class="text-sm">Voice:</label>
+                  <select name="voice_name" class="kt-select w-full">
+                    <option value="">Default</option>
+                    <option value="Zira">Zira</option>
+                    <option value="David">David</option>
+                  </select>
+                  <label class="text-sm mt-2">Voice Rate:</label>
+                  <input type="range" name="voice_rate" min="0.5" max="2" step="0.1" value="1" class="kt-input">
+                 <button type="button" id="previewVoiceBtn" class="kt-btn kt-btn-secondary w-full">🔊 Preview Voice</button>                  
+                </div>
+                <button type="submit" class="kt-btn kt-btn-outline w-full">📅 Schedule Task</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="kt-card">
+          <div class="kt-card-header"><h3 class="kt-card-title text-base font-semibold">Scheduled Tasks</h3></div>
+          <div class="kt-card-content">
+            <ul class="list-disc list-inside text-sm space-y-1">
+              {% for s in schedules %}
+                <li>
+                  {{ s.task.title }} — {{ s.start_time }} to {{ s.end_time }} (Every {{ s.interval_minutes }} min)
+                  <form method="POST" action="{% url 'auravoice:delete_schedule' s.id %}" class="inline" onsubmit="return confirm('Delete this schedule?');">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-600 text-xs ml-2">🗑</button>
+                  </form>
+                </li>
+              {% empty %}
+                <li>No schedules available.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcements Tab -->
+    <div class="kt-container-fixed mt-10 tab-section hidden" data-tab="announcements">
+      <div class="kt-card">
+        <div class="kt-card-header"><h3 class="kt-card-title text-base font-semibold">📢 All Announcements</h3></div>
+        <div class="kt-card-content">
+          <table class="kt-table kt-table-border w-full text-sm">
+            <thead>
+              <tr><th>Title</th><th>Description</th><th>End Time</th><th>Voice Name</th><th>Voice Rate</th></tr>
+            </thead>
+            <tbody>
+              {% for a in next_announcements %}
+                <tr>
+                  <td>{{ a.title }}</td>
+                  <td>{{ a.description }}</td>
+                  <td>{{ a.time }}</td>
+                  <td>{{ a.voice_name }}</td>
+                  <td>{{ a.voice_rate }}</td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="5" class="text-center">No announcements yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice Agent Tab -->
+    <div class="kt-container-fixed mt-10 tab-section hidden" data-tab="agent">
+      <div class="kt-card max-w-lg">
+        <div class="kt-card-header">
+          <p class="text-xs text-gray-500">Use this plugin to enable scheduled announcements on your system.</p>
+          <h3 class="kt-card-title text-base font-semibold">🧩 Voice Agent Setup</h3></div>
+        <div class="kt-card-content space-y-4">
+          <a href="{% static 'Layout_Master/plugins/voice_agent.exe' %}" download class="kt-btn kt-btn-warning w-full">
+            ⬇️ Download Voice Agent Plugin
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const links = document.querySelectorAll('.tab-link');
+  const sections = document.querySelectorAll('.tab-section');
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      const target = link.dataset.tab;
+
+      links.forEach(l => l.classList.remove('active', 'text-blue-600', 'border-blue-600'));
+      link.classList.add('active', 'text-blue-600', 'border-b-2', 'border-blue-600');
+
+      sections.forEach(sec => {
+        sec.classList.add('hidden');
+        if (sec.dataset.tab === target) sec.classList.remove('hidden');
+      });
+    });
+  });
+});
+</script>
+
+<!-- JS: Preview Voice -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('previewVoiceBtn').addEventListener('click', () => {
+    const shortName = document.querySelector('select[name="voice_name"]').value;
+    const voiceRate = parseFloat(document.querySelector('input[name="voice_rate"]').value) || 1;
+    const utter = new SpeechSynthesisUtterance('This is a test of your selected voice and speed.');
+
+    const voices = speechSynthesis.getVoices();
+
+    // Match by checking if the full voice name includes 'Zira' or 'David'
+    const match = voices.find(v => v.name.includes(shortName));
+    if (match) {
+      utter.voice = match;
+      console.log(`✅ Using voice: ${match.name}`);
+    } else {
+      console.log(`⚠️ Voice '${shortName}' not found. Using default.`);
+    }
+
+    utter.rate = voiceRate;
+    speechSynthesis.speak(utter);
+  });
+});
+</script>

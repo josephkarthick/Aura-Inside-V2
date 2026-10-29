@@ -1,0 +1,166 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+ <body class="antialiased flex h-full text-base text-foreground bg-background demo1 kt-sidebar-fixed kt-header-fixed">
+  <!-- Theme Mode -->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+			let themeMode;
+
+			if (document.documentElement) {
+				if (localStorage.getItem('kt-theme')) {
+					themeMode = localStorage.getItem('kt-theme');
+				} else if (
+					document.documentElement.hasAttribute('data-kt-theme-mode')
+				) {
+					themeMode =
+						document.documentElement.getAttribute('data-kt-theme-mode');
+				} else {
+					themeMode = defaultThemeMode;
+				}
+
+				if (themeMode === 'system') {
+					themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+						? 'dark'
+						: 'light';
+				}
+
+				document.documentElement.classList.add(themeMode);
+			}
+  </script>
+  <!-- End of Theme Mode -->
+  <!-- Page -->
+  <!-- Main -->
+  <div class="flex grow">
+     </div>
+    </div>
+   </div>
+   <!-- End of Sidebar -->
+   <!-- Wrapper -->
+   
+   <div class="kt-wrapper flex grow flex-col">
+   <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <!-- Content -->
+    <main class="grow pt-5" id="content" role="content">
+     <!-- Container -->
+     <div class="kt-container-fixed" id="contentContainer">
+     </div>
+     <!-- End of Container -->
+     <!-- Container -->
+     <div class="kt-container-fixed">
+      <div class="flex flex-col items-stretch gap-7">
+       <div class="flex items-center gap-3 w-full">
+        <div class="kt-input w-full">
+         <i class="ki-filled ki-magnifier">
+         </i>
+         <input placeholder="Search" type="text" />
+        </div>
+        <!--Filter-->
+        <a href="{% url 'ITDesk:addvendor' %}" class="kt-dropdown-toggle kt-btn kt-btn-primary" data-kt-drawer-toggle="#drawers_shop_filter">
+         <i class="ki-filled ki-filter">
+         </i>
+         Add Vendor
+        </a>		
+       </div>
+	   
+       <!-- begin: toolbar -->
+       <div class="flex flex-wrap items-center gap-5 justify-between mt-3">
+        <h3 class="text-sm text-mono font-medium">
+        List Of 
+         <span class="text-destructive">
+          Vendors
+         </span>
+        </h3>
+
+       </div>
+       <!-- end: toolbar -->
+
+       <!-- begin: list -->
+       <div class="" id="shop1_lists">
+        <!-- begin: grid -->
+        <div class="grid grid-cols-1 gap-5">
+		    {% for vendor in vendors %}
+         <div class="kt-card">
+          <div class="kt-card-content flex items-center flex-wrap justify-between p-2 pe-5 gap-4.5">
+           <div class="flex items-center gap-3.5">
+            <div class="flex flex-col gap-2">
+             <div class="flex items-center gap-2.5 -mt-1">
+              <a class="hover:text-primary text-sm font-medium text-mono leading-5.5" data-kt-drawer-toggle="#drawers_shop_product_details" href="#">
+               {{ vendor.name }}
+              </a>
+             </div>
+             <div class="flex items-center flex-wrap gap-3">
+              <span class="kt-badge kt-badge-success kt-badge-sm rounded-full gap-1">
+               <i class="ki-solid ki-star text-white -mt-0.5">
+               </i>
+              {{ vendor.contact_number }}
+              </span>
+              <div class="flex items-center flex-wrap gap-2 lg:gap-4">
+               <span class="text-xs font-normal text-secondary-foreground uppercase">
+                GST:
+                <span class="text-xs font-medium text-foreground">
+                 {{ vendor.gst_number }}
+                </span>
+               </span>
+               <span class="text-xs font-normal text-secondary-foreground">
+                Email:
+                <span class="text-xs font-medium text-foreground">
+                 {{ vendor.email }}
+                </span>
+               </span>
+               <span class="text-xs font-normal text-secondary-foreground">
+                Address:
+                <span class="text-xs font-medium text-foreground">
+                 {{ vendor.address }}
+                </span>
+               </span>
+              </div>
+             </div>
+            </div>
+           </div>
+		   
+<div class="flex items-center gap-1.5">
+  <!-- Delete Vendor -->
+  <form method="post" action="{% url 'ITDesk:deletevendor' vendor.id %}" 
+        onsubmit="return confirm('Are you sure you want to delete this vendor?');">
+    {% csrf_token %}
+    <button type="submit" class="kt-btn kt-btn-danger ms-2 shrink-0">
+      <i class="ki-filled ki-trash"></i> Delete
+    </button>
+  </form>
+</div>
+
+          </div>
+         </div>
+         {% endfor %}
+          </div>
+         </div>
+        
+        
+       </div>
+       <!-- end: list -->
+      </div>
+     </div>
+     <!-- End of Container -->
+    </main>
+    <!-- End of Content -->
+    <!-- Footer -->
+ 
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- End of Page -->
+  <!-- Scripts -->
+  <script src="../../../../static/metronic/tailwind/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/dist/assets/vendors/ktui/ktui.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/dist/assets/js/layouts/demo1.js">
+  </script>
+  <!-- End of Scripts -->
+ </body>
+
+
+</html>

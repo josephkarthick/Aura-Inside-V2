@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>IJP Application {{ status }}</title></head>
+<body style="font-family:Arial,sans-serif;color:#263238;line-height:1.6;">
+  <div style="max-width:680px;margin:auto;border:1px solid #e5e7eb;border-radius:10px;padding:24px;">
+    <h2 style="margin-top:0;">Internal Job Posting Update</h2>
+    <p>Dear {{ employee.get_full_name|default:employee.username }},</p>
+    <p>{{ email_intro }}</p>
+    <table style="border-collapse:collapse;width:100%;">
+      <tr><td style="padding:8px;border-bottom:1px solid #eee;"><b>Job Title</b></td><td style="padding:8px;border-bottom:1px solid #eee;">{{ ijp.title }}</td></tr>
+      <tr><td style="padding:8px;border-bottom:1px solid #eee;"><b>Status</b></td><td style="padding:8px;border-bottom:1px solid #eee;">{{ status }}</td></tr>
+      <tr><td style="padding:8px;border-bottom:1px solid #eee;"><b>HR Remarks</b></td><td style="padding:8px;border-bottom:1px solid #eee;">{{ remarks|default:"-" }}</td></tr>
+      <tr><td style="padding:8px;"><b>Decision By</b></td><td style="padding:8px;">{{ decided_user_name|default:"Aura RCM HR" }}</td></tr>
+    </table>
+    <p>Regards,<br>Aura RCM HR</p>
+  </div>
+</body>
+</html>

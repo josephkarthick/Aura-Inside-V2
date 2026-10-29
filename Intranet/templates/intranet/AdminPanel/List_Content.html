@@ -1,0 +1,236 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Page Header -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-xl font-medium text-mono">Home Page Content Manager</h1>
+          <span class="text-sm text-secondary-foreground">
+            Manage announcements, banners and important updates shown on the home page
+          </span>
+        </div>
+<a href="{% url 'Intranet:add_home_content' %}" 
+   class="kt-btn kt-btn-primary">
+  ➕ Add Home Content
+</a>
+
+      </div>
+    </div>
+
+    <!-- Main Table -->
+    <div class="kt-container-fixed">
+      <div class="kt-card kt-card-grid">
+
+        <div class="kt-card-header py-5">
+          <h3 class="kt-card-title">Available Contents</h3>
+          <label class="kt-input w-64">
+            <i class="ki-filled ki-magnifier"></i>
+            <input data-kt-datatable-search="#team_crew_table" placeholder="Search content..." />
+          </label>
+        </div>
+
+        <div class="kt-card-content">
+          <div data-kt-datatable="true" data-kt-datatable-page-size="10" id="team_crew_table">
+            <div class="kt-scrollable-x-auto">
+              <table class="kt-table kt-table-border table-fixed">
+                <thead>
+                  <tr>
+                    <th class="w-[350px]">Content Title</th>
+                    <th class="w-[200px]">Visibility</th>
+                    <th class="w-[150px]">Priority</th>
+                    <th class="w-[150px]">Manage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in content %}
+                  <tr>
+                    <td>{{ item.title }}</td>
+                    <td>
+                      {% if item.show %}
+                        <span class="text-green-600 font-semibold">Visible</span>
+                      {% else %}
+                        <span class="text-red-600 font-semibold">Hidden</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ item.order_no }}</td>
+                    <td class="flex gap-2">
+					<button
+					class="kt-btn kt-btn-icon kt-btn-ghost open-edit-modal"
+					data-id="{{ item.id }}"
+					data-title="{{ item.title }}"
+					data-description="{{ item.description }}"
+					data-status="{{ item.show }}"
+					data-ordernumber="{{ item.order_no }}"
+					data-content-type="{{ item.content_type }}"
+					data-username="{{ item.username.id|default:'nothing' }}"
+					data-project="{{ item.project }}"
+					data-field1="{{ item.field1|default:'nothing' }}"
+					data-field2="{{ item.field2|default:'nothing' }}">
+					<i class="ki-filled ki-pencil"></i>
+					</button>
+
+
+                      <form action="{% url 'Intranet:delete_home_content' item.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="kt-btn kt-btn-icon kt-btn-ghost"
+                          onclick="return confirm('Delete {{ item.title }}?');">
+                          <i class="ki-filled ki-trash"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="kt-card-footer flex justify-between text-sm">
+              <span data-kt-datatable-info="true"></span>
+              <div class="kt-datatable-pagination" data-kt-datatable-pagination="true"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- EDIT CONTENT MODAL -->
+<div class="kt-modal" data-kt-modal="true" id="edit_profile_modal">
+  <div class="kt-modal-content max-w-[600px] top-[10%]">
+    <form method="post" action="{% url 'Intranet:edit_home_content' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="item_id" id="edit_item_id">
+
+      <div class="kt-modal-header">
+        <h3 class="kt-modal-title">✏️ Edit Home Page Content</h3>
+        <button class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost" data-kt-modal-dismiss>
+          <i class="ki-filled ki-cross"></i>
+        </button>
+      </div>
+
+      <div class="kt-modal-body grid gap-6 px-6 py-6">
+
+        <!-- CONTENT DETAILS -->
+        <div>
+          <h4 class="font-bold mb-3">📝 Content Details</h4>
+
+          <label class="font-semibold">Content Category</label>
+          <select name="content_type" id="edit_content_type" class="kt-input w-full">
+            {% for value, label in content_types %}
+              <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="font-semibold mt-3">Content Title</label>
+          <input type="text" name="title" id="edit_title" class="kt-input" required>
+
+          <label class="font-semibold mt-3">Description / Link</label>
+          <textarea name="description" id="edit_description" class="kt-input" rows="3"></textarea>
+
+          <label class="font-semibold mt-3">Change Image (Optional)</label>
+          <input type="file" name="photo" class="kt-input">
+        </div>
+
+        <!-- ASSIGNMENT -->
+        <div>
+          <h4 class="font-bold mb-3">👤 Assignment Details</h4>
+
+          <label class="font-semibold">Assigned User</label>
+          <select name="username" id="edit_username" class="kt-input w-full">
+            <option value="nothing">None</option>
+            {% for user in users %}
+              <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="font-semibold mt-3">Related Project</label>
+          <input type="text" name="project" id="edit_project" class="kt-input">
+        </div>
+
+        <!-- EXTRA -->
+        <div>
+          <h4 class="font-bold mb-3">🧩 Additional Information</h4>
+
+          <label class="font-semibold">Custom Tag 1</label>
+          <select name="field1" id="edit_field1" class="kt-input w-full">
+            <option value="nothing">None</option>
+            {% for value, label in user_fields %}
+              <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+
+          <label class="font-semibold mt-3">Custom Tag 2</label>
+          <select name="field2" id="edit_field2" class="kt-input w-full">
+            <option value="nothing">None</option>
+            {% for value, label in user_fields %}
+              <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- SETTINGS -->
+        <div>
+          <h4 class="font-bold mb-3">⚙️ Display Settings</h4>
+
+          <label class="font-semibold">Show on Home Page</label>
+          <select name="show" id="edit_show" class="kt-input w-full">
+            <option value="True">✅ Visible</option>
+            <option value="False">❌ Hidden</option>
+          </select>
+
+          <label class="font-semibold mt-3">Display Priority</label>
+          <input type="number" name="order_no" id="edit_order_no" class="kt-input" required>
+        </div>
+
+      </div>
+
+      <div class="kt-modal-footer flex justify-end gap-3 px-6 pb-6">
+        <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss type="button">Cancel</button>
+        <button class="kt-btn kt-btn-primary" type="submit">Update Content</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const table = document.querySelector('#team_crew_table');
+  if (!table) return;
+
+  table.addEventListener('click', function (e) {
+
+    const btn = e.target.closest('.open-edit-modal');
+    if (!btn) return;
+
+    document.getElementById('edit_item_id').value = btn.dataset.id || '';
+    document.getElementById('edit_title').value = btn.dataset.title || '';
+    document.getElementById('edit_description').value = btn.dataset.description || '';
+    document.getElementById('edit_order_no').value = btn.dataset.ordernumber || '';
+
+    document.getElementById('edit_show').value =
+      btn.dataset.status?.toLowerCase() === "true" ? "True" : "False";
+
+    document.getElementById('edit_content_type').value = btn.dataset.contentType || '';
+    document.getElementById('edit_username').value = btn.dataset.username || 'nothing';
+    document.getElementById('edit_project').value = btn.dataset.project || '';
+    document.getElementById('edit_field1').value = btn.dataset.field1 || 'nothing';
+    document.getElementById('edit_field2').value = btn.dataset.field2 || 'nothing';
+
+    const modal = document.getElementById('edit_profile_modal');
+    const instance = KTModal.getOrCreateInstance(modal);
+    instance.show();
+  });
+
+});
+</script>
+
+

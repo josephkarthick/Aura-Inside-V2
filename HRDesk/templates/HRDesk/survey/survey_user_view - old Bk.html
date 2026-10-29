@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>{{ survey.title }} </title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="{% static 'SurveyForm/img/apple-touch-icon-72x72-precomposed.png' %}">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="{% static 'SurveyForm/img/apple-touch-icon-114x114-precomposed.png' %}">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="{% static 'SurveyForm/img/apple-touch-icon-144x144-precomposed.png' %}">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
+
+    <!-- BASE CSS -->
+    <link href="{% static 'SurveyForm/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'SurveyForm/css/menu.css' %}" rel="stylesheet">
+    <link href="{% static 'SurveyForm/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'SurveyForm/css/vendors.css' %}" rel="stylesheet">
+
+    <!-- YOUR CUSTOM CSS -->
+    <link href="{% static 'SurveyForm/css/custom.css' %}" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div id="loader_form">
+        <div data-loader="circle-side-2"></div>
+    </div><!-- /loader_form -->
+
+    <div class="container-fluid full-height">
+        <div class="row row-height">
+
+            <div class="col-lg-6 content-left">
+                <div class="content-left-wrapper">
+                    <a href="index.html" id="logo"><img src="{% static 'SurveyForm/img/Logo.jpg' %}" alt="" width="49" height="35"></a>
+                    <div id="social">
+                        <ul>
+                            <li><a href="https://www.aurabpo.com"><i class="bi bi-globe"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- /social -->
+                    <div>
+                        <figure>
+							<img src="{% static 'SurveyForm/img/info_graphic_1.svg' %}" alt="" class="img-fluid">
+						</figure>
+                        <h1>{{ survey.title }}</h2>
+                        <p>{{ survey.description }}</p>
+                    </div>
+                    <div class="copy">© 2025 Aura Bpo Services</div>
+                </div>
+                <!-- /content-left-wrapper -->
+            </div>
+            <!-- /content-left -->
+
+            <div class="col-lg-6 content-right" id="start">
+                <div id="wizard_container" class="my-auto">
+                    <div id="top-wizard">
+                        <div id="progressbar"></div>
+                    </div>
+                    <!-- /top-wizard -->
+
+                    <div class="survey-container">
+                      <form method="POST" id="surveyForm">
+                        {% csrf_token %}
+
+                        <!-- Progress bar -->
+                        <ul class="progressbar">
+                          {% for question in survey.questions.all %}
+                          <li {% if forloop.first %}class="active"{% endif %}>Q{{ forloop.counter }}</li>
+                          {% endfor %}
+                        </ul>
+
+                        {% for question in survey.questions.all %}
+                        <div class="step {% if forloop.first %}active{% endif %}">
+                          <div class="question-text">{{ question.text }}</div>
+
+                          {% if question.question_type == "radio" %}
+                            {% for option in question.options.all %}
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="q{{ question.id }}o{{ option.id }}" value="{{ option.id }}" required />
+                              <label class="form-check-label" for="q{{ question.id }}o{{ option.id }}">{{ option.text }}</label>
+                            </div>
+                            {% endfor %}
+
+                          {% elif question.question_type == "checkbox" %}
+                            {% for option in question.options.all %}
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="question_{{ question.id }}" id="q{{ question.id }}o{{ option.id }}" value="{{ option.id }}" />
+                              <label class="form-check-label" for="q{{ question.id }}o{{ option.id }}">{{ option.text }}</label>
+                            </div>
+                            {% endfor %}
+
+                          {% elif question.question_type == "text" %}
+                            <input type="text" name="question_{{ question.id }}" class="form-control" placeholder="Your answer" required />
+                          {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary" id="prevBtn" disabled>Previous</button>
+                          <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+                          <button type="submit" class="btn btn-success d-none" id="submitBtn">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+
+
+                </div>
+                <!-- /Wizard container -->
+            </div>
+            <!-- /content-right -->
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container-fluid -->
+
+    <div class="cd-overlay-nav">
+        <span></span>
+    </div>
+    <!-- /cd-overlay-nav -->
+
+    <div class="cd-overlay-content">
+        <span></span>
+    </div>
+    <!-- /cd-overlay-content -->
+
+
+
+    <!-- COMMON SCRIPTS -->
+    <script src="{% static 'SurveyForm/js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'SurveyForm/js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'SurveyForm/js/velocity.min.js' %}"></script>
+    <script src="{% static 'SurveyForm/js/functions.js' %}"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Wizard JS -->
+    <script>
+      (function() {
+        const steps = document.querySelectorAll('.step');
+        const progressItems = document.querySelectorAll('.progressbar li');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        let currentStep = 0;
+
+        function showStep(step) {
+          steps.forEach((el, i) => {
+            el.classList.toggle('active', i === step);
+            progressItems[i].classList.toggle('active', i <= step);
+          });
+
+          prevBtn.disabled = step === 0;
+          nextBtn.classList.toggle('d-none', step === steps.length - 1);
+          submitBtn.classList.toggle('d-none', step !== steps.length - 1);
+        }
+
+        nextBtn.addEventListener('click', () => {
+          // Simple validation: check if required fields are filled before going next
+          const currentInputs = steps[currentStep].querySelectorAll('input, textarea');
+          for (const input of currentInputs) {
+            if (input.hasAttribute('required')) {
+              if (input.type === 'radio' || input.type === 'checkbox') {
+                const name = input.name;
+                const checked = steps[currentStep].querySelector(`input[name="${name}"]:checked`);
+                if (!checked) {
+                  alert('Please answer the question before proceeding.');
+                  return;
+                }
+              } else if (!input.value.trim()) {
+                alert('Please fill in the required fields.');
+                return;
+              }
+            }
+          }
+
+          if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+          }
+        });
+
+        prevBtn.addEventListener('click', () => {
+          if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+          }
+        });
+
+        showStep(currentStep);
+      })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,902 @@
+
+{% load static %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceView | AuraInside</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .spaceview {
+            padding: 20px;
+            max-width: 1800px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .switch {
+            display: flex;
+            gap: 5px;
+            padding: 5px;
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .switch button {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: #374151;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .switch button.active {
+            background: #7c3aed;
+            color: white;
+            box-shadow: 0 2px 6px #00000020;
+        }
+
+        .map-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        .map-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 13px 18px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .map-toolbar h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-actions button {
+            padding: 9px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        #addSeatButton {
+            background: #7c3aed;
+            color: white;
+            border-color: #7c3aed;
+        }
+
+        .toolbar-actions button:disabled { opacity: .45; cursor: not-allowed; }
+        .toolbar-actions select {
+            min-width: 190px; max-width: 260px; padding: 9px 10px;
+            border: 1px solid #d1d5db; border-radius: 7px;
+            background: white; font-size: 13px;
+        }
+        #assignSystemButton { background: #059669; color: white; border-color: #059669; }
+        #deleteSeatTopButton { color: #b91c1c; border-color: #fecaca; }
+
+        #addSeatButton.placing {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        #placementMessage {
+            padding: 10px 18px;
+            color: #6d28d9;
+            font-size: 13px;
+            display: none;
+        }
+
+        #placementMessage.visible {
+            display: block;
+            background: #f5f3ff;
+            border-bottom: 1px solid #ddd6fe;
+        }
+
+        .map-viewport {
+            height: calc(100vh - 220px);
+            min-height: 450px;
+            overflow: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 16px;
+            background: #252525;
+        }
+
+        #mapCanvas {
+            position: relative;
+            width: fit-content;
+            max-width: 100%;
+            height: fit-content;
+            flex-shrink: 0;
+        }
+
+        #floorImage {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: none;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        #mapCanvas.zoomed {
+            width: 1200px;
+            max-width: none;
+        }
+
+        #mapCanvas.zoomed #floorImage {
+            width: 100%;
+            max-width: none;
+        }
+
+        #workstationLayer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+		.workstation-marker {
+			position: absolute;
+			transform: translate(-50%, -50%);
+			background: #2563eb;
+			color: white;
+			border: 1px solid white;
+			padding: 3px 6px;  /* Marker box size */
+			font-size: 10px;    /* Workstation number text size */
+			border: 1px solid white; /* Border thickness */
+			font-weight: 700;
+			line-height: 1.1;
+			white-space: nowrap;
+			box-shadow: 0 1px 3px #0005;
+			pointer-events: auto;
+			cursor: pointer;
+			z-index: 2;
+		}
+
+        .workstation-marker:hover {
+            background: #1d4ed8;
+            transform: translate(-50%, -50%) scale(1.12);
+        }
+
+        .workstation-marker.selected {
+            outline: 3px solid #fbbf24;
+        }
+
+        #seatDetails {
+            display: none;
+            padding: 14px 18px;
+            background: #fff;
+            border-top: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        #seatDetails.visible {
+            display: block;
+        }
+
+        #seatDetails strong {
+            font-size: 15px;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .detail-actions button {
+            padding: 7px 11px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .detail-actions .delete-button {
+            color: #b91c1c;
+        }
+
+        .detail-actions .edit-button {
+            color: #6d28d9;
+            border-color: #c4b5fd;
+        }
+
+        #editSeatForm {
+            display: none;
+            margin-top: 14px;
+            padding: 14px;
+            border: 1px solid #ddd6fe;
+            border-radius: 9px;
+            background: #faf5ff;
+        }
+
+        #editSeatForm.visible { display: block; }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .edit-field { display: flex; flex-direction: column; gap: 5px; }
+        .edit-field label { font-size: 12px; font-weight: 700; color: #374151; }
+        .edit-field input, .edit-field select {
+            width: 100%; min-width: 0; padding: 9px 10px;
+            border: 1px solid #d1d5db; border-radius: 6px;
+            background: white; font-size: 13px;
+        }
+        .edit-form-actions { display: flex; gap: 8px; margin-top: 12px; }
+        .edit-form-actions button {
+            padding: 8px 12px; border: 1px solid #d1d5db;
+            border-radius: 6px; background: white; cursor: pointer; font-weight: 600;
+        }
+        #saveSeatButton { background: #7c3aed; color: white; border-color: #7c3aed; }
+        #editError { display: none; margin-top: 9px; color: #b91c1c; font-size: 12px; }
+        #editError.visible { display: block; }
+        @media (max-width: 600px) { .edit-grid { grid-template-columns: 1fr; } }
+
+        @media (max-width: 600px) {
+            .spaceview {
+                padding: 10px;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .switch {
+                width: 100%;
+            }
+
+            .switch button {
+                flex: 1;
+                padding: 10px 8px;
+            }
+
+            .map-viewport {
+                height: calc(100vh - 240px);
+                min-height: 350px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="spaceview">
+
+    <div class="header">
+        <div>
+            <h2>SpaceView</h2>
+            <p>Office Floor Plan Viewer</p>
+        </div>
+
+        <div class="switch">
+            <button type="button" class="active"
+                    data-floor="0" onclick="showFloor(0)">
+                Eighth Floor
+            </button>
+
+            <button type="button"
+                    data-floor="1" onclick="showFloor(1)">
+                Second Map
+            </button>
+        </div>
+    </div>
+
+    <div class="map-card">
+
+        <div class="map-toolbar">
+            <h3 id="mapTitle">Guna Complex — Eighth Floor</h3>
+
+            <div class="toolbar-actions">
+                <button type="button" id="editSeatTopButton" onclick="openEditSeatForm()" disabled>Edit Seat</button>
+                <select id="assignAssetSelect" aria-label="Select system to assign">
+                    <option value="">Select system / asset</option>
+                    {% for asset in assets %}
+                    <option value="{{ asset.id }}">
+                        {{ asset.asset_tag|default:asset.hostname|default:asset.id }}{% if asset.hostname %} — {{ asset.hostname }}{% endif %}{% if asset.product_name %} ({{ asset.product_name }}){% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="button" id="assignSystemButton" onclick="assignSystemToSeat()" disabled>Assign System</button>
+                <button type="button" id="deleteSeatTopButton" class="delete-button" onclick="deleteSelectedSeat()" disabled>Delete Seat</button>
+                <button type="button" id="addSeatButton" onclick="toggleAddSeat()">+ Add Seat</button>
+                <button type="button" id="zoomButton" onclick="toggleZoom()">Zoom In</button>
+            </div>
+        </div>
+
+        <div id="placementMessage">
+            Click on a workstation position to add a seat. Click Cancel Placement to stop.
+        </div>
+        <div id="assignmentMessage" role="status" aria-live="polite" style="display:none;padding:9px 18px;font-size:13px;"></div>
+
+        <div class="map-viewport" id="mapViewport">
+            <div id="mapCanvas">
+                <img
+                    id="floorImage"
+                    src="/media/SpaceView/eighth_floor.png"
+                    alt="Guna Complex Eighth Floor Plan">
+
+                <div id="workstationLayer"></div>
+            </div>
+        </div>
+
+        <div id="seatDetails">
+            <strong id="detailCode"></strong>
+            <div id="detailFloor"></div>
+            <div id="detailPosition"></div>
+            <div id="detailAssignedSystem"></div>
+            <div class="detail-actions">
+                <button type="button" onclick="closeSeatDetails()">Close Details</button>
+            </div>
+
+            <form id="editSeatForm" onsubmit="saveEditedSeat(event)">
+                <div class="edit-grid">
+                    <div class="edit-field">
+                        <label for="editSeatCode">Seat Number</label>
+                        <input id="editSeatCode" name="workstation_code" type="text"
+                               maxlength="20" required autocomplete="off">
+                    </div>
+                    <div class="edit-field">
+                        <label for="editSeatFloor">Floor</label>
+                        <select id="editSeatFloor" name="floor" required>
+                            <option value="eighth">Guna Complex — Eighth Floor</option>
+                            <option value="second">Second Map</option>
+                        </select>
+                    </div>
+                    <div class="edit-field">
+                        <label for="editSeatX">Horizontal Position (%)</label>
+                        <input id="editSeatX" name="x_position" type="number"
+                               min="0" max="100" step="0.01" required>
+                    </div>
+                    <div class="edit-field">
+                        <label for="editSeatY">Vertical Position (%)</label>
+                        <input id="editSeatY" name="y_position" type="number"
+                               min="0" max="100" step="0.01" required>
+                    </div>
+                </div>
+                <div id="editError"></div>
+                <div class="edit-form-actions">
+                    <button type="submit" id="saveSeatButton">Save Changes</button>
+                    <button type="button" onclick="closeEditSeatForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const floors = [
+        {
+            title: "Guna Complex — Eighth Floor",
+            image: "/media/SpaceView/eighth_floor.png",
+            alt: "Guna Complex Eighth Floor Plan",
+            code: "eighth"
+        },
+        {
+            title: "Office Floor Plan — Second Map",
+            image: "/media/SpaceView/second_floor.png",
+            alt: "Office Floor Plan",
+            code: "second"
+        }
+    ];
+
+    // Workstations saved in the database by Django.
+    let existingWorkstations = JSON.parse(
+        '{{ workstations_json|default:"[]"|escapejs }}'
+    );
+
+    let currentFloor = 0;
+    let zoomed = false;
+    let addingSeat = false;
+    let selectedSeatId = null;
+
+    function currentFloorCode() {
+        return floors[currentFloor].code;
+    }
+
+    function showFloor(index) {
+        currentFloor = index;
+        zoomed = false;
+        addingSeat = false;
+        selectedSeatId = null;
+
+        const image = document.getElementById("floorImage");
+        const canvas = document.getElementById("mapCanvas");
+        const viewport = document.getElementById("mapViewport");
+
+        image.src = floors[index].image;
+        image.alt = floors[index].alt;
+
+        canvas.classList.remove("zoomed");
+
+        document.getElementById("mapTitle").textContent =
+            floors[index].title;
+
+        document.getElementById("zoomButton").textContent = "Zoom In";
+
+        document.querySelectorAll(".switch button").forEach(button => {
+            button.classList.toggle(
+                "active",
+                Number(button.dataset.floor) === index
+            );
+        });
+
+        updatePlacementButton();
+        closeSeatDetails();
+        closeEditSeatForm();
+
+        viewport.scrollTop = 0;
+        viewport.scrollLeft = 0;
+
+        renderWorkstations();
+    }
+
+    function toggleZoom() {
+        zoomed = !zoomed;
+
+        document.getElementById("mapCanvas")
+            .classList.toggle("zoomed", zoomed);
+
+        document.getElementById("zoomButton").textContent =
+            zoomed ? "Fit Map" : "Zoom In";
+
+        // Wait for the image dimensions to update.
+        requestAnimationFrame(renderWorkstations);
+    }
+
+    function toggleAddSeat() {
+        addingSeat = !addingSeat;
+        updatePlacementButton();
+    }
+
+    function updatePlacementButton() {
+        const button = document.getElementById("addSeatButton");
+        const message = document.getElementById("placementMessage");
+
+        button.classList.toggle("placing", addingSeat);
+        button.textContent = addingSeat
+            ? "Cancel Placement"
+            : "+ Add Seat";
+
+        message.classList.toggle("visible", addingSeat);
+    }
+
+    function renderWorkstations() {
+        const layer = document.getElementById("workstationLayer");
+        const image = document.getElementById("floorImage");
+
+        layer.innerHTML = "";
+
+        if (!image.naturalWidth || !image.clientWidth) {
+            return;
+        }
+
+        existingWorkstations
+            .filter(ws =>
+                ws.floor === currentFloorCode() &&
+                ws.is_active !== false
+            )
+            .forEach(ws => {
+                const marker = document.createElement("button");
+
+                marker.type = "button";
+                marker.className = "workstation-marker";
+                marker.textContent = ws.workstation_code;
+                marker.title = "Select " + ws.workstation_code;
+
+                marker.style.left = ws.x_position + "%";
+                marker.style.top = ws.y_position + "%";
+
+                if (String(ws.id) === String(selectedSeatId)) {
+                    marker.classList.add("selected");
+                }
+
+                marker.addEventListener("click", event => {
+                    event.stopPropagation();
+                    selectSeat(ws);
+                });
+
+                layer.appendChild(marker);
+            });
+    }
+
+    function selectSeat(ws) {
+        selectedSeatId = ws.id;
+
+        document.getElementById("detailCode").textContent =
+            ws.workstation_code;
+
+        document.getElementById("detailFloor").textContent =
+            "Floor: " + floors.find(f => f.code === ws.floor).title;
+
+        document.getElementById("detailPosition").textContent =
+            "Position: " +
+            Number(ws.x_position).toFixed(2) + "%, " +
+            Number(ws.y_position).toFixed(2) + "%";
+
+        document.getElementById("seatDetails").classList.add("visible");
+
+        const assetSelect = document.getElementById("assignAssetSelect");
+        assetSelect.value = ws.assigned_asset_id == null ? "" : String(ws.assigned_asset_id);
+        const selectedAssetLabel = assetSelect.selectedOptions.length
+            ? assetSelect.selectedOptions[0].textContent.trim() : "";
+        document.getElementById("detailAssignedSystem").textContent =
+            ws.assigned_asset_id != null && selectedAssetLabel
+                ? "Assigned system: " + selectedAssetLabel
+                : "Assigned system: None";
+
+        document.getElementById("editSeatTopButton").disabled = false;
+        document.getElementById("deleteSeatTopButton").disabled = false;
+        document.getElementById("assignSystemButton").disabled = false;
+
+        renderWorkstations();
+    }
+
+    function closeSeatDetails() {
+        selectedSeatId = null;
+        document.getElementById("seatDetails").classList.remove("visible");
+        document.getElementById("editSeatTopButton").disabled = true;
+        document.getElementById("deleteSeatTopButton").disabled = true;
+        document.getElementById("assignSystemButton").disabled = true;
+        document.getElementById("assignAssetSelect").value = "";
+        closeEditSeatForm();
+        renderWorkstations();
+    }
+
+    function getSelectedSeat() {
+        return existingWorkstations.find(ws => String(ws.id) === String(selectedSeatId));
+    }
+
+    function openEditSeatForm() {
+        const ws = getSelectedSeat();
+        if (!ws) return;
+        document.getElementById("editSeatCode").value = ws.workstation_code;
+        document.getElementById("editSeatFloor").value = ws.floor;
+        document.getElementById("editSeatX").value = Number(ws.x_position).toFixed(2);
+        document.getElementById("editSeatY").value = Number(ws.y_position).toFixed(2);
+        const error = document.getElementById("editError");
+        error.textContent = "";
+        error.classList.remove("visible");
+        document.getElementById("editSeatForm").classList.add("visible");
+        document.getElementById("editSeatCode").focus();
+    }
+
+    function closeEditSeatForm() {
+        const form = document.getElementById("editSeatForm");
+        if (form) form.classList.remove("visible");
+        const error = document.getElementById("editError");
+        if (error) {
+            error.textContent = "";
+            error.classList.remove("visible");
+        }
+    }
+
+    async function saveEditedSeat(event) {
+        event.preventDefault();
+        const ws = getSelectedSeat();
+        if (!ws) return;
+
+        const saveButton = document.getElementById("saveSeatButton");
+        const errorBox = document.getElementById("editError");
+        const code = document.getElementById("editSeatCode").value.trim().toUpperCase();
+        const floor = document.getElementById("editSeatFloor").value;
+        const x = Number(document.getElementById("editSeatX").value);
+        const y = Number(document.getElementById("editSeatY").value);
+
+        if (!code) {
+            errorBox.textContent = "Seat number is required.";
+            errorBox.classList.add("visible");
+            return;
+        }
+        if (!Number.isFinite(x) || !Number.isFinite(y) || x < 0 || x > 100 || y < 0 || y > 100) {
+            errorBox.textContent = "Position values must be between 0 and 100.";
+            errorBox.classList.add("visible");
+            return;
+        }
+
+        saveButton.disabled = true;
+        errorBox.classList.remove("visible");
+        try {
+            const editUrl = "{% url 'SpaceView:edit_workstation' 0 %}".replace("/0/", "/" + ws.id + "/");
+            const response = await fetch(editUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCsrfToken()
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    workstation_code: code,
+                    floor: floor,
+                    x_position: x,
+                    y_position: y,
+                    assigned_asset_id: ws.assigned_asset_id == null ? null : ws.assigned_asset_id
+                })
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                errorBox.textContent = result.error || "Unable to update the seat.";
+                errorBox.classList.add("visible");
+                return;
+            }
+
+            const index = existingWorkstations.findIndex(item => String(item.id) === String(ws.id));
+            if (index !== -1) existingWorkstations[index] = result.workstation;
+            closeEditSeatForm();
+
+            // If the seat was moved to another floor, switch to that floor.
+            const newFloorIndex = floors.findIndex(item => item.code === result.workstation.floor);
+            if (newFloorIndex !== -1 && newFloorIndex !== currentFloor) {
+                showFloor(newFloorIndex);
+            } else {
+                renderWorkstations();
+            }
+            selectSeat(result.workstation);
+        } catch (error) {
+            console.error(error);
+            errorBox.textContent = "Unable to update the seat. Check the Django server and try again.";
+            errorBox.classList.add("visible");
+        } finally {
+            saveButton.disabled = false;
+        }
+    }
+
+    async function assignSystemToSeat() {
+        const ws = getSelectedSeat();
+        if (!ws) {
+            alert("Select a workstation first.");
+            return;
+        }
+
+        const select = document.getElementById("assignAssetSelect");
+        const button = document.getElementById("assignSystemButton");
+        const message = document.getElementById("assignmentMessage");
+        const assetId = select.value ? Number(select.value) : null;
+		
+		// Prevent assigning a system that is already assigned to another workstation.
+		if (assetId !== null) {
+			const assignedWorkstation = existingWorkstations.find(ws =>
+				String(ws.assigned_asset_id) === String(assetId) &&
+				String(ws.id) !== String(selectedSeatId)
+			);
+		
+			if (assignedWorkstation) {
+				message.style.display = "block";
+				message.style.color = "#991b1b";
+				message.textContent =
+					"This system is already assigned to " +
+					assignedWorkstation.workstation_code + ".";
+		
+				return;
+			}
+		}
+
+        button.disabled = true;
+        message.style.display = "block";
+        message.style.color = "#065f46";
+        message.textContent = "Saving system assignment...";
+
+        try {
+            const editUrl = "{% url 'SpaceView:edit_workstation' 0 %}".replace("/0/", "/" + ws.id + "/");
+            const response = await fetch(editUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCsrfToken()
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({ assigned_asset_id: assetId })
+            });
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || "Unable to assign the system.");
+            }
+
+            const index = existingWorkstations.findIndex(item => String(item.id) === String(ws.id));
+            if (index !== -1) existingWorkstations[index] = result.workstation;
+            selectSeat(result.workstation);
+            message.textContent = assetId
+                ? "System assignment saved."
+                : "System assignment removed.";
+        } catch (error) {
+            console.error(error);
+            message.style.color = "#991b1b";
+            message.textContent = error.message || "Unable to assign the system.";
+        } finally {
+            button.disabled = !getSelectedSeat();
+        }
+    }
+
+    function getCsrfToken() {
+        const field = document.querySelector(
+            'input[name="csrfmiddlewaretoken"]'
+        );
+
+        if (field) {
+            return field.value;
+        }
+
+        const cookie = document.cookie
+            .split("; ")
+            .find(row => row.startsWith("csrftoken="));
+
+        return cookie ? decodeURIComponent(cookie.split("=")[1]) : "";
+    }
+
+    document.getElementById("mapCanvas").addEventListener(
+        "click",
+        async function(event) {
+            if (!addingSeat || event.target.id !== "floorImage") {
+                return;
+            }
+
+            const image = document.getElementById("floorImage");
+            const rect = image.getBoundingClientRect();
+
+            if (!rect.width || !rect.height) {
+                alert("The floor map is not ready yet.");
+                return;
+            }
+
+            // Store percentages relative to the displayed image.
+            // These remain stable when the map is zoomed or resized.
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+            if (x < 0 || x > 100 || y < 0 || y > 100) {
+                return;
+            }
+
+            const button = document.getElementById("addSeatButton");
+            button.disabled = true;
+
+            try {
+                const response = await fetch(
+                    "{% url 'SpaceView:add_workstation' %}",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": getCsrfToken()
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify({
+                            floor: currentFloorCode(),
+                            x_position: x,
+                            y_position: y
+                        })
+                    }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    alert(
+                        result.error ||
+                        "Unable to save the workstation."
+                    );
+                    return;
+                }
+
+                existingWorkstations.push(result.workstation);
+
+                renderWorkstations();
+                selectSeat(result.workstation);
+                document.getElementById("placementMessage").textContent =
+                    result.workstation.workstation_code +
+                    " saved. Click the next seat position, or click Cancel Placement to finish.";
+
+            } catch (error) {
+                console.error(error);
+                alert(
+                    "Unable to save the workstation. " +
+                    "Check the Django server and try again."
+                );
+            } finally {
+                button.disabled = false;
+            }
+        }
+    );
+
+    async function deleteSelectedSeat() {
+        const ws = getSelectedSeat();
+        if (!ws) return;
+
+        if (!confirm("Are you sure you want to delete " + ws.workstation_code + "? This cannot be undone.")) {
+            return;
+        }
+
+        const deleteButtons = [document.getElementById("deleteSeatTopButton")];
+        deleteButtons.forEach(button => button.disabled = true);
+        try {
+            const deleteUrl = "{% url 'SpaceView:delete_workstation' 0 %}".replace("/0/", "/" + ws.id + "/");
+            const response = await fetch(deleteUrl, {
+                method: "POST",
+                headers: { "X-CSRFToken": getCsrfToken() },
+                credentials: "same-origin"
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                alert(result.error || "Unable to delete the seat.");
+                return;
+            }
+
+            existingWorkstations = existingWorkstations.filter(item => String(item.id) !== String(ws.id));
+            closeSeatDetails();
+            renderWorkstations();
+            document.getElementById("placementMessage").textContent = result.message || "Seat deleted successfully.";
+        } catch (error) {
+            console.error(error);
+            alert("Unable to delete the seat. Check the Django server and try again.");
+        } finally {
+            deleteButtons.forEach(button => button.disabled = !getSelectedSeat());
+        }
+    }
+
+    document.getElementById("floorImage")
+        .addEventListener("load", renderWorkstations);
+
+    window.addEventListener("resize", renderWorkstations);
+
+    renderWorkstations();
+</script>
+</body>
+</html>

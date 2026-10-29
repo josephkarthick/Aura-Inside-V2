@@ -1,0 +1,1678 @@
+{% load static %}
+
+{% include 'Layout_Master/base.html' %}
+
+<style>
+    /* Layout Master page refinements */
+    #content .kt-container-fixed { max-width: 1500px; margin-inline: auto; padding-inline: 24px; }
+    .lm-page-header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    .lm-page-header h1 { font-size:25px; line-height:1.25; letter-spacing:-.025em; color:#172033; }
+    .lm-page-header p { font-size:13px; color:#64748b; margin-top:6px; }
+    .lm-main-card { overflow:hidden; border:1px solid #e2e8f0; border-radius:14px; background:#fff; box-shadow:0 8px 24px rgba(15,23,42,.045); }
+    .lm-card-heading { display:flex; align-items:center; gap:10px; padding:18px 22px; border-bottom:1px solid #e8edf4; background:linear-gradient(180deg,#fff,#fafcff); }
+    .lm-card-heading h3 { font-size:16px; font-weight:700; color:#1e293b; }
+    .lm-card-heading p { font-size:12px; color:#64748b; margin-top:3px; }
+    .lm-card-body { padding:22px; }
+    .lm-select-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; padding:16px; border:1px solid #e5eaf1; border-radius:12px; background:#f8fafc; }
+    .lm-field label { display:block; font-size:12px; font-weight:700; color:#475569; margin-bottom:8px; }
+    .lm-field select { width:100%; min-height:42px; padding:9px 12px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; color:#1e293b; font-size:13px; outline:none; }
+    .lm-field select:focus, .lm-search:focus { border-color:#818cf8; box-shadow:0 0 0 3px rgba(99,102,241,.12); }
+    .lm-section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .lm-section-title label { font-size:14px; font-weight:700; color:#243247; }
+    .lm-section-subtitle { color:#64748b; font-size:12px; line-height:1.5; margin:-2px 0 12px; }
+    .lm-list-panel { height:300px; max-height:300px; overflow:auto; border:1px solid #dbe3ed; border-radius:10px; padding:12px; background:#fff; }
+    .lm-list-panel .lm-check-row { display:flex; align-items:flex-start; gap:10px; padding:8px 9px; margin:0 0 3px; border-radius:7px; cursor:pointer; color:#334155; font-size:12px; line-height:1.4; }
+    .lm-list-panel .lm-check-row:hover { background:#f1f5f9; }
+    .lm-check-row input { margin-top:2px; accent-color:#4f46e5; flex:0 0 auto; }
+    .lm-search { width:100%; height:38px; padding:8px 11px; margin-bottom:9px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; font-size:12px; outline:none; }
+    .lm-list-meta { display:flex; justify-content:space-between; gap:8px; margin:0 2px 8px; color:#64748b; font-size:11px; }
+    #accessSection { margin-top:22px; padding:18px; border:1px solid #e5eaf1; border-radius:12px; background:#f8fafc; }
+    .lm-access-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+    .lm-access-panel { min-width:0; padding:14px; border:1px solid #e2e8f0; border-radius:11px; background:#fff; }
+    .lm-save-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:20px; }
+    #savePermission { min-width:155px; min-height:42px; border-radius:9px; font-weight:700; box-shadow:0 4px 10px rgba(79,70,229,.15); }
+    #statusMessage { border:1px solid #dbeafe; border-radius:9px; background:#f8fafc; }
+    @media(max-width:1100px) { .lm-select-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .lm-access-grid { grid-template-columns:1fr; } .lm-list-panel { height:240px; max-height:240px; } }
+    @media(max-width:600px) { #content .kt-container-fixed { padding-inline:12px; } .lm-card-body { padding:14px; } .lm-select-grid { grid-template-columns:1fr; padding:12px; } .lm-page-header h1 { font-size:21px; } .lm-save-row { align-items:stretch; flex-direction:column; } #savePermission { width:100%; } }
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+
+    <main class="grow pt-5" id="content" role="main">
+
+        <!-- KEEP THIS TABLE -->
+        <table
+            class="kt-table table-fixed kt-table-border w-full"
+            data-kt-datatable-table="true"
+        ></table>
+
+
+        <div class="kt-container-fixed">
+
+            <!-- ========================================================= -->
+            <!-- HEADER -->
+            <!-- ========================================================= -->
+
+            <div class="lm-page-header">
+
+                <div>
+
+                    <h1 class="text-xl font-semibold text-gray-900">
+                        Layout Master
+                    </h1>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Manage menu and access permissions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================================= -->
+            <!-- MAIN CARD -->
+            <!-- ========================================================= -->
+
+            <div class="kt-card lm-main-card">
+
+                <div class="kt-card-header lm-card-heading">
+
+                    <div>
+                        <h3 class="kt-card-title">Menu Access Management</h3>
+                        <p>Choose a menu level, then configure who can access it.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="kt-card-content lm-card-body">
+
+
+                    <!-- ================================================= -->
+                    <!-- MENU / ACCESS / SUBMENU / CHILD -->
+                    <!-- ================================================= -->
+
+                    <div class="lm-select-grid">
+
+
+                        <!-- ================================================= -->
+                        <!-- MENU -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Menu
+                            </label>
+
+                            <select
+                                id="menuSelect"
+                                class="kt-select w-full"
+                            >
+
+                                <option value="">
+                                    Select Menu
+                                </option>
+
+                                {% for menu in menus %}
+
+                                    <option value="{{ menu.id }}">
+                                        {{ menu.name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- ACCESS TYPE - SECOND -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Access Type
+                            </label>
+
+                            <select
+                                id="visibilitySelect"
+                                class="kt-select w-full"
+                            >
+
+                                <option value="public">
+                                    Public
+                                </option>
+
+                                <option value="authenticated">
+                                    Login Required
+                                </option>
+
+                                <option value="department">
+                                    Department Based
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- SUB MENU -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Sub Menu
+                            </label>
+
+                            <select
+                                id="submenuSelect"
+                                class="kt-select w-full"
+                                disabled
+                            >
+
+                                <option value="">
+                                    Select Sub Menu
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ================================================= -->
+                        <!-- CHILD MENU -->
+                        <!-- ================================================= -->
+
+                        <div class="lm-field">
+
+                            <label class="block text-sm font-medium mb-2">
+                                Child Menu
+                            </label>
+
+                            <select
+                                id="childmenuSelect"
+                                class="kt-select w-full"
+                                disabled
+                            >
+
+                                <option value="">
+                                    Select Child Menu
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- DEPARTMENT + DESIGNATION
+                         ONLY FOR DEPARTMENT BASED
+                    -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="accessSection"
+                        class="mt-8 hidden"
+                    >
+
+                        <div class="lm-access-grid">
+
+
+                            <!-- ================================================= -->
+                            <!-- DEPARTMENT -->
+                            <!-- ================================================= -->
+
+                            <div class="lm-access-panel">
+
+                                <div class="lm-section-title"><label>Department</label></div>
+
+                                <div
+                                    class="lm-list-panel"
+                                >
+
+                                    {% for department in departments %}
+
+                                        <label
+                                            class="lm-check-row"
+                                        >
+
+                                            <input
+                                                type="checkbox"
+                                                class="department-checkbox"
+                                                value="{{ department.id }}"
+                                            >
+
+                                            <span>
+                                                {{ department.name }}
+                                            </span>
+
+                                        </label>
+
+                                    {% empty %}
+
+                                        <div class="text-sm text-gray-500">
+                                            No departments found.
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ================================================= -->
+                            <!-- DESIGNATION -->
+                            <!-- ================================================= -->
+
+                            <div class="lm-access-panel">
+
+                                <div class="lm-section-title"><label>Designation</label></div>
+
+                                <div
+                                    id="designationContainer"
+                                    class="lm-list-panel"
+                                >
+
+                                    <div class="text-sm text-gray-500">
+                                        Select a department first.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ================================================= -->
+                            <!-- SPECIFIC USERS -->
+                            <!-- ================================================= -->
+
+                            <div class="lm-access-panel">
+
+                                <div class="lm-section-title"><label>Specific Users</label><span id="userSelectedCount" class="lm-list-meta">0 selected</span></div>
+
+                                <p class="lm-section-subtitle">
+                                    Optional. Selected employees must also match any department and designation restrictions.
+                                </p>
+                                <input type="search" id="userSearch" class="lm-search" placeholder="Search name or username..." autocomplete="off">
+                                <div class="lm-list-meta"><span>Employee access list</span><span>Use checkboxes to select</span></div>
+                                <div id="userContainer" class="lm-list-panel">
+
+                                    {% for employee in users %}
+
+                                        <label class="lm-check-row">
+                                            <input
+                                                type="checkbox"
+                                                class="user-checkbox"
+                                                value="{{ employee.id }}"
+                                            >
+
+                                            <span>
+                                                {% if employee.get_full_name %}
+                                                    {{ employee.get_full_name }} ({{ employee.username }})
+                                                {% else %}
+                                                    {{ employee.username }}
+                                                {% endif %}
+                                            </span>
+                                        </label>
+
+                                    {% empty %}
+
+                                        <div class="text-sm text-gray-500">
+                                            No users found.
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- SAVE BUTTON -->
+                    <!-- ================================================= -->
+
+                    <div class="lm-save-row"><div class="text-xs text-gray-500">Permissions apply to the selected Menu, Sub Menu, or Child Menu.</div>
+
+                        <button
+                            type="button"
+                            id="savePermission"
+                            class="kt-btn kt-btn-primary"
+                        >
+                            Save Permission
+                        </button>
+
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- STATUS -->
+                    <!-- ================================================= -->
+
+                    <div
+                        id="statusMessage"
+                        class="hidden mt-5 p-4 rounded-lg text-sm"
+                    ></div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        // ============================================================
+        // ELEMENTS
+        // ============================================================
+
+        const menuSelect =
+            document.getElementById("menuSelect");
+
+        const visibilitySelect =
+            document.getElementById("visibilitySelect");
+
+        const submenuSelect =
+            document.getElementById("submenuSelect");
+
+        const childmenuSelect =
+            document.getElementById("childmenuSelect");
+
+        const accessSection =
+            document.getElementById("accessSection");
+
+        const designationContainer =
+            document.getElementById(
+                "designationContainer"
+            );
+
+        const savePermission =
+            document.getElementById(
+                "savePermission"
+            );
+
+        const statusMessage =
+            document.getElementById(
+                "statusMessage"
+            );
+
+        const userSearch = document.getElementById("userSearch");
+        const userSelectedCount = document.getElementById("userSelectedCount");
+
+        function updateUserSelectedCount() {
+            if (!userSelectedCount) return;
+            const count = document.querySelectorAll(".user-checkbox:checked").length;
+            userSelectedCount.textContent = `${count} selected`;
+        }
+
+        if (userSearch) {
+            userSearch.addEventListener("input", function () {
+                const query = this.value.trim().toLowerCase();
+                document.querySelectorAll("#userContainer .lm-check-row").forEach(function (row) {
+                    row.style.display = row.textContent.toLowerCase().includes(query) ? "flex" : "none";
+                });
+            });
+        }
+
+        document.addEventListener("change", function (event) {
+            if (event.target.classList.contains("user-checkbox")) updateUserSelectedCount();
+        });
+
+
+        // ============================================================
+        // MENU DATA
+        // ============================================================
+
+        const menuData = {
+
+            {% for menu in menus %}
+
+            "{{ menu.id }}": {
+
+                name:
+                    "{{ menu.name|escapejs }}",
+
+                visibility:
+                    "{{ menu.visibility }}",
+
+                submenus: {
+
+                    {% for submenu in menu.submenus.all %}
+
+                    "{{ submenu.id }}": {
+
+                        name:
+                            "{{ submenu.name|escapejs }}",
+
+                        visibility:
+                            "{{ submenu.visibility }}",
+
+                        childmenus: {
+
+                            {% for child in submenu.child_menus.all %}
+
+                            "{{ child.id }}": {
+
+                                name:
+                                    "{{ child.name|escapejs }}",
+
+                                visibility:
+                                    "{{ child.visibility }}"
+
+                            },
+
+                            {% endfor %}
+
+                        }
+
+                    },
+
+                    {% endfor %}
+
+                }
+
+            },
+
+            {% endfor %}
+
+        };
+
+
+        // ============================================================
+        // SHOW / HIDE DEPARTMENT SECTION
+        // ============================================================
+
+        function updateAccessSection() {
+
+            if (
+                visibilitySelect.value ===
+                "department"
+            ) {
+
+                accessSection.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                accessSection.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+
+
+        // ============================================================
+        // ACCESS TYPE CHANGE
+        // ============================================================
+
+        visibilitySelect.addEventListener(
+            "change",
+            function () {
+
+                updateAccessSection();
+
+            }
+        );
+
+
+        // ============================================================
+        // STATUS MESSAGE
+        // ============================================================
+
+        function showStatus(
+            message,
+            success = true
+        ) {
+
+            statusMessage.textContent =
+                message;
+
+            statusMessage.classList.remove(
+                "hidden"
+            );
+
+            statusMessage.classList.remove(
+                "text-green-600",
+                "text-red-600"
+            );
+
+            statusMessage.classList.add(
+                success
+                    ? "text-green-600"
+                    : "text-red-600"
+            );
+
+        }
+
+
+        function hideStatus() {
+
+            statusMessage.classList.add(
+                "hidden"
+            );
+
+            statusMessage.textContent =
+                "";
+
+        }
+
+
+        // ============================================================
+        // CLEAR PERMISSION SELECTIONS
+        // ============================================================
+
+        function clearPermissionSelections() {
+
+            document
+                .querySelectorAll(
+                    ".department-checkbox"
+                )
+                .forEach(
+                    function (checkbox) {
+
+                        checkbox.checked =
+                            false;
+
+                    }
+                );
+
+
+            designationContainer.innerHTML =
+
+                '<div class="text-sm text-gray-500">' +
+
+                'Select a department first.' +
+
+                '</div>';
+
+            document
+                .querySelectorAll(".user-checkbox")
+                .forEach(function (checkbox) {
+                    checkbox.checked = false;
+                });
+            updateUserSelectedCount();
+
+        }
+
+
+        // ============================================================
+        // RESET SUB MENU
+        // ============================================================
+
+        function resetSubMenu() {
+
+            submenuSelect.innerHTML =
+
+                '<option value="">' +
+                'Select Sub Menu' +
+                '</option>';
+
+            submenuSelect.disabled =
+                true;
+
+        }
+
+
+        // ============================================================
+        // RESET CHILD MENU
+        // ============================================================
+
+        function resetChildMenu() {
+
+            childmenuSelect.innerHTML =
+
+                '<option value="">' +
+                'Select Child Menu' +
+                '</option>';
+
+            childmenuSelect.disabled =
+                true;
+
+        }
+
+
+        // ============================================================
+        // MENU CHANGE
+        // ============================================================
+
+        menuSelect.addEventListener(
+            "change",
+            function () {
+
+                hideStatus();
+
+                clearPermissionSelections();
+
+                resetSubMenu();
+
+                resetChildMenu();
+
+
+                const menuId =
+                    this.value;
+
+
+                if (!menuId) {
+
+                    visibilitySelect.value =
+                        "public";
+
+                    updateAccessSection();
+
+                    return;
+
+                }
+
+
+                const menu =
+                    menuData[menuId];
+
+
+                if (!menu) {
+                    return;
+                }
+
+
+                // =================================================
+                // LOAD MENU VISIBILITY TEMPORARILY
+                // =================================================
+
+                visibilitySelect.value =
+                    menu.visibility ||
+                    "public";
+
+                updateAccessSection();
+
+
+                // =================================================
+                // LOAD SUB MENUS
+                // =================================================
+
+                Object.entries(
+                    menu.submenus
+                ).forEach(
+                    function (
+                        [id, submenu]
+                    ) {
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+                        option.value =
+                            id;
+
+                        option.textContent =
+                            submenu.name;
+
+                        submenuSelect.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+                if (
+                    Object.keys(
+                        menu.submenus
+                    ).length > 0
+                ) {
+
+                    submenuSelect.disabled =
+                        false;
+
+                }
+
+
+                // =================================================
+                // LOAD EXISTING MENU PERMISSION
+                // =================================================
+
+                loadExistingPermission({
+
+                    menu_id:
+                        menuId
+
+                });
+
+            }
+        );
+
+
+        // ============================================================
+        // SUB MENU CHANGE
+        // ============================================================
+
+        submenuSelect.addEventListener(
+            "change",
+            function () {
+
+                hideStatus();
+
+                clearPermissionSelections();
+
+                resetChildMenu();
+
+
+                const menuId =
+                    menuSelect.value;
+
+                const submenuId =
+                    this.value;
+
+
+                if (!submenuId) {
+
+                    if (menuId) {
+
+                        loadExistingPermission({
+
+                            menu_id:
+                                menuId
+
+                        });
+
+                    }
+
+                    return;
+
+                }
+
+
+                const menu =
+                    menuData[
+                        menuId
+                    ];
+
+
+                if (!menu) {
+                    return;
+                }
+
+
+                const submenu =
+                    menu.submenus[
+                        submenuId
+                    ];
+
+
+                if (!submenu) {
+                    return;
+                }
+
+
+                visibilitySelect.value =
+                    submenu.visibility ||
+                    "public";
+
+                updateAccessSection();
+
+
+                // =================================================
+                // LOAD CHILD MENUS
+                // =================================================
+
+                Object.entries(
+                    submenu.childmenus
+                ).forEach(
+                    function (
+                        [id, child]
+                    ) {
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+                        option.value =
+                            id;
+
+                        option.textContent =
+                            child.name;
+
+                        childmenuSelect.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+                if (
+                    Object.keys(
+                        submenu.childmenus
+                    ).length > 0
+                ) {
+
+                    childmenuSelect.disabled =
+                        false;
+
+                }
+
+
+                // =================================================
+                // LOAD EXISTING SUBMENU PERMISSION
+                // =================================================
+
+                loadExistingPermission({
+
+                    submenu_id:
+                        submenuId
+
+                });
+
+            }
+        );
+
+
+        // ============================================================
+        // CHILD MENU CHANGE
+        // ============================================================
+
+        childmenuSelect.addEventListener(
+            "change",
+            function () {
+
+                hideStatus();
+
+                clearPermissionSelections();
+
+
+                const submenuId =
+                    submenuSelect.value;
+
+                const childId =
+                    this.value;
+
+
+                if (!childId) {
+
+                    if (submenuId) {
+
+                        loadExistingPermission({
+
+                            submenu_id:
+                                submenuId
+
+                        });
+
+                    }
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // LOAD EXISTING CHILD PERMISSION
+                // =================================================
+
+                loadExistingPermission({
+
+                    childmenu_id:
+                        childId
+
+                });
+
+            }
+        );
+
+
+        // ============================================================
+        // LOAD EXISTING PERMISSION
+        // ============================================================
+
+        function loadExistingPermission(
+            params
+        ) {
+
+            clearPermissionSelections();
+
+
+fetch(
+    "{% url 'Layout_Master:get_permission' %}" +
+    "?" +
+    new URLSearchParams(params),
+    {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+)
+
+            .then(
+                response =>
+                    response.json()
+            )
+
+            .then(
+                function (data) {
+
+                    if (!data.success) {
+
+                        console.error(
+                            data.message ||
+                            "Unable to load permission."
+                        );
+
+                        return;
+
+                    }
+
+
+                    // =================================================
+                    // ACCESS TYPE
+                    // =================================================
+
+                    visibilitySelect.value =
+                        data.visibility ||
+                        "public";
+
+
+                    updateAccessSection();
+
+
+                    // =================================================
+                    // PUBLIC / AUTHENTICATED
+                    // =================================================
+
+                    if (
+                        data.visibility !==
+                        "department"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    // =================================================
+                    // DEPARTMENT IDS
+                    // =================================================
+
+                    const departmentIds =
+                        (
+                            data.departments ||
+                            []
+                        )
+                        .map(
+                            id =>
+                                String(id)
+                        );
+
+
+                    // =================================================
+                    // CHECK DEPARTMENTS
+                    // =================================================
+
+                    document
+                        .querySelectorAll(
+                            ".department-checkbox"
+                        )
+                        .forEach(
+                            function (
+                                checkbox
+                            ) {
+
+                                checkbox.checked =
+                                    departmentIds.includes(
+                                        String(
+                                            checkbox.value
+                                        )
+                                    );
+
+                            }
+                        );
+
+
+                    // =================================================
+                    // CHECK SPECIFIC USERS
+                    // =================================================
+
+                    const selectedUserIds = (data.users || [])
+                        .map(id => String(id));
+
+                    document
+                        .querySelectorAll(".user-checkbox")
+                        .forEach(function (checkbox) {
+                            checkbox.checked = selectedUserIds.includes(
+                                String(checkbox.value)
+                            );
+                        });
+                    updateUserSelectedCount();
+
+
+                    // =================================================
+                    // LOAD DESIGNATIONS
+                    // =================================================
+
+                    loadDesignations(
+                        data.designations ||
+                        []
+                    );
+
+                }
+            )
+
+            .catch(
+                function (error) {
+
+                    console.error(
+                        "Permission loading error:",
+                        error
+                    );
+
+                    showStatus(
+                        "Unable to load existing permission.",
+                        false
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ============================================================
+        // DEPARTMENT CHANGE
+        // ============================================================
+
+        document.addEventListener(
+            "change",
+            function (event) {
+
+                if (
+                    !event.target.classList.contains(
+                        "department-checkbox"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    visibilitySelect.value !==
+                    "department"
+                ) {
+
+                    return;
+
+                }
+
+
+                loadDesignations([]);
+
+            }
+        );
+
+
+        // ============================================================
+        // LOAD DESIGNATIONS
+        // ============================================================
+
+        function loadDesignations(
+            selectedDesignationIds = []
+        ) {
+
+            const checkedDepartments =
+                Array.from(
+
+                    document.querySelectorAll(
+                        ".department-checkbox:checked"
+                    )
+
+                );
+
+
+            if (
+                checkedDepartments.length === 0
+            ) {
+
+                designationContainer.innerHTML =
+
+                    '<div class="text-sm text-gray-500">' +
+
+                    'Select a department first.' +
+
+                    '</div>';
+
+                return;
+
+            }
+
+
+            designationContainer.innerHTML =
+
+                '<div class="text-sm text-gray-500">' +
+
+                'Loading designations...' +
+
+                '</div>';
+
+
+            const requests =
+                checkedDepartments.map(
+
+                    function (checkbox) {
+
+                        return fetch(
+
+                            "{% url 'Layout_Master:get_designations' %}" +
+
+                            "?department_id=" +
+
+                            encodeURIComponent(
+                                checkbox.value
+                            )
+
+                        )
+                        .then(
+                            response =>
+                                response.json()
+                        );
+
+                    }
+
+                );
+
+
+            Promise.all(
+                requests
+            )
+
+            .then(
+                function (results) {
+
+                    const designations =
+                        new Map();
+
+
+                    results.forEach(
+                        function (result) {
+
+                            if (
+                                !result.designations
+                            ) {
+                                return;
+                            }
+
+
+                            result.designations.forEach(
+                                function (
+                                    designation
+                                ) {
+
+                                    designations.set(
+
+                                        String(
+                                            designation.id
+                                        ),
+
+                                        designation.title
+
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                    designationContainer.innerHTML =
+                        "";
+
+
+                    if (
+                        designations.size === 0
+                    ) {
+
+                        designationContainer.innerHTML =
+
+                            '<div class="text-sm text-gray-500">' +
+
+                            'No designations found for the selected department.' +
+
+                            '</div>';
+
+                        return;
+
+                    }
+
+
+                    const selectedIds =
+                        selectedDesignationIds
+                            .map(
+                                id =>
+                                    String(id)
+                            );
+
+
+                    designations.forEach(
+                        function (
+                            title,
+                            id
+                        ) {
+
+                            const label =
+                                document.createElement(
+                                    "label"
+                                );
+
+                            label.className =
+                                "flex items-center gap-3 mb-3";
+
+
+                            const checkbox =
+                                document.createElement(
+                                    "input"
+                                );
+
+                            checkbox.type =
+                                "checkbox";
+
+                            checkbox.className =
+                                "designation-checkbox";
+
+                            checkbox.value =
+                                id;
+
+
+                            if (
+                                selectedIds.includes(
+                                    String(id)
+                                )
+                            ) {
+
+                                checkbox.checked =
+                                    true;
+
+                            }
+
+
+                            const span =
+                                document.createElement(
+                                    "span"
+                                );
+
+                            span.textContent =
+                                title;
+
+
+                            label.appendChild(
+                                checkbox
+                            );
+
+                            label.appendChild(
+                                span
+                            );
+
+
+                            designationContainer.appendChild(
+                                label
+                            );
+
+                        }
+                    );
+
+                }
+            )
+
+            .catch(
+                function (error) {
+
+                    console.error(
+                        "Designation loading error:",
+                        error
+                    );
+
+
+                    designationContainer.innerHTML =
+
+                        '<div class="text-sm text-red-500">' +
+
+                        'Unable to load designations.' +
+
+                        '</div>';
+
+                }
+            );
+
+        }
+
+
+        // ============================================================
+        // SAVE PERMISSION
+        // ============================================================
+
+        savePermission.addEventListener(
+            "click",
+            function () {
+
+                hideStatus();
+
+
+                const menuId =
+                    menuSelect.value;
+
+                const submenuId =
+                    submenuSelect.value;
+
+                const childmenuId =
+                    childmenuSelect.value;
+
+                const visibility =
+                    visibilitySelect.value;
+
+
+                if (!menuId) {
+
+                    showStatus(
+                        "Please select a menu.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                const formData =
+                    new FormData();
+
+
+                // =================================================
+                // ONLY SEND THE SELECTED LEVEL
+                // =================================================
+
+                if (childmenuId) {
+
+                    formData.append(
+                        "childmenu_id",
+                        childmenuId
+                    );
+
+                }
+
+                else if (submenuId) {
+
+                    formData.append(
+                        "submenu_id",
+                        submenuId
+                    );
+
+                }
+
+                else {
+
+                    formData.append(
+                        "menu_id",
+                        menuId
+                    );
+
+                }
+
+
+                formData.append(
+                    "visibility",
+                    visibility
+                );
+
+
+                // =================================================
+                // DEPARTMENT / DESIGNATION
+                // ONLY FOR DEPARTMENT BASED
+                // =================================================
+
+                if (
+                    visibility ===
+                    "department"
+                ) {
+
+
+                    document
+                        .querySelectorAll(
+                            ".department-checkbox:checked"
+                        )
+                        .forEach(
+                            function (
+                                checkbox
+                            ) {
+
+                                formData.append(
+                                    "departments",
+                                    checkbox.value
+                                );
+
+                            }
+                        );
+
+
+                    document
+                        .querySelectorAll(
+                            ".designation-checkbox:checked"
+                        )
+                        .forEach(
+                            function (
+                                checkbox
+                            ) {
+
+                                formData.append(
+                                    "designations",
+                                    checkbox.value
+                                );
+
+                            }
+                        );
+
+
+                    document
+                        .querySelectorAll(".user-checkbox:checked")
+                        .forEach(function (checkbox) {
+                            formData.append("users", checkbox.value);
+                        });
+
+                }
+
+
+                // =================================================
+                // DISABLE SAVE
+                // =================================================
+
+                savePermission.disabled =
+                    true;
+
+                savePermission.textContent =
+                    "Saving...";
+
+
+                // =================================================
+                // SAVE
+                // =================================================
+
+                const csrfToken = getCookie("csrftoken");
+
+                if (!csrfToken) {
+                    showStatus(
+                        "CSRF token was not found. Refresh the page and try again.",
+                        false
+                    );
+                    savePermission.disabled = false;
+                    savePermission.textContent = "Save Permission";
+                    return;
+                }
+
+                fetch("{% url 'Layout_Master:save_permission' %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: formData,
+                    credentials: "same-origin"
+                })
+                .then(async function (response) {
+                    const responseText = await response.text();
+                    let data;
+
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (error) {
+                        console.error("Non-JSON response from save endpoint:", response.status, responseText);
+                        throw new Error(
+                            response.status === 403
+                                ? "Permission denied (403). Check CSRF settings and your login session."
+                                : "Server returned an unexpected response (HTTP " + response.status + "). Check the Django terminal for the error."
+                        );
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(data.message || "Request failed (HTTP " + response.status + ").");
+                    }
+
+                    return data;
+                })
+                .then(function (data) {
+                    if (data.success) {
+                        showStatus(data.message || "Permission saved successfully.", true);
+                    } else {
+                        showStatus(data.message || "Unable to save permission.", false);
+                    }
+                    statusMessage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                })
+                .catch(function (error) {
+                    console.error("Save permission error:", error);
+                    showStatus(error.message || "Error saving permission. Check the browser console and Django terminal.", false);
+                    statusMessage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                })
+
+                .finally(
+                    function () {
+
+                        savePermission.disabled =
+                            false;
+
+                        savePermission.textContent =
+                            "Save Permission";
+
+                    }
+                );
+
+            }
+        );
+
+
+        // ============================================================
+        // CSRF COOKIE
+        // ============================================================
+
+        function getCookie(
+            name
+        ) {
+
+            let cookieValue =
+                null;
+
+
+            if (
+                document.cookie &&
+                document.cookie !== ""
+            ) {
+
+                const cookies =
+                    document.cookie.split(
+                        ";"
+                    );
+
+
+                for (
+                    let i = 0;
+                    i < cookies.length;
+                    i++
+                ) {
+
+                    const cookie =
+                        cookies[i].trim();
+
+
+                    if (
+                        cookie.substring(
+                            0,
+                            name.length + 1
+                        ) ===
+                        (
+                            name + "="
+                        )
+                    ) {
+
+                        cookieValue =
+                            decodeURIComponent(
+                                cookie.substring(
+                                    name.length + 1
+                                )
+                            );
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+
+            return cookieValue;
+
+        }
+
+
+		// ============================================================
+		// INITIALIZE PAGE WITH LATEST SAVED PERMISSIONS
+		// ============================================================
+		
+		if (menuSelect.value) {
+			// A menu may be restored by the browser after refresh.
+			// Trigger its change handler to reload permissions from Django.
+			menuSelect.dispatchEvent(
+				new Event("change", { bubbles: true })
+			);
+		} else {
+			visibilitySelect.value = "public";
+			updateAccessSection();
+		}
+    });
+
+</script>

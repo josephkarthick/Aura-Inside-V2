@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Crop & Rotate Tool</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .container { max-width: 800px; margin: auto; }
+    img { max-width: 100%; }
+    .toolbar { margin: 10px 0; }
+    .toolbar button { margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Image Crop & Rotate Tool</h2>
+    <input type="file" id="inputImage" accept="image/*">
+    <div class="toolbar">
+      <button onclick="rotateLeft()">Rotate Left</button>
+      <button onclick="rotateRight()">Rotate Right</button>
+      <button onclick="getCroppedImage()">Download Cropped Image</button>
+    </div>
+    <div>
+      <img id="image" style="display: none;">
+    </div>
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+  <script>
+    let cropper;
+    const inputImage = document.getElementById('inputImage');
+    const image = document.getElementById('image');
+
+    inputImage.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          image.src = reader.result;
+          image.style.display = 'block';
+          if (cropper) cropper.destroy();
+          cropper = new Cropper(image, {
+            aspectRatio: NaN,
+            viewMode: 1,
+            autoCropArea: 1,
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function rotateLeft() {
+      if (cropper) cropper.rotate(-90);
+    }
+
+    function rotateRight() {
+      if (cropper) cropper.rotate(90);
+    }
+
+    function getCroppedImage() {
+      if (!cropper) return;
+      const croppedCanvas = cropper.getCroppedCanvas();
+      const link = document.createElement('a');
+      link.download = 'cropped-image.png';
+      link.href = croppedCanvas.toDataURL();
+      link.click();
+    }
+  </script>
+</body>
+</html>

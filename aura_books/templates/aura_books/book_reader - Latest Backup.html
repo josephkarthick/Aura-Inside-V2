@@ -1,0 +1,514 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+<style>
+* { box-sizing: border-box; }
+
+/* FlipBook */
+
+body {
+  /* or any other parent wrapper */
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font: 1em/1.4 "Poppins", sans-serif;
+  overflow: hidden;
+  color: hsl(180 68% 5%);
+  background-image: radial-gradient(circle farthest-corner at 50% 50%, hsl(187 20% 88%) 30%, hsl(149 20% 94%) 100%);
+}
+
+.book {
+  position: relative;
+  display: flex;
+  margin: auto;
+
+  width: 45cqmin;
+  aspect-ratio: 2 / 3;   /* book ratio */
+  height: auto;
+
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transition: translate 1s;
+  translate: calc(min(var(--c), 1) * 50%) 0%;
+  rotate: 1 0 0 30deg;
+}
+
+
+.page {
+  /* PS: Don't go below thickness 0.5 or the pages might transpare */
+  
+  --thickness: 4;
+  flex: none;
+  display: flex;
+  width: 100%;
+  font-size: 2cqmin;
+  /*1* allow pointer events on pages */
+  pointer-events: all;
+  user-select: none;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition:
+    transform 1s,
+    rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+  translate: calc(var(--i) * -100%) 0px 0px;
+  transform: translateZ( calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * .23cqmin)));
+  rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+}
+
+.front,
+.back {
+  position: relative;
+  flex: none;
+  width: 100%;
+
+  backface-visibility: hidden;
+  overflow: hidden;
+  background-color: #fff;
+  translate: 0px;
+}
+
+.back {
+  translate: -100% 0;
+  rotate: 0 1 0 180deg;
+}
+
+
+
+/* That's it. Your FlipBook customization styles: */
+
+.book {
+  counter-reset: page -1;
+  & a {
+    color: inherit;
+  }
+}
+
+.page {
+  box-shadow: 0em .5em 1em -.2em #00000020;
+}
+
+.front,
+.back {
+
+  display: flex;
+  flex-flow: column wrap;
+  padding: 2em;
+  border: 1px solid #0002;
+  
+  &:has(img) {
+    padding: 0;
+  }
+  
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  &::after {
+    position: absolute;
+    bottom: 1em;
+    counter-increment: page;
+    content: counter(page) ".";
+    font-size: 0.8em;
+  }
+}
+.cover {
+  &::after {
+    content: "";
+  }
+}
+.front {
+  &::after {
+    right: 1em;
+  }
+  background: linear-gradient(to left, #f7f7f7 80%, #eee 100%);
+  border-radius: .1em .5em .5em .1em;
+}
+.back {
+  &::after {
+    left: 1em;
+  }
+  background-image: linear-gradient(to right, #f7f7f7 80%, #eee 100%);
+  border-radius: .5em .1em .1em .5em;
+}
+
+.cover {
+  background:
+    radial-gradient(circle farthest-corner at 80% 20%,
+      hsl(150 80% 20% / .3) 0%,
+      hsl(170 60% 10% / .1) 100%),
+    hsl(231, 32%, 29%) var(--cover-img) center / cover no-repeat;
+
+  color: hsl(200 30% 98%);
+}
+
+.cover-content {
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  text-shadow: 0 4px 20px rgba(0,0,0,.45);
+}
+
+.book-title {
+  font-size: 2.2em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.4em;
+}
+
+.book-author {
+  font-size: 1.1em;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 0.8em;
+}
+
+.book-year {
+  display: inline-block;
+  padding: 0.35em 1em;
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 999px;
+  font-size: 0.85em;
+  letter-spacing: 0.15em;
+}
+
+.book-footer {
+  margin-top: auto;
+  font-size: 0.9em;
+  opacity: 0.85;
+  text-align: center;
+}
+
+.inside-cover {
+  background: linear-gradient(to right, #fafafa 70%, #f0f0f0 100%);
+  justify-content: center;
+}
+
+.inside-cover-image {
+  height: 50%;
+}
+
+.inside-cover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inside-cover-text {
+  padding: 1.2em;
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #333;
+  text-align: center;
+}
+/* ===== PAGE TYPOGRAPHY ===== */
+
+/* ===== TOP-CENTER PAGE HEADING ===== */
+.heading {
+  display: block;
+  width: 100%;
+  text-align: center;
+
+  position: absolute;
+  top: 1.2em;              /* 👈 keeps it at top */
+  left: 0;
+
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #9aa0a6;
+}
+
+/* Push page content down so it doesn't overlap heading */
+.front.content-page {
+overflow: hidden;
+
+  padding-top: 3.2em;      /* 👈 IMPORTANT */
+}
+
+.content-page p,
+.content-page ul {
+  max-width: 26em;
+  margin: 0 auto;
+}
+
+.content-page ul {
+  padding-left: 1.2em;
+}
+
+.content-page p {
+  margin-bottom: 0.6em;
+}
+
+.content-page li {
+  margin-bottom: 0.35em;
+}
+
+/* ===== BACK INSIDE COVER ===== */
+.inside-cover {
+  background: #fffdf7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inside-cover img {
+  width: 100%;
+  height: 55%;
+  object-fit: cover;
+  margin-bottom: 1em;
+}
+
+.inside-cover-text {
+  font-size: 0.85em;
+  line-height: 1.6;
+  text-align: center;
+  color: #444;
+  padding: 0 1em;
+}
+
+/* ===== BACK COVER ===== */
+.back.cover {
+  background:
+    radial-gradient(circle farthest-corner at 80% 20%,
+      hsl(150 80% 20% / .25) 0%,
+      hsl(170 60% 10% / .2) 100%),
+    hsl(231, 32%, 29%) var(--cover-img) center / cover no-repeat;
+
+  color: #fff;
+  position: relative;
+}
+
+.back-cover-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2em;
+  text-align: center;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.45),
+    rgba(0,0,0,0)
+  );
+}
+
+.back-cover-title {
+  font-size: 1.2em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.back-cover-author {
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+.front.content-page,
+.back.content-page {
+  padding: 3.6em 3em 3em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  overflow: hidden; /* prevents 3D bleed */
+}
+
+
+/* Limit reading width (VERY IMPORTANT) */
+.front.content-page p,
+.back.content-page p,
+.front.content-page ul {
+  max-width: 28em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 24em;     /* slightly narrower for safe edge */
+  margin: 0 auto;
+
+  padding-left: 0.5em;
+  padding-right: 1.2em;  /* EXTRA RIGHT BUFFER 👈 important */
+
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  box-sizing: border-box;
+}
+
+.page-content p {
+  margin-bottom: 0.6em;
+  line-height: 1.5;
+}
+
+
+
+</style>
+</head>
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+          <div class="kt-card-content">
+		  
+<div class="book">
+<div class="page">
+  <div class="front cover"
+       style="
+         --cover-img:
+         {% if front_cover %}
+           url('{{ front_cover.url }}')
+         {% endif %}
+       ">
+
+    <div class="cover-content">
+      <h1 class="book-title">{{ book.title }}</h1>
+
+      {% if book.author %}
+        <h3 class="book-author">by {{ book.author }}</h3>
+      {% endif %}
+    </div>
+
+    <p class="book-footer">
+      {% if book.year %}
+        <span class="book-year">{{ book.year }}</span>
+      {% endif %}
+    </p>
+  </div>
+
+<div class="back inside-cover">
+
+  {% if front_inside_cover_image %}
+    <div class="inside-cover-image">
+      <img src="{{ front_inside_cover_image.url }}" alt="Inside cover image">
+    </div>
+  {% endif %}
+
+  {% if front_inside_cover_text %}
+    <div class="inside-cover-text">
+      {{ front_inside_cover_text|linebreaks }}
+    </div>
+  {% endif %}
+
+</div>
+
+  
+</div>
+
+
+{% for front, back in paired_pages %}
+<div class="page">
+
+  <!-- FRONT SIDE (ODD PAGE) -->
+  <div class="front content-page">
+
+    {% if front.heading %}
+      <div class="heading">{{ front.heading }}</div>
+    {% endif %}
+
+{% if front.paragraph %}
+  <div class="page-content">
+    {{ front.paragraph|linebreaks }}
+  </div>
+{% endif %}
+
+
+  </div>
+
+  <!-- BACK SIDE (EVEN PAGE) -->
+  <div class="back content-page">
+
+    {% if back %}
+      {% if back.heading %}
+        <div class="heading">{{ back.heading }}</div>
+      {% endif %}
+
+{% if back.paragraph %}
+  <div class="page-content">
+    {{ back.paragraph|linebreaks }}
+  </div>
+{% endif %}
+
+
+    {% endif %}
+	
+	
+
+  </div>
+
+</div>
+{% endfor %}
+
+
+
+  
+  
+
+<div class="page">
+
+  <!-- BACK INSIDE COVER -->
+  <div class="front content-page inside-cover">
+
+    {% if back_inside_cover_image %}
+      <img src="{{ back_inside_cover_image.url }}" alt="Back inside cover">
+    {% endif %}
+
+    {% if back_inside_cover_text %}
+      <div class="inside-cover-text">
+        {{ back_inside_cover_text|linebreaks }}
+      </div>
+    {% endif %}
+
+  </div>
+
+  <!-- BACK COVER -->
+  <div class="back cover"
+       style="
+         --cover-img:
+         {% if back_cover %}
+           url('{{ back_cover.url }}')
+         {% endif %}
+       ">
+
+    <div class="back-cover-overlay">
+      <h3 class="back-cover-title">{{ book.title }}</h3>
+
+      {% if book.author %}
+        <p class="back-cover-author">by {{ book.author }}</p>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+
+  
+</div>
+
+<script>
+const flipBook = (elBook) => {
+  elBook.style.setProperty("--c", 0); // Set current page
+  elBook.querySelectorAll(".page").forEach((page, idx) => {
+    page.style.setProperty("--i", idx);
+    page.addEventListener("click", (evt) => {
+      if (evt.target.closest("a")) return;
+      const curr = evt.target.closest(".back") ? idx : idx + 1;
+      elBook.style.setProperty("--c", curr);
+    });
+  });
+};
+
+document.querySelectorAll(".book").forEach(flipBook);
+</script>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+</html>

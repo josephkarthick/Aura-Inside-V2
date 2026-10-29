@@ -1,0 +1,747 @@
+{% load static %}
+<style>
+.employee-card{
+
+    width:220px;
+
+    height:320px;
+
+    flex:0 0 220px;
+
+}
+
+.crown{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    justify-content: center;
+    gap: 30px;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+
+.poster-container{
+
+    width:100%;
+    min-height:100vh;
+
+    background: linear-gradient(135deg, #20212a, #3b3c48);
+
+    background-size:cover;
+
+    background-attachment:fixed;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.poster-overlay{
+
+    min-height:100vh;
+
+    background:linear-gradient(
+        rgba(0,0,0,.65),
+        rgba(0,0,0,.70)
+    );
+
+    padding:40px 60px;
+}
+
+.close-btn{
+
+    position:absolute;
+
+    right:25px;
+    top:25px;
+
+    width:45px;
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.4);
+
+    transition:.3s;
+}
+
+.close-btn:hover{
+
+    transform:scale(1.1);
+}
+
+.poster-header{
+
+    text-align:center;
+
+    color:white;
+
+    margin-bottom:50px;
+}
+
+.poster-title{
+
+    position:sticky;
+
+    top:15px;
+
+    z-index:999;
+
+    width:max-content;
+
+    margin:0 auto;
+
+    padding:14px 35px;
+
+    border-radius:50px;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(12px);
+
+}
+
+.poster-title h1{
+
+    margin:0;
+
+    color:white;
+
+    font-size:50px;
+
+}
+
+.poster-description{
+
+    text-align:center;
+
+    margin:15px 0 40px;
+
+    color:#eee;
+
+    font-size:18px;
+
+}
+
+.poster-header h1{
+
+    font-size:54px;
+
+    font-weight:900;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+
+    color:#fff;
+
+    margin:0;
+
+    text-shadow:
+        0 0 10px rgba(255,215,0,.35),
+        0 4px 20px rgba(0,0,0,.6);
+
+}
+
+.poster-header p{
+
+    margin-top:10px;
+
+    font-size:20px;
+
+    color:#F5F5F5;
+
+    font-weight:500;
+
+    letter-spacing:.5px;
+
+    opacity:.95;
+
+}
+
+.title-divider{
+
+    width:220px;
+
+    height:4px;
+
+    margin:18px auto 0;
+
+    border-radius:50px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        gold,
+        #FFD54F,
+        gold,
+        transparent
+    );
+
+    box-shadow:0 0 20px rgba(255,215,0,.6);
+
+}
+
+
+.employee-card{
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(12px);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.35s;
+
+    border:1px solid rgba(255,255,255,.2);
+}
+
+.employee-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 35px rgba(0,0,0,.35);
+}
+
+.employee-card img{
+
+    width:130px;
+    height:130px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:5px solid gold;
+
+    box-shadow:0 0 20px rgba(255,215,0,.5);
+
+    margin-bottom:15px;
+}
+
+.employee-card h5{
+
+    color:white;
+
+    margin-bottom:5px;
+
+    font-size:20px;
+}
+
+.empid{
+
+    color:#FFD54F;
+
+    font-weight:700;
+
+    display:block;
+
+    margin-bottom:6px;
+}
+
+.department{
+
+    color:#ddd;
+
+    font-size:14px;
+}
+
+.poster-footer{
+
+    margin-top:60px;
+
+    text-align:center;
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:600;
+}
+
+/* Responsive employee grid */
+@media (max-width: 1400px) {
+    .employee-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1100px) {
+    .employee-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) {
+    .employee-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .poster-overlay { padding: 25px; }
+    .poster-header h1 { font-size: 34px; }
+    .poster-title h1 { font-size: 30px; }
+}
+@media (max-width: 500px) {
+    .employee-grid { grid-template-columns: 1fr; }
+    .poster-title { max-width: calc(100% - 70px); padding: 12px 20px; }
+    .poster-title h1 { font-size: 24px; overflow-wrap: anywhere; }
+    .poster-nav { top: 12px; right: 12px; gap: 4px; padding: 6px 10px; }
+}
+
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800;900&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+
+
+        .content {}
+
+        .content .trophy img {
+            display: block;
+            margin: auto;
+            max-width: 128px;
+            filter: drop-shadow(0 0 4px #000);
+            transition: 0.5s;
+            animation: animate 2s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+      .content .text h1 {
+            font-weight: 900;
+            font-size: 8rem;
+            color: #222324;
+            text-shadow: 8px 0px 0px #FABE2C;
+        }
+#developerPra {
+            position: fixed;
+            bottom: 4rem;
+            right: 4rem;
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+.poster-actions{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    display:flex;
+
+    gap:12px;
+
+    z-index:9999;
+
+}
+
+.poster-nav{
+
+    position:fixed;
+
+    top:25px;
+    right:25px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:rgba(0,0,0,.35);
+
+    backdrop-filter:blur(12px);
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    z-index:9999;
+
+}
+
+.poster-nav a,
+.poster-nav button{
+
+    width:38px;
+    height:38px;
+
+    border:none;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:transparent;
+
+    color:#fff;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.poster-nav a:hover,
+.poster-nav button:hover{
+
+    background:#6C5CE7;
+
+}
+
+.poster-counter{
+
+    color:white;
+
+    font-weight:700;
+
+    min-width:55px;
+
+    text-align:center;
+
+}
+
+.poster-nav a{
+    text-decoration:none !important;
+}
+
+
+/*// Glow Border Animation //*/
+
+.animated-border-box, .animated-border-box-glow{
+  max-height: 200px;
+  max-width: 250px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden; 
+  z-index: 0;
+  /* Border Radius */
+	border-radius: 10px;
+}
+
+.animated-border-box-glow{
+  overflow: hidden;
+  /* Glow Blur */
+  filter: blur(20px);
+}
+
+.animated-border-box:before, .animated-border-box-glow:before {
+  content: '';
+  z-index: -2;
+  text-align: center;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(0deg);
+  position: absolute;
+	width: 99999px;
+	height: 99999px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+  /*border color, change middle color*/
+	background-image: conic-gradient(rgba(0,0,0,0), #1976ed, rgba(0,0,0,0) 25%);
+  /* change speed here */
+	animation: rotate 4s linear infinite;
+}
+
+.animated-border-box:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+  /* border width */
+	left: 5px;
+	top: 5px;
+  /* double the px from the border width left */
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+  /*bg color*/
+	background: #292a2e;
+  /*box border radius*/
+	border-radius: 7px;
+}
+
+@keyframes rotate {
+	100% {
+		transform: translate(-50%, -50%) rotate(1turn);
+	}
+}
+
+/*// Border Animation END//*/
+
+
+
+/*// Ignore This //*/
+body {
+  margin: 0px;
+}
+
+.center-box{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1D1E22;
+}
+
+</style>
+
+<div class="poster-container"{% if recognition_poster and recognition_poster.background %} style="background-image:url('{{ recognition_poster.background.url }}'); background-position:center center; background-repeat:no-repeat; background-size:cover;"{% endif %}>
+{% if recognition_poster %}
+
+<div class="poster-overlay">
+
+<div class="poster-nav">
+
+    {% if prev_poster %}
+		<a href="?id={{ prev_poster.id }}" title="Previous Poster" aria-label="Previous Poster">◀</a>
+    {% endif %}
+
+
+    {% if next_poster %}
+		<a href="?id={{ next_poster.id }}" title="Next Poster" aria-label="Next Poster">▶</a>
+    {% endif %}
+
+    <button type="button" onclick="window.location.href='/'" title="Close" aria-label="Close">
+
+        ✕
+
+    </button>
+
+</div>
+
+
+<div class="poster-title">
+
+    <h1>{{ recognition_poster.title }}</h1>
+
+</div>
+
+<div class="poster-description">
+
+    {% if recognition_poster.description %}
+        <p>{{ recognition_poster.description }}</p>
+    {% endif %}
+
+</div>
+
+<div class="employee-grid">
+
+{% for employee in recognition_poster.employees.all %}
+
+<div class="employee-card">
+<div class="crown">👑</div>
+{% if employee.profile_photo %}
+    <img src="{{ employee.profile_photo.url }}" alt="{{ employee.get_full_name }}">
+{% else %}
+    <img src="{% static 'assets/media/avatars/blank.png' %}" alt="No Photo">
+{% endif %}
+
+<h5>{{ employee.get_full_name }}</h5>
+
+<span class="empid">{{ employee.employee_id|upper }}</span>
+
+<div class="department">
+
+{{ employee.department }}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+</div>
+
+</div>
+{% else %}
+<div class="poster-overlay" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+    <h2 style="color:white; margin-bottom:20px;">No active recognition posters are available.</h2>
+    <a href="/" style="color:white; text-decoration:underline;">Return Home</a>
+</div>
+{% endif %}
+
+<script>
+ var confetti = {
+            maxCount: 150,
+            speed: 2,
+            frameInterval: 15,
+            alpha: 1,
+            gradient: !1,
+            start: null,
+            stop: null,
+            toggle: null,
+            pause: null,
+            resume: null,
+            togglePause: null,
+            remove: null,
+            isPaused: null,
+            isRunning: null
+        };
+        ! function () {
+            confetti.start = s, confetti.stop = w, confetti.toggle = function () {
+                e ? w() : s()
+            }, confetti.pause = u, confetti.resume = m, confetti.togglePause = function () {
+                i ? m() : u()
+            }, confetti.isPaused = function () {
+                return i
+            }, confetti.remove = function () {
+                stop(), i = !1, a = []
+            }, confetti.isRunning = function () {
+                return e
+            };
+            var t = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window
+                .mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame,
+                n = ["rgba(30,144,255,", "rgba(107,142,35,", "rgba(255,215,0,", "rgba(255,192,203,", "rgba(106,90,205,",
+                    "rgba(173,216,230,", "rgba(238,130,238,", "rgba(152,251,152,", "rgba(70,130,180,",
+                    "rgba(244,164,96,", "rgba(210,105,30,", "rgba(220,20,60,"
+                ],
+                e = !1,
+                i = !1,
+                o = Date.now(),
+                a = [],
+                r = 0,
+                l = null;
+
+            function d(t, e, i) {
+                return t.color = n[Math.random() * n.length | 0] + (confetti.alpha + ")"), t.color2 = n[Math.random() *
+                        n.length | 0] + (confetti.alpha + ")"), t.x = Math.random() * e, t.y = Math.random() * i - i, t
+                    .diameter = 10 * Math.random() + 5, t.tilt = 10 * Math.random() - 10, t.tiltAngleIncrement = .07 *
+                    Math.random() + .05, t.tiltAngle = Math.random() * Math.PI, t
+            }
+
+            function u() {
+                i = !0
+            }
+
+            function m() {
+                i = !1, c()
+            }
+
+            function c() {
+                if (!i)
+                    if (0 === a.length) l.clearRect(0, 0, window.innerWidth, window.innerHeight), null;
+                    else {
+                        var n = Date.now(),
+                            u = n - o;
+                        (!t || u > confetti.frameInterval) && (l.clearRect(0, 0, window.innerWidth, window.innerHeight),
+                            function () {
+                                var t, n = window.innerWidth,
+                                    i = window.innerHeight;
+                                r += .01;
+                                for (var o = 0; o < a.length; o++) t = a[o], !e && t.y < -15 ? t.y = i + 100 : (t
+                                    .tiltAngle += t.tiltAngleIncrement, t.x += Math.sin(r) - .5, t.y += .5 * (Math
+                                        .cos(r) + t.diameter + confetti.speed), t.tilt = 15 * Math.sin(t.tiltAngle)
+                                ), (t.x > n + 20 || t.x < -20 || t.y > i) && (e && a.length <= confetti
+                                    .maxCount ? d(t, n, i) : (a.splice(o, 1), o--))
+                            }(),
+                            function (t) {
+                                for (var n, e, i, o, r = 0; r < a.length; r++) {
+                                    if (n = a[r], t.beginPath(), t.lineWidth = n.diameter, i = n.x + n.tilt, e = i + n
+                                        .diameter / 2, o = n.y + n.tilt + n.diameter / 2, confetti.gradient) {
+                                        var l = t.createLinearGradient(e, n.y, i, o);
+                                        l.addColorStop("0", n.color), l.addColorStop("1.0", n.color2), t.strokeStyle = l
+                                    } else t.strokeStyle = n.color;
+                                    t.moveTo(e, n.y), t.lineTo(i, o), t.stroke()
+                                }
+                            }(l), o = n - u % confetti.frameInterval), requestAnimationFrame(c)
+                    }
+            }
+
+            function s(t, n, o) {
+                var r = window.innerWidth,
+                    u = window.innerHeight;
+                window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window
+                    .msRequestAnimationFrame || function (t) {
+                        return window.setTimeout(t, confetti.frameInterval)
+                    };
+                var m = document.getElementById("confetti-canvas");
+                null === m ? ((m = document.createElement("canvas")).setAttribute("id", "confetti-canvas"), m
+                    .setAttribute("style", "display:block;z-index:999999;pointer-events:none;position:fixed;top:0"),
+                    document.body.prepend(m), m.width = r, m.height = u, window.addEventListener("resize",
+                        function () {
+                            m.width = window.innerWidth, m.height = window.innerHeight
+                        }, !0), l = m.getContext("2d")) : null === l && (l = m.getContext("2d"));
+                var s = confetti.maxCount;
+                if (n)
+                    if (o)
+                        if (n == o) s = a.length + o;
+                        else {
+                            if (n > o) {
+                                var f = n;
+                                n = o, o = f
+                            }
+                            s = a.length + (Math.random() * (o - n) + n | 0)
+                        }
+                else s = a.length + n;
+                else o && (s = a.length + o);
+                for (; a.length < s;) a.push(d({}, r, u));
+                e = !0, i = !1, c(), t && window.setTimeout(w, t)
+            }
+
+            function w() {
+                e = !1
+            }
+        }();
+// custom js
+ confetti.start();
+</script>
+

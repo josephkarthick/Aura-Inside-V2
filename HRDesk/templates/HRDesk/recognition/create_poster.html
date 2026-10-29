@@ -1,0 +1,280 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
+<div class="kt-wrapper flex grow flex-col">
+<main class="grow pt-5">
+<table class="kt-table table-fixed kt-table-border w-full text-sm text-secondary-foreground"></table>
+<div class="kt-container-fixed">
+
+<div class="kt-card max-w-5xl mx-auto">
+
+<div class="kt-card-header">
+<h3 class="kt-card-title">
+🏆 Create Recognition Poster
+</h3>
+</div>
+
+<div class="kt-card-content">
+
+<form method="POST" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<div class="grid grid-cols-2 gap-5">
+
+<!-- Title -->
+<div class="col-span-2">
+    <label class="kt-label">Poster Title</label>
+
+    <input
+        type="text"
+        name="title"
+        class="kt-input"
+        placeholder="No Late No Leave - July 2026"
+        value="{{ poster.title|default:'' }}"
+        required>
+</div>
+
+<!-- Description -->
+<div class="col-span-2">
+
+    <label class="kt-label">Description</label>
+
+    <textarea
+        name="description"
+        rows="3"
+        class="kt-input"
+        placeholder="Congratulations to our employees for maintaining perfect attendance.">{{ poster.description|default:'' }}</textarea>
+
+</div>
+
+<!-- Background -->
+<div>
+
+    <label class="kt-label">Poster Background</label>
+
+    <input
+        type="file"
+        name="background"
+        id="background"
+        accept="image/*"
+        class="kt-input"
+        {% if not poster %}required{% endif %}>
+
+</div>
+
+<!-- Preview -->
+<div>
+
+    <label class="kt-label">Preview</label>
+
+    {% if poster and poster.background %}
+        <img
+            id="preview"
+            src="{{ poster.background.url }}"
+            style="width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid #ddd;">
+    {% else %}
+        <img
+            id="preview"
+            src="{% static 'assets/media/placeholder.jpg' %}"
+            style="width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid #ddd;">
+    {% endif %}
+
+</div>
+
+<!-- Start Date -->
+<div>
+
+<label class="kt-label">Start Date</label>
+
+<input
+type="date"
+name="start_date"
+class="kt-input"
+value="{{ poster.start_date|date:'Y-m-d' }}"
+required>
+
+</div>
+
+<!-- End Date -->
+
+<div>
+
+<label class="kt-label">End Date</label>
+
+<input
+type="date"
+name="end_date"
+class="kt-input"
+value="{{ poster.end_date|date:'Y-m-d' }}"
+required>
+
+</div>
+
+<!-- Employees -->
+
+<div class="col-span-2">
+
+<label class="kt-label">
+
+Employees
+
+</label>
+
+<select
+
+id="employees"
+
+class="kt-select w-full"
+
+multiple
+
+name="employees">
+
+{% for emp in employees %}
+
+<option
+value="{{ emp.id }}"
+{% if poster and emp in poster.employees.all %}
+selected
+{% endif %}
+>
+
+{{ emp.employee_id }}
+
+-
+
+{{ emp.get_full_name }}
+
+-
+
+{{ emp.department }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<div
+id="empCount"
+class="text-sm text-gray-500 mt-2">
+
+{% if poster %}
+{{ poster.employees.count }} Employees Selected
+{% else %}
+0 Employees Selected
+{% endif %}
+
+</div>
+
+</div>
+
+<!-- Active -->
+
+<div class="col-span-2">
+
+<label class="flex items-center gap-3">
+
+<input
+type="checkbox"
+name="is_active"
+{% if poster %}
+    {% if poster.is_active %}checked{% endif %}
+{% else %}
+checked
+{% endif %}
+>
+
+<span>
+
+Active Poster
+
+</span>
+
+</label>
+
+</div>
+
+</div>
+
+<div class="mt-8">
+
+{% if poster %}
+
+<button class="kt-btn kt-btn-warning w-full">
+
+💾 Update Recognition Poster
+
+</button>
+
+{% else %}
+
+<button class="kt-btn kt-btn-primary w-full">
+
+🏆 Create Recognition Poster
+
+</button>
+
+{% endif %}
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+
+$("#employees").select2({
+
+placeholder:"Search Employee",
+
+width:"100%"
+
+});
+
+$("#employees").on("change",function(){
+
+$("#empCount").text(
+
+$(this).val().length+
+
+" Employees Selected"
+
+);
+
+});
+
+$("#background").change(function(e){
+
+const file=e.target.files[0];
+
+if(file){
+
+$("#preview").attr(
+
+"src",
+
+URL.createObjectURL(file)
+
+);
+
+}
+
+});
+
+</script>

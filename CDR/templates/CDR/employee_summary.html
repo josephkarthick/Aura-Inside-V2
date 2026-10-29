@@ -1,0 +1,290 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+
+.table-wrapper {
+    max-height: 75vh;      /* Adjust as needed */
+    overflow: auto;
+}
+
+.table-wrapper thead th {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;      /* Match your theme */
+    white-space: nowrap;
+}
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+
+    <!-- Main Table -->
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <main class="grow pt-5" id="content">
+
+        <div class="kt-container-fixed">
+
+            <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+
+                <div>
+
+                    <h1 class="text-xl font-medium">
+                        Employee Summary
+                    </h1>
+
+                    <span class="text-sm text-secondary-foreground">
+                        Employee Call Report
+                    </span>
+					
+
+                </div>
+				
+				<div class="flex items-center gap-2">			
+					<a href="{% url 'CDR:hourly_report' %}?from_date={{ from_date }}&to_date={{ to_date }}"
+					class="kt-btn kt-btn-outline kt-btn-sm">
+				
+						<i class="ki-filled ki-chart-line"></i>
+				
+						Hourly Report
+				
+					</a>
+				
+				<a href="{% url 'CDR:export_cdr_report' %}?from_date={{ from_date }}&to_date={{ to_date }}"
+				class="kt-btn kt-btn-success">
+				
+					<i class="ki-filled ki-file-down"></i>
+				
+					Export Source
+				
+				</a>
+				
+				
+				</div>
+			</div>
+
+        </div>
+
+        <div class="kt-container-fixed">
+
+            <div class="kt-card kt-card-grid w-full">
+
+				<div class="kt-card-header flex items-center justify-between flex-wrap gap-4">
+				
+					<h3 class="kt-card-title" style="color: red;">
+						Below 1-minute calls are excluded from Total Calls and Total Duration.
+					</h3>
+				
+					<form method="get" class="flex items-center gap-4 flex-wrap">
+				
+						<div class="flex items-center gap-2">
+							<span class="text-sm font-medium whitespace-nowrap">
+								From Date
+							</span>
+				
+							<input type="date" name="from_date" value="{{ from_date }}" class="kt-input w-40" required>
+						</div>
+				
+						<div class="flex items-center gap-2">
+							<span class="text-sm font-medium whitespace-nowrap">
+								To Date
+							</span>
+				
+							<input type="date" name="to_date" value="{{ to_date }}" class="kt-input w-40" required>
+						</div>
+				
+						<button type="submit" class="kt-btn kt-btn-primary">
+							Search
+						</button>
+				
+						<a href="{% url 'CDR:employee_summary' %}"
+						class="kt-btn kt-btn-outline">
+							Reset
+						</a>
+				
+					</form>
+					<div class="flex items-center gap-2">
+				
+						<label class="kt-input">
+				
+							<i class="ki-filled ki-magnifier"></i>
+				
+							<input
+								id="searchInput"
+								type="text"
+								placeholder="Search Employee">
+				
+						</label>
+				
+					</div>
+				</div>
+					
+
+
+                <div class="kt-card-content">
+
+                    <div class="kt-scrollable-x-auto table-wrapper">
+
+                        <table class="kt-table text-sm text-secondary-foreground">
+
+                            <thead>
+
+                                <tr class="bg-accent/50">
+
+                                    <th>Employee</th>
+									
+                                    <th>Emp ID</th>
+                                    <th>Project</th>
+									
+                                    <th>DOJ</th>
+
+                                    <th>less 1 Min</th>
+
+                                    <th>Duration</th>
+
+                                    <th>1 - 3 Min</th>
+
+                                    <th>Duration</th>
+
+                                    <th>3 Min - 1Hr</th>
+
+                                    <th>Duration</th>
+
+                                    <th>Above 1Hr</th>
+
+                                    <th>Duration</th>
+
+                                    <th>Total Calls</th>
+
+                                    <th>Total Duration</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in report %}
+
+                                <tr>
+
+                                    <td><strong>{{ row.employee_name }}</strong></td>
+									
+									<td><strong>{{ row.employee_id|upper }}</strong></td>
+									
+									<td>
+    {% for sg in row.security_groups %}
+        <span class="kt-badge kt-badge-outline kt-badge-primary me-1 mb-1">
+            {{ sg }}
+        </span>
+    {% empty %}
+        -
+    {% endfor %}
+</td>
+									
+<td>
+    <span class="inline-flex items-center whitespace-nowrap">
+        {{ row.date_joined|date:"d M Y" }}
+        <i class="ki-filled ki-information-2 text-primary ms-1"
+           title="Experience: {{ row.experience }}"></i>
+    </span>
+</td>
+
+
+
+
+                                    <td>{{ row.less1_calls }}</td>
+
+                                    <td>{{ row.less1_duration }}</td>
+
+                                    <td>{{ row.one3_calls }}</td>
+
+                                    <td>{{ row.one3_duration }}</td>
+
+                                    <td>{{ row.gt3_calls }}</td>
+
+                                    <td>{{ row.gt3_duration }}</td>
+
+                                    <td>{{ row.hold_calls }}</td>
+
+                                    <td>{{ row.hold_duration }}</td>
+
+                                    <td>
+
+                                        <strong>
+
+                                            {{ row.total_calls }}
+
+                                        </strong>
+
+                                    </td>
+
+                                    <td>
+
+                                        <strong>
+
+                                            {{ row.total_duration }}
+
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="11" class="text-center py-5">
+
+                                        No Records Found
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const input=document.getElementById("searchInput");
+
+    const rows=document.querySelectorAll("tbody tr");
+
+    input.addEventListener("keyup",function(){
+
+        const value=this.value.toLowerCase();
+
+        rows.forEach(function(row){
+
+            row.style.display=row.innerText.toLowerCase().includes(value) ? "" : "none";
+
+        });
+
+    });
+
+});
+
+</script>
+
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

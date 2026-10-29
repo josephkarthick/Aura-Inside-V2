@@ -1,0 +1,755 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+    <main class="grow pt-5" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fixed">
+
+            <!-- ================================================== -->
+            <!-- HEADER -->
+            <!-- ================================================== -->
+
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+
+                <div>
+                    <h1 class="text-xl font-semibold text-mono">
+                        IJP Results
+                    </h1>
+
+                    <p class="text-sm text-secondary-foreground mt-1">
+                        {{ ijp.title }}
+                    </p>
+                </div>
+
+                <a href="{% url 'IJP:hr_ijp_list' %}"
+                   class="kt-btn kt-btn-light">
+                    ← Back to IJP List
+                </a>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- APPLICATIONS CARD -->
+            <!-- ================================================== -->
+
+            <div class="kt-card">
+
+                <div class="kt-card-header">
+
+                    <h3 class="kt-card-title">
+                        Total Applied Employees {{ applications|length }}
+                    </h3>
+
+                </div>
+
+
+                <div class="kt-card-content">
+
+                    {% if applications %}
+
+                    <div class="overflow-x-auto">
+
+                        <table class="kt-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Employee ID</th>
+
+                                    <th>Employee</th>
+
+                                    <th>Department</th>
+
+                                    <th>Designation</th>
+
+                                    <th>DOJ</th>
+
+                                    <th>Length of Service</th>
+
+                                    <th>Attendance Rating</th>
+
+                                    <th>Appraisal Rating</th>
+
+                                    <th>Applied On</th>
+
+                                    <th>Status</th>
+
+                                    <th>Action</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for application in applications %}
+
+                                <tr>
+
+                                    <!-- Employee ID -->
+
+                                    <td>
+                                        {{ application.employee.employee_id }}
+                                    </td>
+
+
+                                    <!-- Employee -->
+
+                                    <td>
+                                        {{ application.employee.get_full_name }}
+                                    </td>
+
+
+                                    <!-- Department -->
+
+                                    <td>
+                                        {{ application.employee.department.name }}
+                                    </td>
+
+
+                                    <!-- Designation -->
+
+                                    <td>
+                                        {{ application.employee.designation.title }}
+                                    </td>
+
+
+                                    <!-- DOJ -->
+
+                                    <td>
+                                       {{ application.employee.date_joined|date:"d-M-Y"|default:"-" }}
+                                    </td>
+
+
+                                    <!-- Length of Service -->
+
+
+									<td>
+										{% if application.employee.date_joined %}
+											{% with doj=application.employee.date_joined %}
+												{% now "Y" as current_year %}
+												{% now "n" as current_month %}
+												{% now "j" as current_day %}
+									
+												{% widthratio current_year|add:"-0" 1 1 as unused %}
+												{{ doj|timesince }}
+											{% endwith %}
+										{% else %}
+											-
+										{% endif %}
+									</td>
+
+
+
+                                    <!-- Attendance -->
+
+                                    <td class="text-center">
+
+                                        {{ application.attendance_rating }}
+
+                                    </td>
+
+
+                                    <!-- Appraisal -->
+
+                                    <td class="text-center">
+
+                                        {{ application.appraisal_rating }}
+
+                                    </td>
+
+
+                                    <!-- Applied On -->
+
+                                    <td>
+
+                                        {{ application.applied_at|date:"d-M-Y h:i A" }}
+
+                                    </td>
+
+
+                                    <!-- ================================================== -->
+                                    <!-- STATUS -->
+                                    <!-- ================================================== -->
+
+                                    <td>
+
+                                        {% if application.status == "Pending" %}
+
+                                            <span class="kt-badge kt-badge-warning">
+                                                Pending
+                                            </span>
+
+                                        {% elif application.status == "Approved" %}
+
+                                            <span class="kt-badge kt-badge-success">
+                                                Approved
+                                            </span>
+
+                                        {% elif application.status == "Rejected" %}
+
+                                            <span class="kt-badge kt-badge-danger">
+                                                Rejected
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ================================================== -->
+                                    <!-- ACTION -->
+                                    <!-- ================================================== -->
+
+                                    <td>
+
+                                        {% if application.status == "Pending" %}
+
+                                            <div class="flex items-center gap-2">
+
+                                                <!-- APPROVE -->
+
+                                                <button
+                                                    type="button"
+                                                    class="kt-btn kt-btn-sm kt-btn-success"
+                                                    onclick="openIJPActionModal(
+                                                        '{{ application.id }}',
+                                                        'approve',
+                                                        '{{ application.employee.get_full_name|escapejs }}'
+                                                    )">
+
+                                                    Approve
+
+                                                </button>
+
+
+                                                <!-- REJECT -->
+
+                                                <button
+                                                    type="button"
+                                                    class="kt-btn kt-btn-sm kt-btn-danger"
+                                                    onclick="openIJPActionModal(
+                                                        '{{ application.id }}',
+                                                        'reject',
+                                                        '{{ application.employee.get_full_name|escapejs }}'
+                                                    )">
+
+                                                    Reject
+
+                                                </button>
+
+                                            </div>
+
+
+                                        {% else %}
+
+                                            <!-- VIEW DECISION -->
+
+                                            <button
+                                                type="button"
+                                                class="kt-btn kt-btn-sm kt-btn-light"
+                                                onclick="viewIJPDecision(
+                                                    '{{ application.employee.get_full_name|escapejs }}',
+                                                    '{{ application.status }}',
+                                                    '{{ application.decision_remarks|default:""|escapejs }}'
+                                                )">
+
+                                                View
+
+                                            </button>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    {% else %}
+
+                    <!-- ================================================== -->
+                    <!-- NO APPLICATIONS -->
+                    <!-- ================================================== -->
+
+                    <div class="text-center py-10">
+
+                        <div class="text-lg font-semibold">
+                            No Applications
+                        </div>
+
+                        <div class="text-sm text-secondary-foreground mt-1">
+                            No employees have applied for this IJP yet.
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- APPROVE / REJECT MODAL -->
+<!-- ============================================================ -->
+
+<div
+    id="ijpActionModal"
+    class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/50"
+>
+
+    <div
+        class="kt-card mx-4"
+        style="width: 40%;"
+    >
+
+        <div class="kt-card-header">
+
+            <div>
+                <h3
+                    id="ijpModalTitle"
+                    class="kt-card-title"
+                >
+                    Application Action
+                </h3>
+
+                <p
+                    id="ijpModalEmployee"
+                    class="text-sm text-secondary-foreground mt-1"
+                ></p>
+            </div>
+
+        </div>
+
+        <div class="kt-card-content">
+
+            <form method="POST" id="ijpActionForm">
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="application_id"
+                    id="ijpApplicationId"
+                >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    id="ijpAction"
+                >
+
+                <div class="mb-5">
+
+                    <label class="kt-form-label mb-2">
+                        Remarks
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <textarea
+                        name="remarks"
+                        id="ijpRemarks"
+                        class="kt-input w-full"
+                        rows="4"
+                        placeholder="Enter your remarks..."
+                        required
+                    ></textarea>
+
+                </div>
+
+                <div class="flex justify-end gap-2">
+
+                    <button
+                        type="button"
+                        class="kt-btn kt-btn-light"
+                        onclick="closeIJPActionModal()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="ijpSubmitButton"
+                        class="kt-btn kt-btn-success"
+                    >
+                        Confirm
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- VIEW DECISION MODAL -->
+<!-- ============================================================ -->
+
+<!-- IJP ACTION MODAL -->
+<div class="kt-modal" data-kt-modal="true" id="ijpActionModal">
+
+    <div class="kt-modal-content max-w-md">
+
+        <!-- Header -->
+        <div class="kt-modal-header">
+
+            <h3 class="kt-modal-title" id="ijpModalTitle">
+                Application Action
+            </h3>
+
+            <button
+                type="button"
+                class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost"
+                data-kt-modal-dismiss="true"
+            >
+                <i class="ki-filled ki-cross"></i>
+            </button>
+
+        </div>
+
+        <!-- Body -->
+        <div class="kt-modal-body">
+
+            <p
+                id="ijpModalEmployee"
+                class="text-sm text-secondary-foreground mb-4"
+            ></p>
+
+            <form method="POST" id="ijpActionForm">
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="application_id"
+                    id="ijpApplicationId"
+                >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    id="ijpAction"
+                >
+
+                <div class="mb-5">
+
+                    <label class="kt-form-label mb-2">
+                        Remarks
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <textarea
+                        name="remarks"
+                        id="ijpRemarks"
+                        class="kt-input w-full"
+                        rows="4"
+                        placeholder="Enter your remarks..."
+                        required
+                    ></textarea>
+
+                </div>
+
+                <div class="flex justify-end gap-2">
+
+                    <button
+                        type="button"
+                        class="kt-btn kt-btn-light"
+                        data-kt-modal-dismiss="true"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="ijpSubmitButton"
+                        class="kt-btn kt-btn-success"
+                    >
+                        Confirm
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================================ -->
+
+<script>
+
+    // ==========================================================
+    // OPEN APPROVE / REJECT MODAL
+    // ==========================================================
+
+    function openIJPActionModal(
+        applicationId,
+        action,
+        employeeName
+    ) {
+
+        document.getElementById(
+            "ijpApplicationId"
+        ).value = applicationId;
+
+
+        document.getElementById(
+            "ijpAction"
+        ).value = action;
+
+
+        document.getElementById(
+            "ijpRemarks"
+        ).value = "";
+
+
+        document.getElementById(
+            "ijpModalEmployee"
+        ).innerText =
+            "Employee: " + employeeName;
+
+
+        const title =
+            document.getElementById(
+                "ijpModalTitle"
+            );
+
+
+        const submitButton =
+            document.getElementById(
+                "ijpSubmitButton"
+            );
+
+
+        // ------------------------------------------------------
+        // APPROVE
+        // ------------------------------------------------------
+
+        if (action === "approve") {
+
+            title.innerText =
+                "Approve Application";
+
+            submitButton.innerText =
+                "Confirm Approve";
+
+
+            submitButton.classList.remove(
+                "kt-btn-danger"
+            );
+
+            submitButton.classList.add(
+                "kt-btn-success"
+            );
+
+        }
+
+
+        // ------------------------------------------------------
+        // REJECT
+        // ------------------------------------------------------
+
+        else {
+
+            title.innerText =
+                "Reject Application";
+
+            submitButton.innerText =
+                "Confirm Reject";
+
+
+            submitButton.classList.remove(
+                "kt-btn-success"
+            );
+
+            submitButton.classList.add(
+                "kt-btn-danger"
+            );
+
+        }
+
+
+        // Show modal
+
+        document.getElementById(
+            "ijpActionModal"
+        ).classList.remove("hidden");
+
+    }
+
+
+    // ==========================================================
+    // CLOSE ACTION MODAL
+    // ==========================================================
+
+    function closeIJPActionModal() {
+
+        document.getElementById(
+            "ijpActionModal"
+        ).classList.add("hidden");
+
+    }
+
+
+    // ==========================================================
+    // VIEW DECISION
+    // ==========================================================
+
+    function viewIJPDecision(
+        employeeName,
+        status,
+        remarks
+    ) {
+
+        document.getElementById(
+            "viewEmployeeName"
+        ).innerText =
+            "Employee: " + employeeName;
+
+
+        const statusElement =
+            document.getElementById(
+                "viewStatus"
+            );
+
+
+        if (status === "Approved") {
+
+            statusElement.innerHTML =
+                '<span class="kt-badge kt-badge-success">' +
+                'Approved' +
+                '</span>';
+
+        }
+
+        else if (status === "Rejected") {
+
+            statusElement.innerHTML =
+                '<span class="kt-badge kt-badge-danger">' +
+                'Rejected' +
+                '</span>';
+
+        }
+
+        else {
+
+            statusElement.innerHTML =
+                '<span class="kt-badge kt-badge-warning">' +
+                status +
+                '</span>';
+
+        }
+
+
+        document.getElementById(
+            "viewRemarks"
+        ).innerText =
+            remarks || "No remarks provided.";
+
+
+        document.getElementById(
+            "ijpViewModal"
+        ).classList.remove("hidden");
+
+    }
+
+
+    // ==========================================================
+    // CLOSE VIEW MODAL
+    // ==========================================================
+
+    function closeIJPViewModal() {
+
+        document.getElementById(
+            "ijpViewModal"
+        ).classList.add("hidden");
+
+    }
+
+
+    // ==========================================================
+    // CLOSE MODALS WHEN CLICKING BACKDROP
+    // ==========================================================
+
+    document.getElementById(
+        "ijpActionModal"
+    ).addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === this) {
+
+                closeIJPActionModal();
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "ijpViewModal"
+    ).addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === this) {
+
+                closeIJPViewModal();
+
+            }
+
+        }
+    );
+
+
+    // ==========================================================
+    // ESC KEY CLOSE
+    // ==========================================================
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Escape") {
+
+                closeIJPActionModal();
+
+                closeIJPViewModal();
+
+            }
+
+        }
+    );
+
+</script>

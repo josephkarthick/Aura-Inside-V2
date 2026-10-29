@@ -1,0 +1,1486 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="h-full" data-kt-theme="true" data-kt-theme-mode="light" dir="ltr" lang="en">
+  
+<style>
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.3; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite !important;
+}
+
+/* Floating flag container */
+/* Default: Don't block page clicks */
+#flag-wrapper {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Only editable in edit mode */
+#flag-wrapper.edit-mode {
+    pointer-events: auto;
+    cursor: grab;
+}
+
+/* HR Policy Button */
+/* Wrapper with animated border */
+.hr-policy-border {
+  position: relative;
+  display: block;
+  padding: 2px;
+  border-radius: 14px;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+
+/* Animated gradient border */
+.hr-policy-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6,
+    #60a5fa,
+    #2563eb
+  );
+  background-size: 300% 300%;
+  animation: borderRun 3s linear infinite;
+  z-index: 0;
+}
+
+/* Inner button */
+.hr-policy-content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 14px 18px;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.hr-policy-border:hover .hr-policy-content {
+  background: #eff6ff;
+  transform: translateY(-1px);
+}
+
+/* Subtle icon motion */
+.hr-policy-border:hover i:first-child {
+  transform: rotate(-6deg);
+}
+
+.hr-policy-border i {
+  transition: transform 0.3s ease;
+}
+
+/* Animation */
+@keyframes borderRun {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* Click indicator */
+.click-indicator {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inner dot */
+.click-indicator::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Base pulse */
+.pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 8px;
+  position: relative;
+}
+
+/* 🔴 OFFLINE (RED) */
+.login-policy-border.offline .pulse {
+  background: #ef4444;
+  box-shadow: 0 0 0 rgba(239, 68, 68, 0.6);
+  animation: pulse-red 1.6s infinite;
+}
+
+/* 🟢 ONLINE (GREEN) */
+.login-policy-border.online .pulse {
+  background: #22c55e;
+  box-shadow: 0 0 0 rgba(34, 197, 94, 0.6);
+  animation: pulse-green 1.6s infinite;
+}
+
+/* Animations */
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+
+/* Cursor hint */
+.hr-policy-border {
+  cursor: pointer;
+}
+.playbtn {
+  position: relative;
+  display: inline-block;
+  padding: 25px 30px;
+  margin: 40px 0;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.5s;
+  font-weight: 600;
+  letter-spacing: 4px;
+  overflow: hidden;
+}
+.playbtn:hover {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 50px #fff, 0 0 200px #fff;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+}
+
+.playbtn span {
+  position: absolute;
+  display: block;
+}
+
+.playbtn span:nth-child(1) {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(90deg, transparent, #fff);
+  animation: animate1 1s linear infinite;
+}
+
+@keyframes animate1 {
+  0% {
+    left: -100%;
+  }
+  50%,
+  100% {
+    left: 100%;
+  }
+}
+
+.playbtn span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 10px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #fff);
+  animation: animate2 1s linear infinite;
+  animation-delay: 0.25s;
+}
+
+@keyframes animate2 {
+  0% {
+    top: -100%;
+  }
+  50%,
+  100% {
+    top: 100%;
+  }
+}
+
+.playbtn span:nth-child(3) {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, transparent, #fff);
+  animation: animate3 1s linear infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes animate3 {
+  0% {
+    right: -100%;
+  }
+  50%,
+  100% {
+    right: 100%;
+  }
+}
+
+.playbtn span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #fff);
+  animation: animate4 1s linear infinite;
+  animation-delay: 0.75s;
+}
+
+@keyframes animate4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,
+  100% {
+    bottom: 100%;
+  }
+}
+
+
+/* Button → Popup animation */
+.hr-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hr-modal.active {
+  pointer-events: auto;
+}
+
+.hr-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hr-modal.active .hr-modal-backdrop {
+  opacity: 1;
+}
+
+/* Popup animation */
+.hr-modal-content {
+  transform: scale(0.3);
+  opacity: 0;
+  transition: 
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+
+.hr-modal.active .hr-modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Button press feedback */
+.hr-policy-border:active {
+  transform: scale(0.96);
+}
+/* ===== LOGIN BUTTON ===== */
+.login-policy-border {
+  display: inline-block;
+  width: 100%;
+  max-width: 280px;
+  text-decoration: none;
+  border-radius: 14px;
+  padding: 1px; /* gradient border */
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6,
+    #ec4899
+  );
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+/* Inner content */
+.hr-policy-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 14px 18px;
+  border-radius: 13px;
+  background: #ffffff;
+
+  font-weight: 700;
+  font-size: 14px;
+  color: #1f2937;
+  letter-spacing: .4px;
+  position: relative;
+}
+
+/* Icon */
+.hr-policy-content i {
+  color: #6366f1;
+}
+
+/* Hover effect */
+.login-policy-border:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(99,102,241,.25);
+}
+
+.login-policy-border:hover .hr-policy-content {
+  background: linear-gradient(
+    135deg,
+    #f9fafb,
+    #f3f4f6
+  );
+}
+
+/* Active / click */
+.login-policy-border:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(99,102,241,.25);
+}
+
+/* ===== CLICK INDICATOR ===== */
+.click-indicator {
+  position: absolute;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+}
+
+.pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  position: relative;
+}
+
+.pulse::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(34,197,94,.5);
+  animation: pulse-ring 1.5s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(.7);
+    opacity: .7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+<!-- this is for toast notification -->
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+
+</style>
+
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <title>Aura Inside</title>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.css' %}" rel="stylesheet"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/vendors/keenicons/styles.bundle.css' %}" rel="stylesheet"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/css/styles.css' %}" rel="stylesheet"/>
+  
+      <!-- Floating Flag CSS -->
+    <link rel="stylesheet" href="{% static 'Floating_Flag/flag.css' %}">
+	
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-52YZ3XGZJ6');
+  </script>
+</head>
+
+<body onload="init()" class="antialiased flex h-full text-base text-foreground bg-background demo1 kt-sidebar-fixed kt-header-fixed kt-sidebar-collapse">
+
+
+  <!-- Theme Mode -->
+  <script>
+    const defaultThemeMode = 'light'; // light|dark|system
+    let themeMode;
+
+    if (document.documentElement) {
+      if (localStorage.getItem('kt-theme')) {
+        themeMode = localStorage.getItem('kt-theme');
+      } else if (document.documentElement.hasAttribute('data-kt-theme-mode')) {
+        themeMode = document.documentElement.getAttribute('data-kt-theme-mode');
+      } else {
+        themeMode = defaultThemeMode;
+      }
+
+      if (themeMode === 'system') {
+        themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      document.documentElement.classList.add(themeMode);
+    }
+  </script>
+  <!-- End of Theme Mode -->
+
+  <!-- Main -->
+  <div class="flex grow">
+
+<!-- Sidebar -->
+<div class="kt-sidebar bg-gray-50 border-r border-gray-200 fixed top-0 bottom-0 z-20 hidden lg:flex flex-col items-stretch shrink-0 [--kt-drawer-enable:true] lg:[--kt-drawer-enable:false]"
+     data-kt-drawer="true"
+     data-kt-drawer-class="kt-drawer kt-drawer-start top-0 bottom-0"
+     id="sidebar">
+
+    <div class="kt-sidebar-header hidden lg:flex items-center relative justify-between px-3 lg:px-6 shrink-0"
+         id="sidebar_header">
+
+        <a class="dark:hidden" href="#">
+            <img class="default-logo min-h-[22px] max-w-none"
+                 src="{% static 'metronic/tailwind/dist/assets/media/app/Logo.png' %}"
+                 alt="Logo"/>
+            <img class="small-logo min-h-[22px] max-w-none"
+                 src="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}"
+                 alt="Small Logo"/>
+        </a>
+
+        <a class="hidden dark:block" href="#">
+            <img class="default-logo min-h-[22px] max-w-none"
+                 src="{% static 'metronic/tailwind/dist/assets/media/app/Dark_Logo.png' %}"
+                 alt="Logo"/>
+            <img class="small-logo min-h-[22px] max-w-none"
+                 src="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}"
+                 alt="Small Logo"/>
+        </a>
+
+        <button class="kt-btn kt-btn-outline kt-btn-icon size-[30px] absolute start-full top-2/4 -translate-x-2/4 -translate-y-2/4 rtl:translate-x-2/4"
+                data-kt-toggle="body"
+                data-kt-toggle-class="kt-sidebar-collapse"
+                id="sidebar_toggle">
+            <i class="ki-filled ki-black-left-line kt-toggle-active:rotate-180 transition-all duration-300 rtl:translate rtl:rotate-180 rtl:kt-toggle-active:rotate-0"></i>
+        </button>
+    </div>
+
+    <div class="kt-scrollable-y-hover grow shrink-0 flex ps-2 lg:ps-5 pe-1 lg:pe-3"
+         data-kt-scrollable="true"
+         data-kt-scrollable-dependencies="#sidebar_header"
+         data-kt-scrollable-height="auto"
+         data-kt-scrollable-offset="0px"
+         data-kt-scrollable-wrappers="#sidebar_content"
+         id="sidebar_scrollable">
+
+        <!-- Sidebar Menu -->
+        <div id="sidebar_menu_container"
+             data-has-menus="{% if global_menus %}true{% else %}false{% endif %}">
+
+            {% if global_menus %}
+
+                <div class="kt-menu flex flex-col grow gap-1"
+                     data-kt-menu="true"
+                     data-kt-menu-accordion-expand-all="false"
+                     id="sidebar_menu">
+
+                    <div class="kt-menu-item pt-2.25 pb-px">
+                        <span class="kt-menu-heading uppercase text-xs font-medium text-muted-foreground ps-[10px] pe-[10px]">
+                        </span>
+                    </div>
+
+                    {% for menu in global_menus %}
+
+                        <div class="kt-menu-item {% if menu.id == active_menu_id %}show here{% endif %}"
+                             data-kt-menu-item-toggle="accordion"
+                             data-kt-menu-item-trigger="click">
+
+                            <div class="kt-menu-link flex items-center grow cursor-pointer border border-transparent gap-[10px] ps-[10px] pe-[10px] py-[6px]"
+                                 tabindex="0">
+
+                                <span class="kt-menu-icon items-start text-muted-foreground w-[20px]">
+                                    <i class="ki-filled {{ menu.icon|default:'ki-setting-2' }} text-lg"></i>
+                                </span>
+
+                                <span class="kt-menu-title text-sm font-medium text-foreground kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary">
+                                    {{ menu.name }}
+
+                                    {% if menu.visibility == 'authenticated' %}
+                                        <i class="ki-filled ki-lock text-xs text-muted-foreground ms-1"
+                                           title="Login required"></i>
+                                    {% endif %}
+                                </span>
+
+                                <span class="kt-menu-arrow text-muted-foreground w-[20px] shrink-0 justify-end ms-1 me-[-10px]">
+                                    <span class="inline-flex kt-menu-item-show:hidden">
+                                        <i class="ki-filled ki-plus text-[11px]"></i>
+                                    </span>
+                                    <span class="hidden kt-menu-item-show:inline-flex">
+                                        <i class="ki-filled ki-minus text-[11px]"></i>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="kt-menu-accordion gap-1 ps-[10px] relative before:absolute before:start-[20px] before:top-0 before:bottom-0 before:border-s before:border-border">
+
+                                {% for submenu in menu.visible_submenus %}
+
+                                    {% if submenu.url %}
+
+                                        <!-- Direct link submenu -->
+                                        <div class="kt-menu-item {% if submenu.id == active_submenu_id %}active{% endif %}">
+
+                                            <a href="{{ submenu.url }}"
+                                               class="kt-menu-link border border-transparent grow cursor-pointer gap-[14px] ps-[10px] pe-[10px] py-[8px] hover:bg-accent/60 hover:rounded-lg">
+
+                                                <span class="kt-menu-bullet flex w-[6px] -start-[3px] relative before:absolute before:top-0 before:size-[6px] before:rounded-full before:-translate-y-1/2 kt-menu-item-active:before:bg-primary kt-menu-item-hover:before:bg-primary"></span>
+
+                                                <span class="kt-menu-title text-2sm font-normal text-foreground {% if submenu.id == active_submenu_id %}kt-menu-item-active:text-primary kt-menu-item-active:font-medium{% endif %}">
+                                                    {{ submenu.name }}
+
+                                                    {% if submenu.visibility == 'authenticated' %}
+                                                        <i class="ki-filled ki-lock text-xs text-muted-foreground ms-1"
+                                                           title="Login required"></i>
+                                                    {% endif %}
+                                                </span>
+
+                                            </a>
+                                        </div>
+
+                                    {% else %}
+
+                                        <!-- Dropdown submenu with child menus -->
+                                        <div class="kt-menu-item {% if submenu.id == active_submenu_id %}show here{% endif %}"
+                                             data-kt-menu-item-toggle="accordion"
+                                             data-kt-menu-item-trigger="click">
+
+                                            <div class="kt-menu-link border border-transparent grow cursor-pointer gap-[14px] ps-[10px] pe-[10px] py-[8px]"
+                                                 tabindex="0">
+
+                                                <span class="kt-menu-bullet flex w-[6px] -start-[3px] relative before:absolute before:top-0 before:size-[6px] before:rounded-full before:-translate-y-1/2 kt-menu-item-active:before:bg-primary kt-menu-item-hover:before:bg-primary"></span>
+
+                                                <span class="kt-menu-title text-2sm font-normal me-1 text-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-medium kt-menu-link-hover:!text-primary">
+                                                    {{ submenu.name }}
+
+                                                    {% if submenu.visibility == 'authenticated' %}
+                                                        <i class="ki-filled ki-lock text-xs text-muted-foreground ms-1"
+                                                           title="Login required"></i>
+                                                    {% endif %}
+                                                </span>
+
+                                                <span class="kt-menu-arrow text-muted-foreground w-[20px] shrink-0 justify-end ms-1 me-[-10px]">
+                                                    <span class="inline-flex kt-menu-item-show:hidden">
+                                                        <i class="ki-filled ki-plus text-[11px]"></i>
+                                                    </span>
+                                                    <span class="hidden kt-menu-item-show:inline-flex">
+                                                        <i class="ki-filled ki-minus text-[11px]"></i>
+                                                    </span>
+                                                </span>
+
+                                            </div>
+
+                                            <div class="kt-menu-accordion gap-1 relative before:absolute before:start-[32px] ps-[22px] before:top-0 before:bottom-0 before:border-s before:border-border">
+
+                                                {% for childmenu in submenu.visible_child_menus %}
+
+                                                    <div class="kt-menu-item {% if childmenu.id == active_child_id %}active{% endif %}">
+
+                                                        <a class="kt-menu-link border border-transparent items-center grow {% if childmenu.id == active_child_id %}kt-menu-item-active:bg-accent/60 kt-menu-item-active rounded-lg{% endif %} hover:bg-accent/60 hover:rounded-lg gap-[5px] ps-[10px] pe-[10px] py-[8px]"
+                                                           href="{{ childmenu.url }}"
+                                                           tabindex="0">
+
+                                                            <span class="kt-menu-bullet flex w-[6px] -start-[3px] relative before:absolute before:top-0 before:size-[6px] before:rounded-full before:-translate-y-1/2 kt-menu-item-active:before:bg-primary kt-menu-item-hover:before:bg-primary"></span>
+
+                                                            <span class="kt-menu-title text-2sm font-normal text-foreground {% if childmenu.id == active_child_id %}kt-menu-item-active:text-primary kt-menu-item-active:font-semibold{% endif %} kt-menu-link-hover:!text-primary">
+                                                                {{ childmenu.name }}
+
+                                                                {% if childmenu.visibility == 'authenticated' %}
+                                                                    <i class="ki-filled ki-lock text-xs text-muted-foreground ms-1"
+                                                                       title="Login required"></i>
+                                                                {% endif %}
+                                                            </span>
+
+                                                        </a>
+                                                    </div>
+
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="text-muted px-4 py-3">
+                    No menus available
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<!-- End of Sidebar -->
+
+      <!-- Header -->
+      <header class="kt-header fixed top-0 z-10 start-0 end-0 flex bg-gray-50 shadow-sm border-b border-gray-200"  data-kt-sticky-class="border-b border-border" data-kt-sticky-name="header" id="header">
+        
+        <!-- Container -->
+        <div class="kt-container-fixed flex justify-between items-stretch lg:gap-4" id="headerContainer">
+          
+          <!-- Mobile Logo -->
+          <div class="flex gap-2.5 lg:hidden items-center -ms-1">
+            <a class="shrink-0" href="index.html">
+              <img class="max-h-[25px] w-full" src="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" alt="Log NA"/>
+            </a>
+            <div class="flex items-center">
+              <button class="kt-btn kt-btn-icon kt-btn-ghost" data-kt-drawer-toggle="#sidebar">
+                <i class="ki-filled ki-menu"></i>
+              </button>
+              <button class="kt-btn kt-btn-icon kt-btn-ghost" data-kt-drawer-toggle="#mega_menu_wrapper">
+                <i class="ki-filled ki-burger-menu-2"></i>
+              </button>
+            </div>
+          </div>
+          <!-- End of Mobile Logo -->
+      
+      <div class="flex items-stretch" id="megaMenuContainer">
+       <!--Megamenu Inner-->
+       <div class="flex items-stretch [--kt-reparent-mode:prepend] [--kt-reparent-target:body] lg:[--kt-reparent-target:#megaMenuContainer] lg:[--kt-reparent-mode:prepend]" data-kt-reparent="true">
+        <!--Megamenu Wrapper-->
+        <div class="hidden lg:flex lg:items-stretch [--kt-drawer-enable:true] lg:[--kt-drawer-enable:false]" data-kt-drawer="true" data-kt-drawer-class="kt-drawer kt-drawer-start fixed z-10 top-0 bottom-0 w-full me-5 max-w-[250px] p-5 lg:p-0 overflow-auto" id="mega_menu_wrapper">
+         <!--Megamenu-->
+         <div class="kt-menu flex-col lg:flex-row gap-5 lg:gap-7.5" data-kt-menu="true" id="mega_menu">
+          <!--Megamenu Item-->
+          <div class="kt-menu-item active">
+           <a class="kt-menu-link text-nowrap text-sm text-foreground font-medium kt-menu-item-hover:text-primary kt-menu-item-active:text-mono kt-menu-item-active:font-medium" href="{% url 'Intranet:home' %}">
+            <span class="kt-menu-title text-nowrap">
+             Home
+            </span>
+           </a>
+          </div>
+          <!--End of Megamenu Item-->
+
+          <!--Megamenu Item -->
+          <div class="kt-menu-item" data-kt-menu-item-offset="0,0|lg:-20px, 0" data-kt-menu-item-offset-rtl="0,0|lg:20px, 0" data-kt-menu-item-overflow="true" data-kt-menu-item-placement="bottom-start" data-kt-menu-item-placement-rtl="bottom-end" data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click|lg:hover">
+           <div class="kt-menu-link text-sm text-secondary-foreground font-medium kt-menu-link-hover:text-primary kt-menu-item-active:text-mono kt-menu-item-show:text-primary kt-menu-item-here:text-mono kt-menu-item-active:font-semibold kt-menu-item-here:font-semibold">
+            <span class="kt-menu-title text-nowrap">
+             Aura
+            </span>
+            <span class="kt-menu-arrow flex lg:hidden">
+             <span class="kt-menu-item-show:hidden text-muted-foreground">
+              <i class="ki-filled ki-plus text-xs">
+              </i>
+             </span>
+             <span class="hidden kt-menu-item-show:inline-flex">
+              <i class="ki-filled ki-minus text-xs">
+              </i>
+             </span>
+            </span>
+           </div>
+           <div class="kt-menu-dropdown kt-menu-default py-2.5 w-full max-w-[220px]">
+            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="{% url 'Intranet:org_chart' %}" tabindex="0">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-coffee">
+               </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Organization Structure
+              </span>
+             </a>
+            </div>
+           </div>
+          </div>
+		
+          <!--Megamenu Item
+          <div class="kt-menu-item" data-kt-menu-item-offset="0,0|lg:-20px, 0" data-kt-menu-item-offset-rtl="0,0|lg:20px, 0" data-kt-menu-item-overflow="true" data-kt-menu-item-placement="bottom-start" data-kt-menu-item-placement-rtl="bottom-end" data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click|lg:hover">
+           <div class="kt-menu-link text-sm text-secondary-foreground font-medium kt-menu-link-hover:text-primary kt-menu-item-active:text-mono kt-menu-item-show:text-primary kt-menu-item-here:text-mono kt-menu-item-active:font-semibold kt-menu-item-here:font-semibold">
+            <span class="kt-menu-title text-nowrap">
+             HR Policy
+            </span>
+            <span class="kt-menu-arrow flex lg:hidden">
+             <span class="kt-menu-item-show:hidden text-muted-foreground">
+              <i class="ki-filled ki-plus text-xs">
+              </i>
+             </span>
+             <span class="hidden kt-menu-item-show:inline-flex">
+              <i class="ki-filled ki-minus text-xs">
+              </i>
+             </span>
+            </span>
+           </div>
+           <div class="kt-menu-dropdown kt-menu-default py-2.5 w-full max-w-[220px]">
+            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="../docs/getting-started/installation.html" tabindex="0">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-coffee">
+               </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Benefits
+              </span>
+             </a>
+            </div>
+            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="../docs/getting-started/installation.html" tabindex="0">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-coffee">
+               </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Timing / Dress Code
+              </span>
+             </a>
+            </div>
+            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="../docs/getting-started/installation.html" tabindex="0">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-coffee">
+               </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Leave Policy
+              </span>
+             </a>
+            </div>
+			            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="../docs/getting-started/installation.html" tabindex="0">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-coffee">
+               </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Grevince Policy
+              </span>
+             </a>
+            </div>
+           </div>
+          </div> -->
+          
+          <!--Megamenu Item-->
+          <div class="kt-menu-item" data-kt-menu-item-offset="0,0|lg:-20px, 0" data-kt-menu-item-offset-rtl="0,0|lg:20px, 0" data-kt-menu-item-overflow="true" data-kt-menu-item-placement="bottom-start" data-kt-menu-item-placement-rtl="bottom-end" data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click|lg:hover">
+           <div class="kt-menu-link text-sm text-secondary-foreground font-medium kt-menu-link-hover:text-primary kt-menu-item-active:text-mono kt-menu-item-show:text-primary kt-menu-item-here:text-mono kt-menu-item-active:font-semibold kt-menu-item-here:font-semibold">
+            <span class="kt-menu-title text-nowrap">
+             Aura Application
+            </span>
+            <span class="kt-menu-arrow flex lg:hidden">
+             <span class="kt-menu-item-show:hidden text-muted-foreground">
+              <i class="ki-filled ki-plus text-xs">
+              </i>
+             </span>
+             <span class="hidden kt-menu-item-show:inline-flex">
+              <i class="ki-filled ki-minus text-xs">
+              </i>
+             </span>
+            </span>
+           </div>
+           <div class="kt-menu-dropdown kt-menu-default py-2.5 w-full max-w-[220px]">
+            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="https://aurarcm.greythr.com/" target="blank" tabindex="0">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-coffee">
+               </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Greythr
+              </span>
+             </a>
+            </div>
+            <div class="kt-menu-item">
+             <a class="kt-menu-link" href="https://aurapat.proflaut.com/" target="blank" tabindex="0">
+              <span class="kt-menu-icon">
+				<i class="ki-filled ki-star"> </i>
+              </span>
+              <span class="kt-menu-title grow-0">
+               Aurapat (Timesheet)
+              </span>
+             </a>
+            </div>			
+            <div class="kt-menu-item" data-kt-menu-item-placement="right-start" data-kt-menu-item-placement-rtl="left-start" data-kt-menu-item-toggle="dropdown" data-kt-menu-item-trigger="click|lg:hover">
+             <div class="kt-menu-link">
+              <span class="kt-menu-icon">
+               <i class="ki-filled ki-information">
+               </i>
+              </span>
+              <span class="kt-menu-title">
+               Web Portal
+              </span>
+              <span class="kt-menu-arrow">
+               <i class="ki-filled ki-right text-xs rtl:transform rtl:rotate-180">
+               </i>
+              </span>
+             </div>
+             <div class="kt-menu-dropdown kt-menu-default w-full max-w-[175px] lg:max-w-[220px]">
+              <div class="kt-menu-item">
+               <a class="kt-menu-link" href="https://aurarcm.com" target="blank" tabindex="0">
+                <span class="kt-menu-icon">
+                 <i class="ki-filled ki-star">
+                 </i>
+                </span>
+                <span class="kt-menu-title grow-0">
+                 AuraRCM.com
+                </span>
+               </a> 
+              </div>
+
+             </div>
+            </div>
+           </div>
+          </div>
+		  
+<div class="kt-menu-item"data-kt-menu-item-offset="0,0|lg:-20px,0"data-kt-menu-item-offset-rtl="0,0|lg:20px,0"data-kt-menu-item-overflow="true"data-kt-menu-item-placement="bottom-start"data-kt-menu-item-placement-rtl="bottom-end"data-kt-menu-item-toggle="dropdown"data-kt-menu-item-trigger="click|lg:hover">
+    <a class="kt-menu-link text-sm text-secondary-foreground font-medium
+              kt-menu-link-hover:text-primary
+              kt-menu-item-active:text-mono
+              kt-menu-item-show:text-primary
+              kt-menu-item-here:text-mono
+              kt-menu-item-active:font-semibold
+              kt-menu-item-here:font-semibold"
+		      href="{% url 'Intranet:gallery' %}">
+        <span class="kt-menu-title text-nowrap">Gallery</span>
+
+        <span class="kt-menu-arrow flex lg:hidden">
+            <span class="kt-menu-item-show:hidden text-muted-foreground">
+                <i class="ki-filled ki-plus text-xs"></i>
+            </span>
+            <span class="hidden kt-menu-item-show:inline-flex">
+                <i class="ki-filled ki-minus text-xs"></i>
+            </span>
+        </span>
+    </a>
+</div>
+
+
+				<div class="kt-menu-item"data-kt-menu-item-offset="0,0|lg:-20px,0"data-kt-menu-item-offset-rtl="0,0|lg:20px,0"data-kt-menu-item-overflow="true"data-kt-menu-item-placement="bottom-start"data-kt-menu-item-placement-rtl="bottom-end"data-kt-menu-item-toggle="dropdown"data-kt-menu-item-trigger="click|lg:hover">
+					<a class="kt-menu-link text-sm text-secondary-foreground font-medium
+							kt-menu-link-hover:text-primary
+							kt-menu-item-active:text-mono
+							kt-menu-item-show:text-primary
+							kt-menu-item-here:text-mono
+							kt-menu-item-active:font-semibold
+							kt-menu-item-here:font-semibold"
+							href="https://accounts.zoho.in/signin?servicename=VirtualOffice&signupurl=https://www.zoho.com/mail/signup.html&serviceurl=https://mail.zoho.in" target="_blank">
+						<span class="kt-menu-title text-nowrap">Mail</span>
+				
+						<span class="kt-menu-arrow flex lg:hidden">
+							<span class="kt-menu-item-show:hidden text-muted-foreground">
+								<i class="ki-filled ki-plus text-xs"></i>
+							</span>
+							<span class="hidden kt-menu-item-show:inline-flex">
+								<i class="ki-filled ki-minus text-xs"></i>
+							</span>
+						</span>
+					</a>
+				</div>
+				
+				
+				<div class="kt-menu-item"data-kt-menu-item-offset="0,0|lg:-20px,0"data-kt-menu-item-offset-rtl="0,0|lg:20px,0"data-kt-menu-item-overflow="true"data-kt-menu-item-placement="bottom-start"data-kt-menu-item-placement-rtl="bottom-end"data-kt-menu-item-toggle="dropdown"data-kt-menu-item-trigger="click|lg:hover">
+					<a class="kt-menu-link text-sm text-secondary-foreground font-medium
+							kt-menu-link-hover:text-primary
+							kt-menu-item-active:text-mono
+							kt-menu-item-show:text-primary
+							kt-menu-item-here:text-mono
+							kt-menu-item-active:font-semibold
+							kt-menu-item-here:font-semibold"
+							href="https://accounts.zoho.in/signin?servicename=ZohoChat&signupurl=https://www.zoho.com/cliq/signup.html" target="_blank">
+						<span class="kt-menu-title text-nowrap">Chat</span>
+				
+						<span class="kt-menu-arrow flex lg:hidden">
+							<span class="kt-menu-item-show:hidden text-muted-foreground">
+								<i class="ki-filled ki-plus text-xs"></i>
+							</span>
+							<span class="hidden kt-menu-item-show:inline-flex">
+								<i class="ki-filled ki-minus text-xs"></i>
+							</span>
+						</span>
+					</a>
+				</div>
+
+		  
+          <!--End of Megamenu Item-->
+         </div>
+         <!--End of Megamenu-->
+        </div>
+        <!--End of Megamenu Wrapper-->
+       </div>
+       <!--End of Megamenu Inner-->
+       
+      </div>
+          <!-- Topbar -->
+  <div class="flex items-center gap-2.5"> 
+	<a href="{% url 'employee:initiate_employee_call' %}"
+	rel="noopener noreferrer"
+	title="Call"
+	class="call-btn">
+	
+		<img src="/media/icons/call.png"
+			alt="Call"
+			class="call-icon">
+	
+	</a>
+
+<div class="mt-30 px-5">
+
+  {% if request.user.is_authenticated %}
+    <!-- ONLINE -->
+    <a href="{% url 'Accounts:logout' %}"
+       class="login-policy-border online">
+      <span class="hr-policy-content">
+        <span>Logout</span>
+        <span class="pulse"></span>
+      </span>
+    </a>
+
+  {% else %}
+    <!-- OFFLINE -->
+    <a href="{% url 'Accounts:login' %}"
+       class="login-policy-border offline">
+      <span class="hr-policy-content">
+        <span>Login</span>
+        <span class="pulse"></span>
+      </span>
+    </a>
+  {% endif %}
+
+</div>
+
+
+  
+<div class="mt-30 px-5">
+  <a href="{% url 'aura_books:book_list' %}"
+     class="hr-policy-border">
+
+    <span class="hr-policy-content">
+      <i class="ki-filled ki-book-open text-lg"></i>
+      <span>HR Policy</span>
+  
+    </span>
+
+  </a>
+</div>
+
+<!-- HR Policy Modal -->
+<div id="hrPolicyModal" class="hr-modal hidden">
+  <div class="hr-modal-backdrop" onclick="closeHRPolicy()"></div>
+
+  <div class="hr-modal-content">
+    <button class="hr-modal-close" onclick="closeHRPolicy()">✕</button>
+
+    <!-- OPEN BOOK -->
+    <div class="book">
+
+      <div class="page page--left">
+        <div class="page__text">
+          <h2 class="page__title">Aura – HR Policy</h2>
+
+          <p>Welcome to Aura HR Policy manual.</p>
+          <p>Office timing, leave rules, conduct, and responsibilities are defined herein.</p>
+          <p>Employees are expected to read and follow all policies.</p>
+        </div>
+      </div>
+
+      <div class="page page--right">
+        <div class="page__container">
+          <img class="full-size-image"
+               src="{% static 'imgs/hr_Policy/hrpolicy.jpg' %}">
+          <p class="image-credit">Aura Inside</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+            <!-- User -->
+            <div class="shrink-0" data-kt-dropdown="true" data-kt-dropdown-offset="10px, 10px" data-kt-dropdown-offset-rtl="-20px, 10px" data-kt-dropdown-placement="bottom-end" data-kt-dropdown-placement-rtl="bottom-start" data-kt-dropdown-trigger="click">
+              <div class="cursor-pointer shrink-0" data-kt-dropdown-toggle="true">
+{% if user.is_authenticated %}
+    {% if user.profile_photo %}
+        <img
+            src="{{ user.profile_photo.url }}"
+            alt="User Avatar"
+            class="size-9 rounded-full object-cover border-2 border-green-500 shrink-0"
+        />
+    {% else %}
+        <div class="size-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold border-2 border-green-500 shrink-0">
+            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+        </div>
+    {% endif %}
+{% endif %}		  
+              </div>
+              <div class="kt-dropdown-menu w-[250px]" data-kt-dropdown-menu="true">
+				{% if user.is_authenticated %}
+				<div class="flex items-center justify-between px-2.5 py-1.5 gap-1.5">
+					<div class="flex items-center gap-2">
+					{% if user.is_authenticated and user.first_name and user.last_name %}
+					<div class="size-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold border-2 border-green-500 shrink-0">
+						{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+					</div>
+					{% endif %}	
+					<div class="flex flex-col gap-1.5">
+						<span class="text-sm text-foreground font-semibold leading-none">{{ user.username|upper }}</span>
+						<a class="text-xs text-secondary-foreground hover:text-primary font-medium leading-none" href="#">{{ user.designation }}</a>
+					</div>
+					</div>
+					<span class="kt-badge kt-badge-sm kt-badge-primary kt-badge-outline">{{ user.department }}</span>
+				</div>
+				
+				<ul class="kt-dropdown-menu-sub">
+          
+
+					{% if request.user.is_authenticated and request.user.is_superuser %}
+						<li><div class="kt-dropdown-menu-separator"></div></li>
+						<li>
+							<a class="kt-dropdown-menu-link" href="/admin/" target="_blank" rel="noopener">
+								<i class="ki-outline ki-underlining fs-2"></i>
+					</i> Admin Console
+							</a>
+						</li>
+					{% endif %}
+
+					<li><div class="kt-dropdown-menu-separator"></div></li>
+					<li>
+					<a class="kt-dropdown-menu-link" href="{% url 'employee:userprofile' %}">
+						<i class="ki-filled ki-profile-circle"></i> My Profile
+					</a>
+
+					</li>
+					<li>
+					<!-- Reset Password 
+					<a class="kt-dropdown-menu-link" href="{% url 'Accounts:change_password' %}">
+						<i class="ki-filled ki-setting-2"></i> Reset Password
+					</a> -->
+					</li>
+					<li><div class="kt-dropdown-menu-separator"></div></li>
+				</ul>
+				{% else %}
+				<div class="text-sm text-red-500 px-3 py-2">login to access your profile</div>
+				{% endif %}
+
+              </div>
+            </div>
+			
+			<div id="user-avatar-anchor"
+     class="cursor-pointer shrink-0 relative"
+     data-kt-dropdown-toggle="true">
+
+            <!-- End of User -->
+          </div>
+          <!-- End of Topbar -->
+        </div>
+        <!-- End of Container -->
+         
+      </header>
+      
+      <!-- End of Header -->
+    </div>
+    <!-- End of Wrapper -->
+  </div>
+  
+{% if messages %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    {% for message in messages %}
+        showToast("{{ message|escapejs }}", "{{ message.tags }}");
+    {% endfor %}
+});
+</script>
+{% endif %}
+  
+<!-- Toast Container -->
+<div id="toast-container" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+"></div>
+
+
+{% if request.path != '/intranet/flag/' %}
+    <!-- Your code here -->
+<div class="meter">
+    <input type="hidden" id="color" name="color" value="{{ flag.color|default:'#ffffff' }}" onchange="setColor()">
+    <input type="hidden" id="angle" name="camera_angle">
+    <span id="textAngle"> </span>
+	
+    <input type="hidden" id="h" name="wave_horizontal" value="{{ flag.wave_horizontal|default:0.5 }}">
+    <input type="hidden" id="v" name="wave_vertical" value="{{ flag.wave_vertical|default:0.3 }}">
+    <input type="hidden" id="w" name="wave_strength" value="{{ flag.wave_strength|default:0.2 }}">
+    <input type="hidden" id="s" name="wave_speed" value="{{ flag.wave_speed|default:0.5 }}">
+    <input type="hidden" id="width" name="width" value="{{ flag.width|default:30 }}">
+    <input type="hidden" id="height" name="height" value="{{ flag.height|default:20 }}">
+    <input type="hidden" id="pos_x" name="pos_x" value="{{ flag.pos_x|default:200 }}">
+    <input type="hidden" id="pos_y" name="pos_y" value="{{ flag.pos_y|default:200 }}">
+
+</div>
+
+{% endif %}
+
+
+{% if request.path != '/accounts/login/' and request.path != '/' %}
+<!-- Floating flag -->
+<div id="flag-wrapper">
+    <div id="renderArea"></div>
+</div>
+{% endif %}
+
+{% if flag.image %}
+<script>
+    const SAVED_IMAGE_URL = "{{ flag.image.url }}";
+</script>
+{% else %}
+<script>
+    const SAVED_IMAGE_URL = null;
+</script>
+{% endif %}
+
+<script>
+/* ---------------- CONFIG ---------------- */
+const WIDTH = 600, HEIGHT = 400;
+const SEG_W = 30, SEG_H = 20;
+
+/* ---------------- GLOBALS ---------------- */
+let scene, camera, renderer, flag;
+let flagColor = "{{ flag.color|default:'#ffffff' }}";
+let flagTexture = null;
+
+const wrapper = document.getElementById("flag-wrapper");
+
+let isDragging = false;
+let prev = { x: 0, y: 0 };
+
+/* ---------------- INIT ---------------- */
+function init() {
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 1000);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(WIDTH, HEIGHT);
+    document.getElementById("renderArea").appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0x999999));
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(10, 50, 100);
+    scene.add(light);
+
+    // Load saved settings from Django template variables
+    const w = parseFloat("{{ flag.width|default:30 }}");
+    const h = parseFloat("{{ flag.height|default:20 }}");
+    const posX = parseInt("{{ flag.pos_x|default:200 }}");
+    const posY = parseInt("{{ flag.pos_y|default:200 }}");
+    const cameraAngle = parseFloat("{{ flag.camera_angle|default:0 }}");
+
+    flagColor = document.getElementById("color").value;
+
+    createFlag(w, h);
+
+    // Position the flag wrapper using saved pos_x and pos_y
+    wrapper.style.left = posX + "px";
+    wrapper.style.top = posY + "px";
+    wrapper.style.transform = "none";
+
+    // Set camera angle slider and camera position
+    document.getElementById("angle").value = cameraAngle;
+    setCamera();
+
+    if (SAVED_IMAGE_URL) {
+        new THREE.TextureLoader().load(SAVED_IMAGE_URL, function (tex) {
+            flagTexture = tex;
+            createFlag(w, h);
+        });
+    }
+
+    // Add event listeners for dragging
+    wrapper.addEventListener("mousedown", startDrag);
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDrag);
+
+    wrapper.addEventListener("touchstart", startDrag, { passive:false });
+    document.addEventListener("touchmove", drag, { passive:false });
+    document.addEventListener("touchend", stopDrag);
+
+    animate();
+}
+
+/* ---------------- FLAG ---------------- */
+function createFlag(w, h) {
+    const geometry = new THREE.PlaneGeometry(w, h, SEG_W, SEG_H);
+    const material = new THREE.MeshLambertMaterial({
+        color: flagColor,
+        map: flagTexture,
+        side: THREE.DoubleSide
+    });
+
+    if (flag) {
+        flag.geometry.dispose();
+        flag.geometry = geometry;
+        flag.material = material;
+    } else {
+        flag = new THREE.Mesh(geometry, material);
+        scene.add(flag);
+    }
+}
+
+/* ---------------- ANIMATION ---------------- */
+function animate() {
+    const h = +document.getElementById("h").value;
+    const v = +document.getElementById("v").value;
+    const w = +document.getElementById("w").value;
+    const s = +document.getElementById("s").value;
+
+    const time = Date.now() * s / 50;
+    const verts = flag.geometry.vertices;
+
+    for (let y = 0; y <= SEG_H; y++) {
+        for (let x = 0; x <= SEG_W; x++) {
+            const i = x + y * (SEG_W + 1);
+            verts[i].z = Math.sin(h * x + v * y - time) * w * x / 4;
+        }
+    }
+
+    flag.geometry.verticesNeedUpdate = true;
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+}
+
+/* ---------------- DRAG ---------------- */
+function startDrag(e) {
+    isDragging = true;
+    const ev = e.touches ? e.touches[0] : e;
+    prev.x = ev.clientX;
+    prev.y = ev.clientY;
+    wrapper.style.cursor = "grabbing";
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const ev = e.touches ? e.touches[0] : e;
+
+    const newLeft = wrapper.offsetLeft + (ev.clientX - prev.x);
+    const newTop = wrapper.offsetTop + (ev.clientY - prev.y);
+
+    wrapper.style.left = newLeft + "px";
+    wrapper.style.top = newTop + "px";
+    wrapper.style.transform = "none";
+
+    // Update hidden inputs for form POST
+    document.getElementById("pos_x").value = newLeft;
+    document.getElementById("pos_y").value = newTop;
+
+    prev.x = ev.clientX;
+    prev.y = ev.clientY;
+}
+
+function stopDrag() {
+    isDragging = false;
+    wrapper.style.cursor = "grab";
+}
+
+/* ---------------- CONTROLS ---------------- */
+function setColor() {
+    flagColor = document.getElementById("color").value;
+    createFlag(flag.geometry.parameters.width, flag.geometry.parameters.height);
+}
+
+function loadTexture(files) {
+    if (!files.length) return;
+
+    const img = new Image();
+    const url = URL.createObjectURL(files[0]);
+
+    img.onload = () => {
+        const aspect = img.width / img.height;
+        let w, h;
+
+        if (aspect < 1) {
+            h = 30;
+            w = h * aspect;
+        } else {
+            w = 30;
+            h = w / aspect;
+        }
+
+        new THREE.TextureLoader().load(url, tex => {
+            flagTexture = tex;
+            createFlag(w, h);
+
+            // Update hidden width and height inputs
+            document.getElementById("width").value = w;
+            document.getElementById("height").value = h;
+        });
+    };
+    img.src = url;
+}
+
+function setCamera() {
+    const angle = +document.getElementById("angle").value;
+    document.getElementById("textAngle").innerText = `[${angle}°]`;
+    camera.position.x = 40 * Math.sin(angle * Math.PI / 180);
+    camera.position.z = 40 * Math.cos(angle * Math.PI / 180);
+    camera.lookAt(0, 0, 0);
+
+    // Update hidden input for form submit
+    document.querySelector('input[name="camera_angle"]').value = angle;
+}
+
+function resetFlag() {
+    // Reload page to reset to saved values
+    location.reload();
+}
+</script>
+
+
+<script>
+function openHRPolicy() {
+  const modal = document.getElementById("hrPolicyModal");
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden"; // prevent background scroll
+}
+
+function closeHRPolicy() {
+  const modal = document.getElementById("hrPolicyModal");
+  modal.classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+/* Close on backdrop click */
+document.addEventListener("click", function (e) {
+  const modal = document.getElementById("hrPolicyModal");
+  if (!modal.classList.contains("hidden") &&
+      e.target.classList.contains("hr-modal-backdrop")) {
+    closeHRPolicy();
+  }
+});
+
+/* Close on ESC key */
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    closeHRPolicy();
+  }
+});
+</script>
+
+<!-- toast Notification -->
+<script>
+function showToast(message, type="success") {
+
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+
+    let bgColor = "#16a34a";  // green default
+
+    if (type === "error") bgColor = "#dc2626";
+    if (type === "warning") bgColor = "#f59e0b";
+    if (type === "info") bgColor = "#2563eb";
+
+    toast.style.cssText = `
+        min-width: 250px;
+        padding: 12px 18px;
+        border-radius: 8px;
+        color: white;
+        font-size: 13px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        background: ${bgColor};
+        animation: slideIn 0.3s ease;
+    `;
+
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "0.4s";
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+}
+</script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/core.bundle.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/ktui/ktui.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/widgets/general.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>
+  <!-- End of Scripts -->
+</body>

@@ -1,0 +1,179 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+<head>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/dropify.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/summernote.min.css' %}">
+
+    <!-- Core JS Files -->
+    <script src="{% static 'assets/bundles/datepicker.bundle.js' %}"></script>
+    <script src="{% static 'assets/bundles/select2.bundle.js' %}"></script>
+    <script src="{% static 'assets/bundles/dropify.bundle.js' %}"></script>
+    <script src="{% static 'assets/bundles/summernote.bundle.js' %}"></script>
+</head>
+
+<body>
+            <!-- Form Starts -->
+            <form id="TicketForm" method="POST">
+                {% csrf_token %}
+                <div class="row clearfix">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row g-3 clearfix">
+                                    <!-- Category Selection -->
+                                    <div class="col-md-3 col-sm-12">
+									<label class="form-label">Select Category</label>
+                                        <select id="category" name="category" class="form-select" required>
+                                            <option value="">Issue Type</option>
+                                            {% for cat in categories %}
+                                            <option value="{{ cat.id }}">{{ cat.category }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Subcategory Selection -->
+                                    <div class="col-md-3 col-sm-12">
+									<label class="form-label">Select Subcategory</label>
+                                        <select id="subcategory" name="subcategory" class="form-select" required>
+                                            <option value="">Issue </option>
+                                        </select>
+                                    </div>
+									
+									<!-- Priority Selection -->
+									<div class="col-md-3 col-sm-12">
+										<label class="form-label">Prioritize</label>
+										<select id="priority" name="priority" class="form-select" required>
+											<option value="">Select Priority</option>
+											<option value="High">High</option>
+											<option value="Medium">Medium</option>
+											<option value="Low">Low</option>
+											<option value="Critical">Critical</option>
+										</select>
+									</div>									
+
+									<!-- Assign To Selection -->
+									<div class="col-md-3 col-sm-12">
+										<label class="form-label">Assign To:</label>
+										<select id="assigned_to" name="assigned_to" class="form-select" required>
+											<option value="">Select IT</option>
+											{% for IT in IT_persons %}
+												<option value="{{ IT.id  }}">{{ IT.first_name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+
+									
+
+                                    <!-- System Selection -->
+                                    <div class="col-md-3 col-sm-12">
+									<label class="form-label">CPU Number</label>
+                                        <select name="system" class="form-select" required>
+                                            <option value="">Select Your System</option>
+                                            <option>ABSD001</option>
+                                            <option>ABSD002</option>
+                                            <option>ABSD003</option>
+                                        </select>
+                                    </div>
+
+
+
+
+                                    <!-- Description -->
+                                    <div class="col-sm-12">
+                                        <label class="form-label">Description</label>
+									<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/ui/trumbowyg.min.css">
+									<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/trumbowyg.min.js"></script>
+									
+									<!-- Textarea -->
+									<textarea id="editor" name="description"></textarea>
+									
+									<script>
+										$(document).ready(function() {
+											$('#editor').trumbowyg();
+										});
+									</script>
+                                    </div>
+
+                                    <!-- File Upload 
+                                    <div class="col-12">
+                                        <input type="file" name="attachment" class="dropify">
+                                    </div>-->
+
+                                    <!-- Buttons -->
+<div class="col-sm-12">
+    <button type="submit" class="btn btn-success" id="createButton" onclick="disableCreateButton()">Create</button>
+    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Cancel</button>
+</div>
+
+<script>
+function disableCreateButton() {
+    const createButton = document.getElementById('createButton');
+    // Disable the button to prevent multiple clicks
+    createButton.disabled = true;
+    // Change the text and add spinner
+    createButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please wait...';
+    // Submit the form
+    createButton.form.submit();
+}
+</script>
+
+									
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Form Ends -->
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+
+        // When category changes
+        $("#category").change(function () {
+            var categoryId = $(this).val();
+            $("#subcategory").empty().append('<option value="">Select Subcategory</option>');
+            $("#priority").val(""); // Clear priority
+
+            if (categoryId) {
+                $.ajax({
+                    url: "{% url 'ITDesk:fetch_subcategories' %}",
+                    data: { category_id: categoryId },
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (index, item) {
+                            $("#subcategory").append(
+                                '<option value="' + item.id + '" data-priority="' + item.priority + '">' + item.subcategory + '</option>'
+                            );
+                        });
+                    }
+                });
+            }
+        });
+
+        // When subcategory changes
+        $("#subcategory").change(function () {
+            var selectedOption = $(this).find(":selected");
+            var priority = selectedOption.data("priority");
+            $("#priority").val(priority || ""); // Set or clear priority
+        });
+
+        // Form validation
+        document.getElementById('TicketForm').addEventListener('submit', function (event) {
+            if (!this.checkValidity()) {
+                event.preventDefault();
+                alert("Please fill in all required fields.");
+            }
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

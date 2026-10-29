@@ -1,0 +1,344 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fluid px-6">
+
+      <div class="flex justify-between items-center mb-6">
+
+        <h3 class="text-lg font-semibold">
+          ✏️ Edit Internal Job Posting
+        </h3>
+
+        <a href="{% url 'IJP:hr_ijp_list' %}"
+           class="kt-btn kt-btn-light">
+          ← Back
+        </a>
+
+      </div>
+
+      <div class="kt-card">
+
+        <div class="kt-card-header">
+          <h3 class="kt-card-title">
+            {{ ijp.title }}
+          </h3>
+        </div>
+
+        <div class="kt-card-content">
+
+          <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- TITLE -->
+            <div class="mb-5">
+              <label class="block font-medium mb-2">
+                Job Title
+              </label>
+
+              <input
+                type="text"
+                name="title"
+                value="{{ ijp.title }}"
+                class="kt-input w-full"
+                required
+              >
+            </div>
+
+
+            <!-- DEPARTMENT -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Department
+              </label>
+
+              <select
+                name="department"
+                class="kt-select w-full"
+                required
+              >
+
+                {% for department in departments %}
+
+                  <option
+                    value="{{ department.id }}"
+                    {% if ijp.department_id == department.id %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ department.name }}
+                  </option>
+
+                {% endfor %}
+
+              </select>
+
+            </div>
+
+
+            <!-- DESIGNATION -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Designation
+              </label>
+
+              <select
+                name="designation"
+                class="kt-select w-full"
+                required
+              >
+
+                {% for designation in designations %}
+
+                  <option
+                    value="{{ designation.id }}"
+                    {% if ijp.designation_id == designation.id %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ designation.title }}
+                  </option>
+
+                {% endfor %}
+
+              </select>
+
+            </div>
+
+
+            <!-- VACANCIES -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Vacancies
+              </label>
+
+              <input
+                type="number"
+                name="vacancies"
+                value="{{ ijp.vacancies }}"
+                class="kt-input w-full"
+                min="1"
+                required
+              >
+
+            </div>
+
+
+            <!-- EXPERIENCE -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Minimum Experience (Months)
+              </label>
+
+              <input
+                type="number"
+                name="minimum_experience_months"
+                value="{{ ijp.minimum_experience_months }}"
+                class="kt-input w-full"
+                min="0"
+                required
+              >
+
+            </div>
+
+
+            <!-- APPRAISAL -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Minimum Appraisal Rating
+              </label>
+
+              <input
+                type="number"
+                step="0.01"
+                name="minimum_appraisal_rating"
+                value="{{ ijp.minimum_appraisal_rating }}"
+                class="kt-input w-full"
+                required
+              >
+
+            </div>
+
+
+            <!-- APPRAISAL YEAR -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Appraisal Year
+              </label>
+
+              <input
+                type="number"
+                name="appraisal_year"
+                value="{{ ijp.appraisal_year }}"
+                class="kt-input w-full"
+                required
+              >
+
+            </div>
+
+
+            <!-- ATTENDANCE -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Minimum Attendance Rating
+              </label>
+
+              <input
+                type="number"
+                step="0.01"
+                name="minimum_attendance_rating"
+                value="{{ ijp.minimum_attendance_rating }}"
+                class="kt-input w-full"
+                required
+              >
+
+            </div>
+
+
+            <!-- ATTENDANCE YEAR -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Attendance Year
+              </label>
+
+              <input
+                type="number"
+                name="attendance_year"
+                value="{{ ijp.attendance_year }}"
+                class="kt-input w-full"
+                required
+              >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Description
+              </label>
+
+              <textarea
+                name="description"
+                rows="5"
+                class="kt-textarea w-full"
+              >{{ ijp.description }}</textarea>
+
+            </div>
+
+
+            <!-- START DATE -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Application Start Date
+              </label>
+
+              <input
+                type="date"
+                name="application_start_date"
+                value="{{ ijp.application_start_date|date:'Y-m-d' }}"
+                class="kt-input w-full"
+                required
+              >
+
+            </div>
+
+
+            <!-- END DATE -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Application End Date
+              </label>
+
+              <input
+                type="date"
+                name="application_end_date"
+                value="{{ ijp.application_end_date|date:'Y-m-d' }}"
+                class="kt-input w-full"
+                required
+              >
+
+            </div>
+
+
+            <!-- STATUS -->
+            <div class="mb-5">
+
+              <label class="block font-medium mb-2">
+                Status
+              </label>
+
+              <select
+                name="status"
+                class="kt-select w-full"
+                required
+              >
+
+                <option
+                  value="Open"
+                  {% if ijp.status == "Open" %}
+                    selected
+                  {% endif %}
+                >
+                  Open
+                </option>
+
+                <option
+                  value="Closed"
+                  {% if ijp.status == "Closed" %}
+                    selected
+                  {% endif %}
+                >
+                  Closed
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+            <div class="flex justify-end gap-3 mt-6">
+
+              <a
+                href="{% url 'IJP:hr_ijp_list' %}"
+                class="kt-btn kt-btn-light"
+              >
+                Cancel
+              </a>
+
+              <button
+                type="submit"
+                class="kt-btn kt-btn-primary"
+              >
+                💾 Update IJP
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+
+</div>

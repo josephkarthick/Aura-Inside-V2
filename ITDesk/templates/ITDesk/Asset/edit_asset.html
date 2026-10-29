@@ -1,0 +1,213 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Page Header -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">Organization Structure</h1>
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">Senior Management</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <a href="{% url 'ITDesk:assetlist' %} " class="kt-btn kt-btn-outline" data-kt-modal-toggle="#share_profile_modal">List Assets</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="kt-container-fixed">
+      <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full">
+
+          <!-- Card Header -->
+          <div class="kt-card-header flex-wrap py-5">
+            <h3 class="kt-card-title">Teams</h3>
+            <div class="flex items-center gap-6">
+              <label class="kt-input">
+                <i class="ki-filled ki-magnifier"></i>
+                <input data-kt-datatable-search="#team_crew_table" placeholder="Search teams" type="text" value="" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="kt-card-content">
+            <div data-kt-datatable="true" data-kt-datatable-page-size="10" id="team_crew_table">
+            <table class="kt-table table-fixed kt-table-border">
+                <!-- Modal -->
+ <!-- Modal -->
+<div data-kt-modal="true" id="share_profile_modal">
+  <div class="kt-card w-full max-w-[700px] p-5 border rounded-xl bg-white shadow">
+<form method="post"
+      action="{% url 'ITDesk:editasset' asset.id %}"
+      id="AssetEditForm">
+  {% csrf_token %}
+
+  <div class="grid gap-5">
+
+    <!-- First Row: Asset Tag, Product Name -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Asset Tag</label>
+        <input type="text"
+               name="asset_tag"
+               class="kt-input"
+               value="{{ asset.asset_tag }}"
+               required>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Product Name</label>
+        <input type="text"
+               name="product_name"
+               class="kt-input"
+               value="{{ asset.product_name }}"
+               required>
+      </div>
+    </div>
+
+    <!-- Second Row: Serial, Model -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Serial Number</label>
+        <input type="text"
+               name="serial_number"
+               class="kt-input"
+               value="{{ asset.serial_number }}">
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Model Name</label>
+        <input type="text"
+               name="model_name"
+               class="kt-input"
+               value="{{ asset.model_name }}">
+      </div>
+    </div>
+
+    <!-- Third Row: Brand, Category -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Brand</label>
+        <input type="text"
+               name="brand"
+               class="kt-input"
+               value="{{ asset.brand }}">
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Category</label>
+        <select name="category" class="kt-select">
+          <option value="">Select Category</option>
+          {% for cat in categories %}
+            <option value="{{ cat.id }}"
+              {% if asset.category and asset.category.id == cat.id %}selected{% endif %}>
+              {{ cat.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- Fourth Row: Invoice, Unit Price -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Invoice</label>
+        <select name="invoice" class="kt-select">
+          <option value="">Select Invoice</option>
+          {% for invoice in invoices %}
+            <option value="{{ invoice.id }}"
+              {% if asset.invoice and asset.invoice.id == invoice.id %}selected{% endif %}>
+              {{ invoice.invoice_no }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Unit Price</label>
+        <input type="number"
+               step="0.01"
+               name="unit_price"
+               class="kt-input"
+               value="{{ asset.unit_price }}">
+      </div>
+    </div>
+
+    <!-- Fifth Row: Warranty Expiry -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Warranty Expiry</label>
+        <input type="date"
+               name="warranty_expiry"
+               class="kt-input"
+               value="{{ asset.warranty_expiry|date:'Y-m-d' }}">
+      </div>
+    </div>
+
+    <!-- Sixth Row: Location, Status -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col">
+        <label class="font-semibold">Location</label>
+        <input type="text"
+               name="location"
+               class="kt-input"
+               value="{{ asset.location }}">
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Status</label>
+        <select name="status" class="kt-select">
+          <option value="in_use" {% if asset.status == "in_use" %}selected{% endif %}>In Use</option>
+          <option value="in_stock" {% if asset.status == "in_stock" %}selected{% endif %}>In Stock</option>
+          <option value="damaged" {% if asset.status == "damaged" %}selected{% endif %}>Damaged</option>
+          <option value="disposed" {% if asset.status == "disposed" %}selected{% endif %}>Disposed</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div class="flex justify-end gap-3 mt-5">
+      <button type="submit" class="kt-btn kt-btn-primary">
+        Update Asset
+      </button>
+      <a href="{% url 'ITDesk:assetlist' %}"
+         class="kt-btn kt-btn-secondary">
+        Cancel
+      </a>
+    </div>
+
+  </div>
+</form>
+
+
+
+  </div>
+</div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/ui/trumbowyg.min.css">
+<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2.25.1/dist/trumbowyg.min.js"></script>
+

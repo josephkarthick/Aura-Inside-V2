@@ -1,0 +1,121 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+    <div class="flex items-center flex-wrap md:flex-nowrap lg:items-end justify-between border-b border-b-border gap-3 lg:gap-6 mb-5 lg:mb-10"></div>
+    <!-- Header Section -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">Idle Users</h1>
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">Watch Users Idle Time</span>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table -->
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <div class="kt-container-fixed">
+      <div class="grid gap-5 lg:gap-7.5">
+        <div class="kt-card kt-card-grid min-w-full"><br>
+          <div class="kt-card-header flex-wrap gap-2">
+            <h3 class="kt-card-title text-sm">Totally {{ total_users }} users</h3>
+            <div class="flex flex-wrap gap-2 lg:gap-5">
+              <div class="flex">
+                <label class="kt-input">
+                  <i class="ki-filled ki-magnifier"></i>
+                  <input id="searchInput" placeholder="Search users" type="text" value=""/>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="kt-card-content">
+            <div class="grid" data-kt-datatable="true" data-kt-datatable-page-size="10">
+              <div class="kt-scrollable-x-auto">
+                <table class="kt-table text-sm text-secondary-foreground">
+                  <thead>
+                    <tr class="bg-accent/50">
+                      <th class="py-2 px-4 text-left">Hostname</th>
+                      <th class="py-2 px-4 text-left">OS</th>
+                      <th class="py-2 px-4 text-left">Processor</th>
+                      <th class="py-2 px-4 text-left">RAM (GB)</th>
+                      <th class="py-2 px-4 text-left">HDD (GB)</th>
+                      <th class="py-2 px-4 text-left">Serial</th>
+                      <th class="py-2 px-4 text-left">Monitor</th>
+                      <th class="py-2 px-4 text-left">License</th>
+                      <th class="py-2 px-4 text-left">Last Updated</th>
+                      <th class="py-2 px-4 text-left">User</th>
+                    </tr>  
+                  </thead>
+                  <tbody>
+                    {% for asset in assets %}
+                    <tr class="border-t hover:bg-muted/20 transition">
+                      <td class="py-2 px-4">{{ asset.hostname }}</td>
+                      <td class="py-2 px-4">{{ asset.os_installed }}</td>
+                      <td class="py-2 px-4">{{ asset.processor }}</td>
+                      <td class="py-2 px-4">{{ asset.ram_gb }}</td>
+                      <td class="py-2 px-4">{{ asset.hdd_gb }}</td>
+                      <td class="py-2 px-4">{{ asset.serial_number }}</td>
+                      <td class="py-2 px-4">{{ asset.monitor_info }}</td>
+                      <td class="py-2 px-4">{{ asset.windows_license_status }}</td>
+                      <td class="py-2 px-4">{{ asset.last_updated|date:"d M Y H:i" }}</td>
+                      <td class="py-2 px-4">{{ asset.logged_in_user }}</td>
+                    </tr>    
+                    {% empty %}
+                    <tr>
+                      <td colspan="10" class="py-3 px-4 text-center text-muted">No user activity data found.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- Pagination -->
+              <div class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+                <div class="flex items-center gap-2 order-2 md:order-1">
+                  Show
+                  <select class="kt-select w-16" data-kt-datatable-size="true" data-kt-select name="perpage"></select>
+                  per page
+                </div>
+                <div class="flex items-center gap-4 order-1 md:order-2">
+                  <span data-kt-datatable-info="true"></span>
+                  <div class="kt-datatable-pagination" data-kt-datatable-pagination="true"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('table tbody tr');
+
+    function filterTable() {
+      const searchTerm = searchInput.value.toLowerCase();
+
+      tableRows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', filterTable);
+  });
+</script>
+
+<script src="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

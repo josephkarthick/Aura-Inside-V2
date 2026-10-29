@@ -1,0 +1,349 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+  <main class="grow pt-5" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <!-- Page Header -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">
+            VoIP Account
+          </h1>
+
+          <div class="flex items-center gap-2 font-medium">
+            <span class="text-sm text-secondary-foreground">
+              Add VoIP Account
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <a href="{% url 'ITDesk:list_voip' %}"
+             class="kt-btn kt-btn-outline">
+            List VoIP
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Main Container -->
+    <div class="kt-container-fixed">
+
+      <div class="grid gap-5 lg:gap-7.5">
+
+        <div class="kt-card kt-card-grid min-w-full">
+
+          <!-- Card Header -->
+          <div class="kt-card-header flex-wrap py-5">
+            <h3 class="kt-card-title">
+              Add VoIP Account
+            </h3>
+          </div>
+
+
+          <!-- Card Content -->
+          <div class="kt-card-content p-5">
+
+            <form method="post"
+                  action="{% url 'ITDesk:add_voip' %}"
+                  id="VoipForm">
+
+              {% csrf_token %}
+
+
+              <!-- ========================================= -->
+              <!-- VOIP ACCOUNT DETAILS -->
+              <!-- ========================================= -->
+
+              <h2 class="text-lg font-semibold mb-5">
+                VoIP Account Details
+              </h2>
+
+
+              <!-- Vendor / Callback Number -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Select Vendor
+                  </label>
+
+                  <select name="vendor"
+                          class="kt-select"
+                          required>
+
+                    <option value="">
+                      Choose Vendor
+                    </option>
+
+                    {% for vendor in vendors %}
+                      <option value="{{ vendor.id }}">
+                        {{ vendor.name }}
+                      </option>
+                    {% endfor %}
+
+                  </select>
+
+                </div>
+
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Callback Number
+                  </label>
+
+                  <input type="text"
+                         name="callback_number"
+                         class="kt-input"
+                         placeholder="Enter Callback Number"
+                         required>
+
+                </div>
+
+              </div>
+
+
+              <!-- Username / Password -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Username
+                  </label>
+
+                  <input type="text"
+                         name="username"
+                         class="kt-input"
+                         placeholder="Enter Username"
+                         required>
+
+                </div>
+
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Password
+                  </label>
+
+                  <input type="password"
+                         name="password"
+                         class="kt-input"
+                         placeholder="Enter Password"
+                         required>
+
+                </div>
+
+              </div>
+
+
+              <!-- Domain / CDR ID -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Domain
+                  </label>
+
+                  <input type="text"
+                         name="domain"
+                         class="kt-input"
+                         placeholder="Enter Domain"
+                         required>
+
+                </div>
+
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    CDR ID
+                  </label>
+
+                  <input type="text"
+                         name="cdr_id"
+                         class="kt-input"
+                         placeholder="Enter CDR ID">
+
+                </div>
+
+              </div>
+
+
+              <!-- ========================================= -->
+              <!-- WEBRTC DETAILS -->
+              <!-- ========================================= -->
+
+              <h2 class="text-lg font-semibold mt-8 mb-5">
+                WebRTC Details
+              </h2>
+
+
+              <!-- WebRTC URL / Company Code -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    WebRTC Login URL
+                  </label>
+
+                  <input type="url"
+                         name="url_webrtc"
+                         class="kt-input"
+                         placeholder="https://example.com/login">
+
+                </div>
+
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Company Code
+                  </label>
+
+                  <input type="text"
+                         name="company_code"
+                         class="kt-input"
+                         placeholder="Enter Company Code">
+
+                </div>
+
+              </div>
+
+
+              <!-- Tenant ID -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Tenant ID
+                  </label>
+
+                  <input type="text"
+                         name="tenant_id"
+                         class="kt-input"
+                         placeholder="Enter Tenant ID">
+
+                </div>
+
+              </div>
+
+
+              <!-- ========================================= -->
+              <!-- USER DETAILS -->
+              <!-- ========================================= -->
+
+              <h2 class="text-lg font-semibold mt-8 mb-5">
+                User Details
+              </h2>
+
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <div class="flex flex-col">
+
+                  <label class="font-semibold mb-1">
+                    Employee
+                  </label>
+
+                  <select name="empid"
+                          class="kt-select"
+                          required>
+
+                    <option value="">
+                      Select Employee
+                    </option>
+
+                    <option value="free">
+                      Free
+                    </option>
+
+                    {% for emp in employeeid %}
+                      <option value="{{ emp.id }}">
+                        {{ emp.first_name }}
+                        {{ emp.last_name }}
+                        ({{ emp.username }})
+                      </option>
+                    {% endfor %}
+
+                  </select>
+
+                  <span class="text-xs text-secondary-foreground mt-1">
+                    Assign this VoIP account to an active employee.
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- ========================================= -->
+              <!-- BUTTONS -->
+              <!-- ========================================= -->
+
+              <div class="mt-8 flex justify-end gap-3">
+
+                <a href="{% url 'ITDesk:list_voip' %}"
+                   class="kt-btn kt-btn-outline">
+                  Cancel
+                </a>
+
+                <button type="submit"
+                        class="kt-btn kt-btn-primary"
+                        id="saveVoipButton">
+                  Save VoIP Account
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- Scripts -->
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("VoipForm");
+    const saveButton = document.getElementById("saveVoipButton");
+
+    if (form && saveButton) {
+
+        form.addEventListener("submit", function () {
+
+            saveButton.disabled = true;
+
+            saveButton.innerHTML =
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+
+        });
+
+    }
+
+});
+
+</script>

@@ -1,0 +1,131 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Container -->
+    <div class="kt-container-fixed">
+      <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">
+            User Profile
+          </h1>
+          <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
+            Your Profile and Project Deatils
+			
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Container -->
+
+    <!-- Container -->
+    <div class="kt-container-fixed">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
+
+        <!-- Profile Setting Section -->
+        <div id="profile-setting-section" class="col-span-1">
+          <div class="grid gap-5 lg:gap-7.5">
+            <div class="kt-card min-w-full">
+              <div class="kt-card-header">
+                <h3 class="kt-card-title">Personal Info</h3>
+              </div>
+
+              <div class="kt-card-table kt-scrollable-x-auto pb-3">
+                <table class="kt-table align-middle text-sm text-muted-foreground">
+
+                  <tr>
+                    <td class="py-2 min-w-28 text-secondary-foreground font-normal">First Name</td>
+                    <td class="py-2 text-secondary-foreground font-normal min-w-60 text-sm">
+                      <strong>{{ user.first_name|default:"-" }}</strong>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-2 text-secondary-foreground font-normal">Last Name</td>
+                    <td class="py-2 text-foreground font-normal text-sm">
+                      {{ user.last_name|default:"-" }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-2 text-secondary-foreground font-normal">Username</td>
+                    <td class="py-2 text-foreground font-normal text-sm">
+                      {{ user.username|default:"-" }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-3 text-secondary-foreground font-normal">Email</td>
+                    <td class="py-3 text-foreground font-normal text-sm">
+                      {{ user.email|default:"-" }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-3 text-secondary-foreground font-normal">Department</td>
+                    <td class="py-3 text-secondary-foreground text-sm font-normal">
+                      {{ user.department|default:"-" }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-3 text-secondary-foreground font-normal">Designation</td>
+                    <td class="py-3 text-secondary-foreground text-sm font-normal">
+                      {{ user.designation|default:"-" }}
+                    </td>
+                  </tr>
+
+                </table>
+
+                <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Profile Section -->
+
+        <!-- Groups Section -->
+        <div id="group-section" class="col-span-1">
+          <div class="kt-card min-w-full">
+            <div class="kt-card-header">
+              <h3 class="kt-card-title">Project Access</h3>
+            </div>
+
+            <div class="kt-card-table kt-scrollable-x-auto">
+              <div class="kt-scrollable-auto">
+                <table class="kt-table align-middle text-sm text-secondary-foreground">
+                  {% if user.groups %}
+                    {% for group, dn in ad_groups %}
+                      <tr>
+                        <td>
+                          <div class="flex items-center grow gap-2.5">
+                            <img
+                              alt=""
+                              class="rounded-full size-9 shrink-0"
+                              src="../../../../../static/metronic/tailwind/dist/assets/media/avatars/300-2.png"
+                            />
+                            <div class="flex flex-col gap-1">
+                              <a class="text-sm font-medium text-mono hover:text-primary mb-px" href="">
+                                {{ group }}
+                              </a>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Groups Section -->
+
+      </div>
+    </div>
+    <!-- End of Container -->
+
+  </main>
+</div>

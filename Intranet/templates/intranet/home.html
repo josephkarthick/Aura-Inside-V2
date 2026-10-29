@@ -1,0 +1,2741 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    gap: 4px;
+}
+
+.tab-btn {
+    padding: 11px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #6b7280;
+    transition: .2s;
+}
+
+.tab-btn:hover {
+    color: #2563eb;
+}
+
+.tab-btn.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+}
+
+.tab-content {
+    display: none;
+    padding-top: 16px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.desc-text {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.desc-text a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.group-block {
+    display: grid;
+    gap: 12px;
+}
+
+.group-cards {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    cursor: grab;
+}
+
+.group-cards::-webkit-scrollbar {
+    display: none;
+}
+
+.content-card {
+    position: relative;
+    width: 280px;
+    min-width: 280px;
+    min-height: 160px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.resize-handle {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 16px;
+    height: 16px;
+    cursor: se-resize;
+    z-index: 10;
+
+    background: repeating-linear-gradient(
+        45deg,
+        #cbd5e1,
+        #cbd5e1 2px,
+        transparent 2px,
+        transparent 4px
+    );
+
+    border-radius: 3px;
+}
+
+
+/* =========================================================
+   BIRTHDAY AREA
+========================================================= */
+
+.birthday-container {
+    width: 100%;
+}
+
+.birthday-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.birthday-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.birthday-subtitle {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 3px;
+}
+
+.birthday-month {
+    padding: 7px 13px;
+    background: #f5f3ff;
+    color: #6d4aff;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   BIRTHDAY SCROLL
+========================================================= */
+
+.birthday-scroll {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #d8d1ff transparent;
+}
+
+.birthday-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.birthday-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.birthday-scroll::-webkit-scrollbar-thumb {
+    background: #d8d1ff;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   4 CARDS PER ROW
+========================================================= */
+
+.birthday-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+
+/* =========================================================
+   FLIP CARD
+========================================================= */
+
+.birthday-flip-card {
+    height: 330px;
+    perspective: 1200px;
+    cursor: pointer;
+}
+
+.birthday-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    transition:
+        transform .65s cubic-bezier(.4, .2, .2, 1);
+
+    transform-style: preserve-3d;
+}
+
+.birthday-flip-card.flipped
+.birthday-flip-inner {
+    transform: rotateY(180deg);
+}
+
+
+/* =========================================================
+   FRONT / BACK
+========================================================= */
+
+.birthday-flip-front,
+.birthday-flip-back {
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 20px;
+
+    backface-visibility: hidden;
+
+    overflow: hidden;
+
+    border: 1px solid #e8e4f5;
+
+    box-shadow:
+        0 8px 25px rgba(55, 40, 120, .08);
+}
+
+
+/* =========================================================
+   FRONT
+========================================================= */
+
+.birthday-flip-front {
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8f6ff
+        );
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 18px;
+}
+
+.birthday-photo-wrap {
+
+    position: relative;
+
+    width: 125px;
+    height: 125px;
+
+    margin-bottom: 15px;
+}
+
+.birthday-photo {
+
+    width: 125px;
+    height: 125px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 5px solid #fff;
+
+    box-shadow:
+        0 7px 20px rgba(80,60,150,.18);
+}
+
+.birthday-photo-placeholder {
+
+    width: 125px;
+    height: 125px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 42px;
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7657ff,
+            #ad82ff
+        );
+}
+
+
+/* =========================================================
+   TODAY BADGE
+========================================================= */
+
+.today-badge {
+
+    position: absolute;
+
+    bottom: -7px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5b73,
+            #ff7c8e
+        );
+
+    color: white;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 4px 12px rgba(255,80,100,.25);
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+.birthday-name {
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #202030;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.birthday-id {
+
+    margin-top: 4px;
+
+    font-size: 11px;
+
+    color: #77758a;
+}
+
+.flip-hint {
+
+    margin-top: 17px;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    background: #f0edff;
+
+    color: #7657ff;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+.birthday-flip-back {
+
+    transform: rotateY(180deg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f7f4ff
+        );
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.birthday-back-header {
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #5d43b8;
+
+    margin-top: 5px;
+}
+
+.birthday-back-name {
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+.birthday-back-date {
+
+    margin-top: 10px;
+
+    font-size: 14px;
+
+    color: #666;
+}
+
+.birthday-back-date strong {
+    color: #f04f68;
+}
+
+
+/* =========================================================
+   REACTION BUTTONS
+========================================================= */
+
+.birthday-reactions {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.birthday-reaction-btn {
+
+    width: 43px;
+    height: 43px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #f1eff8;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s,
+        background .2s,
+        box-shadow .2s;
+}
+
+.birthday-reaction-btn:hover {
+
+    transform:
+        translateY(-3px)
+        scale(1.08);
+
+    background: #e7e0ff;
+}
+
+.birthday-reaction-btn.reaction-selected {
+
+    background: #ddd2ff;
+
+    box-shadow:
+        0 4px 12px rgba(118,87,255,.20);
+
+    transform: scale(1.08);
+}
+
+.reaction-pop {
+
+    animation:
+        birthdayReactionPop .3s ease;
+}
+
+@keyframes birthdayReactionPop {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.35);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* =========================================================
+   COMMENT
+========================================================= */
+
+.birthday-comment-box {
+
+    display: flex;
+
+    width: 100%;
+
+    margin-top: 15px;
+
+    gap: 6px;
+}
+
+.birthday-comment-input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 38px;
+
+    border:
+        1px solid #ddd8ee;
+
+    border-radius: 10px;
+
+    padding: 0 10px;
+
+    outline: none;
+
+    font-size: 12px;
+
+    background: white;
+}
+
+.birthday-comment-input:focus {
+
+    border-color: #7657ff;
+
+    box-shadow:
+        0 0 0 3px rgba(118,87,255,.08);
+}
+
+.birthday-comment-btn {
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 0 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7657ff,
+            #8d6aff
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: .2s;
+}
+
+.birthday-comment-btn:hover {
+    transform: translateY(-1px);
+}
+
+.birthday-comment-btn:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+
+/* =========================================================
+   COUNTS
+========================================================= */
+
+.birthday-counts {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 22px;
+
+    margin-top: 15px;
+
+    color: #5c4b89;
+
+    font-size: 13px;
+}
+
+.birthday-count {
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.birthday-count:hover {
+
+    color: #7657ff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LOCKED UPCOMING
+========================================================= */
+
+.birthday-locked {
+
+    margin-top: 35px;
+
+    padding: 10px 15px;
+
+    background: #f2f0f8;
+
+    border-radius: 12px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    text-align: center;
+}
+
+.flip-back-hint {
+
+    margin-top: auto;
+
+    font-size: 10px;
+
+    color: #999;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.birthday-empty {
+
+    padding: 60px 20px;
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   LOGIN / MESSAGE MODAL
+========================================================= */
+
+.birthday-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(15, 23, 42, .45);
+
+    backdrop-filter: blur(4px);
+
+    z-index: 99999;
+}
+
+.birthday-modal.show {
+    display: flex;
+}
+
+.birthday-modal-box {
+
+    width: min(390px, calc(100% - 30px));
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.20);
+
+    animation:
+        birthdayModalIn .2s ease;
+}
+
+@keyframes birthdayModalIn {
+
+    from {
+        opacity: 0;
+        transform: scale(.94) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.birthday-modal-icon {
+
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 12px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f0edff;
+
+    font-size: 25px;
+}
+
+.birthday-modal-title {
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 7px;
+}
+
+.birthday-modal-message {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.7;
+    white-space: pre-line;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.birthday-modal-close {
+
+    margin-top: 18px;
+
+    border: none;
+
+    padding: 9px 20px;
+
+    border-radius: 10px;
+
+    background: #7657ff;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .birthday-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+
+    .birthday-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+
+    .birthday-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .birthday-flip-card {
+        height: 320px;
+    }
+}
+
+</style>
+
+
+<div class="kt-wrapper" style="margin-top:40px;">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+
+        <!-- =====================================================
+             LEFT
+        ====================================================== -->
+
+        <div class="kt-card">
+
+            <div class="kt-card-content">
+
+                {% if grouped_content %}
+
+                    {% for group_name, group in grouped_content.items %}
+
+                        <div class="group-block">
+
+                            <div>
+                                {{ group_name|upper }}
+                            </div>
+
+                            <div class="group-cards">
+
+                                {% for item in group %}
+
+                                    <div class="content-card">
+
+                                        <div class="resize-handle"></div>
+
+                                        <div class="flex gap-4">
+
+                                            {% if item.photo %}
+
+                                                <img
+                                                    src="{{ item.photo }}"
+                                                    width="80"
+                                                    alt=""
+                                                >
+
+                                            {% endif %}
+
+                                            <div>
+
+                                                <h4>
+                                                    {{ item.title }}
+                                                </h4>
+
+                                                {% if item.username %}
+                                                    <p>
+                                                        {{ item.username }}
+                                                    </p>
+                                                {% endif %}
+
+                                                {% if item.description %}
+
+                                                    <div class="desc-text">
+                                                        {{ item.description|urlize }}
+                                                    </div>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div style="
+                        display:flex;
+                        justify-content:center;
+                        align-items:center;
+                        height:500px;
+                    ">
+
+                        <div style="
+                            background:white;
+                            border-radius:16px;
+                            padding:40px;
+                            max-width:600px;
+                            text-align:center;
+                            box-shadow:0 10px 30px rgba(0,0,0,.08);
+                            border:1px solid #e5e7eb;
+                        ">
+
+                            <div style="
+                                font-size:20px;
+                                font-weight:700;
+                                color:#2563eb;
+                                margin-bottom:20px;
+                            ">
+                                ✨ Daily Inspiration
+                            </div>
+
+                            <div style="
+                                font-size:22px;
+                                font-weight:500;
+                                color:#111827;
+                                line-height:1.6;
+                            ">
+
+                                {% if quote %}
+                                    “{{ quote.text }}”
+                                {% else %}
+                                    "Stay positive, work hard, make it happen."
+                                {% endif %}
+
+                            </div>
+
+                            {% if quote and quote.author %}
+
+                                <div style="
+                                    margin-top:15px;
+                                    font-size:14px;
+                                    color:#6b7280;
+                                ">
+                                    — {{ quote.author }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             RIGHT
+        ====================================================== -->
+
+        <div class="kt-card">
+
+            <div class="kt-card-content">
+
+
+                <!-- TABS -->
+
+                <div class="tabs">
+
+                    <div
+                        class="tab-btn active"
+                        onclick="openTab(event,'birthday')"
+                    >
+                        🎂 Birthday
+                    </div>
+
+                    <div
+                        class="tab-btn"
+                        onclick="openTab(event,'joinees')"
+                    >
+                        🆕 New Joinees
+                    </div>
+
+                    <div
+                        class="tab-btn"
+                        onclick="openTab(event,'careers')"
+                    >
+                        💼 Careers
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     BIRTHDAY
+                ================================================== -->
+
+                <div
+                    id="birthday"
+                    class="tab-content active"
+                >
+
+                    <div class="birthday-container">
+
+
+
+                        <!-- SCROLL -->
+
+                        <div class="birthday-scroll">
+
+                            <div class="birthday-grid">
+
+
+                                {% for user in birthday_users %}
+
+
+                                <!-- =====================================
+                                     FLIP CARD
+                                ====================================== -->
+								<div
+									class="birthday-flip-card
+									{% if user.birthdate.day == today_day %}
+										birthday-today
+									{% endif %}"
+								
+									data-user-id="{{ user.id }}"
+									data-birthday-day="{{ user.birthdate.day }}"
+								>
+
+                                    <div class="birthday-flip-inner">
+
+
+                                        <!-- ============================
+                                             FRONT
+                                        ============================= -->
+
+                                        <div class="birthday-flip-front">
+
+
+                                            <div class="birthday-photo-wrap">
+
+
+                                                {% if user.profile_photo %}
+
+                                                    <img
+                                                        src="{{ user.profile_photo.url }}"
+                                                        class="birthday-photo"
+                                                        alt="{{ user.first_name }} {{ user.last_name }}"
+                                                    >
+
+                                                {% else %}
+
+                                                    <div class="birthday-photo-placeholder">
+
+                                                        {{ user.first_name|first|upper }}
+
+                                                    </div>
+
+                                                {% endif %}
+
+
+                                                {% if user.birthdate.day == today_day %}
+
+                                                    <span class="today-badge">
+                                                        🎉 TODAY
+                                                    </span>
+
+                                                {% endif %}
+
+
+                                            </div>
+
+
+                                            <div class="birthday-name">
+
+                                                {{ user.first_name }}
+                                                {{ user.last_name }}
+
+                                            </div>
+
+
+                                            <div class="birthday-id">
+
+                                                {{ user.username|upper }}
+
+                                            </div>
+
+
+                                            <div class="flip-hint">
+
+                                                🎂 Tap to celebrate
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <!-- ============================
+                                             BACK
+                                        ============================= -->
+
+                                        <div class="birthday-flip-back">
+
+
+                                            <div class="birthday-back-header">
+
+                                                🎂 Birthday
+
+                                            </div>
+
+
+                                            <div class="birthday-back-name">
+
+                                                {{ user.first_name }}
+                                                {{ user.last_name }}
+
+                                            </div>
+
+
+                                            <div class="birthday-back-date">
+
+
+                                                {% if user.birthdate.day == today_day %}
+
+                                                    <strong>
+                                                        🎉 Birthday Today!
+                                                    </strong>
+
+                                                {% else %}
+
+                                                    {{ user.birthdate|date:"d M" }}
+
+                                                {% endif %}
+
+
+                                            </div>
+
+
+                                            <!-- ========================
+                                                 ACTIONS
+                                            ========================= -->
+
+                                            {% if today_day >= user.birthdate.day %}
+
+
+                                                <!-- REACTIONS -->
+
+                                                <div class="birthday-reactions">
+
+
+                                                    <button
+                                                        type="button"
+                                                        class="birthday-reaction-btn"
+
+                                                        data-reaction="👍"
+                                                        data-content-type="birthday"
+                                                        data-object-id="{{ user.id }}"
+
+                                                        title="Like"
+                                                    >
+                                                        👍
+                                                    </button>
+
+
+                                                    <button
+                                                        type="button"
+                                                        class="birthday-reaction-btn"
+
+                                                        data-reaction="🎉"
+                                                        data-content-type="birthday"
+                                                        data-object-id="{{ user.id }}"
+
+                                                        title="Celebrate"
+                                                    >
+                                                        🎉
+                                                    </button>
+
+
+                                                    <button
+                                                        type="button"
+                                                        class="birthday-reaction-btn"
+
+                                                        data-reaction="❤️"
+                                                        data-content-type="birthday"
+                                                        data-object-id="{{ user.id }}"
+
+                                                        title="Love"
+                                                    >
+                                                        ❤️
+                                                    </button>
+
+
+                                                </div>
+
+
+                                                <!-- COMMENT -->
+
+                                                <div class="birthday-comment-box">
+
+
+                                                    <input
+                                                        type="text"
+
+                                                        class="birthday-comment-input"
+
+                                                        placeholder="Write a birthday wish..."
+
+                                                        maxlength="250"
+
+                                                        data-object-id="{{ user.id }}"
+                                                    >
+
+
+                                                    <button
+                                                        type="button"
+
+                                                        class="birthday-comment-btn"
+
+                                                        data-object-id="{{ user.id }}"
+                                                    >
+                                                        Post
+                                                    </button>
+
+
+                                                </div>
+
+
+                                                <!-- COUNTS -->
+
+                                                <div class="birthday-counts">
+
+
+                                                    <span
+                                                        class="birthday-count"
+
+                                                        onclick="
+                                                            openReactions(
+                                                                'birthday',
+                                                                '{{ user.id }}'
+                                                            )
+                                                        "
+                                                    >
+
+                                                        👤
+
+                                                        <span class="reaction-count">
+                                                            {{ user.reaction_count }}
+                                                        </span>
+
+                                                    </span>
+
+
+                                                    <span
+                                                        class="birthday-count"
+
+                                                        onclick="
+                                                            openComments(
+                                                                'birthday',
+                                                                '{{ user.id }}'
+                                                            )
+                                                        "
+                                                    >
+
+                                                        💬
+
+                                                        <span class="comment-count">
+                                                            {{ user.comment_count }}
+                                                        </span>
+
+                                                    </span>
+
+
+                                                </div>
+
+
+                                            {% else %}
+
+
+                                                <div class="birthday-locked">
+
+                                                    🔒 Wishes open on
+
+                                                    {{ user.birthdate|date:"d M" }}
+
+                                                </div>
+
+
+                                            {% endif %}
+
+
+                                            <div class="flip-back-hint">
+
+                                                ↩ Click card to return
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {% empty %}
+
+
+                                    <div class="birthday-empty">
+
+                                        🎂 No birthdays this month
+
+                                    </div>
+
+
+                                {% endfor %}
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     NEW JOINEES
+                ================================================== -->
+
+                <div
+                    id="joinees"
+                    class="tab-content"
+                >
+
+                    <div style="
+                        max-height:500px;
+                        overflow:auto;
+                    ">
+
+
+                        {% for user in new_joinees %}
+
+
+                            <div class="user-card"
+                                 style="
+                                    display:flex;
+                                    gap:14px;
+                                    padding:14px;
+                                    border:1px solid #e5e7eb;
+                                    border-radius:12px;
+                                    margin-bottom:12px;
+                                 "
+                            >
+
+                                <div class="avatar"
+                                     style="
+                                        width:44px;
+                                        height:44px;
+                                        border-radius:50%;
+                                        background:linear-gradient(135deg,#6366f1,#8b5cf6);
+                                        color:#fff;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-weight:700;
+                                     "
+                                >
+                                    {{ user.date_joined|date:"d" }}
+                                </div>
+
+
+                                <div style="flex:1">
+
+                                    <div style="
+                                        display:flex;
+                                        justify-content:space-between;
+                                    ">
+
+                                        <strong>
+                                            {{ user.first_name }}
+                                            {{ user.last_name }}
+                                        </strong>
+
+                                        <span>
+                                            🆕 New
+                                        </span>
+
+                                    </div>
+
+
+                                    <div style="
+                                        display:flex;
+                                        justify-content:space-between;
+                                        margin-top:7px;
+                                        font-size:12px;
+                                        color:#6b7280;
+                                    ">
+
+                                        <span>
+                                            {{ user.department.name }}
+                                        </span>
+
+                                        <span>
+                                            {{ user.date_joined|date:"d M" }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        {% empty %}
+
+
+                            <p>
+                                No joinees
+                            </p>
+
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CAREERS
+                ================================================== -->
+
+                <div
+                    id="careers"
+                    class="tab-content"
+                >
+
+                    <div style="
+                        max-height:500px;
+                        overflow-y:auto;
+                    ">
+
+
+                        {% for job in jobs %}
+
+
+                            <div style="
+                                border:1px solid #e5e7eb;
+                                padding:12px;
+                                margin-bottom:12px;
+                                border-radius:10px;
+                            ">
+
+
+                                <strong>
+                                    {{ job.title|upper }}
+                                </strong>
+
+                                <br>
+
+                                <small>
+                                    {{ job.department }}
+                                    •
+                                    {{ job.location }}
+                                </small>
+
+                                <br><br>
+
+
+                                Shift:
+                                {{ job.shift }}
+
+                                |
+
+                                Experience:
+                                {{ job.experience_required }}
+
+                                |
+
+                                Openings:
+                                {{ job.openings }}
+
+                                <br>
+
+
+                                {% if job.salary_range %}
+
+                                    Salary:
+                                    {{ job.salary_range }}
+
+                                    <br>
+
+                                {% endif %}
+
+
+                                Last Date:
+                                {{ job.last_date|date:"d M Y" }}
+
+                                <br><br>
+
+
+                                <a
+                                    href="{% url 'HRDesk:job_apply' job.id %}"
+                                    class="kt-btn kt-btn-primary"
+                                >
+                                    Refer a Friend
+                                </a>
+
+
+                            </div>
+
+
+                        {% empty %}
+
+
+                            <p>
+                                No job openings available.
+                            </p>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MESSAGE MODAL
+========================================================= -->
+
+<div
+    id="birthdayModal"
+    class="birthday-modal"
+>
+
+    <div class="birthday-modal-box">
+
+
+        <div
+            id="birthdayModalIcon"
+            class="birthday-modal-icon"
+        >
+            🔐
+        </div>
+
+
+        <div
+            id="birthdayModalTitle"
+            class="birthday-modal-title"
+        >
+            Login Required
+        </div>
+
+
+        <div
+            id="birthdayModalMessage"
+            class="birthday-modal-message"
+        >
+            Please login to react or post a birthday wish.
+        </div>
+
+
+        <button
+            type="button"
+            class="birthday-modal-close"
+            onclick="closeBirthdayModal()"
+        >
+            Close
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RESIZE SCRIPT
+========================================================= -->
+
+<script>
+
+document.querySelectorAll('.content-card').forEach(card => {
+
+    const handle =
+        card.querySelector('.resize-handle');
+
+    if (!handle) return;
+
+    let startX;
+    let startY;
+    let startW;
+    let startH;
+
+
+    handle.addEventListener(
+        'mousedown',
+        function(e) {
+
+            e.preventDefault();
+
+            startX = e.clientX;
+            startY = e.clientY;
+
+            startW = card.offsetWidth;
+            startH = card.offsetHeight;
+
+            document.addEventListener(
+                'mousemove',
+                resizeCard
+            );
+
+            document.addEventListener(
+                'mouseup',
+                stopResize
+            );
+
+        }
+    );
+
+
+    function resizeCard(e) {
+
+        card.style.width =
+            Math.max(
+                280,
+                startW + (e.clientX - startX)
+            ) + 'px';
+
+
+        card.style.height =
+            Math.max(
+                160,
+                startH + (e.clientY - startY)
+            ) + 'px';
+
+    }
+
+
+    function stopResize() {
+
+        document.removeEventListener(
+            'mousemove',
+            resizeCard
+        );
+
+        document.removeEventListener(
+            'mouseup',
+            stopResize
+        );
+
+    }
+
+});
+
+</script>
+
+
+<!-- =========================================================
+     TABS
+========================================================= -->
+
+<script>
+
+function openTab(event, tabId) {
+
+    document
+        .querySelectorAll('.tab-content')
+        .forEach(function(tab) {
+
+            tab.style.display = 'none';
+
+        });
+
+
+    document
+        .querySelectorAll('.tab-btn')
+        .forEach(function(button) {
+
+            button.classList.remove('active');
+
+        });
+
+
+    const selected =
+        document.getElementById(tabId);
+
+
+    if (selected) {
+
+        selected.style.display = 'block';
+
+    }
+
+
+    event.currentTarget.classList.add('active');
+
+}
+
+</script>
+
+
+<!-- =========================================================
+     BIRTHDAY AJAX + FLIP
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+
+        /* =====================================================
+           CSRF
+        ===================================================== */
+
+        function getCookie(name) {
+
+            let cookieValue = null;
+
+            if (document.cookie) {
+
+                const cookies =
+                    document.cookie.split(";");
+
+
+                for (let cookie of cookies) {
+
+                    cookie = cookie.trim();
+
+
+                    if (
+                        cookie.substring(
+                            0,
+                            name.length + 1
+                        ) === name + "="
+                    ) {
+
+                        cookieValue =
+                            decodeURIComponent(
+                                cookie.substring(
+                                    name.length + 1
+                                )
+                            );
+
+                        break;
+                    }
+
+                }
+
+            }
+
+            return cookieValue;
+
+        }
+
+
+        const csrftoken =
+            getCookie("csrftoken");
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        window.showBirthdayModal =
+            function(
+                title,
+                message,
+                icon = "🔐"
+            ) {
+
+                const modal =
+                    document.getElementById(
+                        "birthdayModal"
+                    );
+
+
+                document.getElementById(
+                    "birthdayModalTitle"
+                ).textContent = title;
+
+
+                document.getElementById(
+                    "birthdayModalMessage"
+                ).textContent = message;
+
+
+                document.getElementById(
+                    "birthdayModalIcon"
+                ).textContent = icon;
+
+
+                modal.classList.add("show");
+
+            };
+
+
+        window.closeBirthdayModal =
+            function() {
+
+                document
+                    .getElementById(
+                        "birthdayModal"
+                    )
+                    .classList.remove("show");
+
+            };
+
+
+        /* Close when clicking background */
+
+        document
+            .getElementById("birthdayModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target === this
+                    ) {
+
+                        closeBirthdayModal();
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           FLIP CARD
+        ===================================================== */
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const card =
+                    event.target.closest(
+                        ".birthday-flip-card"
+                    );
+
+
+                if (!card) {
+                    return;
+                }
+
+
+                /*
+                 * Do NOT flip when clicking
+                 * buttons / inputs / counts.
+                 */
+
+                if (
+                    event.target.closest(
+                        ".birthday-reaction-btn"
+                    ) ||
+
+                    event.target.closest(
+                        ".birthday-comment-input"
+                    ) ||
+
+                    event.target.closest(
+                        ".birthday-comment-btn"
+                    ) ||
+
+                    event.target.closest(
+                        ".birthday-count"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                card.classList.toggle(
+                    "flipped"
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           REACTION AJAX
+        ===================================================== */
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const button =
+                    event.target.closest(
+                        ".birthday-reaction-btn"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                const card =
+                    button.closest(
+                        ".birthday-flip-card"
+                    );
+
+
+                if (!card) {
+                    return;
+                }
+
+
+                const objectId =
+                    card.dataset.userId;
+
+
+                const reaction =
+                    button.dataset.reaction;
+
+
+                if (
+                    !objectId ||
+                    !reaction
+                ) {
+                    return;
+                }
+
+
+                /* Prevent double click */
+
+                if (
+                    button.dataset.loading ===
+                    "true"
+                ) {
+                    return;
+                }
+
+
+                button.dataset.loading =
+                    "true";
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "reaction",
+                    reaction
+                );
+
+                formData.append(
+                    "content_type",
+                    "birthday"
+                );
+
+                formData.append(
+                    "object_id",
+                    objectId
+                );
+
+
+                fetch(
+                    "{% url 'interactions:add_reaction' %}",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "X-CSRFToken":
+                                csrftoken,
+
+                            "X-Requested-With":
+                                "XMLHttpRequest"
+
+                        },
+
+                        body: formData
+
+                    }
+                )
+
+                .then(
+                    async function(response) {
+
+
+                        /*
+                         * Django @login_required
+                         * redirects unauthenticated
+                         * users to login page.
+                         */
+
+                        if (
+                            response.redirected
+                        ) {
+
+                            showBirthdayModal(
+                                "Login Required",
+                                "Please login to react to birthdays.",
+                                "🔐"
+                            );
+
+                            return null;
+
+                        }
+
+
+                        const contentType =
+                            response.headers
+                                .get("content-type")
+                                || "";
+
+
+                        if (
+                            !contentType.includes(
+                                "application/json"
+                            )
+                        ) {
+
+                            showBirthdayModal(
+                                "Login Required",
+                                "Please login to react to birthdays.",
+                                "🔐"
+                            );
+
+                            return null;
+
+                        }
+
+
+                        return response.json();
+
+                    }
+                )
+
+
+                .then(
+                    function(data) {
+
+                        if (!data) {
+                            return;
+                        }
+
+
+                        if (!data.success) {
+
+                            showBirthdayModal(
+                                "Unable to React",
+                                data.message ||
+                                "Unable to update reaction.",
+                                "⚠️"
+                            );
+
+                            return;
+
+                        }
+
+
+                        /* ==============================
+                           UPDATE COUNT
+                        ============================== */
+
+                        const count =
+                            card.querySelector(
+                                ".reaction-count"
+                            );
+
+
+                        if (count) {
+
+                            count.textContent =
+                                data.count;
+
+                        }
+
+
+                        /* ==============================
+                           CLEAR ACTIVE
+                        ============================== */
+
+                        card
+                            .querySelectorAll(
+                                ".birthday-reaction-btn"
+                            )
+                            .forEach(
+                                function(btn) {
+
+                                    btn.classList.remove(
+                                        "reaction-selected"
+                                    );
+
+                                }
+                            );
+
+
+                        /* ==============================
+                           SELECT CURRENT
+                        ============================== */
+
+                        if (
+                            data.action !==
+                            "removed"
+                        ) {
+
+                            button.classList.add(
+                                "reaction-selected"
+                            );
+
+                        }
+
+
+                        /* ==============================
+                           ANIMATION
+                        ============================== */
+
+                        button.classList.add(
+                            "reaction-pop"
+                        );
+
+
+                        setTimeout(
+                            function() {
+
+                                button.classList.remove(
+                                    "reaction-pop"
+                                );
+
+                            },
+                            300
+                        );
+
+                    }
+                )
+
+
+                .catch(
+                    function(error) {
+
+                        console.error(
+                            "Reaction error:",
+                            error
+                        );
+
+
+                        showBirthdayModal(
+                            "Login Required",
+                            "Please login to react to birthdays.",
+                            "🔐"
+                        );
+
+                    }
+                )
+
+
+                .finally(
+                    function() {
+
+                        button.dataset.loading =
+                            "false";
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           COMMENT AJAX
+        ===================================================== */
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const button =
+                    event.target.closest(
+                        ".birthday-comment-btn"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                const card =
+                    button.closest(
+                        ".birthday-flip-card"
+                    );
+
+
+                if (!card) {
+                    return;
+                }
+
+
+                const input =
+                    card.querySelector(
+                        ".birthday-comment-input"
+                    );
+
+
+                if (!input) {
+                    return;
+                }
+
+
+                const text =
+                    input.value.trim();
+
+
+                if (!text) {
+
+                    input.focus();
+
+                    return;
+
+                }
+
+
+                const objectId =
+                    card.dataset.userId;
+
+
+                if (!objectId) {
+                    return;
+                }
+
+
+                /* Prevent double click */
+
+                if (
+                    button.dataset.loading ===
+                    "true"
+                ) {
+                    return;
+                }
+
+
+                button.dataset.loading =
+                    "true";
+
+
+                const originalText =
+                    button.textContent;
+
+
+                button.textContent =
+                    "Posting...";
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "text",
+                    text
+                );
+
+                formData.append(
+                    "content_type",
+                    "birthday"
+                );
+
+                formData.append(
+                    "object_id",
+                    objectId
+                );
+
+
+                fetch(
+                    "{% url 'interactions:add_comment' %}",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "X-CSRFToken":
+                                csrftoken,
+
+                            "X-Requested-With":
+                                "XMLHttpRequest"
+
+                        },
+
+                        body: formData
+
+                    }
+                )
+
+
+                .then(
+                    async function(response) {
+
+
+                        if (
+                            response.redirected
+                        ) {
+
+                            showBirthdayModal(
+                                "Login Required",
+                                "Please login to post a birthday wish.",
+                                "🔐"
+                            );
+
+                            return null;
+
+                        }
+
+
+                        const contentType =
+                            response.headers
+                                .get("content-type")
+                                || "";
+
+
+                        if (
+                            !contentType.includes(
+                                "application/json"
+                            )
+                        ) {
+
+                            showBirthdayModal(
+                                "Login Required",
+                                "Please login to post a birthday wish.",
+                                "🔐"
+                            );
+
+                            return null;
+
+                        }
+
+
+                        return response.json();
+
+                    }
+                )
+
+
+                .then(
+                    function(data) {
+
+                        if (!data) {
+                            return;
+                        }
+
+
+                        if (!data.success) {
+
+                            showBirthdayModal(
+                                "Unable to Post",
+                                data.message ||
+                                "Unable to post birthday wish.",
+                                "⚠️"
+                            );
+
+                            return;
+
+                        }
+
+
+                        /* ==============================
+                           UPDATE COUNT
+                        ============================== */
+
+                        const count =
+                            card.querySelector(
+                                ".comment-count"
+                            );
+
+
+                        if (count) {
+
+                            count.textContent =
+                                data.count;
+
+                        }
+
+
+                        /* ==============================
+                           CLEAR INPUT
+                        ============================== */
+
+                        input.value = "";
+
+
+                        /* ==============================
+                           SUCCESS
+                        ============================== */
+
+                        button.textContent =
+                            "Posted ✓";
+
+
+                        setTimeout(
+                            function() {
+
+                                button.textContent =
+                                    originalText;
+
+                            },
+                            1000
+                        );
+
+                    }
+                )
+
+
+                .catch(
+                    function(error) {
+
+                        console.error(
+                            "Comment error:",
+                            error
+                        );
+
+
+                        showBirthdayModal(
+                            "Login Required",
+                            "Please login to post a birthday wish.",
+                            "🔐"
+                        );
+
+                    }
+                )
+
+
+                .finally(
+                    function() {
+
+                        button.dataset.loading =
+                            "false";
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           ENTER KEY → POST COMMENT
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key !== "Enter"
+                ) {
+                    return;
+                }
+
+
+                const input =
+                    event.target.closest(
+                        ".birthday-comment-input"
+                    );
+
+
+                if (!input) {
+                    return;
+                }
+
+
+                event.preventDefault();
+
+
+                const card =
+                    input.closest(
+                        ".birthday-flip-card"
+                    );
+
+
+                if (!card) {
+                    return;
+                }
+
+
+                const button =
+                    card.querySelector(
+                        ".birthday-comment-btn"
+                    );
+
+
+                if (button) {
+
+                    button.click();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+<!-- =========================================================
+     REACTION / COMMENT DETAILS
+========================================================= -->
+
+<script>
+
+function openReactions(type, id) {
+
+    fetch(
+        `/interactions/details/?content_type=${type}&object_id=${id}`
+    )
+
+    .then(
+        response => response.json()
+    )
+
+    .then(
+        data => {
+
+            if (
+                !data.reactions ||
+                data.reactions.length === 0
+            ) {
+
+                showBirthdayModal(
+                    "Reactions",
+                    "No reactions yet.",
+                    "👍"
+                );
+
+                return;
+
+            }
+
+
+            let html = "";
+
+            data.reactions.forEach(
+                function(reaction) {
+
+                    html +=
+                        `${reaction.user} → ${reaction.type}\n`;
+
+                }
+            );
+
+
+            showBirthdayModal(
+                "Birthday Reactions",
+                html,
+                "👍"
+            );
+
+        }
+    )
+
+    .catch(
+        function() {
+
+            showBirthdayModal(
+                "Error",
+                "Unable to load reactions.",
+                "⚠️"
+            );
+
+        }
+    );
+
+}
+
+
+function openComments(type, id) {
+
+    fetch(
+        `/interactions/details/?content_type=${type}&object_id=${id}`
+    )
+
+    .then(
+        response => response.json()
+    )
+
+    .then(
+        data => {
+
+            if (
+                !data.comments ||
+                data.comments.length === 0
+            ) {
+
+                showBirthdayModal(
+                    "Comments",
+                    "No birthday wishes yet.",
+                    "💬"
+                );
+
+                return;
+
+            }
+
+
+            let html = "";
+
+            data.comments.forEach(
+                function(comment) {
+
+                    html +=
+                        `${comment.user}: ${comment.comment}\n\n`;
+
+                }
+            );
+
+
+            showBirthdayModal(
+                "Birthday Wishes",
+                html,
+                "💬"
+            );
+
+        }
+    )
+
+    .catch(
+        function() {
+
+            showBirthdayModal(
+                "Error",
+                "Unable to load comments.",
+                "⚠️"
+            );
+
+        }
+    );
+
+}
+
+</script>
+
+                <!-- =================================================
+                     BIRTHDAY AUTO Scroll to TOday Birthday
+                ================================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const container = document.querySelector(".birthday-scroll");
+
+    if (!container) return;
+
+    const cards = Array.from(
+        container.querySelectorAll(".birthday-flip-card")
+    );
+
+    const today = Number("{{ today_day }}");
+
+    // Find today's birthday first
+    let target = cards.find(card =>
+        Number(card.dataset.birthdayDay) === today
+    );
+
+    // If no birthday today, find the nearest upcoming birthday
+    if (!target) {
+        const upcomingCards = cards
+            .filter(card =>
+                Number(card.dataset.birthdayDay) > today
+            )
+            .sort((a, b) =>
+                Number(a.dataset.birthdayDay) -
+                Number(b.dataset.birthdayDay)
+            );
+
+        target = upcomingCards[0];
+    }
+
+    // No today or upcoming birthdays
+    if (!target) return;
+
+    // Scroll only inside the birthday container
+    requestAnimationFrame(() => {
+
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+
+        const position =
+            container.scrollTop +
+            targetRect.top -
+            containerRect.top -
+            10;
+
+        container.scrollTo({
+            top: Math.max(0, position),
+            behavior: "smooth"
+        });
+
+    });
+
+});
+</script>
+

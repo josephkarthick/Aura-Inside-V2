@@ -1,0 +1,3055 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.1.1
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-theme="true" data-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/components/accordion by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS Accordion
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="accordion.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="Accordion component styled with the Tailwind CSS based toolkit." name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Metronic - Tailwind CSS Accordion" name="twitter:title"/>
+  <meta content="Accordion component styled with the Tailwind CSS based toolkit." name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs-legacy/components/accordion" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS Accordion" property="og:title"/>
+  <meta content="Accordion component styled with the Tailwind CSS based toolkit." property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../../static/metronic/tailwind/docs-legacy/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet">
+   <!-- Google tag (gtag.js) -->
+   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+   </script>
+   <script>
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+   </script>
+  </link>
+ </head>
+ <body class="antialiased flex h-full text-base text-gray-700 dark:bg-coal-500">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+		let themeMode;
+
+		if ( document.documentElement ) {
+			if ( localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('theme');
+			} else if ( document.documentElement.hasAttribute('data-theme-mode')) {
+				themeMode = document.documentElement.getAttribute('data-theme-mode');
+			} else {
+				themeMode = defaultThemeMode;
+			}
+
+			if (themeMode === 'system') {
+				themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+
+			document.documentElement.classList.add(themeMode);
+		}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-b-gray-200 fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] bg-light dark:bg-coal-500">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden btn btn-icon btn-light btn-clear btn-sm -ml-2" data-drawer-toggle="#sidebar">
+      <i 'outline'}="" class="ki-{" default':="" ki-abstract-14="" text-lg'="">
+      </i>
+     </button>
+     <a class="" href="../index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div id="docsearch">
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="btn btn-sm btn-light" href="../../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="btn btn-sm btn-dark" data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border border-r-gray-200">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-gray-600 hover:text-primary" href="https://twitter.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-gray-600 hover:text-primary" href="https://github.com/keenthemes/metronic-tailwind-html-integration">
+       <i 'outline'}="" class="ki-{" default':="" ki-github="" text-lg'="">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="flex items-center text-gray-600 hover:text-primary dark:hidden" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-moon="" text-lg'="">
+        </i>
+       </button>
+       <button class="flex items-center text-gray-600 hover:text-primary hidden dark:flex" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-sun="" text-lg'="">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-drawer="true" data-drawer-class="drawer drawer-start" data-drawer-enable="true|lg:false" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 scrollable-y-auto" data-scrollable="true" data-scrollable-dependencies="none|lg:#header" data-scrollable-height="auto" data-scrollable-offset="30px|lg:20px" data-scrollable-wrappers="none|lg:#page" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2.5">
+       <a class="flex items-center gap-2" href="../getting-started/installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-mouse-square text-success text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Quick Setup
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-info text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Changelog
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Support
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Figma
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-frame text-dark text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Composer
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../../../products/metronic-pulse.html" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-wlan text-danger text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Pulse
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Pulse - Laravel REST API Boilerplate for Metronic 9 Tailwind React.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="menu flex flex-col grow" data-menu="true" id="sidebar_menu">
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Getting Started
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../index-2.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/file-structure.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/installation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
+        <div class="menu-link py-1.5 pl-5 pr-2.5 flex gap-1 items-center grow cursor-pointer border-l-2 border-gray-200">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-gray-900 menu-item-show:text-gray-900 menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="menu-arrow justify-end -mr-2.5 w-5 text-gray-500">
+          <i 'outline'}="" class="ki-{" default':="" ki-plus="" menu-item-show:hidden'="" text-2xs="">
+          </i>
+          <i 'outline'}="" class="ki-{" default':="" hidden="" ki-minus="" menu-item-show:inline-flex'="" text-2xs="">
+          </i>
+         </span>
+        </div>
+        <div class="menu-accordion gap-0.5">
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/react.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            React
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/nextjs.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/vue.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/angular.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/laravel.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/integration/blazor-server.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Nuxt
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Svelte
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Astro
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Remix
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Symfony
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Asp.Net Core
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Django
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Rails
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/multi-demo.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/license.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../getting-started/references.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Customization
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/webpack.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/javascript.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/theming.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/dark-mode.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/rtl.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../customization/optimization.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../composer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Base Components
+        </h2>
+       </div>
+       <div class="menu-item active">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="accordion.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="avatar.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="badge.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="button.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="button-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Calendar
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="card.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="collapse.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="container.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Container
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="datatable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="dismiss.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="drawer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="dropdown.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="modal.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="progress.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="rating.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="reparent.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="scrollable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="table.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="theme.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theme
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="toggle.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="tooltip.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Navigation
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="menu.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="pagination.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="scrollspy.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="scrollto.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="stepper.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="sticky.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="tabs.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Forms
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="checkbox.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="file-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="image-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="input-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="radio.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="range.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Range
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="select.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="switch.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="textarea.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="toggle-password.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Datepicker
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dial Input
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Password Meter
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Plugins
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/apexcharts.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/formvalidation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          FormValidation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/clipboard.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="../plugins/keenicons.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <div class="flex flex-col gap-2.5 mb-5">
+      <div class="flex items-center gap-1.5 text-md font-semibold">
+       <span class="text-primary">
+        Base Components
+       </span>
+      </div>
+      <div class="flex flex-col gap-2.5">
+       <h1 class="text-2xl font-bold text-gray-900">
+        Tailwind CSS Accordion
+       </h1>
+       <p class="text-sm font-normal text-gray-900">
+        Tailwind CSS Accordion is a collapsible UI element built using Tailwind CSS.
+	It allows users to expand and collapse sections of content by clicking on headers,
+	revealing and hiding information on demand.
+       </p>
+      </div>
+     </div>
+     <main class="text-gray-800 text-sm font-normal grow" id="content" role="content">
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="default-accordion">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#default-accordion">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Default Accordion
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Use
+        <code class="code">
+         data-accordion="true"
+        </code>
+        to enable accordion behavior where clicking a section header expands its content, 
+		while others collapse.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#default-accordion_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#default-accordion_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#default-accordion_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#default-accordion_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="default-accordion_1">
+         <div class="group" id="default-accordion_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div data-accordion="true">
+             <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_1">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_1">
+               <span class="text-base text-gray-900 font-medium">
+                How is pricing determined for each plan ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden" id="accordion_1_content_1">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_2">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_2">
+               <span class="text-base text-gray-900 font-medium">
+                What payment methods are accepted for subscriptions ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden" id="accordion_1_content_2">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_3">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_3">
+               <span class="text-base text-gray-900 font-medium">
+                Are there any hidden fees in the pricing ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden" id="accordion_1_content_3">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="default-accordion_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="max-height: 700px; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="true"&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_1"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_1"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    How is pricing determined for each plan ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden" id="accordion_1_content_1"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_2"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_2"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    What payment methods are accepted for subscriptions ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden" id="accordion_1_content_2"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item_3"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content_3"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    Are there any hidden fees in the pricing ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden" id="accordion_1_content_3"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="default-open">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#default-open">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Default Open
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Use
+        <code class="code">
+         active
+        </code>
+        class on an accordion to display a specific section by default.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#default-open_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#default-open_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#default-open_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#default-open_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="default-open_1">
+         <div class="group" id="default-open_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div data-accordion="true">
+             <div class="accordion-item active [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item_1">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content_1">
+               <span class="text-base text-gray-900 font-medium">
+                How is pricing determined for each plan ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content" id="accordion_2_content_1">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item_2">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content_2">
+               <span class="text-base text-gray-900 font-medium">
+                What payment methods are accepted for subscriptions ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden" id="accordion_2_content_2">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item_3">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content_3">
+               <span class="text-base text-gray-900 font-medium">
+                Are there any hidden fees in the pricing ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden" id="accordion_2_content_3">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="default-open_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="max-height: 700px; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="true"&gt;
+ &lt;div class="accordion-item active [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item_1"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content_1"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    How is pricing determined for each plan ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content" id="accordion_2_content_1"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item_2"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content_2"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    What payment methods are accepted for subscriptions ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden" id="accordion_2_content_2"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item_3"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content_3"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    Are there any hidden fees in the pricing ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden" id="accordion_2_content_3"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="expand-all">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#expand-all">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Expand All
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Use
+        <code class="code">
+         data-accordion-expand-all="true"
+        </code>
+        attribute to keep all accordions visible 
+		at all times despite toggling other.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#always-open_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#always-open_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#always-open_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#always-open_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="always-open_1">
+         <div class="group" id="always-open_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div data-accordion="true" data-accordion-expand-all="true">
+             <div class="accordion-item active [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_3_item_1">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_3_content_1">
+               <span class="text-base text-gray-900 font-medium">
+                How is pricing determined for each plan ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content" id="accordion_3_content_1">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item active [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_3_item_2">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_3_content_2">
+               <span class="text-base text-gray-900 font-medium">
+                What payment methods are accepted for subscriptions ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content" id="accordion_3_content_2">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_3_item_3">
+              <button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_3_content_3">
+               <span class="text-base text-gray-900 font-medium">
+                Are there any hidden fees in the pricing ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden" id="accordion_3_content_3">
+               <div class="text-gray-700 text-md pb-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="always-open_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="max-height: 700px; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="true" data-accordion-expand-all="true"&gt;
+ &lt;div class="accordion-item active [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_3_item_1"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_3_content_1"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    How is pricing determined for each plan ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content" id="accordion_3_content_1"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item active [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_3_item_2"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_3_content_2"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    What payment methods are accepted for subscriptions ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content" id="accordion_3_content_2"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_3_item_3"&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_3_content_3"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    Are there any hidden fees in the pricing ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden" id="accordion_3_content_3"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="border-style">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#border-style">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Border Style
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Remove the
+        <code class="code">
+         accordion-default
+        </code>
+        class and apply Tailwind's border 
+		classes (e.g., border, border-dashed) to add custom border styles to your accordion
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#border-style_1" href="#">
+           Preview
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#border-style_2" href="#">
+           HTML
+          </a>
+         </div>
+         <div>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle dark:hidden" data-toggle="true" data-toggle-class="dark" data-toggle-remove-class="light" data-toggle-target="#border-style_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-moon="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-sun="" toggle-active:flex="">
+           </i>
+          </button>
+          <button class="btn btn-icon btn-sm btn-icon-sm btn-light btn-outline toggle light:hidden" data-toggle="true" data-toggle-class="light" data-toggle-remove-class="dark" data-toggle-target="#border-style_preview">
+           <i 'outline'}="" class="ki-{" default':="" flex'="" ki-sun="" toggle-active:hidden="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" hidden'="" ki-moon="" toggle-active:flex="">
+           </i>
+          </button>
+         </div>
+        </div>
+        <div class="" id="border-style_1">
+         <div class="group" id="border-style_preview">
+          <div class="card shadow-none light:bg-[#fefefe] group-[.light]:!bg-[#fefefe] group-[.dark]:!bg-coal-300">
+           <div class="card-body p-7">
+            <div class="flex flex-col gap-5" data-accordion="true">
+             <div class="accordion-item border rounded-xl" data-accordion-item="true" id="accordion_4_item_1">
+              <button class="accordion-toggle p-4" data-accordion-toggle="#accordion_4_content_1">
+               <span class="text-base text-gray-900 font-medium">
+                How is pricing determined for each plan ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden border-t" id="accordion_4_content_1">
+               <div class="text-gray-700 text-md p-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item active border rounded-xl" data-accordion-item="true" id="accordion_4_item_2">
+              <button class="accordion-toggle p-4" data-accordion-toggle="#accordion_4_content_2">
+               <span class="text-base text-gray-900 font-medium">
+                What payment methods are accepted for subscriptions ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content border-t" id="accordion_4_content_2">
+               <div class="text-gray-700 text-md p-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+             <div class="accordion-item border rounded-xl" data-accordion-item="true" id="accordion_4_item_3">
+              <button class="accordion-toggle p-4" data-accordion-toggle="#accordion_4_content_3">
+               <span class="text-base text-gray-900 font-medium">
+                Are there any hidden fees in the pricing ?
+               </span>
+               <i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600="">
+               </i>
+               <i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600="">
+               </i>
+              </button>
+              <div class="accordion-content hidden border-t" id="accordion_4_content_3">
+               <div class="text-gray-700 text-md p-4">
+                Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="border-style_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="max-height: 700px; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div class="flex flex-col gap-5" data-accordion="true"&gt;
+ &lt;div class="accordion-item border rounded-xl" data-accordion-item="true" id="accordion_4_item_1"&gt;
+  &lt;button class="accordion-toggle p-4" data-accordion-toggle="#accordion_4_content_1"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    How is pricing determined for each plan ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden border-t" id="accordion_4_content_1"&gt;
+   &lt;div class="text-gray-700 text-md p-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item active border rounded-xl" data-accordion-item="true" id="accordion_4_item_2"&gt;
+  &lt;button class="accordion-toggle p-4" data-accordion-toggle="#accordion_4_content_2"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    What payment methods are accepted for subscriptions ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content border-t" id="accordion_4_content_2"&gt;
+   &lt;div class="text-gray-700 text-md p-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;div class="accordion-item border rounded-xl" data-accordion-item="true" id="accordion_4_item_3"&gt;
+  &lt;button class="accordion-toggle p-4" data-accordion-toggle="#accordion_4_content_3"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    Are there any hidden fees in the pricing ?
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-2sm="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content hidden border-t" id="accordion_4_content_3"&gt;
+   &lt;div class="text-gray-700 text-md p-4"&gt;
+    Metronic embraces flexible licensing options that empower you to choose the perfect fit for your project's needs and budget. Understanding the factors influencing each plan's pricing helps you make an informed decision.
+   &lt;/div&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="source-code">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#source-code">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Source Code
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The following source files manage the JavaScript behavior and CSS styles of the Tailwind CSS Accordion component. 
+			Upon building the assets using
+        <a class="link" href="../customization/webpack/index.html">
+         Webpack Build Tools
+        </a>
+        , 
+			these files are compiled and added into the
+        <code class="code">
+         dist/assets/css/styles.css
+        </code>
+        and
+        <code class="code">
+         dist/assets/js/core.bundle.js
+        </code>
+        bundles, making them available globally across all pages.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[350px]">
+              File
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               src/core/components/accordion/accordion.ts
+              </code>
+             </td>
+             <td class="text-left">
+              The TypeScript source file that manages the JavaScript behavior of the Tailwind CSS Accordion component.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               src/core/plugins/components/accordion.js
+              </code>
+             </td>
+             <td class="text-left">
+              The Tailwind CSS compatible plugin written in PostCSS for applying CSS styles to the Tailwind CSS Accordion component.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="html-markup">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#html-markup">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        HTML Markup
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The following markup outlines the core structure of the Tailwind CSS Accordion component.
+       </div>
+       <div class="grid">
+        <div class="min-w-full">
+         <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+          <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+           </i>
+          </button>
+          <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="max-height: 700px; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;!--begin:: Accordion--&gt;
+&lt;div data-accordion="true"&gt;
+ &lt;!--begin:: Accordion item--&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item"&gt;
+  &lt;!--begin:: Accordion toggle--&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    Section Title 1
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-base="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-base="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;!--end:: Accordion toggle--&gt;
+  &lt;!--begin:: Accordion content--&gt;
+  &lt;div class="accordion-content hidden" id="accordion_1_content"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Content
+   &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!--end:: Accordion content--&gt;
+ &lt;/div&gt;
+ &lt;!--end:: Accordion item--&gt;
+ &lt;!--begin:: Accordion item--&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_2_item"&gt;
+  &lt;!--begin:: Accordion toggle--&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_2_content"&gt;
+   &lt;span class="text-base text-gray-900 font-medium"&gt;
+    Section Title 2
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" block'="" class="ki-{" default':="" ki-plus="" text-base="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" class="ki-{" default':="" hidden'="" ki-minus="" text-base="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;!--end:: Accordion toggle--&gt;
+  &lt;!--begin:: Accordion content--&gt;
+  &lt;div class="accordion-content hidden" id="accordion_2_content"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Content
+   &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!--end:: Accordion content--&gt;
+ &lt;/div&gt;
+ &lt;!--end:: Accordion item--&gt;
+&lt;/div&gt;
+&lt;!--end:: Accordion--&gt;
+
+				</code>
+			</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="attributes">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#attributes">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Attributes
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        The following HTML attributes are utilized by the accordion component to control its JavaScript behavior.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[300px]">
+              HTML Attribute
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               data-accordion-item="true"
+              </code>
+             </td>
+             <td class="text-left">
+              Used to identify individual accordion item elements within the accordion structure.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               data-accordion-toggle="#content_id"
+              </code>
+             </td>
+             <td class="text-left">
+              Specifies an ID of an element that should be shown or hidden when the accordion header is clicked.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="classes">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#classes">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Classes
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        This table details the custom CSS classes used for styling the Tailwind CSS Accordion component.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[200px]">
+              Class
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               accordion-item
+              </code>
+             </td>
+             <td class="text-left">
+              Applies default styling for the accordion item. This class can be removed to customize the accordion using Tailwind CSS classes.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               accordion-toggle
+              </code>
+             </td>
+             <td class="text-left">
+              Used for the accordion toggle element, which users interact with to expand and collapse sections.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               accordion-content
+              </code>
+             </td>
+             <td class="text-left">
+              Used for the content of each accordion section, making it collapsible upon interaction with the toggle element.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               active
+              </code>
+             </td>
+             <td class="text-left">
+              Sets a specific accordion item to be open initially when used togather with
+              <code class="code">
+               data-accordion-item
+              </code>
+              attribute.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               hidden
+              </code>
+             </td>
+             <td class="text-left">
+              Sets a specific accordion content to be hidden initially.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="variants">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#variants">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Variants
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Easily style the active accordion section with the
+        <code class="code">
+         accordion-active:*
+        </code>
+        varaint linked to
+        <code class="code">
+         active
+        </code>
+        class that is added on toggle element click. 
+		
+		This custom
+        <a class="link" href="https://tailwindcss.com/docs/plugins#adding-variants" target="_blank">
+         Tailwind CSS Variant
+        </a>
+        allows you to control the appearance of both the active accordion section and its child elements.
+       </div>
+       <div class="grid">
+        <div class="min-w-full">
+         <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+          <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+           </i>
+          </button>
+          <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="max-height: 700px; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;!--begin:: Accordion--&gt;
+&lt;div data-accordion="true"&gt;
+ &lt;!--begin:: Accordion item--&gt;
+ &lt;div class="accordion-item [&amp;:not(:last-child)]:border-b border-b-gray-200" data-accordion-item="true" id="accordion_1_item"&gt;
+  &lt;!--begin:: Accordion toggle--&gt;
+  &lt;button class="accordion-toggle py-4 group" data-accordion-toggle="#accordion_1_content"&gt;
+   &lt;span class="text-base text-gray-900 font-medium accordion-active:text-primary"&gt;
+    Section Title
+   &lt;/span&gt;
+   &lt;i 'outline'}="" accordion-active:hidden="" accordion-active:text-primary="" block'="" class="ki-{" default':="" ki-plus="" text-base="" text-gray-600=""&gt;
+   &lt;/i&gt;
+   &lt;i 'outline'}="" accordion-active:block="" accordion-active:text-primary="" class="ki-{" default':="" hidden'="" ki-minus="" text-base="" text-gray-600=""&gt;
+   &lt;/i&gt;
+  &lt;/button&gt;
+  &lt;!--end:: Accordion toggle--&gt;
+  &lt;!--begin:: Accordion content--&gt;
+  &lt;div class="accordion-content hidden" id="accordion_1_content"&gt;
+   &lt;div class="text-gray-700 text-md pb-4"&gt;
+    Content
+   &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!--end:: Accordion content--&gt;
+ &lt;/div&gt;
+ &lt;!--end:: Accordion item--&gt;
+&lt;/div&gt;
+&lt;!--end:: Accordion--&gt;
+
+				</code>
+			</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="data-attribute-initialization">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#data-attribute-initialization">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Data Attribute Initialization
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Auto-initialize all KTAccordion instances on page load by adding the
+        <code class="code">
+         data-accordion="true"
+        </code>
+        attribute to your accordion element. 
+		This triggers on the fly initialization by the KTAccordion JavaScript component.
+       </div>
+       <div class="grid">
+        <div class="min-w-full">
+         <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+          <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+           </i>
+          </button>
+          <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="true" data-accordion-expand-all="true"&gt;
+ ...
+&lt;/div&gt;
+
+				</code>
+			</pre>
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="mb-4">
+        These attributes allow you to set options for the KTAccordion component during initialization. 
+		The values you provide as strings are automatically converted to the appropriate
+        <a class="link" href="#options">
+         KTAccordion Options
+        </a>
+        .
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[250px]">
+              HTML Attribute
+             </th>
+             <th class="text-left min-w-[100px]">
+              Type
+             </th>
+             <th class="text-left min-w-[100px]">
+              Default
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               data-accordion
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               boolean
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               true
+              </code>
+             </td>
+             <td class="text-left">
+              Used to auto-initialize KTAccordion instances on page load.
+				Alternatively, you can remove it and perform initialization using JavaScript.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               data-accordion-expand-all
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               boolean
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               false
+              </code>
+             </td>
+             <td class="text-left">
+              Using
+              <code class="code-light">
+               true
+              </code>
+              allows all accordion sections to remain expanded even when another is opened.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               data-accordion-hidden-class
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               string
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               "hidden"
+              </code>
+             </td>
+             <td class="text-left">
+              Tailwind CSS class to use for the hidden state of the accordion contents.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               data-accordion-active-class
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               string
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               "active"
+              </code>
+             </td>
+             <td class="text-left">
+              Custom class to use for the active state of the accordion contents.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="javascript-initialization">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#javascript-initialization">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        JavaScript Initialization
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        To initialize a new accordion component, pass the corresponding DOM element and configuration options to the KTAccordion class constructor.
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#javascript-initialization_1" href="#">
+           JavaScript
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#javascript-initialization_2" href="#">
+           HTML
+          </a>
+         </div>
+        </div>
+        <div class="" id="javascript-initialization_1">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-javascript" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-javascript !font-normal !text-[13px] !bg-transparent !p-0">
+					const accordionEl = document.querySelector('#my_accordion');
+const options = {
+	expandAll: true
+};
+
+const accordion = new KTAccordion(accordionEl, options);
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="javascript-initialization_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="false" id="my_accordion"&gt;
+ &lt;!-- Refer to the Accordion HTML Markup above --&gt;
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="flex items-center grow rounded-xl border border-dashed gap-4 p-4 border-primary bg-primary-light">
+        <i 'outline'}="" class="ki-{" default':="" ki-information-1="" text-3xl="" text-primary'="">
+        </i>
+        <div class="flex flex-col gap-0.5">
+         <p class="text text-2sm font-normal">
+          To initialize the accordion with JavaScript, use
+          <code class="code">
+           data-accordion="false"
+          </code>
+          attribute instead. 
+				This prevents automatic initialization on page load.
+         </p>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="options">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#options">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Options
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        This table outlines the configuration options for initialization of Tailwind CSS Accordion instances, using the KTAccordion JavaScript component.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[200px]">
+              Option
+             </th>
+             <th class="text-left min-w-[100px]">
+              Type
+             </th>
+             <th class="text-left min-w-[100px]">
+              Default
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               expandAll
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               boolean
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               false
+              </code>
+             </td>
+             <td class="text-left">
+              Allows all accordion sections to remain expanded even when another is opened
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               hiddenClass
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               string
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               "hidden"
+              </code>
+             </td>
+             <td class="text-left">
+              Tailwind CSS class used to set a specific accordion content hidden.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               activeClass
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               string
+              </code>
+             </td>
+             <td class="text-left">
+              <code class="code-light">
+               "active"
+              </code>
+             </td>
+             <td class="text-left">
+              Custom class used to set a specific accordion content visible.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="utilities">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#utilities">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Utilities
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Manage and interact with KTAccordion instances using these static methods of
+        <code class="code">
+         KTAccordion
+        </code>
+        class.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[250px]">
+              Method
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               init()
+              </code>
+             </td>
+             <td class="text-left">
+              Automatically initializes KTAccordion object for all elements with the
+              <code class="code-light">
+               data-accordion="true"
+              </code>
+              attribute on page load.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               createInstances()
+              </code>
+             </td>
+             <td class="text-left">
+              Allows to create KTAccordion instances for all elements that have been dynamically added to the DOM but haven't been activated yet.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               getInstance(element)
+              </code>
+             </td>
+             <td class="text-left">
+              Returns the
+              <code class="code-light">
+               KTAccordion
+              </code>
+              object associated with the given DOM element
+              <code class="code-light">
+               element
+              </code>
+              .
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               getOrCreateInstance(element)
+              </code>
+             </td>
+             <td class="text-left">
+              Returns the existing
+              <code class="code-light">
+               KTAccordion
+              </code>
+              object for the provided DOM element
+              <code class="code-light">
+               element
+              </code>
+              , or creates a new instance if none exists, then returns the same.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#utilities_1" href="#">
+           JavaScript
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#utilities_2" href="#">
+           HTML
+          </a>
+         </div>
+        </div>
+        <div class="" id="utilities_1">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-javascript" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-javascript !font-normal !text-[13px] !bg-transparent !p-0">
+					// Initialize all accordions
+KTAccordion.init()
+
+// Initialzie pending accordions
+KTAccordion.createInstances();
+
+// Get accordion object
+const accordionEl = document.querySelector('#my_accordion');
+const accordion = KTAccordion.getInstance(accordionEl);
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="utilities_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="true" data-accordion-expand-all="true"&gt;
+ ...
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="methods">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#methods">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Methods
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        Use KTAccordion component's API methods to programmatically control its behavior.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[290px]">
+              Method
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               new KTAccordion(element, options)
+              </code>
+             </td>
+             <td class="text-left">
+              Creates an object instance of KTAccordion class for the given DOM
+              <code class="code-light">
+               element
+              </code>
+              and configuration
+              <code class="code-light">
+               options
+              </code>
+              .
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               show(element)
+              </code>
+             </td>
+             <td class="text-left">
+              Shows the accordion section that corresponds to the given DOM
+              <code class="code-light">
+               element
+              </code>
+              .
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               hide(element)
+              </code>
+             </td>
+             <td class="text-left">
+              Hides the accordion section that corresponds to the given DOM
+              <code class="code-light">
+               element
+              </code>
+              .
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               toggle(element)
+              </code>
+             </td>
+             <td class="text-left">
+              Toggles the accordion section that corresponds to the given DOM
+              <code class="code-light">
+               element
+              </code>
+              .
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               getOption(name)
+              </code>
+             </td>
+             <td class="text-left">
+              Retrieves the value of a configuration option by
+              <code class="code-light">
+               name
+              </code>
+              parameter from a KTAccordion instance.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               getElement()
+              </code>
+             </td>
+             <td class="text-left">
+              Retrieves the DOM element linked to a specific KTAccordion instance.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               on(eventName, handler)
+              </code>
+             </td>
+             <td class="text-left">
+              Allows attaching event listeners to the KTAccordion custom events using the
+              <code class="code-light">
+               eventName
+              </code>
+              and
+              <code class="code-light">
+               eventId
+              </code>
+              string parameters. These events enable programmatic interaction based on user actions or 
+				internal state changes of KTAccordion. The function returns
+              <code class="code-light">
+               string
+              </code>
+              as a unique identifier for the registered listener, allowing you to remove it later if needed.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               off(eventName, eventId)
+              </code>
+             </td>
+             <td class="text-left">
+              Removes an event listener for the
+              <code class="code-light">
+               eventName
+              </code>
+              and
+              <code class="code-light">
+               eventId
+              </code>
+              parameters attached with the
+              <code class="code-light">
+               on
+              </code>
+              method.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               dispose()
+              </code>
+             </td>
+             <td class="text-left">
+              Removes the KTAccordion instance from an element, including any associated data stored on the DOM element.
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div>
+        <div class="flex justify-between items-center gap-5 mb-4">
+         <div class="btn-tabs" data-tabs="true">
+          <a class="btn btn-sm active" data-tab-toggle="#methods_1" href="#">
+           JavaScript
+          </a>
+          <a class="btn btn-sm" data-tab-toggle="#methods_2" href="#">
+           HTML
+          </a>
+         </div>
+        </div>
+        <div class="" id="methods_1">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-javascript" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-javascript !font-normal !text-[13px] !bg-transparent !p-0">
+					const accordionEl = document.querySelector('#my_accordion');
+const accordionItemEl = document.querySelector('#my_accordion_item_1');
+const accordion = KTAccordion.getInstance(accordionEl);
+
+accordion.show(accordionItemEl);
+accordion.hide(accordionItemEl);
+accordion.toggle(accordionItemEl);
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="hidden" id="methods_2">
+         <div class="grid">
+          <div class="min-w-full">
+           <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+            <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+             </i>
+             <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+             </i>
+            </button>
+            <pre class="!p-1 !bg-transparent scrollable-auto language-html" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-html !font-normal !text-[13px] !bg-transparent !p-0">
+					&lt;div data-accordion="true" data-accordion-expand-all="true"&gt;
+ ...
+&lt;/div&gt;
+
+				</code>
+			</pre>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <h2 class="flex leading-none text-gray-900 font-semibold text-xl mb-4" id="events">
+       <a class="flex items-center group relative border-none lg:-ml-2 lg:pl-2" href="#events">
+        <div class="absolute -ml-6 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
+         ​
+         <div class="flex size-5 items-center justify-center rounded-md text-gray-500 shadow-md hover:text-gray-700 hover:shadow">
+          <svg aria-hidden="true" fill="none" height="12" width="12">
+           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.5">
+           </path>
+          </svg>
+         </div>
+        </div>
+        Events
+       </a>
+      </h2>
+      <div class="mb-12 lg:mb-16">
+       <div class="mb-4">
+        <code class="code">
+         KTAccordion
+        </code>
+        custom events allows you to register callback functions(event listeners) 
+		that will be invoked automatically whenever specific custom events are triggered within the component.
+       </div>
+       <div class="grid">
+        <div class="card card-grid min-w-full">
+         <div class="card-body scrollable-x-auto">
+          <table class="table table-border font-normal">
+           <thead>
+            <tr>
+             <th class="text-left min-w-[200px]">
+              Event
+             </th>
+             <th class="text-left">
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               show
+              </code>
+             </td>
+             <td class="text-left">
+              Triggered immediately before an accordion section is shown.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               shown
+              </code>
+             </td>
+             <td class="text-left">
+              Triggered immediately after an accordion section is shown.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               hide
+              </code>
+             </td>
+             <td class="text-left">
+              Triggered immediately before an accordion section is hidden.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               hidden
+              </code>
+             </td>
+             <td class="text-left">
+              Triggered immediately after an accordion section is hidden.
+             </td>
+            </tr>
+            <tr>
+             <td class="text-left">
+              <code class="code">
+               toggle
+              </code>
+             </td>
+             <td class="text-left">
+              Triggered immediately before an accordion section is toggled(shown/hidden).
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+       <div class="mb-6">
+       </div>
+       <div class="grid">
+        <div class="min-w-full">
+         <div class="card-rounded relative group bg-coal-100 !py-1 !px-3">
+          <button class="group group-hover:flex hidden absolute top-0 right-0 btn btn-icon btn-sm btn-icon-xl mt-3 mr-4 z-1" data-clipboard="true">
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:hidden'="" hover:text-primary="" ki-copy="" text-white="">
+           </i>
+           <i 'outline'}="" class="ki-{" default':="" group-[.copied]:flex="" hidden'="" hover:text-primary="" ki-copy-success="" text-white="">
+           </i>
+          </button>
+          <pre class="!p-1 !bg-transparent scrollable-auto language-javascript" style="; --tw-scrollbar-thumb-color: var(--tw-gray-600)">
+				<code class="language-javascript !font-normal !text-[13px] !bg-transparent !p-0">
+					const accordionEl = document.querySelector('#my_accordion');
+const accordion = KTAccordion.getInstance(accordionEl);
+
+accordion.on('show', () =&gt; {
+	console.log('show event');
+});
+
+accordion.on('shows', () =&gt; {
+	console.log('shown event');
+});
+
+accordion.on('hide', (detail) =&gt; {
+	detail.cancel = true;
+	console.log('hide action canceled');
+});
+
+				</code>
+			</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="../composer.html">
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-left="" text-3xl="">
+       </i>
+       <span class="flex flex-col items-end">
+        <span class="text-2xs font-medium text-gray-500">
+         Previous
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Composer
+        </span>
+       </span>
+      </a>
+      <a class="btn btn-light justify-between h-auto py-3 lg:py-5 px-3 lg:px-6 group" href="avatar.html">
+       <span class="flex flex-col items-start">
+        <span class="text-2xs font-medium text-gray-500">
+         Next
+        </span>
+        <span class="text-2sm font-medium text-gray-900 group-hover:text-primary">
+         Avatar
+        </span>
+       </span>
+       <i 'outline'}="" class="ki-{" default':="" group-hover:text-primary'="" ki-arrow-right="" text-3xl="">
+       </i>
+      </a>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-2sm">
+        <span class="text-gray-500">
+         2025©
+        </span>
+        <a class="text-gray-600 hover:text-primary" href="../../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-2sm text-gray-600">
+        <a class="hover:text-primary" href="../../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="../getting-started/license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="../getting-started/license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="w-[280px] drawer drawer-start grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-overlay="true" data-overlay-enable="true|lg:false" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 scrollable-y-hover" data-scrollable="true" data-scrollable-dependencies="#header" data-scrollable-height="auto" data-scrollable-offset="15px" data-scrollable-wrappers="#page" id="aside_content">
+      <div class="card">
+       <div class="card-body px-5 flex flex-col gap-2.5">
+        <h3 class="text-sm font-semibold text-gray-900">
+         On This Page
+        </h3>
+        <div class="flex flex-col gap-1.75 text-sm font-normal" data-scrollspy="true" data-scrollspy-offset="80px|lg:150px" data-scrollspy-target="body">
+         <div class="flex flex-col gap-1.75" data-scrollspy-group="true">
+          <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary active" data-scrollspy-anchor="true" href="#examples">
+           Examples
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary active" data-scrollspy-anchor="true" href="#default-accordion">
+            Default Accordion
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#default-open">
+            Default Open
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#expand-all">
+            Expand All
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#border-style">
+            Border Style
+           </a>
+          </div>
+         </div>
+         <div class="flex flex-col gap-1.75" data-scrollspy-group="true">
+          <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#anatomy">
+           Anatomy
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#source-code">
+            Source Code
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#html-markup">
+            HTML Markup
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#attributes">
+            Attributes
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#classes">
+            Classes
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#variants">
+            Variants
+           </a>
+          </div>
+         </div>
+         <div class="flex flex-col gap-1.75" data-scrollspy-group="true">
+          <a class="text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#api">
+           Component API
+          </a>
+          <div class="flex flex-col gap-1.75 pl-5">
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#data-attribute-initialization">
+            Data Attribute Initialization
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#javascript-initialization">
+            JavaScript Initialization
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#options">
+            Options
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#utilities">
+            Utilities
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#methods">
+            Methods
+           </a>
+           <a class="flex items-center gap-1 text-gray-800 hover:text-primary scrollspy-active:text-primary" data-scrollspy-anchor="true" href="#events">
+            Events
+           </a>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <a data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="../../../../static/metronic/tailwind/docs-legacy/dist/assets/js/widgets/algolia-search.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/components/accordion by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:58 GMT -->
+</html>

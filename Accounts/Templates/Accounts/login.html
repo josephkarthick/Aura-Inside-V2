@@ -1,0 +1,180 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<main class="grow pt-5" id="content" role="content">
+
+    <div class="kt-container-fixed" id="contentContainer"></div>
+
+    <!-- Login Modal -->
+    <div class="kt-modal kt-modal-center" data-kt-modal="true" id="modal_welcome_message">
+
+        <div class="kt-modal-content max-w-[500px] w-full">
+
+            <div class="kt-modal-header justify-end border-0 pt-5">
+
+                <button
+                    class="kt-btn kt-btn-sm kt-btn-icon kt-btn-outline"
+                    data-kt-modal-dismiss="true"
+                    onclick="window.location.href='{% url "Intranet:home" %}'">
+
+                    <i class="ki-filled ki-cross"></i>
+
+                </button>
+
+            </div>
+
+            <div class="kt-modal-body flex flex-col items-center pt-0 pb-10">
+
+                <div class="kt-card max-w-[370px] w-full">
+
+                    <form method="post"
+                          action="{% url 'Accounts:login' %}"
+                          class="kt-card-content flex flex-col gap-5 p-10">
+
+                        {% csrf_token %}
+
+                        <h3 class="text-lg font-medium text-mono text-center mb-3">
+                            Authentication Required
+                        </h3>
+
+                        <div class="text-sm text-center text-secondary-foreground mb-7">
+                            You must be logged in to view this page.
+                            Please sign in to continue.
+                        </div>
+
+                        <!-- Username -->
+
+                        <div class="flex flex-col gap-1">
+
+                            <label class="kt-form-label">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                name="username"
+                                class="kt-input"
+                                placeholder="Your Employee ID"
+                                required>
+
+                        </div>
+
+                        <!-- Password -->
+
+                        <div class="flex flex-col gap-1">
+
+                            <label class="kt-form-label">
+                                Password
+                            </label>
+
+                            <div class="kt-input">
+
+                                <input
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    class="kt-input w-full pr-12"
+                                    placeholder="Enter System Password"
+                                    required>
+
+                                <button
+                                    type="button"
+                                    onclick="togglePassword()"
+                                    class="kt-btn kt-btn-sm kt-btn-ghost kt-btn-icon bg-transparent! -me-1.5">
+
+                                    <i id="eyeIcon"
+                                       class="ki-filled ki-eye text-muted-foreground"></i>
+
+                                </button>
+
+
+                            </div>
+
+                        </div>
+
+                        <!-- Messages -->
+
+                        {% if messages %}
+
+                            {% for message in messages %}
+
+                                <div class="kt-alert kt-alert-danger text-center">
+
+                                    {{ message }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                        {% if next %}
+
+                            <input
+                                type="hidden"
+                                name="next"
+                                value="{{ next }}">
+
+                        {% endif %}
+
+                        <button
+                            type="submit"
+                            class="kt-btn kt-btn-primary">
+
+                            Sign In
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+
+function togglePassword(){
+
+    let password=document.getElementById("password");
+
+    let eye=document.getElementById("eyeIcon");
+
+    if(password.type==="password"){
+
+        password.type="text";
+
+        eye.classList.remove("ki-eye");
+        eye.classList.add("ki-eye-slash");
+
+    }else{
+
+        password.type="password";
+
+        eye.classList.remove("ki-eye-slash");
+        eye.classList.add("ki-eye");
+
+    }
+
+}
+
+window.onload=function(){
+
+    const modalEl=document.querySelector("#modal_welcome_message");
+
+    const modal=KTModal.getInstance(modalEl);
+
+    if(modal){
+
+        modal.show();
+
+    }
+
+}
+
+</script>

@@ -1,0 +1,1264 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+.birthday-reaction-btn {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.birthday-reaction-btn:hover {
+    transform: scale(1.12);
+}
+
+.birthday-reaction-btn.reaction-selected {
+    transform: scale(1.15);
+    background: #eee8ff;
+    border-color: #7c3aed;
+}
+
+.reaction-pop {
+    animation: reactionPop 0.3s ease;
+}
+
+@keyframes reactionPop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.35);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.birthday-comment-btn.comment-success {
+    transform: scale(1.05);
+}
+
+.balloon {
+  position: absolute;
+  bottom: -120px;
+  border-radius: 50%;
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  background: #555;
+  transform: translateX(-50%);
+}
+
+/* ===== LEFT SIDE (UNCHANGED) ===== */
+.desc-text {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+  word-break: break-word;
+}
+.desc-text a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.group-block { display: grid; gap: 12px; }
+
+.group-cards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.group-cards::-webkit-scrollbar { display: none; }
+
+/* CARD */
+.content-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  width: 280px;
+  min-width: 280px;
+  min-height: 160px;
+  overflow: auto;
+  position: relative;
+}
+
+/* ===== RIGHT PANEL ===== */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+}
+.tab-btn {
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #6b7280;
+}
+.tab-btn.active {
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+.tab-content {
+  display: none;
+  padding-top: 16px;
+}
+.tab-content.active {
+  display: block;
+}
+
+/* ✅ SCROLL FIX (IMPORTANT) */
+.marquee-wrapper {
+  height: 500px;
+  overflow-y: auto;
+  position: relative;
+
+  scrollbar-width: none;        /* Firefox */
+}
+
+.marquee-wrapper::-webkit-scrollbar {
+  display: none;                /* Chrome */
+}
+
+.user-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 12px;
+
+  transition: all 0.25s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Avatar */
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  color: #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:14px;
+}
+
+/* Name */
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+}
+
+/* Meta row */
+.user-meta {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Actions row */
+.user-actions {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:6px;
+}
+
+/* Reaction buttons */
+.reaction-btn {
+  border:none;
+  background:#f3f4f6;
+  padding:6px 8px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.reaction-btn:hover {
+  background:#e0e7ff;
+}
+
+/* Input */
+.comment-input {
+  padding:6px 8px;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  font-size:12px;
+  width:120px;
+}
+
+.comment-submit {
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+/* Counts */
+.count-btn {
+  cursor: pointer;
+  font-size: 12px;
+  color:#6b7280;
+}
+
+.count-btn:hover {
+  color: #2563eb;
+}
+
+/* Premium highlight */
+.today-birthday {
+  background: linear-gradient(135deg,#fef3c7,#fde68a);
+  border: 1px solid #f59e0b;
+}
+.user-main { flex:1; }
+
+.row-top,
+.row-bottom {
+  display:flex;
+  justify-content:space-between;
+}
+
+/* TODAY HIGHLIGHT */
+.today-birthday {
+  background: linear-gradient(135deg,#fde047,#facc15);
+  border: 2px solid #f59e0b;
+}
+
+/* BUTTONS */
+.reaction-btn {
+  border:none;
+  background:#f3f4f6;
+  padding:6px;
+  border-radius:6px;
+}
+.comment-input {
+  padding:6px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+.comment-submit {
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+}
+
+/* BALLOONS */
+#balloon-container {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+}
+.balloon {
+  position:absolute;
+  bottom:0;
+  width:80px;
+  height:100px;
+  border-radius:50%;
+  animation: float 10s linear infinite;
+}
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-200vh); }
+}
+
+.content-card {
+  position: relative;
+
+  width: 280px;
+  min-width: 280px;
+  min-height: 160px;
+  max-width: 900px;
+  max-height: 600px;
+
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+
+  overflow: hidden;   /* ✅ NO SCROLLBAR */
+}
+
+.resize-handle {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+
+  width: 16px;
+  height: 16px;
+
+  cursor: se-resize;
+  z-index: 10;
+
+  background: repeating-linear-gradient(
+    45deg,
+    #cbd5e1,
+    #cbd5e1 2px,
+    transparent 2px,
+    transparent 4px
+  );
+
+  border-radius: 3px;
+}
+
+.count-btn {
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 13px;
+}
+.count-btn:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+</style>
+
+
+<div class="kt-wrapper" style="margin-top:40px;">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+
+    <!-- ================= LEFT ================= -->
+<div class="kt-card">
+  <div class="kt-card-content">
+
+    {% if grouped_content %}
+    
+      {% for group_name, group in grouped_content.items %}
+      <div class="group-block">
+
+        <div>{{ group_name|upper }}</div>
+
+        <div class="group-cards">
+          {% for item in group %}
+          <div class="content-card">
+
+            <div class="resize-handle"></div>
+
+            <div class="flex gap-4">
+              {% if item.photo %}
+              <img src="{{ item.photo }}" width="80">
+              {% endif %}
+
+              <div>
+                <h4>{{ item.title }}</h4>
+
+                {% if item.username %}
+					<p>{{ item.username }}</p>
+                {% endif %}
+
+                {% if item.description %}
+                <div class="desc-text">
+                  {{ item.description|urlize }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+      {% endfor %}
+
+    {% else %}
+
+    <!-- ✅ EMPTY STATE (QUOTE UI) -->
+<div style="
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:500px;
+  position:relative;
+  overflow:hidden;
+">
+
+  <!-- Background Glow -->
+  <div style="
+    position:absolute;
+    width:600px;
+    height:600px;
+    background: radial-gradient(circle, rgba(37,99,235,0.15), transparent 70%);
+    filter: blur(60px);
+  "></div>
+
+  <!-- Quote Card -->
+  <div style="
+    position:relative;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius:16px;
+    padding:40px;
+    max-width:600px;
+    text-align:center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border:1px solid #e5e7eb;
+  ">
+
+    <!-- Title -->
+    <div style="
+      font-size:20px;
+      font-weight:700;
+      color:#2563eb;
+      margin-bottom:20px;
+    ">
+      ✨ Daily Inspiration
+    </div>
+
+    <!-- Quote -->
+    <div id="quoteBox" style="
+      font-size:22px;
+      font-weight:500;
+      color:#111827;
+      line-height:1.6;
+      margin-bottom:20px;
+    ">
+<div id="quoteBox">
+  {% if quote %}
+    “{{ quote.text }}”
+  {% else %}
+    "Stay positive, work hard, make it happen."
+  {% endif %}
+</div>
+
+
+    </div>
+
+    <!-- Author -->
+    <div id="quoteAuthor" style="
+      font-size:14px;
+      color:#6b7280;
+    ">
+<div id="quoteAuthor">
+  {% if quote and quote.author %}
+    — {{ quote.author }}
+  {% endif %}
+</div>
+    </div>
+
+  </div>
+
+</div>
+
+    {% endif %}
+
+  </div>
+</div>
+
+    <!-- ================= RIGHT ================= -->
+    <div class="kt-card">
+      <div class="kt-card-content">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <!-- TABS -->
+        <div class="tabs">
+          <div class="tab-btn active" onclick="openTab(event,'birthday')">🎂 Birthday</div>
+          <div class="tab-btn" onclick="openTab(event,'joinees')">🆕 New Joinees</div>
+          <div class="tab-btn" onclick="openTab(event,'careers')">💼 Careers</div>
+        </div>
+
+       <!-- ================= BIRTHDAY ================= -->
+<div id="birthday" class="tab-content active">
+		
+  <div class="marquee-wrapper">
+
+    <div id="balloon-container"></div>
+
+    {% for user in birthday_users %}
+<div class="user-card {% if user.birthdate.day == today_day %}today-birthday{% endif %}" data-user-id="{{ user.id }}">
+
+  <div class="avatar">
+    {{ user.birthdate|date:"d" }}
+  </div>
+
+  <div class="user-main">
+
+    <!-- TOP -->
+    <div class="row-top">
+      <div class="user-name">{{ user.first_name }} {{ user.last_name }}</div>
+
+      <div>
+        <span class="count-btn" onclick="openReactions('birthday','{{ user.id }}')">
+          👤 <span class="reaction-count">{{ user.reaction_count }}</span>
+        </span>
+
+        <span class="count-btn" onclick="openComments('birthday','{{ user.id }}')">
+          💬 <span class="comment-count">{{ user.comment_count }}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    {% if today_day >= user.birthdate.day %}
+    <div class="user-actions">
+
+      <button
+        type="button"
+        class="reaction-btn birthday-reaction-btn"
+        data-reaction="👍"
+      >
+        👍
+      </button>
+
+      <button
+        type="button"
+        class="reaction-btn birthday-reaction-btn"
+        data-reaction="🎉"
+      >
+        🎉
+      </button>
+
+      <button
+        type="button"
+        class="reaction-btn birthday-reaction-btn"
+        data-reaction="❤️"
+      >
+        ❤️
+      </button>
+
+      <input
+        type="text"
+        class="comment-input birthday-comment-input"
+        placeholder="Wish..."
+        maxlength="250"
+      >
+
+      <button
+        type="button"
+        class="comment-submit birthday-comment-btn"
+      >
+        Post
+      </button>
+
+    </div>
+    {% else %}
+      <div class="user-meta">Opens {{ user.birthdate|date:"d M" }}</div>
+    {% endif %}
+
+  </div>
+</div>
+    {% endfor %}
+
+  </div>
+</div>
+
+        <!-- ================= JOINEES ================= -->
+        <div id="joinees" class="tab-content">
+          <div style="max-height:500px; overflow:auto;">
+
+            {% for user in new_joinees %}
+            <div class="user-card">
+              <div class="avatar">{{ user.date_joined|date:"d" }}</div>
+
+              <div class="user-main">
+                <div class="row-top">
+                  <div>{{ user.first_name }} {{ user.last_name }}</div>
+                  <div>🆕 New</div>
+                </div>
+
+                <div class="row-bottom">
+                  <span>{{ user.department.name }}</span>
+                  <span>{{ user.date_joined|date:"d M" }}</span>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <p>No joinees</p>
+            {% endfor %}
+
+          </div>
+        </div>
+
+        <!-- ================= CAREERS ================= -->
+<div id="careers" class="tab-content">
+
+  <div style="max-height:500px; overflow-y:auto; padding-right:8px;">
+
+    {% for job in jobs %}
+    <div style="border:1px solid #e5e7eb; padding:12px; margin-bottom:12px; border-radius:8px;">
+
+      <strong>{{ job.title|upper }}</strong><br>
+      <small>{{ job.department }} • {{ job.location }}</small><br><br>
+
+      Shift: {{ job.shift }} |
+      Experience: {{ job.experience_required }} |
+      Openings: {{ job.openings }}<br>
+
+      {% if job.salary_range %}
+      Salary: {{ job.salary_range }}<br>
+      {% endif %}
+
+      Last Date: {{ job.last_date|date:"d M Y" }}<br><br>
+
+<a href="{% url 'HRDesk:job_apply' job.id %}" 
+   class="kt-btn kt-btn-primary">
+   Refer a Friend
+</a>
+         
+   
+    </div>
+
+    {% empty %}
+    <p>No job openings available.</p>
+    {% endfor %}
+
+  </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="customAlert" style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+">
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    width:400px;
+    max-height:80vh;
+    overflow:auto;
+  ">
+    <div id="customAlertMessage"></div>
+    <button onclick="closeCustomAlert()" style="
+      margin-top:10px;
+      padding:6px 12px;
+      background:#2563eb;
+      color:#fff;
+      border:none;
+      border-radius:6px;
+    ">Close</button>
+  </div>
+</div>
+
+<!-- Left Side Card Handle for Resize-->
+<script>
+document.querySelectorAll('.content-card').forEach(card => {
+
+  const handle = card.querySelector('.resize-handle');
+
+  let startX, startY, startW, startH;
+
+  handle.addEventListener('mousedown', e => {
+    e.preventDefault();
+
+    startX = e.clientX;
+    startY = e.clientY;
+    startW = card.offsetWidth;
+    startH = card.offsetHeight;
+
+    document.addEventListener('mousemove', resize);
+    document.addEventListener('mouseup', stop);
+  });
+
+  function resize(e) {
+    card.style.width  = Math.max(280, startW + (e.clientX - startX)) + 'px';
+    card.style.height = Math.max(160, startH + (e.clientY - startY)) + 'px';
+  }
+
+  function stop() {
+    document.removeEventListener('mousemove', resize);
+    document.removeEventListener('mouseup', stop);
+  }
+
+});
+</script>
+
+<!-- reaction and cmds popup -->
+
+<script>
+function showCustomAlert(message) {
+  document.getElementById("customAlertMessage").innerHTML = message;
+  document.getElementById("customAlert").style.display = "flex";
+}
+
+function closeCustomAlert() {
+  document.getElementById("customAlert").style.display = "none";
+}
+
+/* ================= REACTIONS ================= */
+function openReactions(type, id) {
+  fetch(`/interactions/details/?content_type=${type}&object_id=${id}`)
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data.reactions || data.reactions.length === 0) {
+        showCustomAlert("No reactions yet");
+        return;
+      }
+
+      let html = "<h4>Reactions</h4><br>";
+
+      data.reactions.forEach(r => {
+        html += `👤 ${r.user} → ${r.type}<br>`;
+      });
+
+      showCustomAlert(html);
+    })
+    .catch(() => showCustomAlert("Error loading reactions"));
+}
+
+/* ================= COMMENTS ================= */
+function openComments(type, id) {
+  fetch(`/interactions/details/?content_type=${type}&object_id=${id}`)
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data.comments || data.comments.length === 0) {
+        showCustomAlert("No comments yet");
+        return;
+      }
+
+      let html = "<h4>Comments</h4><br>";
+
+      data.comments.forEach(c => {
+        html += `💬 <b>${c.user}</b>: ${c.comment}<br><br>`;
+      });
+
+      showCustomAlert(html);
+    })
+    .catch(() => showCustomAlert("Error loading comments"));
+}
+</script>
+
+<!-- Tabs-->
+<script>
+function openTab(evt, tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+  document.getElementById(tabId).style.display='block';
+  evt.currentTarget.classList.add('active');
+}
+</script>
+
+<script>
+function createBalloon() {
+  const container = document.getElementById("balloon-container");
+  if (!container) return;
+
+  const balloon = document.createElement("div");
+  balloon.classList.add("balloon");
+
+  balloon.style.left = Math.random() * 100 + "%";
+
+  const colors = ["#f87171", "#60a5fa", "#34d399", "#fbbf24", "#c084fc"];
+  balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+  const size = Math.random() * 40 + 40;
+  balloon.style.width = size + "px";
+  balloon.style.height = size * 1.2 + "px";
+
+  balloon.style.animationDuration = (Math.random() * 5 + 5) + "s";
+
+  container.appendChild(balloon);
+
+  setTimeout(() => balloon.remove(), 10000);
+}
+
+/* ✅ FIRE IMMEDIATELY (KEY FIX) */
+for (let i = 0; i < 8; i++) {
+  createBalloon();   // instant balloons
+}
+
+/* ✅ CONTINUE FLOW */
+setInterval(createBalloon, 800);
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ============================================
+    // CSRF TOKEN
+    // ============================================
+
+    function getCookie(name) {
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+
+                if (
+                    cookie.substring(0, name.length + 1) ===
+                    name + "="
+                ) {
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie("csrftoken");
+
+
+    // ============================================
+    // BIRTHDAY REACTION
+    // ============================================
+
+    document.addEventListener("click", function (event) {
+
+        const button = event.target.closest(
+            ".birthday-reaction-btn"
+        );
+
+        if (!button) {
+            return;
+        }
+
+        const card = button.closest(".user-card");
+
+        if (!card) {
+            return;
+        }
+
+        const objectId = card.dataset.userId;
+        const reaction = button.dataset.reaction;
+
+        if (!objectId || !reaction) {
+            console.error(
+                "Birthday reaction data missing"
+            );
+            return;
+        }
+
+        // Prevent double click
+        if (button.dataset.loading === "true") {
+            return;
+        }
+
+        button.dataset.loading = "true";
+
+
+        // ========================================
+        // SEND AJAX REQUEST
+        // ========================================
+
+        const formData = new FormData();
+
+        formData.append(
+            "reaction",
+            reaction
+        );
+
+        formData.append(
+            "content_type",
+            "birthday"
+        );
+
+        formData.append(
+            "object_id",
+            objectId
+        );
+
+
+        fetch(
+            "{% url 'interactions:add_reaction' %}",
+            {
+                method: "POST",
+
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                    "X-Requested-With":
+                        "XMLHttpRequest"
+                },
+
+                body: formData
+            }
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server error: " +
+                    response.status
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(function (data) {
+
+            console.log(
+                "Reaction response:",
+                data
+            );
+
+
+            if (!data.success) {
+
+                alert(
+                    data.message ||
+                    "Login to update reaction."
+                );
+
+                return;
+            }
+
+
+            // ====================================
+            // UPDATE REACTION COUNT
+            // ====================================
+
+            const count =
+                card.querySelector(
+                    ".reaction-count"
+                );
+
+            if (count) {
+                count.textContent = data.count;
+            }
+
+
+            // ====================================
+            // REMOVE SELECTED FROM ALL
+            // ====================================
+
+            card.querySelectorAll(
+                ".birthday-reaction-btn"
+            ).forEach(function (btn) {
+
+                btn.classList.remove(
+                    "reaction-selected"
+                );
+
+            });
+
+
+            // ====================================
+            // SELECT CURRENT REACTION
+            // ====================================
+
+            if (data.action !== "removed") {
+
+                button.classList.add(
+                    "reaction-selected"
+                );
+
+            }
+
+
+            // ====================================
+            // SMALL ANIMATION
+            // ====================================
+
+            button.classList.add(
+                "reaction-pop"
+            );
+
+            setTimeout(function () {
+
+                button.classList.remove(
+                    "reaction-pop"
+                );
+
+            }, 300);
+
+        })
+        .catch(function (error) {
+
+            console.error(
+                "Birthday reaction error:",
+                error
+            );
+
+            alert(
+                "Login to update reaction."
+            );
+
+        })
+        .finally(function () {
+
+            button.dataset.loading = "false";
+
+        });
+
+    });
+
+
+    // ============================================
+    // BIRTHDAY COMMENT
+    // ============================================
+
+    document.addEventListener("click", function (event) {
+
+        const button = event.target.closest(
+            ".birthday-comment-btn"
+        );
+
+        if (!button) {
+            return;
+        }
+
+        const card = button.closest(".user-card");
+
+        if (!card) {
+            return;
+        }
+
+        const input =
+            card.querySelector(
+                ".birthday-comment-input"
+            );
+
+        if (!input) {
+            return;
+        }
+
+
+        const text = input.value.trim();
+
+        if (!text) {
+
+            input.focus();
+
+            return;
+        }
+
+
+        const objectId =
+            card.dataset.userId;
+
+
+        if (!objectId) {
+
+            console.error(
+                "Birthday object ID missing"
+            );
+
+            return;
+        }
+
+
+        // Prevent double click
+        if (button.dataset.loading === "true") {
+            return;
+        }
+
+        button.dataset.loading = "true";
+
+
+        const formData = new FormData();
+
+        formData.append(
+            "text",
+            text
+        );
+
+        formData.append(
+            "content_type",
+            "birthday"
+        );
+
+        formData.append(
+            "object_id",
+            objectId
+        );
+
+
+        const originalText =
+            button.textContent;
+
+        button.textContent = "Posting...";
+
+
+        // ========================================
+        // SEND AJAX REQUEST
+        // ========================================
+
+        fetch(
+            "{% url 'interactions:add_comment' %}",
+            {
+                method: "POST",
+
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                    "X-Requested-With":
+                        "XMLHttpRequest"
+                },
+
+                body: formData
+            }
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server error: " +
+                    response.status
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(function (data) {
+
+            console.log(
+                "Comment response:",
+                data
+            );
+
+
+            if (!data.success) {
+
+                alert(
+                    data.message ||
+                    "Login to post wish."
+                );
+
+                return;
+            }
+
+
+            // ====================================
+            // UPDATE COMMENT COUNT
+            // ====================================
+
+            const count =
+                card.querySelector(
+                    ".comment-count"
+                );
+
+            if (count) {
+
+                count.textContent =
+                    data.count;
+
+            }
+
+
+            // ====================================
+            // CLEAR INPUT
+            // ====================================
+
+            input.value = "";
+
+
+            // ====================================
+            // SUCCESS EFFECT
+            // ====================================
+
+            button.classList.add(
+                "comment-success"
+            );
+
+            setTimeout(function () {
+
+                button.classList.remove(
+                    "comment-success"
+                );
+
+            }, 500);
+
+        })
+        .catch(function (error) {
+
+            console.error(
+                "Birthday comment error:",
+                error
+            );
+
+            alert(
+                "Login to post wish."
+            );
+
+        })
+        .finally(function () {
+
+            button.dataset.loading =
+                "false";
+
+            button.textContent =
+                originalText;
+
+        });
+
+    });
+
+
+    // ============================================
+    // ENTER KEY → POST COMMENT
+    // ============================================
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key !== "Enter") {
+                return;
+            }
+
+            const input =
+                event.target.closest(
+                    ".birthday-comment-input"
+                );
+
+            if (!input) {
+                return;
+            }
+
+            event.preventDefault();
+
+
+            const card =
+                input.closest(".user-card");
+
+            if (!card) {
+                return;
+            }
+
+
+            const button =
+                card.querySelector(
+                    ".birthday-comment-btn"
+                );
+
+            if (button) {
+                button.click();
+            }
+
+        }
+    );
+
+});
+</script>

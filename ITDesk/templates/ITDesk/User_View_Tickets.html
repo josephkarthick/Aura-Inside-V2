@@ -1,0 +1,94 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+    td img {
+        max-width: 100px;  /* Set a maximum width */
+        max-height: 30px;  /* Set a maximum height */
+        object-fit: contain;  /* Ensure the image is fully visible */
+        border-radius: 5px;  /* Optional: for rounded corners */
+    }
+</style>
+
+<body>
+    <div class="row g-2">
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="d-flex justify-content-center" id="total_ticket"></div>
+                    <h3>{{ totaltickets }}</h3>
+                    <span>Total Tickets</span>
+                </div>
+            </div>
+        </div>
+
+        {% for status in status_counts %}
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="d-flex justify-content-center" id="resolve"></div>
+                    <h3>{{ status.count }}</h3>
+                    <span>{{ status.status }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Table with Sorting Capability -->
+                    <table id="ticket_list" class="table table-hover">
+                        <!-- Table Header (thead) -->
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Category</th>
+                                <th>Subcategory</th>
+                                <th>Assigned To</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <!-- Table Body (tbody) -->
+                        <tbody>
+                            {% for ticket in tickets %}
+                            <tr onclick="window.location.href='{% url 'ITDesk:user_detailed_ticket' ticket.ticket_id %}';" style="cursor: pointer;">
+                                <td>{{ ticket.ticket_id }}</td>
+                                <td>{{ ticket.category }}</td>
+                                <td>{{ ticket.subcategory }}</td>
+                                <td>{{ ticket.assigned_to }}</td>
+                                <td>{{ ticket.created_at }}</td>
+                                <td>
+                                    {% if ticket.status == "New" %}
+                                    <span class="badge bg-primary">{{ ticket.status }}</span>
+                                    {% elif ticket.status == "Pending" %}
+                                    <span class="badge bg-warning">{{ ticket.status }}</span>
+                                    {% elif ticket.status == "Resolved" %}
+                                    <span class="badge bg-success">{{ ticket.status }}</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ ticket.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Page JS File & Search -->
+<script src="{% static 'assets/bundles/dataTables.bundle.js' %}"></script>
+<script src="{% static 'js/pages/ticket.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#ticket_list').DataTable({
+            "order": [[0, 'desc']]  // Sort by Ticket ID in descending order
+        });
+    });
+</script>
+</html>

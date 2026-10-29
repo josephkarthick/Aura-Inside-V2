@@ -1,0 +1,112 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!-- Wrapper -->
+<div class="kt-wrapper flex grow flex-col">
+  <!-- Content -->
+  <main class="grow pt-5" id="content" role="main">
+
+    <!-- Header Container -->
+    <div class="kt-container-fixed mb-4">
+      <div class="flex flex-wrap items-center justify-between">
+        <div>
+          <h1 class="text-xl font-medium text-mono">Survey List</h1>
+          <p class="text-sm text-secondary-foreground">Manage and track all surveys</p>
+        </div>
+        <div class="flex gap-2">
+          <input type="text" id="search-input" class="border px-2 py-1 rounded text-sm" placeholder="Search surveys...">
+          <a href="{% url 'HRDesk:create_survey' %}" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
+            + Create Survey
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="kt-container-fixed">
+      <div class="kt-card kt-card-grid w-full">
+        <div class="kt-card-header">
+          <h3 class="kt-card-title text-sm">Total: {{ surveys|length }} surveys</h3>
+        </div>
+
+        <div class="kt-card-content">
+          <div class="kt-scrollable-x-auto">
+            <table class="kt-table table-fixed kt-table-border w-full text-sm text-secondary-foreground">
+              <thead>
+                <tr class="bg-accent/50">
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for survey in surveys %}
+                <tr class="data-row">
+                  <td>{{ survey.id }}</td>
+                  <td>{{ survey.title }}</td>
+                  <td>{{ survey.description|default:"-" }}</td>
+                  <td>{{ survey.created_at|date:"Y-m-d H:i" }}</td>
+<td>
+    <a href="{% url 'HRDesk:survey_user_view' survey.id %}" class="text-blue-600 hover:underline">View</a> |
+    <a href="{% url 'HRDesk:survey_results' survey.id %}" class="text-purple-600 hover:underline">Results</a> |
+    <form method="POST" action="{% url 'HRDesk:delete_survey' survey.id %}" 
+          onsubmit="return confirm('Are you sure you want to delete this survey?');" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" class="kt-btn kt-btn-danger kt-btn-sm">Delete</button>
+    </form>
+</td>
+
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center py-4">No surveys found.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- Pagination -->
+        <div class="kt-card-footer justify-between flex-wrap gap-4 text-sm font-medium text-secondary-foreground mt-5">
+          <div class="flex items-center gap-2">
+            Show
+            <select class="kt-select w-16" name="perpage">
+              <option>10</option>
+              <option>25</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+            per page
+          </div>
+          <div class="flex items-center gap-4">
+            <span data-kt-datatable-info="true"></span>
+            <div class="kt-datatable-pagination"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- JavaScript: Search Filter -->
+<script>
+  const searchInput = document.getElementById("search-input");
+
+  function filterTable() {
+    const searchText = searchInput.value.toLowerCase();
+    document.querySelectorAll(".data-row").forEach(row => {
+      const rowText = row.innerText.toLowerCase();
+      row.style.display = rowText.includes(searchText) ? "" : "none";
+    });
+  }
+
+  searchInput.addEventListener("input", filterTable);
+</script>

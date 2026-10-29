@@ -1,0 +1,287 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ survey.title }}</title>
+
+<style>
+/* ================= THEME ================= */
+:root{
+    --bg:#0f071a;
+    --accent:#a855f7;
+    --accent-dark:#4c1d95;
+    --text:#f3f4f6;
+    --border:rgba(168,85,247,.3);
+}
+
+h1{
+    text-align:center;
+    font-size:2rem;               /* ⬆ Bigger title */
+    font-weight:900;
+    letter-spacing:6px;
+    margin-bottom:0.6rem;
+    text-transform:uppercase;
+
+    background:linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #c084fc 35%,
+        #a855f7 60%,
+        #7c3aed 100%
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 0 12px rgba(168,85,247,0.35),
+        0 0 24px rgba(124,58,237,0.25);
+}
+
+.survey-desc{
+    text-align:center;
+    font-size:1.05rem;
+    line-height:1.7;
+    margin-bottom:1.8rem;
+    letter-spacing:0.4px;
+
+    /* Dark black / charcoal */
+    color:#0d0d0d;
+
+    /* Slight contrast boost on dark UI */
+    text-shadow:0 1px 1px rgba(255,255,255,0.08);
+}
+
+
+
+.progress{
+    display:flex;
+    gap:6px;
+    margin:20px 0;
+}
+
+.progress span{
+    flex:1;
+    height:4px;
+    background:#2d1b4d;
+}
+
+.progress span.active{
+    background:var(--accent);
+}
+
+.step{
+    display:none;
+}
+
+.step.active{
+    display:block;
+}
+
+.question-text{
+    font-size:1.1rem;
+    margin-bottom:1rem;
+}
+
+.option{
+    margin-bottom:10px;
+}
+
+.option label{
+    cursor:pointer;
+}
+
+input[type="text"]{
+    width:100%;
+    padding:.8rem;
+    background:#140a24;
+    border:1px solid var(--border);
+    color:white;
+}
+
+.actions{
+    display:flex;
+    justify-content:space-between;
+    margin-top:2rem;
+}
+
+button{
+    padding:.8rem 1.5rem;
+    font-weight:bold;
+    text-transform:uppercase;
+    cursor:pointer;
+}
+
+.btn-outline{
+    background:none;
+    border:1px solid var(--accent);
+    color:var(--accent);
+}
+
+.btn-solid{
+    background:var(--accent-dark);
+    border:none;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+          <div class="kt-card-content">
+<form method="POST" id="surveyForm" class="card" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<h1>{{ survey.title }}</h1>
+<p class="survey-desc" style="text-align:center;opacity:.8">{{ survey.description }}</p>
+
+<!-- Progress -->
+<div class="progress">
+{% for q in survey.questions.all %}
+<span {% if forloop.first %}class="active"{% endif %}></span>
+{% endfor %}
+</div>
+
+<!-- Questions -->
+{% for question in survey.questions.all %}
+<div class="step {% if forloop.first %}active{% endif %}">
+    <div class="question-text">
+        Q{{ forloop.counter }}. {{ question.text }}
+    </div>
+
+    {% if question.question_type == "radio" %}
+        {% for option in question.options.all %}
+        <div class="option">
+            <label>
+                <input type="radio"
+                       name="question_{{ question.id }}"
+                       value="{{ option.id }}"
+                       required>
+                {{ option.text }}
+            </label>
+        </div>
+        {% endfor %}
+
+    {% elif question.question_type == "checkbox" %}
+        {% for option in question.options.all %}
+        <div class="option">
+            <label>
+                <input type="checkbox"
+                       name="question_{{ question.id }}"
+                       value="{{ option.id }}">
+                {{ option.text }}
+            </label>
+        </div>
+        {% endfor %}
+
+    {% elif question.question_type == "text" %}
+        <input type="text"
+               name="question_{{ question.id }}"
+               placeholder="Your answer"
+               required>
+    {% endif %}
+
+    <!-- ✅ FILE UPLOAD SECTION -->
+    {% if question.allow_file_upload %}
+    <div style="margin-top:15px;">
+        <label style="font-weight:600;">Upload File (Optional)</label>
+		
+        <input type="file"
+               name="file_{{ question.id }}"
+               accept=".pdf,.jpeg,.jpg,.png,.doc"
+               class="form-control"    style="border:1px dashed #ccc;padding:10px;border-radius:8px;" >
+        <small style="opacity:.7;">
+            Allowed: PDF, JPG, JPEG, PNG, DOC
+        </small>
+    </div>
+    {% endif %}	
+</div>
+{% endfor %}
+
+<!-- Actions -->
+<div class="actions">
+    <button type="button" id="prevBtn" class="btn-outline" disabled>Previous</button>
+    <button type="button" id="nextBtn" class="btn-solid">Next</button>
+    <button type="submit" id="submitBtn" class="btn-solid" style="display:none">
+        Submit
+    </button>
+</div>
+
+</form>
+
+<script>
+const steps = document.querySelectorAll(".step");
+const progress = document.querySelectorAll(".progress span");
+const totalSteps = steps.length;
+let current = 0;
+
+function updateUI(){
+    steps.forEach((s,i)=>s.classList.toggle("active", i === current));
+    progress.forEach((p,i)=>p.classList.toggle("active", i <= current));
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    /* ⭐ HIDE PREVIOUS ON FIRST STEP */
+    if (current === 0) {
+        prevBtn.style.display = "none";
+    } else {
+        prevBtn.style.display = "inline-block";
+    }
+
+    /* ⭐ SINGLE QUESTION LOGIC */
+    if (totalSteps === 1) {
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "inline-block";
+        return;
+    }
+
+    /* NORMAL MULTI-STEP LOGIC */
+    if (current === totalSteps - 1) {
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "inline-block";
+    } else {
+        nextBtn.style.display = "inline-block";
+        submitBtn.style.display = "none";
+    }
+}
+
+
+document.getElementById("nextBtn").onclick = ()=>{
+    const inputs = steps[current].querySelectorAll("input");
+    let valid = false;
+
+    inputs.forEach(i=>{
+        if ((i.type === "radio" || i.type === "checkbox") && i.checked) valid = true;
+        if (i.type === "text" && i.value.trim() !== "") valid = true;
+    });
+
+    if (!valid) {
+        alert("Please answer before continuing");
+        return;
+    }
+
+    current++;
+    updateUI();
+};
+
+document.getElementById("prevBtn").onclick = ()=>{
+    current--;
+    updateUI();
+};
+
+/* ⭐ INITIALIZE CORRECT STATE */
+updateUI();
+</script>
+
+
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+</body>
+</html>

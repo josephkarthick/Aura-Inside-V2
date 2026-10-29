@@ -1,0 +1,149 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="row clearfix h-100">
+  <div class="col-lg-12 h-100">
+    <div class="card h-100">
+      <div class="chat_app d-flex flex-column h-100">
+        <div class="chat w-100 h-100 d-flex flex-column">
+          <div class="chat-header d-flex justify-content-center align-items-center p-3 border-bottom">
+            <div class="chat-about text-center w-100">
+              <h6 class="mb-0 fw-bold text-primary text-uppercase" style="font-size: 1.2rem;">
+                AD Computers List
+              </h6>
+            </div>
+          </div>
+
+          <!-- Search + Export -->
+          <div class="p-3 d-flex justify-content-between align-items-center border-bottom bg-light">
+            <input id="searchInput" type="search" class="form-control me-2" style="max-width: 300px;" placeholder="🔍 Search computers...">
+            <span id="totalCount" class="badge bg-primary p-2">Total Computers: {{ computers|length }}</span>
+
+          </div>
+
+          <div class="body p-3">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            {% if error %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+
+            <div class="table-responsive">
+              <table id="computerTable" class="table table-hover table-bordered table-striped align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>Computer Name</th>
+                    <th>Host Name</th>
+                    <th>Operating System</th>
+                    <th>Created On</th>
+                  </tr>
+                </thead>
+                <tbody id="computerTableBody">
+                  {% for comp in computers %}
+                    <tr>
+                      <td>{{ comp.name }}</td>
+                      <td>{{ comp.hostname }}</td>
+                      <td>{{ comp.os }}</td>
+                      <td>{{ comp.created }}</td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center text-muted">No computers found.</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav>
+              <ul class="pagination justify-content-center mt-3" id="pagination"></ul>
+            </nav>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal (untouched) -->
+<div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="addEmployee" aria-hidden="true">
+  <!-- modal content same as your original -->
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
+
+<!-- Search + Pagination Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('computerTableBody');
+    const allRows = Array.from(tableBody.querySelectorAll('tr'));
+    const pagination = document.getElementById('pagination');
+    const rowsPerPage = 20;
+    let currentPage = 1;
+
+    function getVisibleRows(rows) {
+      return rows.filter(row => !row.textContent.includes("No computers found."));
+    }
+
+    function renderPagination(filteredRows) {
+      const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+      pagination.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = 'page-item' + (i === currentPage ? ' active' : '');
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = i;
+          showPage(filteredRows);
+          renderPagination(filteredRows);
+        });
+        pagination.appendChild(li);
+      }
+    }
+
+    function showPage(rows) {
+      tableBody.innerHTML = '';
+      if (rows.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">No computers found.</td></tr>`;
+        pagination.innerHTML = '';
+        return;
+      }
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const pageRows = rows.slice(start, end);
+      pageRows.forEach(row => tableBody.appendChild(row.cloneNode(true)));
+    }
+
+    function filterRows() {
+      const term = searchInput.value.toLowerCase();
+      const filtered = getVisibleRows(allRows).filter(row =>
+        Array.from(row.cells).some(cell =>
+          cell.textContent.toLowerCase().includes(term)
+        )
+      );
+      currentPage = 1;
+      showPage(filtered);
+      renderPagination(filtered);
+    }
+
+    const visibleRows = getVisibleRows(allRows);
+    showPage(visibleRows);
+    renderPagination(visibleRows);
+    searchInput.addEventListener('input', filterRows);
+  });
+</script>

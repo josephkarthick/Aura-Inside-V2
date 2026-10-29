@@ -1,0 +1,311 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ book.title }}</title>
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  background: #f4f6f8;
+  font-family: "Poppins", system-ui, sans-serif;
+}
+
+/* ===== CENTER WRAPPER ===== */
+.reader-center {
+  width: 100%;
+  height: calc(100vh - 120px);
+
+  display: flex;
+  justify-content: center;   /* horizontal center */
+  align-items: flex-start;   /* 👈 IMPORTANT: top aligned */
+
+  padding-top: 60px;         /* 👈 pushes book down */
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+
+
+/* ===== BOOK CONTAINER ===== */
+.reader-wrapper {
+  background: #e5e7eb;
+  padding: 20px;     /* ⬅ reduced */
+  border-radius: 14px;
+}
+
+
+/* ===== PAGE STATE ===== */
+.page-view {
+  display: none;
+}
+.page-view.active {
+  display: block;
+}
+
+/* ===== VERTICAL BOOK PAGE ===== */
+.book-page {
+  width: 520px;
+  height: 600px;   /* ⬅ reduced from 740px */
+  background: #ffffff;
+  padding: 55px 50px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  position: relative;
+
+  box-shadow:
+    0 25px 50px rgba(0,0,0,0.18),
+    inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+
+/* ===== BOOK SPINE ===== */
+.book-page::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.18),
+    rgba(0,0,0,0)
+  );
+  border-radius: 6px 0 0 6px;
+}
+
+/* ===== COVER PAGE ===== */
+.book-cover {
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-cover-content {
+  background: rgba(255,255,255,0.85); /* 👈 LIGHT layer instead of black */
+  padding: 50px 40px;
+  border-radius: 8px;
+  color: #1f2937;
+}
+
+.book-cover h1 {
+  font-size: 32px;
+  letter-spacing: 5px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.book-cover h3 {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.book-cover p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* ===== PAGE HEADING ===== */
+.page-heading {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #9aa0a6;
+  margin-bottom: 35px;
+}
+
+/* ===== PAGE CONTENT ===== */
+.page-content {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #2f2f2f;
+  word-wrap: break-word;
+}
+
+/* ===== NAVIGATION ===== */
+.reader-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.reader-nav button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reader-nav button:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 14px;
+  color: #555;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .book-page {
+    width: 90vw;
+    height: 80vh;
+    padding: 35px 28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="reader-center">
+<div class="reader-wrapper">
+
+  <!-- ===== PAGES ===== -->
+  <div id="pages">
+
+    <!-- FRONT COVER -->
+    <div class="page-view active">
+      <div class="book-page book-cover"
+           style="background-image:url('{{ front_cover.url }}')">
+        <div class="book-cover-content">
+          <h1>{{ book.title }}</h1>
+          {% if book.author %}<h3>by {{ book.author }}</h3>{% endif %}
+          {% if book.year %}<p>{{ book.year }}</p>{% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- FRONT INSIDE COVER -->
+    <div class="page-view">
+      <div class="book-page">
+        <div class="page-content">
+          {% if front_inside_cover_image %}
+            <img src="{{ front_inside_cover_image.url }}" style="width:100%;margin-bottom:20px">
+          {% endif %}
+          {{ front_inside_cover_text|linebreaks }}
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOK CONTENT -->
+    {% for front, back in paired_pages %}
+
+      <div class="page-view">
+        <div class="book-page">
+          {% if front.heading %}
+            <div class="page-heading">{{ front.heading }}</div>
+          {% endif %}
+          <div class="page-content">
+            {{ front.paragraph|linebreaks }}
+          </div>
+        </div>
+      </div>
+
+      {% if back %}
+      <div class="page-view">
+        <div class="book-page">
+          {% if back.heading %}
+            <div class="page-heading">{{ back.heading }}</div>
+          {% endif %}
+          <div class="page-content">
+            {{ back.paragraph|linebreaks }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    {% endfor %}
+
+    <!-- BACK INSIDE COVER -->
+    <div class="page-view">
+      <div class="book-page">
+        <div class="page-content">
+          {% if back_inside_cover_image %}
+            <img src="{{ back_inside_cover_image.url }}" style="width:100%;margin-bottom:20px">
+          {% endif %}
+          {{ back_inside_cover_text|linebreaks }}
+        </div>
+      </div>
+    </div>
+
+    <!-- BACK COVER -->
+    <div class="page-view">
+      <div class="book-page book-cover"
+           style="background-image:url('{{ back_cover.url }}')">
+        <div class="book-cover-content">
+          <h3>{{ book.title }}</h3>
+          {% if book.author %}<p>by {{ book.author }}</p>{% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <div class="reader-nav">
+    <button id="prevBtn">⬅ Previous</button>
+    <div class="page-indicator">
+      Page <span id="pageNo">1</span> / <span id="totalPages">1</span>
+    </div>
+    <button id="nextBtn">Next ➡</button>
+  </div>
+
+</div>
+</div>
+
+<script>
+const pages = document.querySelectorAll(".page-view");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const pageNo = document.getElementById("pageNo");
+const totalPages = document.getElementById("totalPages");
+
+let currentPage = 0;
+totalPages.textContent = pages.length;
+
+function showPage(index) {
+  pages.forEach(p => p.classList.remove("active"));
+  pages[index].classList.add("active");
+
+  pageNo.textContent = index + 1;
+  prevBtn.disabled = index === 0;
+  nextBtn.disabled = index === pages.length - 1;
+}
+
+prevBtn.onclick = () => {
+  if (currentPage > 0) {
+    currentPage--;
+    showPage(currentPage);
+  }
+};
+
+nextBtn.onclick = () => {
+  if (currentPage < pages.length - 1) {
+    currentPage++;
+    showPage(currentPage);
+  }
+};
+
+showPage(0);
+</script>
+
+</body>
+</html>

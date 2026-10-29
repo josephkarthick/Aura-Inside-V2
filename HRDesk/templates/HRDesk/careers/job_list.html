@@ -1,0 +1,112 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fluid px-6">
+
+      <!-- HEADER -->
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-semibold">💼 My Job Postings</h3>
+
+        <a href="{% url 'HRDesk:job_post' %}" class="kt-btn kt-btn-primary">
+          ➕ Post New Job
+        </a>
+      </div>
+
+      <!-- JOB TABLE -->
+      <div class="kt-card">
+        <div class="kt-card-content">
+
+          <table class="kt-table kt-table-border w-full">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Department</th>
+                <th>Shift</th>
+                <th>Openings</th>
+                <th>Applicants</th>
+                <th>Status</th>
+                <th>Posted On</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for job in jobs %}
+              <tr>
+
+                <!-- Title -->
+                <td class="font-semibold">
+                  {{ job.title }}
+                </td>
+
+                <!-- Department -->
+                <td>
+                  {{ job.department }}
+                </td>
+
+                <!-- Shift -->
+                <td>
+                  {{ job.shift }}
+                </td>
+
+                <!-- Openings -->
+                <td>
+                  {{ job.openings }}
+                </td>
+
+                <!-- Applicant Count -->
+                <td>
+                  {{ job.jobapplication_set.count }}
+                </td>
+
+                <!-- Status -->
+                <td>
+                  {% if job.status == "open" %}
+                    <span class="kt-badge kt-badge-success">Open</span>
+                  {% else %}
+                    <span class="kt-badge kt-badge-danger">Closed</span>
+                  {% endif %}
+                </td>
+
+                <!-- Date -->
+                <td>
+                  {{ job.created_at|date:"d M Y" }}
+                </td>
+
+                <!-- Actions -->
+                <td class="text-end">
+
+                  <a href="{% url 'HRDesk:job_applicants' job.id %}"
+                     class="kt-btn kt-btn-sm kt-btn-outline-primary">
+                     View Applicants
+                  </a>
+
+                  <a href="#"
+                     class="kt-btn kt-btn-sm kt-btn-outline-warning">
+                     Edit
+                  </a>
+
+                </td>
+
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="8" class="text-center text-gray-400 py-6">
+                  No jobs posted yet.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+  </main>
+</div>

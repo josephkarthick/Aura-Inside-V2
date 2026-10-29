@@ -1,0 +1,237 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+  <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <div class="kt-container-fluid px-6">
+
+      <!-- Page Header -->
+      <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <div>
+          <h3 class="text-lg font-semibold">
+            📋 My IJP Applications
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            Track your applied positions and HR decisions.
+          </p>
+        </div>
+
+        <a href="{% url 'IJP:user_ijp_list' %}"
+           class="kt-btn kt-btn-primary">
+          💼 Browse IJP Jobs
+        </a>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="flex flex-row flex-wrap gap-4 mb-6">
+
+        <div class="kt-card flex-1"
+             style="max-width:280px; min-width:190px;">
+          <div class="kt-card-content p-4">
+            <p class="text-sm text-gray-500">
+              Total Applications
+            </p>
+            <h3 class="text-2xl font-semibold mt-2">
+              {{ applications|length }}
+            </h3>
+          </div>
+        </div>
+
+        <div class="kt-card flex-1"
+             style="max-width:280px; min-width:190px;">
+          <div class="kt-card-content p-4">
+            <p class="text-sm text-gray-500">
+              Pending
+            </p>
+            <h3 class="text-2xl font-semibold mt-2">
+              {{ pending_count }}
+            </h3>
+          </div>
+        </div>
+
+        <div class="kt-card flex-1"
+             style="max-width:280px; min-width:190px;">
+          <div class="kt-card-content p-4">
+            <p class="text-sm text-gray-500">
+              Approved
+            </p>
+            <h3 class="text-2xl font-semibold text-green-600 mt-2">
+              {{ approved_count }}
+            </h3>
+          </div>
+        </div>
+
+        <div class="kt-card flex-1"
+             style="max-width:280px; min-width:190px;">
+          <div class="kt-card-content p-4">
+            <p class="text-sm text-gray-500">
+              Rejected
+            </p>
+            <h3 class="text-2xl font-semibold text-red-600 mt-2">
+              {{ rejected_count }}
+            </h3>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Applications Table -->
+      <div class="kt-card">
+        <div class="kt-card-content">
+
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+            <h4 class="font-semibold text-base">
+              Application History
+            </h4>
+
+            <span class="text-sm text-gray-500">
+              {{ applications|length }} application{{ applications|length|pluralize }}
+            </span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="kt-table kt-table-border w-full">
+
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Job Title</th>
+                  <th>Applied On</th>
+                  <th>Status</th>
+                  <th>HR Remarks</th>
+                  <th>Decision By</th>
+                  <th>Decision Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for application in applications %}
+                <tr>
+
+                  <!-- Serial Number -->
+                  <td>{{ forloop.counter }}</td>
+
+                  <!-- Job Title -->
+                  <td class="font-semibold">
+                    {{ application.ijp.title }}
+                  </td>
+
+                  <!-- Applied Date -->
+                  <td class="whitespace-nowrap">
+                    {{ application.applied_at|date:"d M Y, h:i A" }}
+                  </td>
+
+                  <!-- Status -->
+                  <td>
+                    {% if application.status == "Approved" %}
+                      <span class="kt-badge kt-badge-success">
+                        ✓ Approved
+                      </span>
+                    {% elif application.status == "Rejected" %}
+                      <span class="kt-badge kt-badge-danger">
+                        ✕ Rejected
+                      </span>
+                    {% else %}
+                      <span class="kt-badge kt-badge-warning">
+                        ⏳ Pending
+                      </span>
+                    {% endif %}
+                  </td>
+
+                  <!-- HR Remarks -->
+                  <td style="min-width:200px; max-width:320px;">
+                    {% if application.status == "Pending" %}
+                      <span class="text-sm text-gray-500">
+                        Awaiting HR decision
+                      </span>
+                    {% elif application.decision_remarks %}
+                      <div class="whitespace-pre-line text-sm">
+                        {{ application.decision_remarks }}
+                      </div>
+                    {% else %}
+                      <span class="text-sm text-gray-400">
+                        No remarks provided
+                      </span>
+                    {% endif %}
+                  </td>
+
+                  <!-- Decision By -->
+                  <td>
+                    {% if application.decided_by %}
+                      {{ application.decided_by.get_full_name|default:application.decided_by.username }}
+                    {% else %}
+                      <span class="text-gray-400">-</span>
+                    {% endif %}
+                  </td>
+
+                  <!-- Decision Date -->
+                  <td class="whitespace-nowrap">
+                    {% if application.decided_at %}
+                      {{ application.decided_at|date:"d M Y, h:i A" }}
+                    {% else %}
+                      <span class="text-gray-400">-</span>
+                    {% endif %}
+                  </td>
+
+                  <!-- Action -->
+                  <td class="whitespace-nowrap">
+                    {% if application.status == "Approved" or application.status == "Pending" %}
+                      <a
+                        href="{% url 'IJP:download_ijp_training_pdf' application.id %}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="kt-btn kt-btn-sm kt-btn-primary">
+                        📄 View / Download PDF
+                      </a>
+                    {% elif application.status == "Pending" %}
+                      <span class="text-sm text-gray-400">
+                        Awaiting result
+                      </span>
+                    {% else %}
+                      <span class="text-sm text-gray-400">
+                        No document available
+                      </span>
+                    {% endif %}
+                  </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                  <td colspan="8"
+                      class="text-center text-gray-400 py-10">
+
+                    <div class="flex flex-col items-center gap-2">
+                      <span class="text-3xl">📋</span>
+
+                      <p class="font-semibold text-base">
+                        No Applications Found
+                      </p>
+
+                      <p class="text-sm">
+                        You haven't applied for any Internal Job Posting yet.
+                      </p>
+
+                      <a href="{% url 'IJP:user_ijp_list' %}"
+                         class="kt-btn kt-btn-primary mt-3">
+                        Browse Available Jobs
+                      </a>
+                    </div>
+
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>

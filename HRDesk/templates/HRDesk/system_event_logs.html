@@ -1,0 +1,55 @@
+{% load static %}
+
+<style>
+  .table-custom thead {
+    background-color: #343a40;
+    color: #ffffff;
+  }
+  .table-custom tbody tr:hover {
+    background-color: #f2f2f2;
+    transition: 0.3s;
+  }
+  .badge-idle {
+    font-size: 0.9rem;
+    padding: 0.4em 0.7em;
+    background-color: #17a2b8;
+    color: #fff;
+    border-radius: 0.25rem;
+  }
+  .table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+  }
+</style>
+
+<div class="container mt-5">
+  <h2 class="mb-4">
+    🖥️ <span class="text-primary">System Idle Time Summary</span>
+  </h2>
+
+  <div class="table-responsive shadow rounded">
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>👤 Username</th>
+      <th>💻 Computer</th>
+      <th>⏱️ Last Idle Time</th>
+      <th>⌛ Current Idle Duration</th>
+      <th>🧮 Total Idle Time (Today)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in idle_data %}
+    <tr>
+      <td>{{ log.username }}</td>
+      <td>{{ log.computer_name }}</td>
+      <td>{{ log.last_idle_time }}</td>
+      <td>{{ log.idle_duration }}</td>
+      <td>{{ log.total_idle }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  </div>
+</div>

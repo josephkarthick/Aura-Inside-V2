@@ -1,0 +1,49 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <div class="kt-container-fixed mb-4">
+      <div class="flex flex-wrap items-center justify-between">
+<div>
+  <h1 class="text-xl font-medium text-mono">{{ page_title }}</h1>
+  <p class="text-sm text-secondary-foreground">Survey: {{ survey.title }}</p>
+</div>
+      </div>
+    </div>
+
+    <div class="kt-container-fixed">
+      <div class="kt-card kt-card-grid w-full">
+
+        <!-- Survey Questions & Results -->
+        <div class="kt-card-content mt-6">
+          <div class="kt-scrollable-x-auto">
+            <table class="kt-table table-fixed kt-table-border w-full text-sm text-secondary-foreground">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="px-4 py-2 border">Username</th>
+        <th class="px-4 py-2 border">Full Name</th>
+        <th class="px-4 py-2 border">Shift</th>
+      </tr>
+    </thead>
+              <tbody>
+      {% for u in users %}
+        <tr>
+          <td class="border px-4 py-2">{{ u.username }}</td>
+          <td class="border px-4 py-2">{{ u.get_full_name }}</td>
+          <td class="border px-4 py-2">{{ u.shift.name }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3" class="text-center border px-4 py-2">No users found</td>
+        </tr>
+      {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>

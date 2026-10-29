@@ -1,0 +1,2548 @@
+<!--
+Product: Metronic is a toolkit of UI components built with Tailwind CSS for developing scalable web applications quickly and efficiently
+Version: 9.1.1
+Author: Keenthemes
+Contact: support@keenthemes.com
+Website: https://www.keenthemes.com
+Support: https://devs.keenthemes.com
+Follow: https://www.twitter.com/keenthemes
+License: https://keenthemes.com/metronic/tailwind/docs/getting-started/license
+-->
+<!DOCTYPE html>
+<html class="h-full" data-theme="true" data-theme-mode="system" dir="ltr" lang="en">
+ 
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/changelog by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+   Metronic - Tailwind CSS
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="follow, index" name="robots"/>
+  <link href="changelog.html" rel="canonical"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <meta content="" name="description"/>
+  <meta content="@keenthemes" name="twitter:site"/>
+  <meta content="@keenthemes" name="twitter:creator"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Metronic - Tailwind CSS " name="twitter:title"/>
+  <meta content="" name="twitter:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" name="twitter:image"/>
+  <meta content="https://keenthemes.com/metronic/tailwind/docs-legacy/changelog" property="og:url"/>
+  <meta content="en_US" property="og:locale"/>
+  <meta content="website" property="og:type"/>
+  <meta content="@keenthemes" property="og:site_name"/>
+  <meta content="Metronic - Tailwind CSS " property="og:title"/>
+  <meta content="" property="og:description"/>
+  <meta content="/static/metronic/tailwind/docs-legacy/dist/assets/media/app/og-image.png" property="og:image"/>
+  <link href="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/favicon.ico" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/keenicons/styles.bundle.css" rel="stylesheet"/>
+  <link href="../../../static/metronic/tailwind/docs-legacy/dist/assets/css/styles.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" rel="stylesheet">
+   <!-- Google tag (gtag.js) -->
+   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6">
+   </script>
+   <script>
+    window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-52YZ3XGZJ6');
+   </script>
+  </link>
+ </head>
+ <body class="antialiased flex h-full text-base text-gray-700 dark:bg-coal-500">
+  <!--begin::Theme mode setup on page load-->
+  <script>
+   const defaultThemeMode = 'light'; // light|dark|system
+		let themeMode;
+
+		if ( document.documentElement ) {
+			if ( localStorage.getItem('theme')) {
+					themeMode = localStorage.getItem('theme');
+			} else if ( document.documentElement.hasAttribute('data-theme-mode')) {
+				themeMode = document.documentElement.getAttribute('data-theme-mode');
+			} else {
+				themeMode = defaultThemeMode;
+			}
+
+			if (themeMode === 'system') {
+				themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+
+			document.documentElement.classList.add(themeMode);
+		}
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <header class="border-b border-b-gray-200 fixed z-5 lg:z-20 top-0 left-0 right-0 flex items-stretch shrink-0 h-[60px] lg:h-[80px] bg-light dark:bg-coal-500">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex justify-between items-center gap-5" id="header_container">
+    <div class="flex gap-1 items-center grow md:grow-0 lg:w-[400px] shrink-0">
+     <button class="lg:hidden btn btn-icon btn-light btn-clear btn-sm -ml-2" data-drawer-toggle="#sidebar">
+      <i 'outline'}="" class="ki-{" default':="" ki-abstract-14="" text-lg'="">
+      </i>
+     </button>
+     <a class="" href="index.html">
+      <img class="h-[25px] hidden lg:inline-block dark:lg:hidden" src="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo.svg"/>
+      <img class="h-[25px] hidden dark:lg:inline-block" src="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/default-logo-dark.svg"/>
+      <img class="h-[25px] lg:hidden" src="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/app/mini-logo.svg"/>
+     </a>
+    </div>
+    <div id="docsearch">
+    </div>
+    <div class="flex items-center justify-end gap-4 lg:w-[400px] shrink-0">
+     <div class="flex items-center gap-3">
+      <a class="btn btn-sm btn-light" href="../index.html" target="_blank">
+       Preview
+      </a>
+      <a class="btn btn-sm btn-dark" data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       Purchase
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+     <div class="h-[24px] border border-r-gray-200">
+     </div>
+     <div class="flex items-center gap-4">
+      <a class="text-gray-600 hover:text-primary" href="https://twitter.com/keenthemes">
+       <svg aria-hidden="true" class="size-[18px]" viewbox="0 0 24 24">
+        <g>
+         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor">
+         </path>
+        </g>
+       </svg>
+      </a>
+      <a class="text-gray-600 hover:text-primary" href="https://github.com/keenthemes/metronic-tailwind-html-integration">
+       <i 'outline'}="" class="ki-{" default':="" ki-github="" text-lg'="">
+       </i>
+      </a>
+      <div class="flex items-center">
+       <button class="flex items-center text-gray-600 hover:text-primary dark:hidden" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-moon="" text-lg'="">
+        </i>
+       </button>
+       <button class="flex items-center text-gray-600 hover:text-primary hidden dark:flex" data-theme-toggle="true">
+        <i 'outline'}="" class="ki-{" default':="" ki-sun="" text-lg'="">
+        </i>
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </header>
+  <div class="flex grow pt-[80px] lg:pt-[110px]" id="page">
+   <!-- begin: container -->
+   <div class="grow px-5 lg:px-8 xl:max-w-[90rem] xl:mx-auto flex" id="page_container">
+    <div class="w-[240px] grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-auto lg:left-auto lg:translate-x-0 hidden lg:flex flex-col items-stretch shrink-0 p-5 lg:p-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-drawer="true" data-drawer-class="drawer drawer-start" data-drawer-enable="true|lg:false" id="sidebar">
+     <div class="flex flex-col gap-4 shrink-0 pr-4 scrollable-y-auto" data-scrollable="true" data-scrollable-dependencies="none|lg:#header" data-scrollable-height="auto" data-scrollable-offset="30px|lg:20px" data-scrollable-wrappers="none|lg:#page" id="sidebar_scrollable">
+      <div class="flex flex-col gap-2.5">
+       <a class="flex items-center gap-2" href="getting-started/installation.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-mouse-square text-success text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Quick Setup
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Get started with Metronic 9 in just 5 minutes.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="changelog.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-tablet-text-up text-info text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Changelog
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           All the latest Metronic 9 releases and updates.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://devs.keenthemes.com/" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-rescue text-primary text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Support
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Support from the Metronic core team and community.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="https://www.figma.com/design/CuSh5mghI4xqDUFPoVMKS0/Metronic_v9.0.4?m=auto&amp;t=KgrAYc8Jqgy5nhPX-1" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <svg fill="none" height="18" viewbox="0 0 12 18" width="12" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_17061_2543)">
+           <path d="M3.00098 18C4.65698 18 6.00098 16.656 6.00098 15V12H3.00098C1.34498 12 0.000976562 13.344 0.000976562 15C0.000976562 16.656 1.34498 18 3.00098 18Z" fill="#0ACF83">
+           </path>
+           <path d="M0.000976562 9C0.000976562 7.344 1.34498 6 3.00098 6H6.00098V12H3.00098C1.34498 12 0.000976562 10.656 0.000976562 9Z" fill="#A259FF">
+           </path>
+           <path d="M0.000976562 3C0.000976562 1.344 1.34498 0 3.00098 0H6.00098V6H3.00098C1.34498 6 0.000976562 4.656 0.000976562 3Z" fill="#F24E1E">
+           </path>
+           <path d="M6.00098 0H9.00098C10.657 0 12.001 1.344 12.001 3C12.001 4.656 10.657 6 9.00098 6H6.00098V0Z" fill="#FF7262">
+           </path>
+           <path d="M12.001 9C12.001 10.656 10.657 12 9.00098 12C7.34498 12 6.00098 10.656 6.00098 9C6.00098 7.344 7.34498 6 9.00098 6C10.657 6 12.001 7.344 12.001 9Z" fill="#1ABCFE">
+           </path>
+          </g>
+          <defs>
+           <clippath id="clip0_17061_2543">
+            <rect fill="transparent" height="18" width="12.0024">
+            </rect>
+           </clippath>
+          </defs>
+         </svg>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Figma
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Complete Figma UI kit with an advanced design system for Metronic 9 Tailwind.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="composer.html">
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-frame text-dark text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Composer
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Composer - Save Time on Metronic 9 Tailwind projects with our HTML file-based mini CMS tool for enhanced productivity.
+          </div>
+         </div>
+        </span>
+       </a>
+       <a class="flex items-center gap-2" href="../../../products/metronic-pulse.html" target='"_blank"'>
+        <span class="w-[34px] h-[34px] flex items-center justify-center border border-gray-200 rounded-lg">
+         <i class="ki-solid ki-wlan text-danger text-lg">
+         </i>
+        </span>
+        <span class="text-md font-semibold text-gray-900 active:text-primary hover:text-primary" data-tooltip="true" data-tooltip-delay-show="500" data-tooltip-placement="right">
+         Pulse
+         <div class="popover" data-tooltip-content="true">
+          <div class="popover-body">
+           Metronic Pulse - Laravel REST API Boilerplate for Metronic 9 Tailwind React.
+          </div>
+         </div>
+        </span>
+       </a>
+      </div>
+      <div class="menu flex flex-col grow" data-menu="true" id="sidebar_menu">
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Getting Started
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="index-2.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Introduction
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/file-structure.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Structure
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/installation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Installation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item" data-menu-item-toggle="accordion" data-menu-item-trigger="click">
+        <div class="menu-link py-1.5 pl-5 pr-2.5 flex gap-1 items-center grow cursor-pointer border-l-2 border-gray-200">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-gray-900 menu-item-show:text-gray-900 menu-link-hover:!text-primary">
+          Integration
+         </span>
+         <span class="menu-arrow justify-end -mr-2.5 w-5 text-gray-500">
+          <i 'outline'}="" class="ki-{" default':="" ki-plus="" menu-item-show:hidden'="" text-2xs="">
+          </i>
+          <i 'outline'}="" class="ki-{" default':="" hidden="" ki-minus="" menu-item-show:inline-flex'="" text-2xs="">
+          </i>
+         </span>
+        </div>
+        <div class="menu-accordion gap-0.5">
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/integration/react.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            React
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/integration/nextjs.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Next.js
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/integration/vue.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Vue
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/integration/angular.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Angular
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/integration/laravel.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Laravel
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <a class="menu-link py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/integration/blazor-server.html">
+           <span class="menu-title text-sm font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Blazor Server
+           </span>
+           <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+            New
+           </span>
+          </a>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Nuxt
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Svelte
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Astro
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Remix
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Symfony
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Asp.Net Core
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Django
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+         <div class="menu-item">
+          <div class="menu-label py-1.5 pl-8 pr-2.5 gap-1 border-l-2 border-gray-200">
+           <span class="menu-title text-sm font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+            Rails
+           </span>
+           <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+            Soon
+           </span>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/multi-demo.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Multi-Demo
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/license.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          License
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="getting-started/references.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          References
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Customization
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="customization/webpack.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Webpack
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="customization/javascript.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          JavaScript
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="customization/theming.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theming
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="customization/dark-mode.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dark Mode
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="customization/rtl.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          RTL
+         </span>
+         <span class="badge badge-xs badge-outline badge-success text-2xs -mr-2.5">
+          New
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="customization/optimization.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Optimization
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="composer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Composer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Base Components
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/accordion.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Accordion
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/avatar.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Avatar
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/badge.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Badge
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/button.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/button-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Button Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Calendar
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/card.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Card
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/collapse.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Collapse
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/container.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Container
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/datatable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          DataTable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/dismiss.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dismiss
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/drawer.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Drawer
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/dropdown.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dropdown
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/modal.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Modal
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/progress.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Progress
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/rating.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Rating
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/reparent.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Reparent
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/scrollable.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollable
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/table.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Table
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/theme.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Theme
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/toggle.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/tooltip.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tooltip
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Navigation
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/menu.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Menu
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/pagination.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Pagination
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/scrollspy.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollspy
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/scrollto.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Scrollto
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/stepper.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Stepper
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/sticky.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Sticky
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/tabs.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Tabs
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Forms
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/checkbox.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Checkbox
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/file-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          File Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/image-input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Image Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/input.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/input-group.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Input Group
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/radio.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Radio
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/range.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Range
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/select.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Select
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/switch.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Switch
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/textarea.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Textarea
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="components/toggle-password.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Toggle Password
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Advanced Select
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Datepicker
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Dial Input
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="#">
+         <span class="menu-title text-md font-medium text-gray-500 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Password Meter
+         </span>
+         <span class="badge badge-xs badge-outline badge-light text-2xs -mr-2.5">
+          Soon
+         </span>
+        </a>
+       </div>
+       <div class="menu-item pt-10 mb-7.5">
+        <h2 class="menu-heading text-md font-semibold text-gray-900">
+         Plugins
+        </h2>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="plugins/apexcharts.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          ApexCharts
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="plugins/formvalidation.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          FormValidation
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="plugins/clipboard.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          Clipboard
+         </span>
+        </a>
+       </div>
+       <div class="menu-item">
+        <a class="menu-link py-1.5 pl-5 pr-2.5 gap-1 border-l-2 border-gray-200 menu-item-active:border-primary" href="plugins/keenicons.html">
+         <span class="menu-title text-md font-medium text-gray-900 menu-item-active:text-primary menu-item-active:font-semibold menu-item-here:text-primary menu-item-show:text-primary menu-link-hover:!text-primary">
+          KeenIcons
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="flex grow flex-col gap-3 lg:gap-6 lg:ml-[240px] lg:mr-[280px] lg:px-6" id="wrapper">
+     <main class="text-gray-800 text-sm font-normal grow" id="content" role="content">
+      <div class="flex gap-10 mb-10">
+       <div class="flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+         <div class="flex flex-col gap-4 text-sm font-normal">
+          <span class="text-primary">
+           Getting Started
+          </span>
+          <h1 class="text-3xl font-semibold text-gray-900" id="overview">
+           Metronic Changelog
+          </h1>
+         </div>
+         <div class="flex items-center gap-2.5">
+          <span class="text-2sm font-medium text-gray-500">
+           Version
+          </span>
+          <div class="menu menu-default" data-menu="true" id="changelog_versions">
+           <div class="menu-item" data-menu-item-placement="bottom-start" data-menu-item-toggle="dropdown" data-menu-item-trigger="hover">
+            <button class="menu-toggle btn btn-light w-56">
+             <span class="menu-title !text-primary" data-menu-selected="true">
+              v9.1.2 - 20 Nov, 2024
+             </span>
+             <span class="menu-arrow">
+              <i class="ki-outline ki-down">
+              </i>
+             </span>
+            </button>
+            <div class="menu-dropdown w-56 py-2" data-menu-dismiss="true">
+             <div class="menu-item active">
+              <a class="menu-link" data-menu-version="9.1.2" href="#">
+               <span class="menu-title">
+                v9.1.2 - 20 Nov, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.1.1" href="#">
+               <span class="menu-title">
+                v9.1.1 - 29 Oct, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.1.0" href="#">
+               <span class="menu-title">
+                v9.1.0 - 17 Oct, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.6" href="#">
+               <span class="menu-title">
+                v9.0.6 - 13 Sep, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.5" href="#">
+               <span class="menu-title">
+                v9.0.5 - 9 Sep, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.4" href="#">
+               <span class="menu-title">
+                v9.0.4 - 12 Aug, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.3" href="#">
+               <span class="menu-title">
+                v9.0.3 - 22 Jul, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.2" href="#">
+               <span class="menu-title">
+                v9.0.2 - 11 Jul, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.1" href="#">
+               <span class="menu-title">
+                v9.0.1 - 1 Jul, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+             <div class="menu-item">
+              <a class="menu-link" data-menu-version="9.0.0" href="#">
+               <span class="menu-title">
+                v9.0.0 - 25 Jun, 2024
+               </span>
+               <span class="menu-badge hidden menu-item-active:inline-flex">
+                <i 'outline'}="" class="ki-{" default':="" ki-check="" text-gray-600="" text-xs'="">
+                </i>
+               </span>
+              </a>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex gap-3.5">
+         <p class="text-sm font-normal text-gray-600">
+          Stay updated with the latest enhancements and fixes in Metronic Tailwind CSS HTML &amp; JavaScript Toolkit. 
+				This page provides a detailed log of all the changes, including new features, improvements, and bug fixes for each release.
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10" data-changelog="9.1.2">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          New
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              React
+             </span>
+             <span>
+              Integrated the most popular React UI Toolkit, Shadcn UI with Radix.
+             </span>
+             -
+             <a class="link" href="../react/demo1/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Tailwind
+             </span>
+             <span>
+              Support for latest Tailwind 3.4.15.
+             </span>
+             -
+             <a class="link" href="customization/webpack.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Blazor integration guide improvements.
+             </span>
+             -
+             <a class="link" href="getting-started/integration/blazor.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Laravel integration guide improvements.
+             </span>
+             -
+             <a class="link" href="getting-started/integration/laravel.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.1.0">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          New
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              React
+             </span>
+             <span>
+              Complete React version of Metronic 9 Tailwind.
+             </span>
+             -
+             <a class="link" href="../../index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Pulse
+             </span>
+             <span>
+              Laravel REST API Boilerplate for Metronic 9 React.
+             </span>
+             -
+             <a class="link" href="../../../products/metronic-pulse.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Tailwind
+             </span>
+             <span>
+              Support for latest Tailwind 3.4.14.
+             </span>
+             -
+             <a class="link" href="customization/webpack.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Laravel integration guide improvements.
+             </span>
+             -
+             <a class="link" href="getting-started/integration/laravel.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Menu
+             </span>
+             <span>
+              Menu component improvements.
+             </span>
+             -
+             <a class="link" href="components/menu.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Sticky
+             </span>
+             <span>
+              Sticky component improvements.
+             </span>
+             -
+             <a class="link" href="components/sticky.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Scrollspy
+             </span>
+             <span>
+              Scrollspy component improvements.
+             </span>
+             -
+             <a class="link" href="components/sticky.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Fixes
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 3
+             </span>
+             <span>
+              Resolved Sticky content sidebar issue.
+             </span>
+             -
+             <a class="link" href="../demo3/account/home/settings-sidebar.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 4
+             </span>
+             <span>
+              Resolved Sticky content sidebar issue.
+             </span>
+             -
+             <a class="link" href="../demo3/account/home/settings-sidebar.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 6
+             </span>
+             <span>
+              Resolved Sticky content sidebar issue.
+             </span>
+             -
+             <a class="link" href="../demo3/account/home/settings-sidebar.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 8
+             </span>
+             <span>
+              Resolved Sticky content sidebar issue.
+             </span>
+             -
+             <a class="link" href="../demo3/account/home/settings-sidebar.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 10
+             </span>
+             <span>
+              Resolved Sticky content sidebar issue.
+             </span>
+             -
+             <a class="link" href="../demo3/account/home/settings-sidebar.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Tooltip
+             </span>
+             <span>
+              Fixed the Tooltip issue with delay settings.
+             </span>
+             -
+             <a class="link" href="components/tooltip.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.6">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Laravel integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/laravel.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Fixes
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Tailwind
+             </span>
+             <span>
+              Fixed the incorrect content path in
+              <code class="code">
+               tailwind.config.js
+              </code>
+              .
+             </span>
+             -
+             <a class="link" href="customization/webpack.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Webpack
+             </span>
+             <span>
+              Resolved warnings during the production build with
+              <code class="code">
+               npm run build:prod
+              </code>
+              .
+             </span>
+             -
+             <a class="link" href="customization/webpack.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo2
+             </span>
+             <span>
+              Fixed the issue with incorrect sticky header height calculations.
+             </span>
+             -
+             <a class="link" href="../demo2/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo7
+             </span>
+             <span>
+              Fixed the issue with incorrect sticky header height calculations.
+             </span>
+             -
+             <a class="link" href="../demo7/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo9
+             </span>
+             <span>
+              Fixed the issue with incorrect sticky header height calculations.
+             </span>
+             -
+             <a class="link" href="../demo9/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.5">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          New
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 6
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo6/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 7
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo7/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 8
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo8/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 9
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo9/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 10
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo10/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Packages
+             </span>
+             <span>
+              Updated all global dependencies to their latest stable versions in
+              <code class="code">
+               package.json
+              </code>
+              .
+             </span>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 3
+             </span>
+             <span>
+              Added a sticky scrollable content layout
+             </span>
+             -
+             <a class="link" href="../demo3/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 4
+             </span>
+             <span>
+              Added a sticky scrollable content layout
+             </span>
+             -
+             <a class="link" href="../demo4/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              React integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/react.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Vue integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/vue.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Angular integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/angular.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Laravel integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/laravel.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.4">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          New
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 2
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo2/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 3
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo3/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 4
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo4/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 5
+             </span>
+             <span>
+              New demo added
+             </span>
+             -
+             <a class="link" href="../demo5/index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Blazor Server integration guide added
+             </span>
+             -
+             <a class="link" href="getting-started/integration/blazor-server.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Starterkit
+             </span>
+             <span>
+              Blazor Server starterkit added
+             </span>
+             -
+             <a class="link" href="https://github.com/keenthemes/metronic-tailwind-html-integration" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              HTML
+             </span>
+             <span>
+              Added
+              <code class="code">
+               antialiased
+              </code>
+              class to the body tag
+              <div class="transition-all duration-300 hidden" id="collapsible_content_updates__1">
+               to globally enhance font smoothing and improve text rendering quality.
+              </div>
+              -
+              <a class="link" data-collapse="#collapsible_content_updates__1" href="#">
+               <span class="collapse-active:hidden">
+                More
+               </span>
+               <span class="hidden collapse-active:inline">
+                Show less
+               </span>
+              </a>
+             </span>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              React integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/react.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Vue integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/vue.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Angular integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/angular.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Laravel integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/laravel.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Fixes
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Demo 1
+             </span>
+             <span>
+              Fixed the display issue of the User dropdown(header's right navbar) submenu in mobile mode.
+             </span>
+             -
+             <a class="link" href="../index.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              KTSticky
+             </span>
+             <span>
+              Resolved the offset calculation issue in
+              <code class="code">
+               src/core/components/sticky/sticky.ts
+              </code>
+              .
+             </span>
+             -
+             <a class="link" href="components/sticky.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.3">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          New
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Next.js integration guide added
+             </span>
+             -
+             <a class="link" href="getting-started/integration/nextjs.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Starterkit
+             </span>
+             <span>
+              Next.js starterkit added
+             </span>
+             -
+             <a class="link" href="https://github.com/keenthemes/metronic-tailwind-html-integration" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              React integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/react.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Vue integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/vue.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Angular integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/angular.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Fixes
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              CSS
+             </span>
+             <span>
+              Resolved CSS errors in
+              <code class="code">
+               dist/assets/css/styles.css
+              </code>
+              .
+             </span>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.2">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Angular integration guide enhancements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/frontend/angular.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              React integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/frontend/react.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Vue integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/frontend/vue.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              CSS
+             </span>
+             <span>
+              The CSS source for Demo1 has been relocated from
+              <code class="code">
+               src/core/plugins/layouts/demo1.js
+              </code>
+              to
+              <code class="code">
+               src/css/demos/demo1.css
+              </code>
+              .
+              <div class="transition-all duration-300 hidden" id="collapsible_content_updates__4">
+               This change resolves the CSS errors in
+               <code class="code">
+                dist/assets/css/styles.css
+               </code>
+               caused by the PostCSS issue with nested CSS elements.
+              </div>
+              -
+              <a class="link" data-collapse="#collapsible_content_updates__4" href="#">
+               <span class="collapse-active:hidden">
+                More
+               </span>
+               <span class="hidden collapse-active:inline">
+                Show less
+               </span>
+              </a>
+             </span>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Fixes
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              CSS
+             </span>
+             <span>
+              Resolved CSS errors in
+              <code class="code">
+               dist/assets/css/styles.css
+              </code>
+              .
+             </span>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.1">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Updates &amp; Improvements
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Angular integration guide enhancements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/frontend/angular.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              React integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/frontend/react.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Docs
+             </span>
+             <span>
+              Vue integration guide improvements
+             </span>
+             -
+             <a class="link" href="getting-started/integration/frontend/vue.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              SPA
+             </span>
+             <span>
+              Use type-only exports in
+              <code class="code">
+               index.spa.ts
+              </code>
+              .
+             </span>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Package
+             </span>
+             <span>
+              Due to the increasing package size, reaching
+              <code class="code">
+               10gb
+              </code>
+              , the
+              <code class="code">
+               Metronic v8.x
+              </code>
+              package has been moved.
+              <div class="transition-all duration-300 hidden" id="collapsible_content_updates__5">
+               It is now available for download from Google Drive, provided in the ThemeForest download package, and from the
+               <a class="link" href="https://devs.keenthemes.com/metronic" target="_blank">
+                Metronic Downloads
+               </a>
+               site, which requires a purchase code to download individual features.
+              </div>
+              -
+              <a class="link" data-collapse="#collapsible_content_updates__5" href="#">
+               <span class="collapse-active:hidden">
+                More
+               </span>
+               <span class="hidden collapse-active:inline">
+                Show less
+               </span>
+              </a>
+             </span>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          Fixes
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              Components
+             </span>
+             <span>
+              Resolved an issue where the
+              <code class="code">
+               transitionEnd
+              </code>
+              and
+              <code class="code">
+               animationEnd
+              </code>
+              events were not triggered in Firefox.
+             </span>
+            </div>
+           </div>
+          </div>
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span class="font-medium text-danger">
+              KTReparent
+             </span>
+             <span>
+              Fixed an issue where the component was not working during the window resize event
+             </span>
+             -
+             <a class="link" href="components/reparent.html" target="_blank">
+              Preview
+             </a>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex flex-col gap-10 hidden" data-changelog="9.0.0">
+       <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-3.5">
+         <div class="bg-gray-100 text-gray-900 font-semibold text-base rounded-lg py-2.5 px-4">
+          New
+         </div>
+         <div class="flex flex-col gap-2.5 ms-3">
+          <div class="flex flex-col">
+           <div class="flex">
+            <div class="rounded-full bg-gray-400 size-1.5 shrink-0 mx-3 mt-2">
+            </div>
+            <div class="flex gap-1.5 font-normal text-sm text-gray-600">
+             <span>
+              Initial Release
+             </span>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </main>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-5">
+      <div>
+      </div>
+      <div>
+      </div>
+     </div>
+     <footer class="footer" id="footer">
+      <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
+       <div class="flex order-2 md:order-1 gap-2 font-normal text-2sm">
+        <span class="text-gray-500">
+         2025©
+        </span>
+        <a class="text-gray-600 hover:text-primary" href="../../../index.html">
+         Keenthemes Inc.
+        </a>
+       </div>
+       <nav class="flex order-1 md:order-2 gap-4 font-normal text-2sm text-gray-600">
+        <a class="hover:text-primary" href="../index.html">
+         Preview
+        </a>
+        <a class="hover:text-primary" href="https://1.envato.market/Vm7VRE">
+         Purchase
+        </a>
+        <a class="hover:text-primary" href="getting-started/license.html">
+         FAQ
+        </a>
+        <a class="hover:text-primary" href="getting-started/license.html">
+         License
+        </a>
+        <a class="hover:text-primary" href="https://devs.keenthemes.com/">
+         Support
+        </a>
+       </nav>
+      </div>
+     </footer>
+    </div>
+    <div class="w-[280px] drawer drawer-start grow fixed z-10 top-0 lg:top-[110px] bottom-0 lg:right-[max(0px,calc(50%-45rem))] lg:left-auto lg:translate-x-0 lg:flex flex-col items-stretch shrink-0 bg-light dark:bg-coal-100 lg:dark:bg-transparent" data-overlay="true" data-overlay-enable="true|lg:false" id="aside">
+     <div class="flex flex-col shrink-0 gap-7.5 pr-3 scrollable-y-hover" data-scrollable="true" data-scrollable-dependencies="#header" data-scrollable-height="auto" data-scrollable-offset="15px" data-scrollable-wrappers="#page" id="aside_content">
+      <a data-tooltip="true" href="https://1.envato.market/Vm7VRE" target="_blank">
+       <img alt="buy metronic" class="rounded-lg w-full" src="../../../static/metronic/tailwind/docs-legacy/dist/assets/media/banners/buy-metronic.png"/>
+       <div class="popover shadow-lg max-w-72">
+        <div class="popover-header font-semibold text-gray-900">
+         License Reminder
+        </div>
+        <div class="popover-body">
+         One license allows using Metronic for a single deployment and all subsequent usage requires a separate license.
+         <div class="mb-2">
+         </div>
+         If you plan to use Metronic in a Software as a Service (SaaS) model with paid subscriptions, you'll need an Extended License.
+        </div>
+       </div>
+      </a>
+     </div>
+    </div>
+   </div>
+   <!-- end: container -->
+  </div>
+  <script src="../../../static/metronic/tailwind/docs-legacy/dist/assets/js/core.bundle.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/prismjs/prismjs.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs-legacy/dist/assets/vendors/clipboard/clipboard.min.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs-legacy/dist/assets/js/pages/changelog.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs-legacy/dist/assets/js/layouts/base.js">
+  </script>
+  <script src="../../../static/metronic/tailwind/docs-legacy/dist/assets/js/widgets/algolia-search.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3">
+  </script>
+ </body>
+
+<!-- Mirrored from keenthemes.com/metronic/tailwind/docs-legacy/changelog by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Jun 2025 20:04:30 GMT -->
+</html>
