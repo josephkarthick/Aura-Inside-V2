@@ -1069,19 +1069,19 @@
             <!-- User -->
             <div class="shrink-0" data-kt-dropdown="true" data-kt-dropdown-offset="10px, 10px" data-kt-dropdown-offset-rtl="-20px, 10px" data-kt-dropdown-placement="bottom-end" data-kt-dropdown-placement-rtl="bottom-start" data-kt-dropdown-trigger="click">
               <div class="cursor-pointer shrink-0" data-kt-dropdown-toggle="true">
-{% if user.is_authenticated %}
-    {% if user.profile_photo %}
-        <img
-            src="{{ user.profile_photo.url }}"
-            alt="User Avatar"
-            class="size-9 rounded-full object-cover border-2 border-green-500 shrink-0"
-        />
-    {% else %}
-        <div class="size-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold border-2 border-green-500 shrink-0">
-            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
-        </div>
-    {% endif %}
-{% endif %}		  
+				{% if user.is_authenticated %}
+					{% if user.profile_photo %}
+						<img
+							src="{{ user.profile_photo.url }}"
+							alt="User Avatar"
+							class="size-9 rounded-full object-cover border-2 border-green-500 shrink-0"
+						/>
+					{% else %}
+						<div class="size-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold border-2 border-green-500 shrink-0">
+							{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+						</div>
+					{% endif %}
+				{% endif %}		  
               </div>
               <div class="kt-dropdown-menu w-[250px]" data-kt-dropdown-menu="true">
 				{% if user.is_authenticated %}
@@ -1112,6 +1112,17 @@
 							</a>
 						</li>
 					{% endif %}
+
+					{% if request.user.is_authenticated and request.user.is_superuser %}
+						<li><div class="kt-dropdown-menu-separator"></div></li>
+						<li>
+							<a class="kt-dropdown-menu-link" href="{% url 'Layout_Master:layout_master' %}" target="_blank" rel="noopener">
+								<i class="ki-outline ki-underlining fs-2"></i>
+					</i> Layout Console
+							</a>
+						</li>
+					{% endif %}
+
 
 					<li><div class="kt-dropdown-menu-separator"></div></li>
 					<li>
