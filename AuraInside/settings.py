@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-q481$0poxx(ax&agn-9x6nje#b^ofthpn5(2zvfwjvfpojpjzq'
 
+DESKTOP_AGENT_API_TOKEN = "AuraInside-Desktop-Agent-2026"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

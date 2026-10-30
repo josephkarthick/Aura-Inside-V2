@@ -44,6 +44,8 @@ urlpatterns = [
     path("cdr/", include("CDR.urls")),
     
     path("spaceview/", include("SpaceView.urls")),
+    
+    path('assets/', include('Assets.urls')),    
 
 ]
 
