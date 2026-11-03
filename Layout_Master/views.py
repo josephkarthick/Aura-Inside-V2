@@ -126,32 +126,92 @@ def get_designations(request):
         return JsonResponse({'designations': [], 'message': 'Invalid department ID.'}, status=400)
 
 
+
+
+
+def _get_permission_targets(level, target):
+    """
+    Return the selected item, its ancestors and applicable descendants.
+    """
+
+    targets = []
+    seen = set()
+
+    def add(item_level, obj):
+        key = (item_level, obj.pk)
+
+        if key not in seen:
+            seen.add(key)
+            targets.append((item_level, obj))
+
+    if level == "menu":
+        menu = target
+
+    elif level == "submenu":
+        menu = target.menu
+
+    elif level == "childmenu":
+        menu = target.submenu.menu
+
+    else:
+        return []
+
+    # Always include the parent Menu
+    add("menu", menu)
+
+    if level == "menu":
+        submenus = SubMenu.objects.filter(menu=menu)
+
+    elif level == "submenu":
+        submenus = SubMenu.objects.filter(pk=target.pk)
+
+    else:
+        submenus = SubMenu.objects.filter(pk=target.submenu_id)
+
+    for submenu in submenus:
+        add("submenu", submenu)
+
+        if level == "childmenu":
+            # Only the selected ChildMenu
+            if submenu.pk == target.submenu_id:
+                add("childmenu", target)
+
+        else:
+            # All descendants of the selected SubMenu
+            for child in ChildMenu.objects.filter(submenu=submenu):
+                add("childmenu", child)
+
+    return targets
+
+
+
 @login_required
 @require_POST
 def save_permission(request):
-    """
-    Checkbox behavior:
-    checked = grant; unchecked = remove.
-    Only the selected Menu/SubMenu/ChildMenu is updated.
-    """
+
     level, object_id = _get_level_from_request(request)
+
     if not level or not object_id:
-        return JsonResponse(
-            {"success": False, "message": "Please select a menu."}, status=400
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "Please select a menu."
+        }, status=400)
 
     target = _get_target(level, object_id)
+
     if target is None:
-        return JsonResponse(
-            {"success": False, "message": "Selected menu item was not found."},
-            status=404,
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "Selected menu item was not found."
+        }, status=404)
 
     visibility = request.POST.get("visibility", "public")
+
     if visibility not in {"public", "authenticated", "department"}:
-        return JsonResponse(
-            {"success": False, "message": "Invalid access type."}, status=400
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "Invalid access type."
+        }, status=400)
 
     department_ids = list(dict.fromkeys(request.POST.getlist("departments")))
     designation_ids = list(dict.fromkeys(request.POST.getlist("designations")))
@@ -163,120 +223,127 @@ def save_permission(request):
     users = list(AuraInsideUser.objects.filter(pk__in=user_ids))
 
     if len(departments) != len(department_ids):
-        return JsonResponse(
-            {"success": False, "message": "One or more departments are invalid."},
-            status=400,
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "One or more departments are invalid."
+        }, status=400)
+
     if len(designations) != len(designation_ids):
-        return JsonResponse(
-            {"success": False, "message": "One or more designations are invalid."},
-            status=400,
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "One or more designations are invalid."
+        }, status=400)
+
     if len(users) != len(user_ids):
-        return JsonResponse(
-            {"success": False, "message": "One or more users are invalid."},
-            status=400,
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "One or more users are invalid."
+        }, status=400)
 
     valid_department_ids = {str(item.pk) for item in departments}
     valid_designation_ids = {str(item.pk) for item in designations}
+
     parsed_pairs = []
 
     for value in pair_values:
         try:
             department_id, designation_id = value.split(":", 1)
         except ValueError:
-            return JsonResponse(
-                {"success": False, "message": f"Invalid designation pair: {value}"},
-                status=400,
-            )
+            return JsonResponse({
+                "success": False,
+                "message": f"Invalid designation pair: {value}"
+            }, status=400)
 
         if (
             department_id not in valid_department_ids
             or designation_id not in valid_designation_ids
         ):
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": (
-                        "A designation pair refers to an unselected or invalid "
-                        "department/designation."
-                    ),
-                },
-                status=400,
-            )
+            return JsonResponse({
+                "success": False,
+                "message": (
+                    "A designation pair refers to an unselected "
+                    "or invalid department/designation."
+                )
+            }, status=400)
+
         parsed_pairs.append((department_id, designation_id))
 
-    pair_info = _pair_model(level)
-    if pair_info is None:
-        return JsonResponse(
-            {"success": False, "message": "Unsupported permission level."},
-            status=400,
-        )
-
-    pair_model, target_field = pair_info
-
     if visibility == "department" and not department_ids and not user_ids:
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "Select at least one department or specific user.",
-            },
-            status=400,
-        )
+        return JsonResponse({
+            "success": False,
+            "message": "Select at least one department or specific user."
+        }, status=400)
+
+    # Get selected item and all descendants
+    targets = _get_permission_targets(level, target)
 
     try:
         with transaction.atomic():
-            # Update only the selected item. Do not silently alter parents/children.
-            target.visibility = visibility
-            target.save(update_fields=["visibility"])
 
-            if visibility != "department":
-                target.departments.clear()
-                target.designations.clear()
-                target.users.clear()
-                pair_model.objects.filter(**{target_field: target}).delete()
-            else:
-                # Treat checkbox selections as the final saved state.
-                target.departments.set(departments)
-                target.designations.set(designations)
-                target.users.set(users)
+            for target_level, obj in targets:
 
-                # Replace only this item's department/designation pairs.
-                pair_model.objects.filter(**{target_field: target}).delete()
-                pair_model.objects.bulk_create(
-                    [
+                pair_info = _pair_model(target_level)
+
+                if pair_info is None:
+                    raise ValueError(
+                        f"Unsupported permission level: {target_level}"
+                    )
+
+                pair_model, target_field = pair_info
+
+                # Apply access type
+                obj.visibility = visibility
+                obj.save(update_fields=["visibility"])
+
+                if visibility != "department":
+
+                    obj.departments.clear()
+                    obj.designations.clear()
+                    obj.users.clear()
+
+                    pair_model.objects.filter(
+                        **{target_field: obj}
+                    ).delete()
+
+                else:
+
+                    # Apply same selected permissions
+                    obj.departments.set(departments)
+                    obj.designations.set(designations)
+                    obj.users.set(users)
+
+                    # Replace designation pairs for this item
+                    pair_model.objects.filter(
+                        **{target_field: obj}
+                    ).delete()
+
+                    pair_model.objects.bulk_create([
                         pair_model(
                             **{
-                                target_field: target,
+                                target_field: obj,
                                 "department_id": department_id,
                                 "designation_id": designation_id,
                             }
                         )
                         for department_id, designation_id in parsed_pairs
-                    ],
-                    ignore_conflicts=True,
-                )
+                    ], ignore_conflicts=True)
 
     except Exception:
-        logger.exception("Failed to save Layout Master permissions.")
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "Unable to save permissions. Check the Django server log.",
-            },
-            status=500,
-        )
+        logger.exception("Failed to update hierarchical permissions.")
 
-    return JsonResponse(
-        {
-            "success": True,
-            "message": (
-                f"Permissions updated successfully for this {level}. "
-                "Checked permissions were granted and unchecked permissions were removed."
-            ),
-        }
-    )
+        return JsonResponse({
+            "success": False,
+            "message": "Unable to save permissions. Check Django server log."
+        }, status=500)
+
+    return JsonResponse({
+        "success": True,
+        "message": (
+            f"Permission successfully applied to {len(targets)} "
+            f"menu items, including all applicable descendants."
+        ),
+        "updated_count": len(targets),
+    })
 
 def maintenance(request):
     return render(request, 'Layout_Master/maintenance.html')

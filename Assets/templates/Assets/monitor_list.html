@@ -1,0 +1,241 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+
+  <main class="grow pt-5" id="content" role="main">
+
+    <div class="kt-container-fixed">
+
+      <div class="flex items-center flex-wrap md:flex-nowrap justify-between gap-3 mb-5 lg:mb-10">
+
+        <div class="flex flex-col justify-center gap-2">
+          <h1 class="text-xl font-medium leading-none text-mono">
+            Monitor Inventory
+          </h1>
+
+          <span class="text-sm text-secondary-foreground">
+            Physical monitors detected by IAS-Monitor agent
+          </span>
+        </div>
+
+      </div>
+
+      <div class="grid gap-5 lg:gap-7.5">
+
+        <div class="kt-card kt-card-grid min-w-full">
+
+          <div class="kt-card-header flex-wrap gap-2">
+
+            <h3 class="kt-card-title text-sm">
+              Totally {{ total_monitors }} monitors
+            </h3>
+
+            <div class="flex flex-wrap gap-2 lg:gap-5">
+
+              <form method="GET" id="searchForm" class="flex">
+                <label class="kt-input">
+                  <i class="ki-filled ki-magnifier"></i>
+
+                  <input
+                    id="searchInput"
+                    name="search"
+                    placeholder="Search hostname, model, serial..."
+                    type="text"
+                    value="{{ search_term }}"
+                    class="kt-input"
+                  />
+                </label>
+              </form>
+
+            </div>
+
+          </div>
+
+          <div class="kt-card-content">
+
+            <div class="grid"
+                 data-kt-datatable="true"
+                 data-kt-datatable-page-size="10">
+
+              <div class="kt-scrollable-x-auto">
+
+                <table class="kt-table table-fixed kt-table-border w-full"
+                       data-kt-datatable-table="true">
+
+                  <thead>
+                    <tr class="text-left">
+
+                      <th class="min-w-[160px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Monitor ID</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[150px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Hostname</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[130px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Manufacturer</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[180px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Model</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[140px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Serial Number</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[120px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Screen Size</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[140px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Connection</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[120px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Resolution</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[120px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Refresh Rate</span>
+                        </span>
+                      </th>
+
+                      <th class="min-w-[170px]">
+                        <span class="kt-table-col">
+                          <span class="kt-table-col-label">Last Sync</span>
+                        </span>
+                      </th>
+
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    {% for item in monitors %}
+                    <tr>
+
+                      <td>
+                        <span class="font-medium text-mono">
+                          {{ item.monitor_id }}
+                        </span>
+                      </td>
+
+                      <td>{{ item.hostname }}</td>
+
+                      <td>{{ item.manufacturer|default:"-" }}</td>
+
+                      <td>{{ item.model|default:"-" }}</td>
+
+                      <td>{{ item.serial_number|default:"-" }}</td>
+
+                      <td>
+                        {% if item.screen_size %}
+                          {{ item.screen_size }} inches
+                        {% else %}-{% endif %}
+                      </td>
+
+                      <td>{{ item.connection_type|default:"-" }}</td>
+
+                      <td>{{ item.resolution|default:"-" }}</td>
+
+                      <td>
+                        {% if item.refresh_rate %}
+                          {{ item.refresh_rate }} Hz
+                        {% else %}-{% endif %}
+                      </td>
+
+                      <td>
+                        {% if item.last_sync %}
+                          {{ item.last_sync|date:"d M Y, h:i A" }}
+                        {% else %}-{% endif %}
+                      </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                      <td colspan="10" class="text-center py-10 text-secondary-foreground">
+                        No physical monitor records found.
+                      </td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+              <div class="kt-card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-secondary-foreground text-sm font-medium">
+
+                <div class="flex items-center gap-2 order-2 md:order-1">
+                  Show
+                  <select class="kt-select w-16"
+                          data-kt-datatable-size="true"
+                          name="perpage"></select>
+                  per page
+                </div>
+
+                <div class="flex items-center gap-4 order-1 md:order-2">
+                  <span data-kt-datatable-info="true"></span>
+                  <div class="kt-datatable-pagination"
+                       data-kt-datatable-pagination="true"></div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
+
+    let timer;
+
+    searchInput.addEventListener('keyup', function () {
+        clearTimeout(timer);
+
+        timer = setTimeout(function () {
+            searchForm.submit();
+        }, 500);
+    });
+
+});
+</script>
+
+<script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>

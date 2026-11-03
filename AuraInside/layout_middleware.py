@@ -1,186 +1,134 @@
 
-import logging
-
 from django.shortcuts import redirect
 from django.urls import reverse
 
 from Layout_Master.models import (
-    Menu,
     SubMenu,
     ChildMenu,
-    MenuDesignationAccess,
-    SubMenuDesignationAccess,
-    ChildMenuDesignationAccess,
 )
-
-logger = logging.getLogger("aurainside")
 
 
 class MenuLoginRequiredMiddleware:
+
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        path = request.path.rstrip("/") or "/"
-        user = request.user
 
-        # Skip login, logout, account, admin, static and media routes.
-        if path.startswith((
+        path = request.path.rstrip("/") or "/"
+
+        # Excluded paths
+        excluded_paths = [
             "/admin",
-            "/static/",
-            "/media/",
+            "/static",
+            "/media",
             "/login",
             "/logout",
-            "/accounts/",
-        )):
+            "/accounts",
+        ]
+
+        if any(
+            path == item or path.startswith(item + "/")
+            for item in excluded_paths
+        ):
             return self.get_response(request)
 
-        def matches(url):
-            if not url:
-                return False
+        user = request.user
 
-            url = url.rstrip("/") or "/"
+        # Collect matching URL records
+        matches = []
 
-            return path == url or (
-                url != "/" and path.startswith(url + "/")
-            )
+        for submenu in SubMenu.objects.exclude(
+            url__isnull=True
+        ).exclude(url=""):
 
-        def allowed(obj, level):
-            if obj.visibility in ("public", "authenticated"):
-                result = (
-                    obj.visibility == "public"
-                    or user.is_authenticated
+            url = submenu.url.rstrip("/") or "/"
+
+            if path == url or path.startswith(url + "/"):
+                matches.append({
+                    "level": "submenu",
+                    "object": submenu,
+                    "url": url,
+                    "priority": 2,
+                })
+
+        for child in ChildMenu.objects.exclude(
+            url__isnull=True
+        ).exclude(url=""):
+
+            url = child.url.rstrip("/") or "/"
+
+            if path == url or path.startswith(url + "/"):
+                matches.append({
+                    "level": "childmenu",
+                    "object": child,
+                    "url": url,
+                    "priority": 1,
+                })
+
+        if not matches:
+            return self.get_response(request)
+
+        # Longest URL wins.
+        # If URLs are identical, SubMenu wins over ChildMenu.
+        matches.sort(
+            key=lambda item: (
+                len(item["url"]),
+                item["priority"],
+            ),
+            reverse=True,
+        )
+
+        matched = matches[0]
+        obj = matched["object"]
+        access_type = (obj.visibility or "public").lower()
+
+        # PUBLIC: Allow without login
+        if access_type == "public":
+            return self.get_response(request)
+
+        # AUTHENTICATED: Login required
+        if access_type == "authenticated":
+            if not user.is_authenticated:
+                return redirect(
+                    reverse("Accounts:access_warning")
                 )
-                logger.warning(
-                    "LAYOUT ACCESS | user=%s path=%s level=%s "
-                    "item_id=%s visibility=%s allowed=%s",
-                    getattr(user, "username", "anonymous"),
-                    path, level, obj.pk, obj.visibility, result,
-                )
-                return result
+
+            return self.get_response(request)
+
+        # DEPARTMENT: User-specific permission
+        if access_type == "department":
 
             if not user.is_authenticated:
-                logger.warning(
-                    "LAYOUT DENIED | anonymous user path=%s level=%s item=%s",
-                    path, level, obj.pk,
+                return redirect(
+                    reverse("Accounts:access_warning")
                 )
-                return False
 
-            if obj.visibility != "department":
-                logger.warning(
-                    "LAYOUT DENIED | user=%s path=%s level=%s "
-                    "item=%s unexpected_visibility=%s",
-                    user.username, path, level, obj.pk, obj.visibility,
-                )
-                return False
-
-            # Explicit user grant.
+            # Explicit user permission
             if obj.users.filter(pk=user.pk).exists():
-                logger.warning(
-                    "LAYOUT ACCESS | explicit user grant user=%s "
-                    "path=%s level=%s item=%s",
-                    user.username, path, level, obj.pk,
-                )
-                return True
+                return self.get_response(request)
 
+            # Department + Designation permission
             department_id = getattr(user, "department_id", None)
             designation_id = getattr(user, "designation_id", None)
 
-            if not department_id:
-                logger.warning(
-                    "LAYOUT DENIED | user=%s path=%s level=%s "
-                    "item=%s missing_department",
-                    user.username, path, level, obj.pk,
-                )
-                return False
+            if department_id and designation_id:
 
-            access_models = {
-                "menu": (MenuDesignationAccess, "menu"),
-                "submenu": (SubMenuDesignationAccess, "submenu"),
-                "childmenu": (ChildMenuDesignationAccess, "childmenu"),
-            }
+                if obj.designation_rules.filter(
+                    department_id=department_id,
+                    designation_id=designation_id,
+                ).exists():
+                    return self.get_response(request)
 
-            access_model, field = access_models[level]
-            rules = access_model.objects.filter(**{field: obj})
+            # Legacy department-only permission
+            if not obj.designation_rules.exists():
+                if department_id and obj.departments.filter(
+                    pk=department_id
+                ).exists():
+                    return self.get_response(request)
 
-            rule_rows = list(
-                rules.values("department_id", "designation_id")
+            return redirect(
+                reverse("Accounts:access_warning")
             )
-
-            logger.warning(
-                "LAYOUT ACCESS CHECK | user=%s path=%s level=%s "
-                "item_id=%s item_url=%s department=%s designation=%s "
-                "visibility=%s rules=%s",
-                user.username,
-                path,
-                level,
-                obj.pk,
-                obj.url,
-                department_id,
-                designation_id,
-                obj.visibility,
-                rule_rows,
-            )
-
-            # Exact department + designation grant.
-            if designation_id and rules.filter(
-                department_id=department_id,
-                designation_id=designation_id,
-            ).exists():
-                return True
-
-            # Legacy department-only grant is allowed only when
-            # no department/designation pair rules exist for this item.
-            if (
-                not rules.exists()
-                and obj.departments.filter(pk=department_id).exists()
-            ):
-                return True
-
-            logger.warning(
-                "LAYOUT DENIED | user=%s path=%s level=%s item_id=%s",
-                user.username, path, level, obj.pk,
-            )
-            return False
-
-        # Find the most specific matching child-menu URL.
-        child = max(
-            (
-                item
-                for item in ChildMenu.objects.select_related(
-                    "submenu__menu"
-                )
-                if matches(item.url)
-            ),
-            key=lambda item: len((item.url or "").rstrip("/")),
-            default=None,
-        )
-
-        if child:
-            if not allowed(child, "childmenu"):
-                return redirect(reverse("Accounts:access_warning"))
-            return self.get_response(request)
-
-        # Otherwise check submenu URL.
-        submenu = max(
-            (
-                item
-                for item in SubMenu.objects.all()
-                if matches(item.url)
-            ),
-            key=lambda item: len((item.url or "").rstrip("/")),
-            default=None,
-        )
-
-        if submenu:
-            if not allowed(submenu, "submenu"):
-                return redirect(reverse("Accounts:access_warning"))
-            return self.get_response(request)
-
-        # Finally check parent-menu URL.
-        menu = None
-
-        if menu and not allowed(menu, "menu"):
-            return redirect(reverse("Accounts:access_warning"))
 
         return self.get_response(request)

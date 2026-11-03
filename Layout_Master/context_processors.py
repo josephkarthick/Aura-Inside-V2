@@ -57,16 +57,17 @@ from Layout_Master.models import (
 
 
 def _has_layout_access(obj, user, level):
-    # Public and Login Required menus are visible to everyone.
-    # Login enforcement happens when the protected URL is opened.
-    if obj.visibility in ("public", "authenticated"):
+
+    visibility = obj.visibility or "public"
+
+    # Public and authenticated menus are visible in navigation.
+    if visibility in ("public", "authenticated"):
         return True
 
-    # Department-based menus must be hidden from logged-out users.
     if not user.is_authenticated:
         return False
 
-    if obj.visibility != "department":
+    if visibility != "department":
         return False
 
     # Explicitly assigned users receive access directly.

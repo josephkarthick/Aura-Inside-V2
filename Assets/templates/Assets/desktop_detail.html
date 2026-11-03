@@ -1,0 +1,788 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<div class="kt-container-fixed pb-8">
+
+    <!-- BREADCRUMB -->
+    <div class="flex items-center flex-wrap gap-2 text-sm text-secondary mb-5">
+        <a href="{% url 'Assets:desktop_list' %}" class="hover:text-primary">
+            IT Assets
+        </a>
+        <i class="ki-filled ki-right text-xs"></i>
+        <span>Desktops</span>
+        <i class="ki-filled ki-right text-xs"></i>
+        <span class="text-primary font-medium">
+            {{ desktop.hostname|default:"Desktop Details" }}
+        </span>
+    </div>
+
+    <!-- HEADER -->
+    <div class="kt-card mb-5">
+        <div class="kt-card-content p-5 lg:p-7">
+
+            <div class="flex flex-wrap items-center justify-between gap-5">
+
+                <div class="flex items-center gap-4">
+
+
+                    <div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
+                                {{ desktop.hostname|default:"Unknown Computer" }}
+                            </h1>
+
+                            {% if asset.status == 'IN_USE' %}
+                                <span class="kt-badge kt-badge-success kt-badge-outline">
+                                    {{ asset.get_status_display }}
+                                </span>
+                            {% elif asset.status == 'IN_STOCK' %}
+                                <span class="kt-badge kt-badge-info kt-badge-outline">
+                                    {{ asset.get_status_display }}
+                                </span>
+                            {% elif asset.status == 'DAMAGED' or asset.status == 'DISPOSED' %}
+                                <span class="kt-badge kt-badge-danger kt-badge-outline">
+                                    {{ asset.get_status_display }}
+                                </span>
+                            {% else %}
+                                <span class="kt-badge kt-badge-warning kt-badge-outline">
+                                    {{ asset.get_status_display }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-sm text-secondary mt-1">
+                            {{ asset.manufacturer|default:"Unknown Manufacturer" }}
+                            {% if asset.model %} · {{ asset.model }}{% endif %}
+                            <span class="mx-1">|</span>
+                            Asset Tag:
+                            <span class="font-semibold text-gray-700">
+                                {{ desktop.hostname|default:"Not Assigned" }}
+                            </span>
+                        </div>
+						
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+					<div>
+						<div class="text-xs text-secondary mb-1">Last Hardware Sync</div>
+						<div class="font-semibold text-gray-800">
+							{{ desktop.last_sync|date:"d M Y, h:i A"|default:"Never Synced" }}
+						</div>
+					</div>				
+                    <a href="{% url 'Assets:desktop_list' %}"
+                       class="kt-btn kt-btn-light">
+                        <i class="ki-filled ki-arrow-left"></i>
+                        Back to Desktops
+						
+                    </a>
+					
+                </div>
+				
+
+            </div>
+
+            <div class="border-t border-gray-200 my-5"></div>
+
+            <!-- HEADER DETAILS -->
+	<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+        <div class="kt-card">
+            <div class="kt-card-content p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-secondary font-medium">Processor</span>
+                    <i class="ki-filled ki-cpu text-xl text-primary"></i>
+                </div>
+                <div class="text-lg font-bold text-gray-900">
+                    {{ desktop.processor_cores|default:"—" }}
+                    <span class="text-sm font-normal text-secondary">Cores</span>
+                </div>
+                <div class="text-xs text-secondary mt-1 truncate">
+                    {{ desktop.processor|default:"Processor unavailable" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-card">
+            <div class="kt-card-content p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-secondary font-medium">Memory</span>
+                    <i class="ki-filled ki-chart-pie-3 text-xl text-primary"></i>
+                </div>
+                <div class="text-lg font-bold text-gray-900">
+                    {% if desktop.ram_gb %}{{ desktop.ram_gb }} GB{% else %}—{% endif %}
+                </div>
+                <div class="text-xs text-secondary mt-1">Installed RAM</div>
+            </div>
+        </div>
+
+        <div class="kt-card">
+            <div class="kt-card-content p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-secondary font-medium">Storage</span>
+                    <i class="ki-filled ki-hard-drive text-xl text-primary"></i>
+                </div>
+                <div class="text-lg font-bold text-gray-900">
+                    {% if desktop.hdd_gb %}{{ desktop.hdd_gb }} GB{% else %}—{% endif %}
+                </div>
+                <div class="text-xs text-secondary mt-1">Total detected storage</div>
+            </div>
+        </div>
+
+        <div class="kt-card">
+            <div class="kt-card-content p-5">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-secondary font-medium">Monitors</span>
+                    <i class="ki-filled ki-monitor text-xl text-primary"></i>
+                </div>
+                <div class="text-lg font-bold text-gray-900">
+                    {{ monitors|length }}
+                </div>
+                <div class="text-xs text-secondary mt-1">Physical monitors detected</div>
+            </div>
+        </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- HARDWARE SUMMARY -->
+    <div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
+
+
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-5">
+
+        <!-- SYSTEM INFORMATION -->
+        <div class="kt-card">
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    <i class="ki-filled ki-information-2 text-primary mr-2"></i>
+                    System Information
+                </h3>
+            </div>
+
+            <div class="kt-card-content p-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Hostname</div>
+                        <div class="font-semibold text-gray-800">{{ desktop.hostname|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Logged-in User</div>
+                        <div class="font-semibold text-gray-800">{{ desktop.logged_in_user|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">IP Address</div>
+                        <div class="font-semibold text-gray-800">{{ desktop.ip_address|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">MAC Address</div>
+                        <div class="font-semibold text-gray-800">{{ desktop.mac_address|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Domain</div>
+                        <div class="font-semibold text-gray-800">{{ desktop.domain_name|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">System Architecture</div>
+                        <div class="font-semibold text-gray-800">{{ desktop.system_type|default:"—" }}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PROCESSOR INFORMATION -->
+        <div class="kt-card">
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    <i class="ki-filled ki-technology-4 text-primary mr-2"></i>
+                    Processor & Motherboard
+                </h3>
+            </div>
+
+            <div class="kt-card-content p-5">
+
+                <div class="mb-5">
+                    <div class="text-xs text-secondary mb-1">Processor Model</div>
+                    <div class="font-semibold text-gray-900">
+                        {{ desktop.processor|default:"—" }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5 mb-5">
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Cores</div>
+                        <div class="font-semibold">{{ desktop.processor_cores|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Threads</div>
+                        <div class="font-semibold">{{ desktop.processor_threads|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Clock Speed</div>
+                        <div class="font-semibold">
+                            {% if desktop.processor_speed_mhz %}{{ desktop.processor_speed_mhz }} MHz{% else %}—{% endif %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Graphics Card</div>
+                        <div class="font-semibold">{{ desktop.graphics_card|default:"—" }}</div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-5 grid grid-cols-1 gap-5">
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Motherboard</div>
+                        <div class="font-semibold">{{ desktop.motherboard|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">BIOS Version</div>
+                        <div class="font-semibold">{{ desktop.bios_version|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">BIOS Serial Number</div>
+                        <div class="font-semibold">{{ desktop.bios_serial_number|default:"—" }}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- MEMORY & STORAGE -->
+        <div class="kt-card">
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    <i class="ki-filled ki-technology-4 text-primary mr-2"></i>
+                    Memory & Storage
+                </h3>
+            </div>
+
+            <div class="kt-card-content p-5">
+
+                <div class="grid grid-cols-2 gap-5 mb-6">
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Installed RAM</div>
+                        <div class="text-xl font-bold">
+                            {% if desktop.ram_gb %}{{ desktop.ram_gb }} GB{% else %}—{% endif %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">Total Storage</div>
+                        <div class="text-xl font-bold">
+                            {% if desktop.hdd_gb %}{{ desktop.hdd_gb }} GB{% else %}—{% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="border-t border-gray-200 pt-5">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium">Disk Space Usage</span>
+                        <span class="text-sm font-semibold">
+                            {% if desktop.free_disk_gb != None %}
+                                {{ desktop.free_disk_gb }} GB Free
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    {% if disk_usage_percent != None %}
+                        <div class="w-full h-2.5 rounded-full bg-gray-200 overflow-hidden">
+                            <div class="h-full bg-primary rounded-full"
+                                 style="width: {{ disk_usage_percent }}%">
+                            </div>
+                        </div>
+                        <div class="text-xs text-secondary mt-2">
+                            {{ disk_usage_percent }}% used
+                        </div>
+                    {% else %}
+                        <div class="text-xs text-secondary">
+                            Disk usage information is unavailable.
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- OPERATING SYSTEM -->
+        <div class="kt-card">
+            <div class="kt-card-header">
+                <h3 class="kt-card-title">
+                    <i class="ki-filled ki-microsoft text-primary mr-2"></i>
+                    Operating System
+                </h3>
+            </div>
+
+            <div class="kt-card-content p-5">
+                <div class="mb-5">
+                    <div class="text-xs text-secondary mb-1">Operating System</div>
+                    <div class="text-lg font-bold">
+                        {{ desktop.os_installed|default:"—" }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5">
+                    <div>
+                        <div class="text-xs text-secondary mb-1">OS Version</div>
+                        <div class="font-semibold">{{ desktop.os_version|default:"—" }}</div>
+                    </div>
+
+                    <div>
+                        <div class="text-xs text-secondary mb-1">OS Build</div>
+                        <div class="font-semibold">{{ desktop.os_build|default:"—" }}</div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 mt-5 pt-5">
+
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-semibold">Windows Activation</span>
+
+                        {% if desktop.windows_license_status %}
+                            <span class="kt-badge kt-badge-success kt-badge-outline">
+                                {{ desktop.windows_license_status }}
+                            </span>
+                        {% else %}
+                            <span class="kt-badge kt-badge-secondary kt-badge-outline">
+                                Unknown
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <div class="text-xs text-secondary mb-1">License Type</div>
+                            <div class="font-semibold">{{ desktop.license_type|default:"—" }}</div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs text-secondary mb-1">Product Key (Last 5)</div>
+                            <div class="font-semibold">
+                                {% if desktop.windows_key_last5 %}
+                                    *****-{{ desktop.windows_key_last5 }}
+                                {% else %}—{% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- CONNECTED MONITORS -->
+    <div class="kt-card mb-5">
+
+        <div class="kt-card-header flex-wrap gap-2">
+            <div>
+                <h3 class="kt-card-title">
+                    <i class="ki-filled ki-screen text-primary mr-2"></i>
+                    Connected Monitors
+                </h3>
+                <div class="text-xs text-secondary mt-1">
+                    Physical displays detected by the hardware agent
+                </div>
+            </div>
+
+            <span class="kt-badge kt-badge-primary kt-badge-outline">
+                {{ monitors|length }} Monitors
+            </span>
+        </div>
+
+        <div class="kt-card-content">
+
+            {% if monitors %}
+                <div class="kt-scrollable-x-auto">
+                    <table class="kt-table kt-table-border w-full">
+                        <thead>
+                            <tr>
+                                <th>Monitor ID</th>
+                                <th>Manufacturer / Model</th>
+                                <th>Serial Number</th>
+                                <th>Screen Size</th>
+                                <th>Connection</th>
+                                <th>Resolution</th>
+                                <th>Refresh Rate</th>
+                                <th>Last Sync</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for monitor in monitors %}
+                                <tr>
+                                    <td>
+                                        <span class="font-semibold text-primary">
+                                            {{ monitor.monitor_id }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="font-semibold text-gray-800">
+                                            {{ monitor.manufacturer|default:"Unknown" }}
+                                        </div>
+                                        <div class="text-xs text-secondary">
+                                            {{ monitor.model|default:"Unknown Model" }}
+                                        </div>
+                                    </td>
+
+                                    <td>{{ monitor.serial_number|default:"—" }}</td>
+
+                                    <td>
+                                        {% if monitor.screen_size %}
+                                            {{ monitor.screen_size }}″
+                                        {% else %}—{% endif %}
+                                    </td>
+
+                                    <td>{{ monitor.connection_type|default:"—" }}</td>
+
+                                    <td>{{ monitor.resolution|default:"—" }}</td>
+
+                                    <td>
+                                        {% if monitor.refresh_rate %}
+                                            {{ monitor.refresh_rate }} Hz
+                                        {% else %}—{% endif %}
+                                    </td>
+
+                                    <td>
+                                        <span class="text-xs">
+                                            {{ monitor.last_sync|date:"d M Y, h:i A"|default:"—" }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-10">
+                    <i class="ki-filled ki-monitor text-4xl text-secondary"></i>
+                    <div class="font-semibold mt-3">No Monitors Found</div>
+                    <div class="text-sm text-secondary mt-1">
+                        No physical monitors have been registered for this hostname.
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+<!-- ASSET INFORMATION -->
+<div class="kt-card mb-5">
+
+    <div class="kt-card-header">
+        <h3 class="kt-card-title">
+            <i class="ki-filled ki-delivery-3 text-primary mr-2"></i>
+            Asset & Purchase Information
+        </h3>
+    </div>
+
+    <div class="kt-card-content p-5">
+
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-5">
+
+            <!-- ASSET NAME -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Asset Name</div>
+                <div class="font-semibold text-sm">{{ asset.asset_name|default:"—" }}</div>
+            </div>
+
+            <!-- CATEGORY -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Asset Category</div>
+                <div class="font-semibold text-sm">{{ asset.category|default:"—" }}</div>
+            </div>
+
+            <!-- ASSET TYPE -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Asset Type</div>
+                <div class="font-semibold text-sm">{{ desktop.get_asset_type_display|default:"—" }}</div>
+            </div>
+
+            <!-- ASSET TAG -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Asset Tag</div>
+                <div class="font-semibold text-sm">{{ asset.asset_name|default:"—" }}</div>
+            </div>
+
+            <!-- MANUFACTURER -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Manufacturer</div>
+                <div class="font-semibold text-sm">{{ asset.manufacturer|default:"—" }}</div>
+            </div>
+
+            <!-- MODEL -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Model</div>
+                <div class="font-semibold text-sm">{{ asset.model|default:"—" }}</div>
+            </div>
+
+            <!-- SERIAL NUMBER -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Serial Number</div>
+                <div class="font-semibold text-sm break-all">{{ asset.serial_number|default:"—" }}</div>
+            </div>
+
+            <!-- PURCHASE DATE -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Purchase Date</div>
+                <div class="font-semibold text-sm">{{ asset.purchase_date|date:"d M Y"|default:"—" }}</div>
+            </div>
+
+            <!-- PURCHASE COST -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Purchase Cost</div>
+                <div class="font-semibold text-sm">
+                    {% if asset.purchase_cost %}
+                        ₹ {{ asset.purchase_cost|floatformat:2 }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- WARRANTY START -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Warranty Start</div>
+                <div class="font-semibold text-sm">{{ asset.warranty_start|date:"d M Y"|default:"—" }}</div>
+            </div>
+
+            <!-- WARRANTY END -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Warranty End</div>
+                <div class="font-semibold text-sm">{{ asset.warranty_end|date:"d M Y"|default:"—" }}</div>
+            </div>
+
+            <!-- ASSIGNED EMPLOYEE -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Assigned Employee</div>
+                <div class="font-semibold text-sm">{{ asset.assigned_employee|default:"Unassigned" }}</div>
+            </div>
+
+            <!-- DEPARTMENT -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Department</div>
+                <div class="font-semibold text-sm">{{ asset.department|default:"—" }}</div>
+            </div>
+
+            <!-- LOCATION -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Location</div>
+                <div class="font-semibold text-sm">{{ asset.location|default:"—" }}</div>
+            </div>
+
+            <!-- STATUS -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Asset Status</div>
+                <div class="font-semibold text-sm">{{ asset.get_status_display|default:"—" }}</div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            {% if asset.description %}
+            <div class="col-span-2 md:col-span-3 xl:col-span-6">
+                <div class="text-xs text-secondary mb-1">Description</div>
+                <div class="text-sm text-gray-700">
+                    {{ asset.description|linebreaksbr }}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- ASSIGNMENT & USER HISTORY -->
+<div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 mb-6">
+
+    <!-- HEADER -->
+    <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">
+					<i class="ki-filled ki-user-square text-primary mr-2"></i>
+					 Assignment History
+                </h3>
+                <p class="text-xs text-gray-500 mt-1">
+                    Official assignments and detected computer users
+                </p>
+            </div>
+
+            <span class="text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-medium">
+                {{ assignments|length }} Assignments
+            </span>
+        </div>
+    </div>
+
+    <!-- OFFICIAL ASSIGNMENT HISTORY -->
+    <div class="p-5">
+
+
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h4 class="text-sm font-semibold text-gray-800 dark:text-white">
+                    Automatically collected from IAS-CPU
+                </h4>
+
+            </div>
+
+            <span class="text-xs px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-medium">
+                {{ detected_users|length }} Records
+            </span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+
+                <thead class="bg-gray-50 dark:bg-gray-800 text-gray-500">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">Windows User</th>
+                        <th class="px-4 py-3 font-medium">Employee</th>
+                        <th class="px-4 py-3 font-medium">Shift</th>
+                        <th class="px-4 py-3 font-medium">First Seen</th>
+                        <th class="px-4 py-3 font-medium">Last Seen</th>
+                        <th class="px-4 py-3 font-medium">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+
+                    {% for user_history in detected_users %}
+                    <tr>
+
+                        <td class="px-4 py-3 font-medium text-gray-800 dark:text-white">
+                            {{ user_history.windows_username|upper }}
+                        </td>
+
+                        <td class="px-4 py-3 text-gray-600 dark:text-gray-300">
+                            {% if user_history.employee %}
+                                {{ user_history.employee.get_full_name|default:user_history.employee.username }}
+                            {% else %}
+                                <span class="text-gray-400">Unmatched user</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {% if user_history.shift %}
+                                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
+                                    {{ user_history.shift }}
+                                </span>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+
+                        <td class="px-4 py-3 text-gray-600 dark:text-gray-300 whitespace-nowrap">
+                            {{ user_history.first_seen|date:"d M Y, h:i A" }}
+                        </td>
+
+                        <td class="px-4 py-3 text-gray-600 dark:text-gray-300 whitespace-nowrap">
+                            {{ user_history.last_seen|date:"d M Y, h:i A" }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {% if user_history.is_current %}
+                                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                    Current
+                                </span>
+                            {% else %}
+                                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                    Previous
+                                </span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-8 text-center text-gray-400">
+                            No detected user history available yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+    <!-- SYSTEM AUDIT -->
+    <div class="kt-card mb-5">
+        <div class="kt-card-header">
+            <h3 class="kt-card-title">
+                <i class="ki-filled ki-time text-primary mr-2"></i>
+                System Audit Information
+            </h3>
+        </div>
+
+        <div class="kt-card-content p-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                <div>
+                    <div class="text-xs text-secondary mb-1">Last Hardware Sync</div>
+                    <div class="font-semibold">
+                        {{ desktop.last_sync|date:"d M Y, h:i A"|default:"Never Synced" }}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-xs text-secondary mb-1">Record Created</div>
+                    <div class="font-semibold">
+                        {{ desktop.created_at|date:"d M Y, h:i A" }}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-xs text-secondary mb-1">Last Updated</div>
+                    <div class="font-semibold">
+                        {{ desktop.updated_at|date:"d M Y, h:i A" }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
