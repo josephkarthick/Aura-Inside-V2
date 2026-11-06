@@ -53,7 +53,7 @@ def add_workstation(request):
         x_position = float(data.get("x_position"))
         y_position = float(data.get("y_position"))
 
-        if floor not in ("eighth", "second"):
+        if floor not in ("Agastya", "Vishwam"):
             return JsonResponse(
                 {"success": False, "error": "Invalid floor."},
                 status=400,
@@ -198,7 +198,7 @@ def edit_workstation(request, workstation_id):
                 "error": "Seat number is required.",
             }, status=400)
 
-        if floor not in ("eighth", "second"):
+        if floor not in ("Agastya", "Vishwam"):
             return JsonResponse({
                 "success": False,
                 "error": "Invalid floor.",

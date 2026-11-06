@@ -328,12 +328,12 @@
         <div class="switch">
             <button type="button" class="active"
                     data-floor="0" onclick="showFloor(0)">
-                Eighth Floor
+                Vishwam Floor
             </button>
 
             <button type="button"
                     data-floor="1" onclick="showFloor(1)">
-                Second Map
+                Vishwam Map
             </button>
         </div>
     </div>
@@ -341,7 +341,7 @@
     <div class="map-card">
 
         <div class="map-toolbar">
-            <h3 id="mapTitle">Guna Complex — Eighth Floor</h3>
+            <h3 id="mapTitle">Guna Complex — Vishwam Floor</h3>
 
             <div class="toolbar-actions">
                 <button type="button" id="editSeatTopButton" onclick="openEditSeatForm()" disabled>Edit Seat</button>
@@ -369,8 +369,8 @@
             <div id="mapCanvas">
                 <img
                     id="floorImage"
-                    src="/media/SpaceView/eighth_floor.png"
-                    alt="Guna Complex Eighth Floor Plan">
+                    src="/media/SpaceView/Agastya_floor.png"
+                    alt="Guna Complex Agastya Floor Plan">
 
                 <div id="workstationLayer"></div>
             </div>
@@ -395,8 +395,8 @@
                     <div class="edit-field">
                         <label for="editSeatFloor">Floor</label>
                         <select id="editSeatFloor" name="floor" required>
-                            <option value="eighth">Guna Complex — Eighth Floor</option>
-                            <option value="second">Second Map</option>
+                            <option value="Agastya">Guna Complex — Agastya Floor</option>
+                            <option value="Vishwam">Vishwam Map</option>
                         </select>
                     </div>
                     <div class="edit-field">
@@ -424,16 +424,16 @@
 <script>
     const floors = [
         {
-            title: "Guna Complex — Eighth Floor",
-            image: "/media/SpaceView/eighth_floor.png",
-            alt: "Guna Complex Eighth Floor Plan",
-            code: "eighth"
+            title: "Guna Complex — Agastya Floor",
+            image: "/media/SpaceView/Agastya_floor.png",
+            alt: "Guna Complex Agastya Floor Plan",
+            code: "Agastya"
         },
         {
-            title: "Office Floor Plan — Second Map",
-            image: "/media/SpaceView/second_floor.png",
+            title: "Office Floor Plan — Vishwam Map",
+            image: "/media/SpaceView/Vishwam_floor.png",
             alt: "Office Floor Plan",
-            code: "second"
+            code: "Vishwam"
         }
     ];
 

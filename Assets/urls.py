@@ -31,6 +31,12 @@ urlpatterns = [
         'monitors/',
         views.monitor_list,
         name='monitor_list'
-    ),  
+    ),
+
+    path(
+        'desktop/<int:pk>/update-asset/',
+        views.update_desktop_asset,
+        name='update_desktop_asset'
+    ),    
     
 ]

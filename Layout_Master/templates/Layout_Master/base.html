@@ -2,7 +2,30 @@
 <!DOCTYPE html>
 <html class="h-full" data-kt-theme="true" data-kt-theme-mode="light" dir="ltr" lang="en">
   
-<style>
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <title>Aura Inside</title>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="shortcut icon"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.css' %}" rel="stylesheet"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/vendors/keenicons/styles.bundle.css' %}" rel="stylesheet"/>
+  <link href="{% static 'metronic/tailwind/dist/assets/css/styles.css' %}" rel="stylesheet"/>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-52YZ3XGZJ6');
+  </script>
+
+  <style>
 @keyframes blink {
   0%, 50%, 100% { opacity: 1; }
   25%, 75% { opacity: 0.3; }
@@ -10,20 +33,6 @@
 
 .animate-blink {
   animation: blink 1s infinite !important;
-}
-
-/* Floating flag container */
-/* Default: Don't block page clicks */
-#flag-wrapper {
-    position: fixed;
-    z-index: 9999;
-    pointer-events: none;
-}
-
-/* Only editable in edit mode */
-#flag-wrapper.edit-mode {
-    pointer-events: auto;
-    cursor: grab;
 }
 
 /* HR Policy Button */
@@ -433,35 +442,9 @@
 
 
 </style>
-
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-  <title>Aura Inside</title>
-  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="apple-touch-icon" sizes="180x180"/>
-  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="icon" sizes="32x32" type="image/png"/>
-  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="icon" sizes="16x16" type="image/png"/>
-  <link href="{% static 'metronic/tailwind/dist/assets/media/app/Mini_Logo.png' %}" rel="shortcut icon"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-  <link href="{% static 'metronic/tailwind/dist/assets/vendors/apexcharts/apexcharts.css' %}" rel="stylesheet"/>
-  <link href="{% static 'metronic/tailwind/dist/assets/vendors/keenicons/styles.bundle.css' %}" rel="stylesheet"/>
-  <link href="{% static 'metronic/tailwind/dist/assets/css/styles.css' %}" rel="stylesheet"/>
-  
-      <!-- Floating Flag CSS -->
-    <link rel="stylesheet" href="{% static 'Floating_Flag/flag.css' %}">
-	
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-52YZ3XGZJ6"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-52YZ3XGZJ6');
-  </script>
 </head>
 
-<body onload="init()" class="antialiased flex h-full text-base text-foreground bg-background demo1 kt-sidebar-fixed kt-header-fixed kt-sidebar-collapse">
-
+<body class="antialiased flex h-full text-base text-foreground bg-background demo1 kt-sidebar-fixed kt-header-fixed kt-sidebar-collapse">
 
   <!-- Theme Mode -->
   <script>
@@ -691,6 +674,7 @@
 </div>
 <!-- End of Sidebar -->
 
+      <div class="flex flex-col grow min-w-0">
       <!-- Header -->
       <header class="kt-header fixed top-0 z-10 start-0 end-0 flex bg-gray-50 shadow-sm border-b border-gray-200"  data-kt-sticky-class="border-b border-border" data-kt-sticky-name="header" id="header">
         
@@ -1183,6 +1167,14 @@
       </header>
       
       <!-- End of Header -->
+
+      <!-- Page Content -->
+      <main class="flex flex-col grow min-w-0">
+          {% block content %}
+          {% endblock %}
+      </main>
+
+      </div>
     </div>
     <!-- End of Wrapper -->
   </div>
@@ -1207,243 +1199,6 @@ document.addEventListener("DOMContentLoaded", function() {
     flex-direction: column;
     gap: 10px;
 "></div>
-
-
-{% if request.path != '/intranet/flag/' %}
-    <!-- Your code here -->
-<div class="meter">
-    <input type="hidden" id="color" name="color" value="{{ flag.color|default:'#ffffff' }}" onchange="setColor()">
-    <input type="hidden" id="angle" name="camera_angle">
-    <span id="textAngle"> </span>
-	
-    <input type="hidden" id="h" name="wave_horizontal" value="{{ flag.wave_horizontal|default:0.5 }}">
-    <input type="hidden" id="v" name="wave_vertical" value="{{ flag.wave_vertical|default:0.3 }}">
-    <input type="hidden" id="w" name="wave_strength" value="{{ flag.wave_strength|default:0.2 }}">
-    <input type="hidden" id="s" name="wave_speed" value="{{ flag.wave_speed|default:0.5 }}">
-    <input type="hidden" id="width" name="width" value="{{ flag.width|default:30 }}">
-    <input type="hidden" id="height" name="height" value="{{ flag.height|default:20 }}">
-    <input type="hidden" id="pos_x" name="pos_x" value="{{ flag.pos_x|default:200 }}">
-    <input type="hidden" id="pos_y" name="pos_y" value="{{ flag.pos_y|default:200 }}">
-
-</div>
-
-{% endif %}
-
-
-{% if request.path != '/accounts/login/' and request.path != '/' %}
-<!-- Floating flag -->
-<div id="flag-wrapper">
-    <div id="renderArea"></div>
-</div>
-{% endif %}
-
-{% if flag.image %}
-<script>
-    const SAVED_IMAGE_URL = "{{ flag.image.url }}";
-</script>
-{% else %}
-<script>
-    const SAVED_IMAGE_URL = null;
-</script>
-{% endif %}
-
-<script>
-/* ---------------- CONFIG ---------------- */
-const WIDTH = 600, HEIGHT = 400;
-const SEG_W = 30, SEG_H = 20;
-
-/* ---------------- GLOBALS ---------------- */
-let scene, camera, renderer, flag;
-let flagColor = "{{ flag.color|default:'#ffffff' }}";
-let flagTexture = null;
-
-const wrapper = document.getElementById("flag-wrapper");
-
-let isDragging = false;
-let prev = { x: 0, y: 0 };
-
-/* ---------------- INIT ---------------- */
-function init() {
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 1000);
-
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(WIDTH, HEIGHT);
-    document.getElementById("renderArea").appendChild(renderer.domElement);
-
-    scene.add(new THREE.AmbientLight(0x999999));
-
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(10, 50, 100);
-    scene.add(light);
-
-    // Load saved settings from Django template variables
-    const w = parseFloat("{{ flag.width|default:30 }}");
-    const h = parseFloat("{{ flag.height|default:20 }}");
-    const posX = parseInt("{{ flag.pos_x|default:200 }}");
-    const posY = parseInt("{{ flag.pos_y|default:200 }}");
-    const cameraAngle = parseFloat("{{ flag.camera_angle|default:0 }}");
-
-    flagColor = document.getElementById("color").value;
-
-    createFlag(w, h);
-
-    // Position the flag wrapper using saved pos_x and pos_y
-    wrapper.style.left = posX + "px";
-    wrapper.style.top = posY + "px";
-    wrapper.style.transform = "none";
-
-    // Set camera angle slider and camera position
-    document.getElementById("angle").value = cameraAngle;
-    setCamera();
-
-    if (SAVED_IMAGE_URL) {
-        new THREE.TextureLoader().load(SAVED_IMAGE_URL, function (tex) {
-            flagTexture = tex;
-            createFlag(w, h);
-        });
-    }
-
-    // Add event listeners for dragging
-    wrapper.addEventListener("mousedown", startDrag);
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("mouseup", stopDrag);
-
-    wrapper.addEventListener("touchstart", startDrag, { passive:false });
-    document.addEventListener("touchmove", drag, { passive:false });
-    document.addEventListener("touchend", stopDrag);
-
-    animate();
-}
-
-/* ---------------- FLAG ---------------- */
-function createFlag(w, h) {
-    const geometry = new THREE.PlaneGeometry(w, h, SEG_W, SEG_H);
-    const material = new THREE.MeshLambertMaterial({
-        color: flagColor,
-        map: flagTexture,
-        side: THREE.DoubleSide
-    });
-
-    if (flag) {
-        flag.geometry.dispose();
-        flag.geometry = geometry;
-        flag.material = material;
-    } else {
-        flag = new THREE.Mesh(geometry, material);
-        scene.add(flag);
-    }
-}
-
-/* ---------------- ANIMATION ---------------- */
-function animate() {
-    const h = +document.getElementById("h").value;
-    const v = +document.getElementById("v").value;
-    const w = +document.getElementById("w").value;
-    const s = +document.getElementById("s").value;
-
-    const time = Date.now() * s / 50;
-    const verts = flag.geometry.vertices;
-
-    for (let y = 0; y <= SEG_H; y++) {
-        for (let x = 0; x <= SEG_W; x++) {
-            const i = x + y * (SEG_W + 1);
-            verts[i].z = Math.sin(h * x + v * y - time) * w * x / 4;
-        }
-    }
-
-    flag.geometry.verticesNeedUpdate = true;
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-}
-
-/* ---------------- DRAG ---------------- */
-function startDrag(e) {
-    isDragging = true;
-    const ev = e.touches ? e.touches[0] : e;
-    prev.x = ev.clientX;
-    prev.y = ev.clientY;
-    wrapper.style.cursor = "grabbing";
-}
-
-function drag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    const ev = e.touches ? e.touches[0] : e;
-
-    const newLeft = wrapper.offsetLeft + (ev.clientX - prev.x);
-    const newTop = wrapper.offsetTop + (ev.clientY - prev.y);
-
-    wrapper.style.left = newLeft + "px";
-    wrapper.style.top = newTop + "px";
-    wrapper.style.transform = "none";
-
-    // Update hidden inputs for form POST
-    document.getElementById("pos_x").value = newLeft;
-    document.getElementById("pos_y").value = newTop;
-
-    prev.x = ev.clientX;
-    prev.y = ev.clientY;
-}
-
-function stopDrag() {
-    isDragging = false;
-    wrapper.style.cursor = "grab";
-}
-
-/* ---------------- CONTROLS ---------------- */
-function setColor() {
-    flagColor = document.getElementById("color").value;
-    createFlag(flag.geometry.parameters.width, flag.geometry.parameters.height);
-}
-
-function loadTexture(files) {
-    if (!files.length) return;
-
-    const img = new Image();
-    const url = URL.createObjectURL(files[0]);
-
-    img.onload = () => {
-        const aspect = img.width / img.height;
-        let w, h;
-
-        if (aspect < 1) {
-            h = 30;
-            w = h * aspect;
-        } else {
-            w = 30;
-            h = w / aspect;
-        }
-
-        new THREE.TextureLoader().load(url, tex => {
-            flagTexture = tex;
-            createFlag(w, h);
-
-            // Update hidden width and height inputs
-            document.getElementById("width").value = w;
-            document.getElementById("height").value = h;
-        });
-    };
-    img.src = url;
-}
-
-function setCamera() {
-    const angle = +document.getElementById("angle").value;
-    document.getElementById("textAngle").innerText = `[${angle}°]`;
-    camera.position.x = 40 * Math.sin(angle * Math.PI / 180);
-    camera.position.z = 40 * Math.cos(angle * Math.PI / 180);
-    camera.lookAt(0, 0, 0);
-
-    // Update hidden input for form submit
-    document.querySelector('input[name="camera_angle"]').value = angle;
-}
-
-function resetFlag() {
-    // Reload page to reset to saved values
-    location.reload();
-}
-</script>
 
 
 <script>
@@ -1518,4 +1273,5 @@ function showToast(message, type="success") {
 <script src="{% static 'metronic/tailwind/dist/assets/js/widgets/general.js' %}"></script>
 <script src="{% static 'metronic/tailwind/dist/assets/js/layouts/demo1.js' %}"></script>
   <!-- End of Scripts -->
+  {% include "Floating_Flag/live_flags.html" %}
 </body>

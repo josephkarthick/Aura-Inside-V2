@@ -1,6 +1,37 @@
 
 {% load static %}
 {% include 'Layout_Master/base.html' %}
+
+<style>
+
+#assetEditModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#assetEditModal.show {
+    display: flex;
+}
+
+#assetEditModal .modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+}
+</style>
+
 <div class="kt-wrapper flex grow flex-col">
   <main class="grow pt-5" id="content" role="main">
 <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
@@ -501,129 +532,415 @@
 <!-- ASSET INFORMATION -->
 <div class="kt-card mb-5">
 
-    <div class="kt-card-header">
+    <div class="kt-card-header flex flex-wrap items-center justify-between gap-3">
         <h3 class="kt-card-title">
             <i class="ki-filled ki-delivery-3 text-primary mr-2"></i>
             Asset & Purchase Information
         </h3>
+
+        <button type="button"
+                onclick="openAssetEditModal()"
+                class="kt-btn kt-btn-sm kt-btn-light">
+            <i class="ki-filled ki-pencil"></i>
+            Edit Details
+        </button>
     </div>
 
     <div class="kt-card-content p-5">
-
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-5">
 
-            <!-- ASSET NAME -->
             <div>
                 <div class="text-xs text-secondary mb-1">Asset Name</div>
                 <div class="font-semibold text-sm">{{ asset.asset_name|default:"—" }}</div>
             </div>
 
-            <!-- CATEGORY -->
             <div>
                 <div class="text-xs text-secondary mb-1">Asset Category</div>
                 <div class="font-semibold text-sm">{{ asset.category|default:"—" }}</div>
             </div>
 
-            <!-- ASSET TYPE -->
             <div>
                 <div class="text-xs text-secondary mb-1">Asset Type</div>
                 <div class="font-semibold text-sm">{{ desktop.get_asset_type_display|default:"—" }}</div>
             </div>
 
-            <!-- ASSET TAG -->
             <div>
                 <div class="text-xs text-secondary mb-1">Asset Tag</div>
-                <div class="font-semibold text-sm">{{ asset.asset_name|default:"—" }}</div>
+                <div class="font-semibold text-sm">{{ desktop.hostname|default:"—" }}</div>
             </div>
 
-            <!-- MANUFACTURER -->
             <div>
                 <div class="text-xs text-secondary mb-1">Manufacturer</div>
                 <div class="font-semibold text-sm">{{ asset.manufacturer|default:"—" }}</div>
             </div>
 
-            <!-- MODEL -->
             <div>
                 <div class="text-xs text-secondary mb-1">Model</div>
                 <div class="font-semibold text-sm">{{ asset.model|default:"—" }}</div>
             </div>
 
-            <!-- SERIAL NUMBER -->
             <div>
                 <div class="text-xs text-secondary mb-1">Serial Number</div>
                 <div class="font-semibold text-sm break-all">{{ asset.serial_number|default:"—" }}</div>
             </div>
 
-            <!-- PURCHASE DATE -->
             <div>
                 <div class="text-xs text-secondary mb-1">Purchase Date</div>
                 <div class="font-semibold text-sm">{{ asset.purchase_date|date:"d M Y"|default:"—" }}</div>
             </div>
 
-            <!-- PURCHASE COST -->
             <div>
                 <div class="text-xs text-secondary mb-1">Purchase Cost</div>
                 <div class="font-semibold text-sm">
                     {% if asset.purchase_cost %}
                         ₹ {{ asset.purchase_cost|floatformat:2 }}
-                    {% else %}
-                        —
-                    {% endif %}
+                    {% else %}—{% endif %}
                 </div>
             </div>
 
-            <!-- WARRANTY START -->
             <div>
                 <div class="text-xs text-secondary mb-1">Warranty Start</div>
                 <div class="font-semibold text-sm">{{ asset.warranty_start|date:"d M Y"|default:"—" }}</div>
             </div>
 
-            <!-- WARRANTY END -->
             <div>
                 <div class="text-xs text-secondary mb-1">Warranty End</div>
                 <div class="font-semibold text-sm">{{ asset.warranty_end|date:"d M Y"|default:"—" }}</div>
             </div>
 
-            <!-- ASSIGNED EMPLOYEE -->
             <div>
-                <div class="text-xs text-secondary mb-1">Assigned Employee</div>
-                <div class="font-semibold text-sm">{{ asset.assigned_employee|default:"Unassigned" }}</div>
+                <div class="text-xs text-secondary mb-1">Day Project</div>
+                <div class="font-semibold text-sm">{{ asset.assigned_day_project|default:"—" }}</div>
             </div>
 
-            <!-- DEPARTMENT -->
             <div>
-                <div class="text-xs text-secondary mb-1">Department</div>
-                <div class="font-semibold text-sm">{{ asset.department|default:"—" }}</div>
+                <div class="text-xs text-secondary mb-1">Night Project</div>
+                <div class="font-semibold text-sm">{{ asset.assigned_night_project|default:"—" }}</div>
             </div>
 
-            <!-- LOCATION -->
+            <div>
+                <div class="text-xs text-secondary mb-1">Workstation</div>
+                <div class="font-semibold text-sm">{{ asset.workstation|default:"—" }}</div>
+            </div>
+
             <div>
                 <div class="text-xs text-secondary mb-1">Location</div>
                 <div class="font-semibold text-sm">{{ asset.location|default:"—" }}</div>
             </div>
 
-            <!-- STATUS -->
             <div>
                 <div class="text-xs text-secondary mb-1">Asset Status</div>
                 <div class="font-semibold text-sm">{{ asset.get_status_display|default:"—" }}</div>
             </div>
 
-            <!-- DESCRIPTION -->
-            {% if asset.description %}
-            <div class="col-span-2 md:col-span-3 xl:col-span-6">
+            <div class="col-span-2 md:col-span-3 xl:col-span-4">
                 <div class="text-xs text-secondary mb-1">Description</div>
                 <div class="text-sm text-gray-700">
-                    {{ asset.description|linebreaksbr }}
+                    {{ asset.description|default:"—"|linebreaksbr }}
                 </div>
             </div>
-            {% endif %}
 
         </div>
-
     </div>
 </div>
 
+<!-- EDIT ASSET MODAL -->
+<div id="assetEditModal"
+     class="hidden fixed inset-0 z-[9999] bg-black/50 items-center justify-center p-4"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="assetEditModalTitle">
 
+    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+
+        <div class="flex items-center justify-between gap-3 p-5 border-b border-gray-200 dark:border-gray-700">
+            <div>
+                <h3 id="assetEditModalTitle" class="text-lg font-bold text-gray-900 dark:text-white">
+                    Edit Asset & Purchase Information
+                </h3>
+                <p class="text-xs text-secondary mt-1">
+                    Update manually maintained asset information.
+                </p>
+            </div>
+
+            <button type="button"
+                    onclick="closeAssetEditModal()"
+                    class="kt-btn kt-btn-sm kt-btn-light"
+                    aria-label="Close">
+                <i class="ki-filled ki-cross"></i>
+            </button>
+        </div>
+
+        <form method="POST"
+              action="{% url 'Assets:update_desktop_asset' desktop.pk %}">
+            {% csrf_token %}
+
+            <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div>
+                    <label for="edit_asset_name" class="block text-sm font-medium mb-1">Asset Name</label>
+                    <input id="edit_asset_name" name="asset_name" type="text"
+                           value="{{ asset.asset_name|default_if_none:'' }}"
+                           maxlength="200" required
+                           class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Asset Tag</label>
+                    <input type="text" value="{{ desktop.hostname|default:'Not assigned' }}"
+                           class="kt-input w-full" readonly disabled>
+                    <p class="text-xs text-secondary mt-1">Generated and managed by the system.</p>
+                </div>
+
+                <div>
+                    <label for="edit_manufacturer" class="block text-sm font-medium mb-1">Manufacturer</label>
+                    <input id="edit_manufacturer" name="manufacturer" type="text"
+                           value="{{ asset.manufacturer|default_if_none:'' }}"
+                           maxlength="150" class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_model" class="block text-sm font-medium mb-1">Model</label>
+                    <input id="edit_model" name="model" type="text"
+                           value="{{ asset.model|default_if_none:'' }}"
+                           maxlength="150" class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_serial_number" class="block text-sm font-medium mb-1">Serial Number</label>
+                    <input id="edit_serial_number" name="serial_number" type="text"
+                           value="{{ asset.serial_number|default_if_none:'' }}"
+                           maxlength="150" class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_purchase_date" class="block text-sm font-medium mb-1">Purchase Date</label>
+                    <input id="edit_purchase_date" name="purchase_date" type="date"
+                           value="{{ asset.purchase_date|date:'Y-m-d' }}"
+                           class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_purchase_cost" class="block text-sm font-medium mb-1">Purchase Cost (₹)</label>
+                    <input id="edit_purchase_cost" name="purchase_cost" type="number"
+                           min="0" step="0.01"
+                           value="{{ asset.purchase_cost|default_if_none:'' }}"
+                           class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_warranty_start" class="block text-sm font-medium mb-1">Warranty Start</label>
+                    <input id="edit_warranty_start" name="warranty_start" type="date"
+                           value="{{ asset.warranty_start|date:'Y-m-d' }}"
+                           class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_warranty_end" class="block text-sm font-medium mb-1">Warranty End</label>
+                    <input id="edit_warranty_end" name="warranty_end" type="date"
+                           value="{{ asset.warranty_end|date:'Y-m-d' }}"
+                           class="kt-input w-full">
+                </div>
+
+                <div>
+                    <label for="edit_assigned_day_project" class="block text-sm font-medium mb-1">Day Project</label>
+                    <select id="edit_assigned_day_project" name="assigned_day_project" class="kt-input w-full">
+                        <option value="">Select Day Project</option>
+                        {% for project in projects %}
+                            <option value="{{ project }}"
+                                {% if asset.assigned_day_project == project %}selected{% endif %}>
+                                {{ project }}
+                            </option>
+                        {% endfor %}
+                        {% if asset.assigned_day_project and asset.assigned_day_project not in projects %}
+                            <option value="{{ asset.assigned_day_project }}" selected>
+                                {{ asset.assigned_day_project }} (inactive / unavailable)
+                            </option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit_assigned_night_project" class="block text-sm font-medium mb-1">Night Project</label>
+                    <select id="edit_assigned_night_project" name="assigned_night_project" class="kt-input w-full">
+                        <option value="">Select Night Project</option>
+                        {% for project in projects %}
+                            <option value="{{ project }}"
+                                {% if asset.assigned_night_project == project %}selected{% endif %}>
+                                {{ project }}
+                            </option>
+                        {% endfor %}
+                        {% if asset.assigned_night_project and asset.assigned_night_project not in projects %}
+                            <option value="{{ asset.assigned_night_project }}" selected>
+                                {{ asset.assigned_night_project }} (inactive / unavailable)
+                            </option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit_location" class="block text-sm font-medium mb-1">Location / Floor</label>
+                    <select id="edit_location" name="location" class="kt-input w-full">
+                        <option value="">Select Location / Floor</option>
+                        {% for workstation in workstations %}
+                            <option value="{{ workstation.floor|default_if_none:'' }}"
+                                {% if asset.location == workstation.floor %}selected{% endif %}>
+                                {{ workstation.floor|default:"Unspecified Floor" }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit_workstation" class="block text-sm font-medium mb-1">Workstation</label>
+                    <select id="edit_workstation" name="workstation" class="kt-input w-full">
+                        <option value="">Select Workstation</option>
+                        {% for workstation in workstations %}
+                            <option value="{{ workstation.workstation_code }}"
+                                    data-floor="{{ workstation.floor|default_if_none:'' }}"
+                                    {% if asset.workstation == workstation.workstation_code %}selected{% endif %}>
+                                {{ workstation.workstation_code }}
+                            </option>
+                        {% endfor %}
+                        {% if asset.workstation and asset.workstation not in workstation_codes %}
+                            <option value="{{ asset.workstation }}" selected>
+                                {{ asset.workstation }} (inactive / unavailable)
+                            </option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit_status" class="block text-sm font-medium mb-1">Asset Status</label>
+                    <select id="edit_status" name="status" class="kt-input w-full">
+                        {% for value, label in asset.STATUS_CHOICES %}
+                            <option value="{{ value }}" {% if asset.status == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="edit_description" class="block text-sm font-medium mb-1">Description</label>
+                    <textarea id="edit_description" name="description" rows="3"
+                              class="kt-input w-full">{{ asset.description|default_if_none:'' }}</textarea>
+                </div>
+
+            </div>
+
+            <div class="flex justify-end gap-3 p-5 border-t border-gray-200 dark:border-gray-700">
+                <button type="button" onclick="closeAssetEditModal()" class="kt-btn kt-btn-light">
+                    Cancel
+                </button>
+                <button type="submit" class="kt-btn kt-btn-primary">
+                    <i class="ki-filled ki-check"></i>
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openAssetEditModal() {
+    const modal = document.getElementById('assetEditModal');
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAssetEditModal() {
+    const modal = document.getElementById('assetEditModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        closeAssetEditModal();
+    }
+});
+
+document.getElementById('assetEditModal')?.addEventListener('click', function (event) {
+    if (event.target === this) {
+        closeAssetEditModal();
+    }
+});
+
+/* Location/Floor controls which workstation options are available. */
+document.addEventListener('DOMContentLoaded', function () {
+    const locationSelect = document.getElementById('edit_location');
+    const workstationSelect = document.getElementById('edit_workstation');
+
+    if (!locationSelect || !workstationSelect) return;
+
+    const allWorkstations = Array.from(workstationSelect.options)
+        .filter(option => option.value && option.dataset.floor !== undefined)
+        .map(option => ({
+            code: option.value,
+            floor: option.dataset.floor,
+            label: option.textContent.trim()
+        }));
+
+    const currentWorkstation = workstationSelect.value;
+    const currentWorkstationData = allWorkstations.find(item => item.code === currentWorkstation);
+    const initialFloor = locationSelect.value || currentWorkstationData?.floor || '';
+
+    // Build a unique list of floors from the existing Workstation records.
+    const floors = [...new Set(allWorkstations.map(item => item.floor).filter(Boolean))];
+    locationSelect.innerHTML = '<option value="">Select Location / Floor</option>';
+
+    floors.forEach(floor => {
+        const option = document.createElement('option');
+        option.value = floor;
+        option.textContent = floor;
+        locationSelect.appendChild(option);
+    });
+
+    // Retain an existing location even if it is no longer in the active workstation list.
+    if (initialFloor && !floors.includes(initialFloor)) {
+        const option = document.createElement('option');
+        option.value = initialFloor;
+        option.textContent = initialFloor + ' (unavailable)';
+        locationSelect.appendChild(option);
+    }
+
+    locationSelect.value = initialFloor;
+
+    function populateWorkstations(selectedCode = '') {
+        const selectedFloor = locationSelect.value;
+        workstationSelect.innerHTML = '<option value="">Select Workstation</option>';
+
+        const matchingWorkstations = allWorkstations.filter(
+            item => item.floor === selectedFloor
+        );
+
+        matchingWorkstations.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.code;
+            option.textContent = item.code;
+            workstationSelect.appendChild(option);
+        });
+
+        // Preserve an old workstation if it is not in the current active list.
+        if (selectedCode && !matchingWorkstations.some(item => item.code === selectedCode)) {
+            const oldOption = document.createElement('option');
+            oldOption.value = selectedCode;
+            oldOption.textContent = selectedCode + ' (unavailable)';
+            workstationSelect.appendChild(oldOption);
+        }
+
+        workstationSelect.value = selectedCode || '';
+    }
+
+    populateWorkstations(currentWorkstation);
+
+    locationSelect.addEventListener('change', function () {
+        // Changing the floor resets the previous workstation selection.
+        populateWorkstations('');
+    });
+});
+</script>
 
 
 <!-- ASSIGNMENT & USER HISTORY -->

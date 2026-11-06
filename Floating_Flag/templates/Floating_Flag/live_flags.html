@@ -1,0 +1,334 @@
+{# Include this template once on the Home page, after the main page content. #}
+{% if floating_flags %}
+<style>
+/* Floating flags are positioned against the browser's page viewport. */
+.live-floating-flag {
+    position: fixed !important;
+    display: block;
+    box-sizing: border-box;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    pointer-events: none !important;
+    transform-origin: 50% 50%;
+    isolation: isolate;
+}
+.live-floating-flag canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: transparent;
+}
+.live-floating-flag .live-flag-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    z-index: 2147483647;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    font: 20px/28px Arial, sans-serif;
+    text-align: center;
+    cursor: pointer;
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 8px rgba(0,0,0,.28);
+}
+.live-floating-flag .live-flag-close:hover {
+    background: #dc2626;
+}
+</style>
+
+{% for flag in floating_flags %}
+    {% if flag.image and flag.is_active %}
+    <div class="live-floating-flag"
+         data-flag-id="{{ flag.id }}"
+         data-x="{{ flag.pos_x|default_if_none:50 }}"
+         data-y="{{ flag.pos_y|default_if_none:10 }}"
+         data-width="{{ flag.width|default_if_none:280 }}"
+         data-height="{{ flag.height|default_if_none:200 }}"
+         data-z-index="{{ flag.z_index|default_if_none:999 }}"
+         data-angle="{{ flag.camera_angle|default_if_none:0 }}"
+         data-horizontal="{{ flag.wave_horizontal|default_if_none:0.5 }}"
+         data-vertical="{{ flag.wave_vertical|default_if_none:0.3 }}"
+         data-strength="{{ flag.wave_strength|default_if_none:0.4 }}"
+         data-speed="{{ flag.wave_speed|default_if_none:0.5 }}"
+         data-direction="{{ flag.animation_direction|default:'both' }}"
+         data-animation="{{ flag.animation_enabled|yesno:'true,false' }}"
+         data-auto-close="{{ flag.auto_close|yesno:'true,false' }}"
+         data-auto-close-seconds="{{ flag.auto_close_seconds|default_if_none:10 }}"
+         style="width:{{ flag.width|default_if_none:280 }}px;
+                height:{{ flag.height|default_if_none:200 }}px;
+                z-index:{{ flag.z_index|default_if_none:999 }};">
+        <img class="live-flag-source"
+             src="{{ flag.image.url }}"
+             alt="{{ flag.title|default:'Floating flag' }}"
+             crossorigin="anonymous"
+             style="display:none"
+             draggable="false">
+        <canvas aria-hidden="true"></canvas>
+
+        {% if flag.show_close_button %}
+        <button type="button"
+                class="live-flag-close"
+                aria-label="Close flag"
+                title="Close">&times;</button>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endfor %}
+
+<script>
+(function () {
+    "use strict";
+
+    // Close floating flags on the FIRST interaction anywhere in the page.
+    // Capture phase ensures dashboard/card/menu handlers cannot swallow it.
+    // pointerdown covers mouse, touch and pen without waiting for a second click.
+    if (!window.__liveFlagPageDismissInstalled) {
+        window.__liveFlagPageDismissInstalled = true;
+
+        function dismissAllLiveFlags(event) {
+            const flags = document.querySelectorAll(".live-floating-flag");
+            if (!flags.length) return;
+
+            flags.forEach(function (flag) {
+                if (typeof flag.__closeLiveFlag === "function") {
+                    flag.__closeLiveFlag();
+                } else {
+                    flag.remove();
+                }
+            });
+        }
+
+        document.addEventListener("pointerdown", dismissAllLiveFlags, true);
+
+        // Fallback for browsers/devices that do not dispatch Pointer Events.
+        if (!("PointerEvent" in window)) {
+            document.addEventListener("mousedown", dismissAllLiveFlags, true);
+            document.addEventListener("touchstart", dismissAllLiveFlags, {
+                capture: true,
+                passive: true
+            });
+        }
+    }
+
+    function initFloatingFlags() {
+        document.querySelectorAll(".live-floating-flag").forEach(function (flag) {
+            if (flag.dataset.initialized === "1") return;
+            flag.dataset.initialized = "1";
+
+            const img = flag.querySelector(".live-flag-source");
+            const canvas = flag.querySelector("canvas");
+            const ctx = canvas.getContext("2d", { alpha: true });
+
+            const cfg = {
+                x: clamp(number(flag.dataset.x, 50), 0, 100),
+                y: clamp(number(flag.dataset.y, 10), 0, 100),
+                width: Math.max(100, number(flag.dataset.width, 280)),
+                height: Math.max(50, number(flag.dataset.height, 200)),
+                angle: number(flag.dataset.angle, 0),
+                horizontal: clamp(number(flag.dataset.horizontal, 0.5), 0, 1),
+                vertical: clamp(number(flag.dataset.vertical, 0.3), 0, 1),
+                strength: clamp(number(flag.dataset.strength, 0.4), 0, 1),
+                speed: clamp(number(flag.dataset.speed, 0.5), 0, 1),
+                direction: flag.dataset.direction || "both",
+                animation: flag.dataset.animation === "true"
+            };
+
+            let raf = 0;
+            let startTime = performance.now();
+            let cssWidth = cfg.width;
+            let cssHeight = cfg.height;
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            function number(value, fallback) {
+                const n = parseFloat(value);
+                return Number.isFinite(n) ? n : fallback;
+            }
+
+            function clamp(value, min, max) {
+                return Math.min(max, Math.max(min, value));
+            }
+
+            function positionFlag() {
+                const vw = document.documentElement.clientWidth || window.innerWidth;
+                const vh = document.documentElement.clientHeight || window.innerHeight;
+
+                // Keep configured size unless the viewport is too small.
+                const scale = Math.min(
+                    1,
+                    Math.max(0.1, (vw - 24) / cfg.width),
+                    Math.max(0.1, (vh - 24) / cfg.height)
+                );
+
+                cssWidth = cfg.width * scale;
+                cssHeight = cfg.height * scale;
+
+                flag.style.width = cssWidth + "px";
+                flag.style.height = cssHeight + "px";
+                flag.style.position = "fixed";
+                flag.style.right = "auto";
+                flag.style.bottom = "auto";
+                flag.style.left = (cfg.x / 100 * Math.max(0, vw - cssWidth)) + "px";
+                flag.style.top = (cfg.y / 100 * Math.max(0, vh - cssHeight)) + "px";
+                flag.style.zIndex = flag.dataset.zIndex || "999";
+
+                // Rotation is on the wrapper; never overwrite left/top with transforms.
+                flag.style.transform = "rotate(" + cfg.angle + "deg)";
+                resizeCanvas();
+            }
+
+            function resizeCanvas() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = Math.max(1, Math.round(cssWidth * dpr));
+                canvas.height = Math.max(1, Math.round(cssHeight * dpr));
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            function draw(time) {
+                if (!img.complete || !img.naturalWidth) {
+                    raf = requestAnimationFrame(draw);
+                    return;
+                }
+
+                const w = cssWidth;
+                const h = cssHeight;
+                ctx.clearRect(0, 0, w, h);
+
+                if (!cfg.animation || cfg.strength <= 0 || cfg.speed <= 0) {
+                    ctx.drawImage(img, 0, 0, w, h);
+                    raf = requestAnimationFrame(draw);
+                    return;
+                }
+
+                const elapsed = (time - startTime) * cfg.speed * 0.002;
+                const strip = 3;
+
+                for (let x = 0; x < w; x += strip) {
+                    const sw = Math.min(strip + 1, w - x);
+                    const depth = x / Math.max(1, w);
+                    let dy = 0;
+
+                    if (cfg.direction === "horizontal" || cfg.direction === "both") {
+                        dy += Math.sin(cfg.horizontal * x * 0.04 - elapsed) *
+                              cfg.strength * 18 * depth;
+                    }
+
+                    if (cfg.direction === "vertical" || cfg.direction === "both") {
+                        dy += Math.sin(cfg.vertical * x * 0.04 - elapsed * 0.8) *
+                              cfg.strength * 12 * depth;
+                    }
+
+                    const sx = (x / w) * img.naturalWidth;
+                    const sourceWidth = (sw / w) * img.naturalWidth;
+
+                    ctx.drawImage(
+                        img,
+                        sx, 0, sourceWidth, img.naturalHeight,
+                        x, dy, sw, h
+                    );
+                }
+
+                raf = requestAnimationFrame(draw);
+            }
+
+            function start() {
+                cancelAnimationFrame(raf);
+                startTime = performance.now();
+                raf = requestAnimationFrame(draw);
+            }
+
+            img.addEventListener("load", function () {
+                positionFlag();
+                start();
+            }, { once: true });
+
+            img.addEventListener("error", function () {
+                console.error("Floating flag image failed to load:", img.src);
+            });
+
+            if (img.complete && img.naturalWidth) {
+                positionFlag();
+                start();
+            }
+
+            // One idempotent close routine is shared by the button and auto-close.
+            // Pointer-down capture closes on the first physical click/tap; the click
+            // handler is retained as a keyboard/accessibility fallback.
+            let isClosed = false;
+            let autoCloseTimer = null;
+
+            function closeFlag(event) {
+                if (event) {
+                    if (typeof event.preventDefault === "function") event.preventDefault();
+                    if (typeof event.stopPropagation === "function") event.stopPropagation();
+                    if (typeof event.stopImmediatePropagation === "function") {
+                        event.stopImmediatePropagation();
+                    }
+                }
+
+                if (isClosed) return;
+                isClosed = true;
+
+                if (autoCloseTimer !== null) {
+                    window.clearTimeout(autoCloseTimer);
+                    autoCloseTimer = null;
+                }
+
+                cancelAnimationFrame(raf);
+                flag.remove();
+            }
+
+            // Expose the close routine on the wrapper. A single document-level
+            // capture listener below handles the FIRST pointer press, before any
+            // dashboard/menu handlers can consume it.
+            flag.__closeLiveFlag = closeFlag;
+
+            const closeButton = flag.querySelector(".live-flag-close");
+            if (closeButton) {
+                closeButton.addEventListener("click", closeFlag, true);
+                closeButton.addEventListener("keydown", function (event) {
+                    if (event.key === "Enter" || event.key === " ") {
+                        closeFlag(event);
+                    }
+                }, true);
+            }
+
+            // Read the Django boolean safely (true/1/yes/on are all accepted).
+            // Start the timer immediately; it does not depend on image loading or
+            // animation frames, so auto-close still works if the image is slow.
+            const autoCloseValue = String(flag.dataset.autoClose || "")
+                .trim().toLowerCase();
+
+            const autoCloseEnabled = ["true", "1", "yes", "on"].includes(autoCloseValue);
+
+            if (autoCloseEnabled) {
+                const seconds = Math.max(
+                    1,
+                    number(flag.dataset.autoCloseSeconds, 10)
+                );
+
+                autoCloseTimer = window.setTimeout(closeFlag, seconds * 1000);
+            }
+
+            window.addEventListener("resize", positionFlag, { passive: true });
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initFloatingFlags, { once: true });
+    } else {
+        initFloatingFlags();
+    }
+})();
+</script>
+{% endif %}

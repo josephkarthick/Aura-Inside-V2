@@ -120,7 +120,9 @@ def desktop_list(request):
 
     desktops = DesktopAsset.objects.select_related(
         "asset"
-    ).all()
+    ).filter(
+        asset_type__iexact="Desktop"
+    )
 
     if search:
         desktops = desktops.filter(
@@ -144,36 +146,96 @@ def desktop_list(request):
 # COMPUTER DETAIL
 # ============================================================
 
+from django.shortcuts import get_object_or_404, render
+
+from .models import (
+    DesktopAsset,
+    Monitor,
+    ComputerUserHistory,
+)
+
+from Accounts.models import SecurityGroup
+from SpaceView.models import Workstation
+
 
 def desktop_detail(request, pk):
+
     desktop = get_object_or_404(
         DesktopAsset.objects.select_related('asset'),
         pk=pk
     )
 
+    asset = desktop.asset
+
+    # --------------------------------------------------------
+    # MONITORS
+    # --------------------------------------------------------
+
     monitors = Monitor.objects.filter(
         hostname__iexact=desktop.hostname
     ).order_by('monitor_id')
 
-    # Official assignment history
-    assignments = desktop.asset.assignment_history.select_related(
+    # --------------------------------------------------------
+    # OFFICIAL ASSIGNMENT HISTORY
+    # --------------------------------------------------------
+
+    assignments = asset.assignment_history.select_related(
         'employee',
         'assigned_by'
     ).all()
 
-    # Automatically detected Windows user history
+    # --------------------------------------------------------
+    # AUTOMATICALLY DETECTED WINDOWS USER HISTORY
+    # --------------------------------------------------------
+
     detected_users = ComputerUserHistory.objects.filter(
         computer_id=desktop.pk
     ).select_related(
         'employee'
     ).order_by('-first_seen')
 
+    # --------------------------------------------------------
+    # PROJECT DROPDOWNS
+    # --------------------------------------------------------
+
+    projects = list(
+        SecurityGroup.objects
+        .exclude(project__isnull=True)
+        .exclude(project__exact='')
+        .values_list('project', flat=True)
+        .distinct()
+        .order_by('project')
+    )
+
+    # --------------------------------------------------------
+    # WORKSTATION DROPDOWN
+    # --------------------------------------------------------
+
+    workstations = list(
+        Workstation.objects.filter(
+            is_active=True
+        ).order_by('workstation_code')
+    )
+
+    workstation_codes = [
+        ws.workstation_code for ws in workstations
+    ]
+
+    # --------------------------------------------------------
+    # CONTEXT
+    # --------------------------------------------------------
+
     context = {
         'desktop': desktop,
-        'asset': desktop.asset,
+        'asset': asset,
         'monitors': monitors,
         'assignments': assignments,
         'detected_users': detected_users,
+
+        # Asset edit modal
+        'projects': projects,
+        'workstations': workstations,
+        'workstation_codes': workstation_codes,
     }
 
     return render(
@@ -181,6 +243,95 @@ def desktop_detail(request, pk):
         'Assets/desktop_detail.html',
         context
     )
+    
+    
+from decimal import Decimal, InvalidOperation
+from django.utils.dateparse import parse_date
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect
+from django.views.decorators.http import require_POST
+
+from .models import DesktopAsset
+
+
+@require_POST
+def update_desktop_asset(request, pk):
+
+    desktop = get_object_or_404(
+        DesktopAsset.objects.select_related('asset'),
+        pk=pk
+    )
+
+    asset = desktop.asset
+
+    try:
+        asset.asset_name = request.POST.get('asset_name', '').strip()
+        asset.manufacturer = request.POST.get('manufacturer', '').strip() or None
+        asset.model = request.POST.get('model', '').strip() or None
+        asset.serial_number = request.POST.get('serial_number', '').strip() or None
+
+        purchase_date = request.POST.get('purchase_date', '').strip()
+        warranty_start = request.POST.get('warranty_start', '').strip()
+        warranty_end = request.POST.get('warranty_end', '').strip()
+
+        asset.purchase_date = parse_date(purchase_date) if purchase_date else None
+        asset.warranty_start = parse_date(warranty_start) if warranty_start else None
+        asset.warranty_end = parse_date(warranty_end) if warranty_end else None
+
+        cost = request.POST.get('purchase_cost', '').strip()
+        asset.purchase_cost = Decimal(cost) if cost else None
+
+        asset.assigned_day_project = (
+            request.POST.get('assigned_day_project', '').strip() or None
+        )
+
+        asset.assigned_night_project = (
+            request.POST.get('assigned_night_project', '').strip() or None
+        )
+
+        asset.workstation = (
+            request.POST.get('workstation', '').strip() or None
+        )
+
+        asset.location = request.POST.get('location', '').strip() or None
+        asset.description = request.POST.get('description', '').strip() or None
+
+        new_status = request.POST.get('status', '')
+
+        valid_statuses = dict(asset.STATUS_CHOICES)
+
+        if new_status not in valid_statuses:
+            raise ValueError("Invalid asset status.")
+
+        asset.status = new_status
+
+        if not asset.asset_name:
+            raise ValueError("Asset name is required.")
+
+        if asset.purchase_cost is not None and asset.purchase_cost < 0:
+            raise ValueError("Purchase cost cannot be negative.")
+
+        if purchase_date and asset.purchase_date is None:
+            raise ValueError("Invalid purchase date.")
+
+        if warranty_start and asset.warranty_start is None:
+            raise ValueError("Invalid warranty start date.")
+
+        if warranty_end and asset.warranty_end is None:
+            raise ValueError("Invalid warranty end date.")
+
+        if asset.warranty_start and asset.warranty_end:
+            if asset.warranty_end < asset.warranty_start:
+                raise ValueError("Warranty end cannot precede warranty start.")
+
+        asset.save()
+
+        messages.success(request, "Asset information updated successfully.")
+
+    except (ValueError, InvalidOperation, TypeError) as e:
+        messages.error(request, str(e))
+
+    return redirect('Assets:desktop_detail', pk=desktop.pk)    
 
 
 

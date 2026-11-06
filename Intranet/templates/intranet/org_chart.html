@@ -365,186 +365,177 @@
 (function () {
     "use strict";
 
-    /*
-     * Keep the existing Django data structures.
-     * No changes to models, views, or employee relationships.
-     */
-    const data = {{ org_data|safe }};
-    const managementData = {{ management_data|default:"[]"|safe }};
+    // Django must provide arrays of points for both charts.
+    const rawOperationData = {{ org_data|default:"[]"|safe }};
+    const rawManagementData = {{ management_data|default:"[]"|safe }};
 
-    let currentChart = null;
+    let operationChart = null;
     let managementChart = null;
     let activeTab = "managementTab";
     let resizeTimer = null;
 
-    /*
-     * Keep the existing point formatting and label structure.
-     */
-    function formatChartData(source) {
-        return source.map(function (item) {
-            return {
-                id: item.id,
-                parent: item.parent || "",
-                name: item.x,
-                attributes: item.attributes || {},
+    function normalizeData(source, chartName) {
+        if (!Array.isArray(source)) {
+            console.error(chartName + " data is not an array:", source);
+            return [];
+        }
+
+        return source.filter(function (item) {
+            return item && item.id !== undefined && item.id !== null &&
+                   item.x !== undefined && item.x !== null;
+        }).map(function (item) {
+            const point = {
+                id: String(item.id),
+                // JSCharting organizational points use x as their displayed value.
+                x: String(item.x),
                 label: {
                     text:
-                        `${item.attributes.photo || ''}<br>` +
-                        `<b>${item.x}</b><br>` +
-                        `<span style="color:gray">` +
-                        `${item.attributes.role || ''}</span>`
+                        (item.attributes && item.attributes.photo ?
+                            String(item.attributes.photo) + "<br>" : "") +
+                        "<b>" + String(item.x) + "</b><br>" +
+                        '<span style="color:gray">' +
+                        (item.attributes && item.attributes.role ?
+                            String(item.attributes.role) : "") +
+                        "</span>"
                 }
             };
+
+            if (item.parent !== undefined && item.parent !== null &&
+                String(item.parent).trim() !== "") {
+                point.parent = String(item.parent);
+            }
+
+            if (item.attributes && typeof item.attributes === "object") {
+                point.attributes = item.attributes;
+            }
+            return point;
         });
     }
 
-    /*
-     * Shared chart configuration.
-     */
+    const operationPoints = normalizeData(rawOperationData, "Operation chart");
+    const managementPoints = normalizeData(rawManagementData, "Management chart");
+
+    function showChartMessage(container, message, isError) {
+        if (!container) return;
+        container.innerHTML = "";
+        const messageBox = document.createElement("div");
+        messageBox.className = "org-empty";
+        messageBox.style.padding = "40px 20px";
+        messageBox.style.color = isError ? "#b91c1c" : "#64748b";
+        messageBox.textContent = message;
+        container.appendChild(messageBox);
+    }
+
     function getChartOptions(points) {
         return {
             type: "organizational",
-
-				defaultSeries: {
-					color: "#ffffff",
-					defaultPoint: {
-						tooltip: {
-							enabled: false
-						},
-						label: {
-							style: {
-								fontSize: "12px",
-								color: "#334155",
-								textAlign: "center"
-							}
-						},
-						outline: {
-							color: "#d5deea",
-							width: 1
-						},
-						connectorLine: {
-							color: "#b8c6d8",
-							radius: [6, 3]
-						}
-					}
-				},
-
+            defaultSeries: {
+                color: "#ffffff",
+                defaultPoint: {
+                    tooltip: { enabled: false },
+                    label: {
+                        style: {
+                            fontSize: "12px",
+                            color: "#334155",
+                            textAlign: "center"
+                        }
+                    },
+                    outline: { color: "#d5deea", width: 1 },
+                    connectorLine: { color: "#b8c6d8", radius: [6, 3] }
+                }
+            },
             navigation: {
                 enabled: true,
                 mouseWheelZoom: true,
                 pan: true
             },
-
-            toolbar: {
-                visible: true
-            },
-
-            series: [{
-                points: points
-            }]
+            toolbar: { visible: true },
+            series: [{ points: points }]
         };
     }
 
-    /*
-     * Initialize a chart only when its tab is visible and has
-     * a real width and height.
-     */
-    function initializeChart(tabId) {
-        const isManagement = tabId === "managementTab";
-        const chartId = isManagement ? "managementChart" : "orgChart";
-        const container = document.getElementById(chartId);
-
-        if (!container || container.clientWidth === 0 ||
-            container.clientHeight === 0) {
-            return;
-        }
-
-        if (typeof JSC === "undefined" ||
-            typeof JSC.chart !== "function") {
-            console.error(
-                "JSCharting is unavailable. Check assets/js/org_chart.js."
-            );
-            return;
-        }
-
-        if (isManagement) {
-            if (managementChart) {
-                resizeExistingChart(managementChart);
-                return;
-            }
-
-            const points = formatChartData(managementData);
-            managementChart = JSC.chart(
-                chartId,
-                getChartOptions(points)
-            );
-        } else {
-            if (currentChart) {
-                resizeExistingChart(currentChart);
-                return;
-            }
-
-            const points = formatChartData(data);
-            currentChart = JSC.chart(
-                chartId,
-                getChartOptions(points)
-            );
-        }
-
-        /*
-         * Allow the browser to complete layout before resizing.
-         */
-        requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-                const chart = isManagement
-                    ? managementChart
-                    : currentChart;
-
-                resizeExistingChart(chart);
-            });
-        });
-    }
-
-    /*
-     * Use the chart library's resize method if this version
-     * provides it. Do not apply a fake mouse-wheel zoom.
-     */
-    function resizeExistingChart(chart) {
-        if (!chart) return;
-
-        if (typeof chart.resize === "function") {
+    function resizeChart(chart) {
+        if (chart && typeof chart.resize === "function") {
             chart.resize();
         }
     }
 
-    /*
-     * Tab switching:
-     * Make the selected panel visible first, then initialize or
-     * resize its chart after the layout has been calculated.
-     */
-    window.switchTab = function (tabId) {
-        activeTab = tabId;
+    function initializeChart(tabId) {
+        const isManagement = tabId === "managementTab";
+        const chartId = isManagement ? "managementChart" : "orgChart";
+        const container = document.getElementById(chartId);
+        const points = isManagement ? managementPoints : operationPoints;
+        const existingChart = isManagement ? managementChart : operationChart;
 
-        document.querySelectorAll(".tab-content").forEach(function (el) {
-            el.classList.add("hidden");
-        });
-
-        document.querySelectorAll(".org-tabs .tab-btn").forEach(
-            function (btn) {
-                btn.classList.remove("active");
-                btn.setAttribute("aria-selected", "false");
-            }
-        );
-
-        const selectedTab = document.getElementById(tabId);
-        const selectedButton = tabId === "managementTab"
-            ? document.getElementById("tabManagement")
-            : document.getElementById("tabCurrent");
-
-        if (selectedTab) {
-            selectedTab.classList.remove("hidden");
+        if (!container || container.clientWidth <= 0 || container.clientHeight <= 0) {
+            return;
         }
 
+        if (typeof window.JSC === "undefined" ||
+            typeof window.JSC.chart !== "function") {
+            showChartMessage(
+                container,
+                "Chart library did not load. Check the org_chart.js file and its Network response.",
+                true
+            );
+            console.error("JSCharting is unavailable. Check assets/js/org_chart.js.");
+            return;
+        }
+
+        if (!points.length) {
+            showChartMessage(
+                container,
+                isManagement
+                    ? "No management hierarchy data was returned by Django."
+                    : "No operation hierarchy data was returned by Django.",
+                false
+            );
+            console.warn(isManagement ? "management_data is empty or invalid." : "org_data is empty or invalid.");
+            return;
+        }
+
+        if (existingChart) {
+            resizeChart(existingChart);
+            return;
+        }
+
+        try {
+            const chart = window.JSC.chart(chartId, getChartOptions(points));
+            if (isManagement) {
+                managementChart = chart;
+            } else {
+                operationChart = chart;
+            }
+
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    resizeChart(chart);
+                });
+            });
+        } catch (error) {
+            console.error("Unable to render " + (isManagement ? "management" : "operation") + " chart:", error);
+            showChartMessage(container, "The organization chart could not be rendered. Check the browser Console for details.", true);
+        }
+    }
+
+    window.switchTab = function (tabId) {
+        if (tabId !== "managementTab" && tabId !== "currentTab") return;
+        activeTab = tabId;
+
+        document.querySelectorAll(".tab-content").forEach(function (element) {
+            element.classList.add("hidden");
+        });
+        document.querySelectorAll(".org-tabs .tab-btn").forEach(function (button) {
+            button.classList.remove("active");
+            button.setAttribute("aria-selected", "false");
+        });
+
+        const selectedTab = document.getElementById(tabId);
+        const selectedButton = document.getElementById(
+            tabId === "managementTab" ? "tabManagement" : "tabCurrent"
+        );
+
+        if (selectedTab) selectedTab.classList.remove("hidden");
         if (selectedButton) {
             selectedButton.classList.add("active");
             selectedButton.setAttribute("aria-selected", "true");
@@ -557,33 +548,18 @@
         });
     };
 
-    /*
-     * Refresh button: resize the currently displayed chart.
-     */
     window.refreshActiveChart = function () {
-        requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-                initializeChart(activeTab);
-
-                const chart = activeTab === "managementTab"
-                    ? managementChart
-                    : currentChart;
-
-                resizeExistingChart(chart);
-            });
-        });
+        const chart = activeTab === "managementTab" ? managementChart : operationChart;
+        if (chart) {
+            resizeChart(chart);
+        } else {
+            initializeChart(activeTab);
+        }
     };
 
-    /*
-     * Optional fullscreen view for the selected chart panel.
-     */
     window.toggleFullscreen = async function (tabId) {
-        const panel = document.querySelector(
-            "#" + tabId + " .org-panel"
-        );
-
+        const panel = document.querySelector("#" + tabId + " .org-panel");
         if (!panel) return;
-
         try {
             if (!document.fullscreenElement) {
                 await panel.requestFullscreen();
@@ -595,46 +571,29 @@
         }
     };
 
-    /*
-     * Recalculate chart layout when the browser window changes size.
-     */
     window.addEventListener("resize", function () {
         clearTimeout(resizeTimer);
-
         resizeTimer = setTimeout(function () {
-            const chart = activeTab === "managementTab"
-                ? managementChart
-                : currentChart;
-
-            resizeExistingChart(chart);
+            resizeChart(activeTab === "managementTab" ? managementChart : operationChart);
         }, 150);
     });
 
-    /*
-     * Fullscreen changes also alter the chart's available dimensions.
-     */
     document.addEventListener("fullscreenchange", function () {
         setTimeout(function () {
-            const chart = activeTab === "managementTab"
-                ? managementChart
-                : currentChart;
-
-            resizeExistingChart(chart);
-        }, 100);
+            resizeChart(activeTab === "managementTab" ? managementChart : operationChart);
+        }, 150);
     });
 
-    /*
-     * Start only after the page and its initial layout are ready.
-     */
     function startOrganizationChart() {
+        console.info("Organization chart data counts:", {
+            management: managementPoints.length,
+            operation: operationPoints.length
+        });
         window.switchTab("managementTab");
     }
 
     if (document.readyState === "loading") {
-        document.addEventListener(
-            "DOMContentLoaded",
-            startOrganizationChart
-        );
+        document.addEventListener("DOMContentLoaded", startOrganizationChart, { once: true });
     } else {
         startOrganizationChart();
     }

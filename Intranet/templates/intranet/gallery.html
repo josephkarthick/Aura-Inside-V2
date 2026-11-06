@@ -194,20 +194,23 @@
               {{ img.created_at|date:"Y" }}
             </div>
 
-{% if request.user.is_authenticated and request.user.department|lower == "information technology" or request.user.is_authenticated and request.user.department|lower == "human resources" %}
+            {% if request.user.is_authenticated and request.user.department|lower in "it hr admin" %}
 <form method="post" action="{% url 'Intranet:delete_image' img.id %}">
-    {% csrf_token %}
-    <button class="delete-btn"
-            type="submit"
-            onclick="return confirm('Delete this image?');"
-            title="Delete">
-        <i class="ki-duotone ki-trash fs-7 text-white">
-            <span class="path1"></span>
-            <span class="path2"></span>
-        </i>
-    </button>
+  {% csrf_token %}
+<button class="delete-btn"
+        type="submit"
+        onclick="event.stopPropagation(); return confirm('Delete this image?');"
+        title="Delete">
+  <i class="ki-duotone ki-trash fs-7 text-white">
+    <span class="path1"></span>
+    <span class="path2"></span>
+  </i>
+</button>
+
 </form>
-{% endif %}
+
+
+            {% endif %}
 
           </div>
 

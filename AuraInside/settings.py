@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'CDR',
     'SpaceView',
     'Assets',
+    'Floating_Flag',
 
 ]
 

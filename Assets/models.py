@@ -117,16 +117,20 @@ class Asset(models.Model):
         null=True
     )
 
-    assigned_employee = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='assigned_assets'
-    )
-
-    department = models.CharField(
+    assigned_day_project = models.CharField(
         max_length=150,
+        blank=True,
+        null=True
+    )
+    
+    assigned_night_project = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True
+    )
+    
+    workstation = models.CharField(
+        max_length=50,
         blank=True,
         null=True
     )

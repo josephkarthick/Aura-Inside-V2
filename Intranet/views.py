@@ -19,19 +19,58 @@ from .models import Quote
 import random
 from datetime import timedelta
 from django.utils import timezone
+from django.db import models
+from django.utils import timezone
+from Floating_Flag.models import FloatingFlag
+    
+
+
+from datetime import date, timedelta
+from collections import defaultdict
+import random
+
+from django.db.models import Count
+from django.utils import timezone
+
+from Floating_Flag.models import FloatingFlag
 
 
 def home(request):
-    today = date.today()
-    # Get the flag
-    flag = FloatingFlag.objects.filter(id=1).first()  # safe fetch
-    home_content_qs = Home.objects.filter(show=True).order_by('order_no')
+
+    # ====================================================
+    # FLOATING FLAGS
+    # ====================================================
+
+    floating_flags = (
+        FloatingFlag.objects
+        .filter(is_active=True)
+        .exclude(image="")
+        .order_by("-id")
+    )
+
+    # ====================================================
+    # HOME CONTENT
+    # ====================================================
+
+    home_content_qs = Home.objects.filter(
+        show=True
+    ).order_by("order_no")
+
     grouped_content = defaultdict(list)
-    today_day = date.today().day    
+    today_day = date.today().day
 
     for item in home_content_qs:
-        field1_value = getattr(item.username, item.field1, '') if item.username and item.field1 else ''
-        field2_value = getattr(item.username, item.field2, '') if item.username and item.field2 else ''
+
+        field1_value = (
+            getattr(item.username, item.field1, "")
+            if item.username and item.field1 else ""
+        )
+
+        field2_value = (
+            getattr(item.username, item.field2, "")
+            if item.username and item.field2 else ""
+        )
+
         username_str = item.username.username if item.username else ""
 
         grouped_content[item.content_type].append({
@@ -43,61 +82,58 @@ def home(request):
             "field2_name": item.field2,
             "field2_value": field2_value,
             "project": item.project,
-            "photo": item.photo.url if item.photo else '',
+            "photo": item.photo.url if item.photo else "",
             "photo_layout": item.photo_layout,
             "username": username_str,
-            
-
         })
 
-    # If no content_type, keys will be None, so ensure filtering or default label
-    grouped_content = {k if k else "Others": v for k, v in grouped_content.items()}
-    
-    
+    grouped_content = {
+        k if k else "Others": v
+        for k, v in grouped_content.items()
+    }
+
     # ====================================================
-    # Quotes
-    # ====================================================    
-    
+    # QUOTES
+    # ====================================================
+
     quotes = Quote.objects.filter(is_active=True)
-    
+
     quote = None
     if quotes.exists():
-        quote = random.choice(list(quotes))    
+        quote = random.choice(list(quotes))
 
     # ====================================================
     # DATE CALCULATIONS
     # ====================================================
+
     today = date.today()
     current_month = today.month
-    current_year = today.year
-
-    # Handle January → last month = December of previous year
-    if current_month == 1:
-        last_month = 12
-        last_month_year = current_year - 1
-    else:
-        last_month = current_month - 1
-        last_month_year = current_year
 
     # ====================================================
-    # 🎂 BIRTHDAYS — CURRENT MONTH
-    # ====================================================
-    birthday_users = AuraInsideUser.objects.filter(
-        birthdate__month=current_month,
-        is_active=True
-    ).order_by('birthdate__day').only("first_name", "birthdate")
-
-    # ====================================================
-    # 🆕 NEW JOINEES — LAST MONTH
+    # BIRTHDAYS — CURRENT MONTH
     # ====================================================
 
-    
-    today = timezone.now()
-    last_30_days = today - timedelta(days=30)
-    
+    birthday_users = (
+        AuraInsideUser.objects
+        .filter(
+            birthdate__month=current_month,
+            is_active=True
+        )
+        .order_by("birthdate__day")
+        .only("first_name", "birthdate")
+    )
+
+    # ====================================================
+    # NEW JOINEES — LAST 30 DAYS
+    # ====================================================
+
+    current_datetime = timezone.now()
+    last_30_days = current_datetime - timedelta(days=30)
+
     new_joinees = (
-        AuraInsideUser.objects.filter(
-            date_joined__range=(last_30_days, today),
+        AuraInsideUser.objects
+        .filter(
+            date_joined__range=(last_30_days, current_datetime),
             is_active=True,
         )
         .select_related("shift", "department")
@@ -111,18 +147,23 @@ def home(request):
         )
         .order_by("-date_joined")
     )
-    
+
     # ====================================================
-    # 🎯 REACTIONS & COMMENTS COUNTS (BIRTHDAYS)
+    # REACTIONS & COMMENTS COUNTS — BIRTHDAYS
     # ====================================================
 
-    birthday_ids = list(birthday_users.values_list("id", flat=True))
+    birthday_ids = list(
+        birthday_users.values_list("id", flat=True)
+    )
 
     reaction_map = {
         r["object_id"]: r["total"]
         for r in (
             Reaction.objects
-            .filter(content_type="birthday", object_id__in=birthday_ids)
+            .filter(
+                content_type="birthday",
+                object_id__in=birthday_ids
+            )
             .values("object_id")
             .annotate(total=Count("id"))
         )
@@ -132,7 +173,10 @@ def home(request):
         c["object_id"]: c["total"]
         for c in (
             Comment.objects
-            .filter(content_type="birthday", object_id__in=birthday_ids)
+            .filter(
+                content_type="birthday",
+                object_id__in=birthday_ids
+            )
             .values("object_id")
             .annotate(total=Count("id"))
         )
@@ -143,29 +187,33 @@ def home(request):
         user.comment_count = comment_map.get(user.id, 0)
 
     # ====================================================
-    # 💼 CAREERS — SHOW ONLY OPEN JOBS
+    # CAREERS — OPEN JOBS
     # ====================================================
 
-    
     jobs = (
         JobPosting.objects
         .filter(status="open")
         .select_related("posted_by")
-        .annotate(applicant_count=Count("jobapplication"))
+        .annotate(
+            applicant_count=Count("jobapplication")
+        )
         .order_by("-created_at")
     )
-    
-    
-    
+
+    # ====================================================
+    # RENDER HOME PAGE
+    # ====================================================
 
     return render(request, "intranet/home.html", {
         "grouped_content": grouped_content,
         "birthday_users": birthday_users,
-        "new_joinees": new_joinees,    
-        "today_day": today_day,   
-        "jobs": jobs,   
-        "quote": quote,         
+        "new_joinees": new_joinees,
+        "today_day": today_day,
+        "jobs": jobs,
+        "quote": quote,
+        "floating_flags": floating_flags,
     })
+
     
     
 
@@ -438,7 +486,7 @@ from .models import Gallery, GalleryGroup
 from django.db.models import Prefetch
 
 
-from .models import FloatingFlag
+
 
 def gallery(request):
     # Get all groups and their images
@@ -508,7 +556,7 @@ def delete_image(request, image_id):
     
     
 
-from .models import FloatingFlag
+
 
 def aura_flag(request):
     flag, _ = FloatingFlag.objects.get_or_create(id=1)

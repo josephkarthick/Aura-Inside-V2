@@ -45,7 +45,9 @@ urlpatterns = [
     
     path("spaceview/", include("SpaceView.urls")),
     
-    path('assets/', include('Assets.urls')),    
+    path('assets/', include('Assets.urls')),   
+
+    path("floating-flag/", include("Floating_Flag.urls")),    
 
 ]
 

@@ -1,0 +1,113 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+.flag-list-page{max-width:1400px;margin:28px auto;padding:0 20px;color:#172033}
+.flag-list-header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.flag-list-header h1{font-size:24px;font-weight:750;margin:0}
+.flag-list-header p{font-size:13px;color:#64748b;margin:5px 0 0}
+.flag-list-actions{display:flex;gap:9px;flex-wrap:wrap}
+.flag-btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;padding:10px 15px;font-size:13px;font-weight:650;text-decoration:none;cursor:pointer}
+.flag-btn-primary{background:#2563eb;color:#fff}
+.flag-btn-light{background:#eef2f7;color:#334155}
+.flag-table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:13px;overflow:hidden;box-shadow:0 5px 20px #0f172a0a}
+.flag-table{width:100%;border-collapse:collapse}
+.flag-table th{background:#f8fafc;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#64748b;padding:14px 16px;white-space:nowrap}
+.flag-table td{padding:14px 16px;border-top:1px solid #edf0f4;font-size:13px;vertical-align:middle}
+.flag-preview{width:92px;height:54px;object-fit:contain;background:#f8fafc;border:1px solid #e5e7eb;border-radius:7px}
+.flag-placeholder{width:92px;height:54px;display:flex;align-items:center;justify-content:center;background:#f1f5f9;border:1px solid #e5e7eb;border-radius:7px;color:#94a3b8;font-size:11px}
+.flag-status{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700}
+.flag-status.active{background:#dcfce7;color:#166534}
+.flag-status.inactive{background:#fee2e2;color:#991b1b}
+.flag-row-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.flag-delete-form{display:inline}
+.flag-empty{text-align:center;padding:55px 20px;color:#64748b}
+.flag-empty strong{display:block;color:#334155;font-size:16px;margin-bottom:6px}
+@media(max-width:850px){.flag-table-wrap{overflow-x:auto}.flag-table{min-width:780px}}
+@media(max-width:560px){.flag-list-page{padding:0 10px}.flag-list-header h1{font-size:21px}}
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-0" id="content" role="main">
+  <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+    <div class="flag-list-page">
+      <div class="flag-list-header">
+        <div>
+          <h1>Floating Flags</h1>
+          <p>Manage the flags displayed across AuraInside.</p>
+        </div>
+        <div class="flag-list-actions">
+          <a href="{% url 'Floating_Flag:flag_create' %}" class="flag-btn flag-btn-primary">+ Create flag</a>
+        </div>
+      </div>
+
+      <div class="flag-table-wrap">
+        {% if flags %}
+          <table class="flag-table">
+            <thead>
+              <tr>
+                <th>Preview</th>
+                <th>Title</th>
+                <th>Position</th>
+                <th>Size</th>
+                <th>Animation</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for flag in flags %}
+                <tr>
+                  <td>
+                    {% if flag.image %}
+                      <img src="{{ flag.image.url }}" alt="{{ flag.title }}" class="flag-preview">
+                    {% else %}
+                      <div class="flag-placeholder">No image</div>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <strong>{{ flag.title }}</strong>
+                    <div style="font-size:11px;color:#94a3b8;margin-top:3px">Updated {{ flag.updated_at|date:"d M Y, h:i A" }}</div>
+                  </td>
+                  <td>{{ flag.get_position_type_display|default:flag.position_type }}</td>
+                  <td>{{ flag.width }} × {{ flag.height }} px</td>
+                  <td>
+                    {% if flag.animation_enabled %}
+                      <span style="color:#15803d">Enabled</span>
+                    {% else %}
+                      <span style="color:#64748b">Disabled</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if flag.is_currently_active %}
+                      <span class="flag-status active">Active</span>
+                    {% else %}
+                      <span class="flag-status inactive">Inactive</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="flag-row-actions">
+                      <a href="{% url 'Floating_Flag:flag_edit' flag.pk %}" class="flag-btn flag-btn-light">Edit</a>
+                      <form method="post" action="{% url 'Floating_Flag:flag_delete' flag.pk %}" class="flag-delete-form" onsubmit="return confirm('Delete this flag? This action cannot be undone.');">
+                        {% csrf_token %}
+                        <button type="submit" class="flag-btn flag-btn-light">Delete</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="flag-empty">
+            <strong>No floating flags created yet</strong>
+            Create your first flag to configure its image, position and animation.
+            <div style="margin-top:16px">
+              <a href="{% url 'Floating_Flag:flag_create' %}" class="flag-btn flag-btn-primary">Create your first flag</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+</div>

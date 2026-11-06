@@ -1,0 +1,1450 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+.flag-admin-page {
+    max-width: 1400px;
+    margin: 25px auto;
+    padding: 0 20px;
+    color: #172033;
+}
+
+.flag-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.flag-admin-header h1 {
+    font-size: 24px;
+    font-weight: 750;
+    margin: 0;
+}
+
+.flag-admin-header p {
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.flag-editor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.flag-panel {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 5px 20px #0f172a0a;
+    min-width: 0;
+}
+
+.flag-panel h2 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 16px;
+}
+
+#flag-stage {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    overflow: hidden;
+    border: 1px dashed #aab6c8;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    background-image:
+        linear-gradient(#94a3b81f 1px, transparent 1px),
+        linear-gradient(90deg, #94a3b81f 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+#flag-stage::before {
+    content: "AURA INSIDE — LIVE PREVIEW";
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#flag-wrapper {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 400px;
+    height: 200px;
+    display: none;
+    box-sizing: border-box;
+    border: 1px dashed #2563eb;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    z-index: 20;
+}
+
+#flag-image-preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    user-select: none;
+}
+
+#flag-resize-handle {
+    position: absolute;
+    right: -7px;
+    bottom: -7px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 4px;
+    background: #2563eb;
+    box-shadow: 0 1px 5px #64748b;
+    cursor: nwse-resize;
+    z-index: 30;
+}
+
+.flag-hint,
+.flag-status {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 10px;
+}
+
+.flag-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.flag-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.flag-field.full {
+    grid-column: 1 / -1;
+}
+
+.flag-field label {
+    font-size: 12px;
+    font-weight: 650;
+    color: #475569;
+}
+
+.flag-field input:not([type=checkbox]):not([type=file]):not([type=range]),
+.flag-field select {
+    width: 100%;
+    min-height: 39px;
+    border: 1px solid #dbe1ea;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: #fff;
+    color: #172033;
+}
+
+.flag-field input[type=range] {
+    width: 100%;
+    accent-color: #2563eb;
+}
+
+.flag-field input[type=color] {
+    width: 65px;
+    height: 40px;
+    padding: 3px;
+}
+
+.flag-range-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #475569;
+}
+
+.flag-range-heading output {
+    font-weight: 700;
+    color: #1d4ed8;
+}
+
+.flag-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+    margin: 9px 0;
+}
+
+.flag-toggle input {
+    accent-color: #2563eb;
+}
+
+.flag-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.flag-actions button,
+.flag-back {
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 650;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.flag-save {
+    background: #2563eb;
+    color: white;
+}
+
+.flag-save:hover {
+    background: #1d4ed8;
+}
+
+.flag-reset,
+.flag-back {
+    background: #eef2f7;
+    color: #334155;
+}
+
+.flag-image-current {
+    max-width: 160px;
+    max-height: 70px;
+    object-fit: contain;
+    margin-top: 8px;
+}
+
+@media(max-width: 900px) {
+    .flag-editor-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #flag-stage {
+        height: 430px;
+    }
+}
+
+@media(max-width: 560px) {
+    .flag-admin-page {
+        padding: 0 10px;
+    }
+
+    .flag-panel {
+        padding: 14px;
+    }
+
+    .flag-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .flag-field.full {
+        grid-column: auto;
+    }
+
+    #flag-stage {
+        height: 340px;
+    }
+}
+</style>
+
+
+<div class="kt-wrapper flex grow flex-col">
+<main class="grow pt-0" id="content" role="main">
+<table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<div class="flag-admin-page">
+
+    <div class="flag-admin-header">
+        <div>
+            <h1>Floating Flag Settings</h1>
+            <p>Upload your flag, position it and configure its animation.</p>
+        </div>
+
+        <a href="{% url 'Floating_Flag:flag_list' %}"
+           class="flag-back">
+            Back to flags
+        </a>
+    </div>
+
+
+    <form method="post"
+          enctype="multipart/form-data"
+          id="flag-settings-form">
+
+        {% csrf_token %}
+
+        <div class="flag-editor-grid">
+
+            <!-- LEFT: LIVE PREVIEW -->
+
+            <section class="flag-panel">
+
+                <h2>Live position editor</h2>
+
+                <div id="flag-stage">
+
+                    <div id="flag-wrapper">
+
+                        <img id="flag-image-preview"
+                             alt="Flag preview"
+                             draggable="false">
+
+                        <div id="flag-resize-handle"
+                             title="Drag to resize"></div>
+
+                    </div>
+
+                </div>
+
+                <p class="flag-hint">
+                    Drag the flag to position it.
+                    Drag the blue bottom-right handle to resize it.
+                </p>
+
+                <p id="flag-dimensions" class="flag-status">
+                    Select an image to preview.
+                </p>
+
+                <div class="flag-fields" style="margin-top:16px">
+
+                    <div class="flag-field">
+                        <label for="flag-pos-x">X position (%)</label>
+                        <input type="number"
+                               id="flag-pos-x"
+                               name="pos_x"
+                               min="0"
+                               max="100"
+                               step="0.1"
+                               value="{{ flag.pos_x|default:50 }}">
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-pos-y">Y position (%)</label>
+                        <input type="number"
+                               id="flag-pos-y"
+                               name="pos_y"
+                               min="0"
+                               max="100"
+                               step="0.1"
+                               value="{{ flag.pos_y|default:10 }}">
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-width">Width (px)</label>
+                        <input type="number"
+                               id="flag-width"
+                               name="width"
+                               min="100"
+                               max="2000"
+                               value="{{ flag.width|default:600 }}">
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-height">Height (px)</label>
+                        <input type="number"
+                               id="flag-height"
+                               name="height"
+                               min="50"
+                               max="1200"
+                               value="{{ flag.height|default:300 }}">
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT: FLAG SETTINGS -->
+
+            <section class="flag-panel">
+
+                <h2>Flag appearance</h2>
+
+                <div class="flag-fields">
+
+                    <div class="flag-field full">
+                        <label for="flag-title">Flag title</label>
+                        <input type="text"
+                               id="flag-title"
+                               name="title"
+                               value="{{ flag.title|default:'Aura Flag' }}"
+                               required>
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-color">Colour</label>
+                        <input type="color"
+                               id="flag-color"
+                               name="color"
+                               value="{{ flag.color|default:'#ffffff' }}">
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-position-type">Position preset</label>
+
+                        <select id="flag-position-type"
+                                name="position_type">
+
+                            <option value="top_left"
+                                {% if flag.position_type == 'top_left' %}selected{% endif %}>
+                                Top Left
+                            </option>
+
+                            <option value="top_center"
+                                {% if flag.position_type == 'top_center' %}selected{% endif %}>
+                                Top Center
+                            </option>
+
+                            <option value="top_right"
+                                {% if flag.position_type == 'top_right' %}selected{% endif %}>
+                                Top Right
+                            </option>
+
+                            <option value="center"
+                                {% if flag.position_type == 'center' %}selected{% endif %}>
+                                Center
+                            </option>
+
+                            <option value="bottom_left"
+                                {% if flag.position_type == 'bottom_left' %}selected{% endif %}>
+                                Bottom Left
+                            </option>
+
+                            <option value="bottom_center"
+                                {% if flag.position_type == 'bottom_center' %}selected{% endif %}>
+                                Bottom Center
+                            </option>
+
+                            <option value="bottom_right"
+                                {% if flag.position_type == 'bottom_right' %}selected{% endif %}>
+                                Bottom Right
+                            </option>
+
+                            <option value="custom"
+                                {% if flag.position_type == 'custom' or not flag %}selected{% endif %}>
+                                Custom
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="flag-field full">
+                        <label for="flag-image-upload">Flag image</label>
+
+                        <input type="file"
+                               id="flag-image-upload"
+                               name="image"
+                               accept="image/*">
+
+                        <input type="hidden"
+                               id="flag-image"
+                               value="{% if flag.image %}{{ flag.image.url }}{% endif %}">
+
+                        {% if flag.image %}
+                        <img src="{{ flag.image.url }}"
+                             class="flag-image-current"
+                             alt="Current flag image">
+                        {% endif %}
+                    </div>
+
+                    <div class="flag-field full">
+                        <label class="flag-range-heading" for="flag-angle">
+                            <span>Camera angle</span>
+                            <output id="angle-output">
+                                {{ flag.camera_angle|default:0 }}°
+                            </output>
+                        </label>
+
+                        <input type="range"
+                               id="flag-angle"
+                               name="camera_angle"
+                               min="-180"
+                               max="180"
+                               step="1"
+                               value="{{ flag.camera_angle|default:0 }}">
+                    </div>
+
+                </div>
+
+
+                <!-- CLOTH ANIMATION -->
+
+                <h2 style="margin-top:24px">Cloth animation</h2>
+
+                <div class="flag-fields">
+
+                    <div class="flag-field full">
+                        <label class="flag-range-heading" for="flag-h">
+                            <span>Horizontal movement</span>
+                            <output id="h-output">
+                                {{ flag.wave_horizontal|default:0.5 }}
+                            </output>
+                        </label>
+
+                        <input type="range"
+                               id="flag-h"
+                               name="wave_horizontal"
+                               min="0"
+                               max="1"
+                               step="0.05"
+                               value="{{ flag.wave_horizontal|default:0.5 }}">
+                    </div>
+
+                    <div class="flag-field full">
+                        <label class="flag-range-heading" for="flag-v">
+                            <span>Vertical movement</span>
+                            <output id="v-output">
+                                {{ flag.wave_vertical|default:0.3 }}
+                            </output>
+                        </label>
+
+                        <input type="range"
+                               id="flag-v"
+                               name="wave_vertical"
+                               min="0"
+                               max="1"
+                               step="0.05"
+                               value="{{ flag.wave_vertical|default:0.3 }}">
+                    </div>
+
+                    <div class="flag-field full">
+                        <label class="flag-range-heading" for="flag-w">
+                            <span>Swing strength</span>
+                            <output id="w-output">
+                                {{ flag.wave_strength|default:0.4 }}
+                            </output>
+                        </label>
+
+                        <input type="range"
+                               id="flag-w"
+                               name="wave_strength"
+                               min="0"
+                               max="1"
+                               step="0.05"
+                               value="{{ flag.wave_strength|default:0.4 }}">
+                    </div>
+
+                    <div class="flag-field full">
+                        <label class="flag-range-heading" for="flag-s">
+                            <span>Wave speed</span>
+                            <output id="s-output">
+                                {{ flag.wave_speed|default:0.5 }}
+                            </output>
+                        </label>
+
+                        <input type="range"
+                               id="flag-s"
+                               name="wave_speed"
+                               min="0"
+                               max="1"
+                               step="0.05"
+                               value="{{ flag.wave_speed|default:0.5 }}">
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-direction">Animation direction</label>
+
+                        <select id="flag-direction"
+                                name="animation_direction">
+
+                            <option value="horizontal"
+                                {% if flag.animation_direction == 'horizontal' %}selected{% endif %}>
+                                Horizontal
+                            </option>
+
+                            <option value="vertical"
+                                {% if flag.animation_direction == 'vertical' %}selected{% endif %}>
+                                Vertical
+                            </option>
+
+                            <option value="both"
+                                {% if not flag or flag.animation_direction == 'both' %}selected{% endif %}>
+                                Both
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-z-index">Z-index</label>
+                        <input type="number"
+                               id="flag-z-index"
+                               name="z_index"
+                               min="1"
+                               max="99999"
+                               value="{{ flag.z_index|default:999 }}">
+                    </div>
+
+                </div>
+
+
+                <!-- DISPLAY OPTIONS -->
+
+                <h2 style="margin-top:24px">Display options</h2>
+
+                <div class="flag-field full">
+
+                    <label class="flag-toggle">
+                        <input type="checkbox"
+                               name="animation_enabled"
+                               id="flag-animation-enabled"
+                               value="on"
+                               {% if not flag or flag.animation_enabled %}checked{% endif %}>
+                        Enable animation
+                    </label>
+
+                    <label class="flag-toggle">
+                        <input type="checkbox"
+                               name="show_close_button"
+                               value="on"
+                               {% if not flag or flag.show_close_button %}checked{% endif %}>
+                        Show close button
+                    </label>
+
+                    <label class="flag-toggle">
+                        <input type="checkbox"
+                               name="auto_close"
+                               id="flag-auto-close"
+                               value="on"
+                               {% if flag.auto_close %}checked{% endif %}>
+                        Automatically close
+                    </label>
+
+                    <label class="flag-toggle">
+                        <input type="checkbox"
+                               name="is_active"
+                               value="on"
+                               {% if not flag or flag.is_active %}checked{% endif %}>
+                        Active
+                    </label>
+
+                </div>
+
+
+                <div class="flag-field full" style="margin-top:12px">
+                    <label for="flag-auto-close-seconds">
+                        Auto-close after (seconds)
+                    </label>
+
+                    <input type="number"
+                           id="flag-auto-close-seconds"
+                           name="auto_close_seconds"
+                           min="1"
+                           max="3600"
+                           value="{{ flag.auto_close_seconds|default:10 }}">
+                </div>
+
+
+                <!-- SCHEDULING -->
+
+                <h2 style="margin-top:24px">Display schedule</h2>
+
+                <div class="flag-fields">
+
+                    <div class="flag-field">
+                        <label for="flag-start-date">Start date</label>
+                        <input type="date"
+                               id="flag-start-date"
+                               name="start_date"
+                               value="{{ flag.start_date|date:'Y-m-d' }}">
+                    </div>
+
+                    <div class="flag-field">
+                        <label for="flag-end-date">End date</label>
+                        <input type="date"
+                               id="flag-end-date"
+                               name="end_date"
+                               value="{{ flag.end_date|date:'Y-m-d' }}">
+                    </div>
+
+                </div>
+
+
+                <!-- SAVE AND RESET -->
+
+                <div class="flag-actions">
+
+                    <button type="submit" class="flag-save">
+                        {% if flag %}
+                            Update flag settings
+                        {% else %}
+                            Save flag settings
+                        {% endif %}
+                    </button>
+
+                    <button type="button"
+                            class="flag-reset"
+                            id="flag-reset">
+                        Reset preview
+                    </button>
+
+                </div>
+
+                <p class="flag-status">
+                    Settings and image will be saved to the database
+                    when you click Save.
+                </p>
+
+            </section>
+
+        </div>
+
+    </form>
+
+</div>
+
+</main>
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ==========================================
+    // ELEMENT REFERENCES
+    // ==========================================
+
+    const stage = document.getElementById("flag-stage");
+    const wrapper = document.getElementById("flag-wrapper");
+    const image = document.getElementById("flag-image-preview");
+    const resizeHandle = document.getElementById("flag-resize-handle");
+
+    const upload = document.getElementById("flag-image-upload");
+
+    const posX = document.getElementById("flag-pos-x");
+    const posY = document.getElementById("flag-pos-y");
+
+    const widthInput = document.getElementById("flag-width");
+    const heightInput = document.getElementById("flag-height");
+
+    const angle = document.getElementById("flag-angle");
+    const preset = document.getElementById("flag-position-type");
+
+    const horizontalInput = document.getElementById("flag-h");
+    const verticalInput = document.getElementById("flag-v");
+    const strengthInput = document.getElementById("flag-w");
+    const speedInput = document.getElementById("flag-s");
+
+    const directionInput = document.getElementById("flag-direction");
+    const animationEnabled = document.getElementById("flag-animation-enabled");
+
+    const dimensions = document.getElementById("flag-dimensions");
+
+    const form = document.getElementById("flag-settings-form");
+
+    if (!stage || !wrapper || !image || !upload || !form) {
+        console.error("Floating Flag: Required HTML elements are missing.");
+        return;
+    }
+
+    // ==========================================
+    // VARIABLES
+    // ==========================================
+
+    let objectUrl = null;
+
+    let dragging = false;
+    let resizing = false;
+
+    let startX = 0;
+    let startY = 0;
+
+    let startLeft = 0;
+    let startTop = 0;
+
+    let startWidth = 0;
+    let startHeight = 0;
+
+    let activePointer = null;
+
+    let animationFrame = null;
+    let animationStartTime = performance.now();
+
+    let clothCanvas = null;
+    let clothContext = null;
+
+    // ==========================================
+    // HELPERS
+    // ==========================================
+
+    function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    function getNumber(input, fallback) {
+        const value = Number(input.value);
+        return Number.isFinite(value) ? value : fallback;
+    }
+
+    function updateDimensions() {
+        dimensions.textContent =
+            "Width: " + wrapper.offsetWidth +
+            "px | Height: " + wrapper.offsetHeight + "px";
+    }
+
+    // X/Y are percentages of the AVAILABLE movement range.
+    // 0 = left/top edge; 100 = right/bottom edge.
+    function updatePositionInputs() {
+        const maxLeft = Math.max(0, stage.clientWidth - wrapper.offsetWidth);
+        const maxTop = Math.max(0, stage.clientHeight - wrapper.offsetHeight);
+
+        posX.value = maxLeft
+            ? (wrapper.offsetLeft / maxLeft * 100).toFixed(1)
+            : "0";
+
+        posY.value = maxTop
+            ? (wrapper.offsetTop / maxTop * 100).toFixed(1)
+            : "0";
+    }
+
+    // ==========================================
+    // POSITION AND DIMENSIONS
+    // ==========================================
+
+    function applyPosition() {
+
+        const stageWidth = stage.clientWidth;
+        const stageHeight = stage.clientHeight;
+
+        const width = clamp(
+            getNumber(widthInput, 600), 100, 2000
+        );
+
+        const height = clamp(
+            getNumber(heightInput, 300), 50, 1200
+        );
+
+        widthInput.value = width;
+        heightInput.value = height;
+
+        wrapper.style.width = width + "px";
+        wrapper.style.height = height + "px";
+
+        const maxLeft = Math.max(0, stageWidth - width);
+        const maxTop = Math.max(0, stageHeight - height);
+
+        // Match the home-page renderer: percentages use the travel range.
+        const left = clamp(
+            getNumber(posX, 50) / 100 * maxLeft,
+            0,
+            maxLeft
+        );
+
+        const top = clamp(
+            getNumber(posY, 10) / 100 * maxTop,
+            0,
+            maxTop
+        );
+
+        wrapper.style.left = left + "px";
+        wrapper.style.top = top + "px";
+
+        updateDimensions();
+
+        resizeClothCanvas();
+    }
+
+    // ==========================================
+    // IMAGE PREVIEW
+    // ==========================================
+
+    function loadPreview(src) {
+
+        if (!src) return;
+
+        image.onload = function () {
+
+            wrapper.style.display = "block";
+
+            applyPosition();
+
+            createClothCanvas();
+
+            startClothAnimation();
+        };
+
+        image.onerror = function () {
+            console.error("Floating Flag: Unable to load image.");
+        };
+
+        image.src = src;
+    }
+
+    // Load existing saved image when editing
+
+    const existingImage = document.getElementById("flag-image");
+
+    if (existingImage && existingImage.value) {
+        loadPreview(existingImage.value);
+    }
+
+    // Upload new image
+
+    upload.addEventListener("change", function () {
+
+        const file = this.files && this.files[0];
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Please select a valid image.");
+            this.value = "";
+            return;
+        }
+
+        if (objectUrl) {
+            URL.revokeObjectURL(objectUrl);
+        }
+
+        objectUrl = URL.createObjectURL(file);
+
+        loadPreview(objectUrl);
+    });
+
+    // ==========================================
+    // CANVAS CREATION
+    // ==========================================
+
+    function createClothCanvas() {
+
+        if (clothCanvas) {
+            clothCanvas.remove();
+        }
+
+        clothCanvas = document.createElement("canvas");
+
+        clothCanvas.className = "cloth-preview-canvas";
+
+        clothCanvas.style.position = "absolute";
+        clothCanvas.style.left = "0";
+        clothCanvas.style.top = "0";
+        clothCanvas.style.width = "100%";
+        clothCanvas.style.height = "100%";
+        clothCanvas.style.pointerEvents = "none";
+        clothCanvas.style.zIndex = "1";
+
+        wrapper.insertBefore(clothCanvas, resizeHandle);
+
+        clothContext = clothCanvas.getContext("2d");
+
+        image.style.display = "none";
+
+        resizeClothCanvas();
+    }
+
+    function resizeClothCanvas() {
+
+        if (!clothCanvas || !clothContext) return;
+
+        const width = wrapper.clientWidth;
+        const height = wrapper.clientHeight;
+
+        if (!width || !height) return;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        clothCanvas.width = Math.round(width * dpr);
+        clothCanvas.height = Math.round(height * dpr);
+
+        clothContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // ==========================================
+    // CLOTH ANIMATION
+    // ==========================================
+
+    function startClothAnimation() {
+
+        if (!clothCanvas || !clothContext) return;
+
+        if (!image.complete || !image.naturalWidth) return;
+
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+
+        animationStartTime = performance.now();
+
+        animationFrame = requestAnimationFrame(animateCloth);
+    }
+
+    function animateCloth(time) {
+
+        if (!clothCanvas || !clothContext) return;
+
+        if (!image.complete || !image.naturalWidth) return;
+
+        const width = wrapper.clientWidth;
+        const height = wrapper.clientHeight;
+
+        if (!width || !height) return;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        if (
+            clothCanvas.width !== Math.round(width * dpr) ||
+            clothCanvas.height !== Math.round(height * dpr)
+        ) {
+            resizeClothCanvas();
+        }
+
+        const ctx = clothContext;
+
+        ctx.clearRect(0, 0, width, height);
+
+        // Read live settings directly from the sliders
+
+        const horizontal = getNumber(horizontalInput, 0.5);
+        const vertical = getNumber(verticalInput, 0.3);
+        const strength = getNumber(strengthInput, 0.4);
+        const speed = getNumber(speedInput, 0.5);
+
+        const direction = directionInput.value;
+
+        // Camera angle
+
+        clothCanvas.style.transform =
+            "rotate(" + angle.value + "deg)";
+
+        // Animation disabled: display normal image
+
+        if (!animationEnabled.checked || strength === 0 || speed === 0) {
+
+            ctx.drawImage(image, 0, 0, width, height);
+
+            animationFrame = requestAnimationFrame(animateCloth);
+            return;
+        }
+
+        // Animation time
+
+        const elapsed = (time - animationStartTime) * speed * 0.002;
+
+        // Smaller strips produce smoother movement
+
+        const sliceWidth = 3;
+
+        for (let x = 0; x < width; x += sliceWidth) {
+
+            const sw = Math.min(sliceWidth, width - x);
+
+            const depth = x / width;
+
+            let displacement = 0;
+
+            // Horizontal movement
+
+            if (direction === "horizontal" || direction === "both") {
+
+                displacement += Math.sin(
+                    horizontal * x * 0.04 - elapsed
+                ) * strength * 30 * depth;
+            }
+
+            // Vertical movement
+
+            if (direction === "vertical" || direction === "both") {
+
+                displacement += Math.sin(
+                    vertical * x * 0.04 - elapsed * 0.8
+                ) * strength * 15 * depth;
+            }
+
+            const sourceX =
+                (x / width) * image.naturalWidth;
+
+            const sourceWidth =
+                (sw / width) * image.naturalWidth;
+
+            ctx.drawImage(
+                image,
+
+                sourceX,
+                0,
+                sourceWidth,
+                image.naturalHeight,
+
+                x,
+                displacement,
+                sw + 1,
+                height
+            );
+        }
+
+        animationFrame = requestAnimationFrame(animateCloth);
+    }
+
+    // ==========================================
+    // DIMENSION INPUTS
+    // ==========================================
+
+    [widthInput, heightInput].forEach(input => {
+
+        input.addEventListener("input", function () {
+
+            applyPosition();
+        });
+
+        input.addEventListener("change", applyPosition);
+    });
+
+    // ==========================================
+    // POSITION INPUTS
+    // ==========================================
+
+    [posX, posY].forEach(input => {
+
+        input.addEventListener("input", applyPosition);
+
+        input.addEventListener("change", applyPosition);
+    });
+
+    // ==========================================
+    // POSITION PRESETS
+    // ==========================================
+
+    const positions = {
+
+        top_left: [0, 0],
+        top_center: [50, 0],
+        top_right: [100, 0],
+
+        center: [50, 50],
+
+        bottom_left: [0, 100],
+        bottom_center: [50, 100],
+        bottom_right: [100, 100]
+
+    };
+
+    preset.addEventListener("change", function () {
+
+        const selected = positions[this.value];
+
+        if (!selected) return;
+
+        posX.value = selected[0];
+        posY.value = selected[1];
+
+        applyPosition();
+    });
+
+    // ==========================================
+    // CAMERA ANGLE
+    // ==========================================
+
+    angle.addEventListener("input", function () {
+
+        document.getElementById("angle-output").textContent =
+            this.value + "°";
+
+        if (clothCanvas) {
+            clothCanvas.style.transform =
+                "rotate(" + this.value + "deg)";
+        }
+    });
+
+    // ==========================================
+    // CLOTH SLIDER OUTPUTS
+    // ==========================================
+
+    const sliderSettings = [
+
+        ["flag-h", "h-output"],
+        ["flag-v", "v-output"],
+        ["flag-w", "w-output"],
+        ["flag-s", "s-output"]
+
+    ];
+
+    sliderSettings.forEach(function (item) {
+
+        const input = document.getElementById(item[0]);
+        const output = document.getElementById(item[1]);
+
+        input.addEventListener("input", function () {
+
+            output.textContent = this.value;
+
+            startClothAnimation();
+        });
+
+    });
+
+    // Direction changes
+
+    directionInput.addEventListener("change", function () {
+        startClothAnimation();
+    });
+
+    // Animation enable/disable
+
+    animationEnabled.addEventListener("change", function () {
+        startClothAnimation();
+    });
+
+    // ==========================================
+    // DRAG FLAG
+    // ==========================================
+
+    wrapper.addEventListener("pointerdown", function (event) {
+
+        if (event.target === resizeHandle) return;
+
+        if (wrapper.style.display === "none") return;
+
+        dragging = true;
+
+        activePointer = event.pointerId;
+
+        startX = event.clientX;
+        startY = event.clientY;
+
+        startLeft = wrapper.offsetLeft;
+        startTop = wrapper.offsetTop;
+
+        wrapper.setPointerCapture(event.pointerId);
+
+        wrapper.style.cursor = "grabbing";
+
+        preset.value = "custom";
+
+        event.preventDefault();
+    });
+
+    // ==========================================
+    // RESIZE FLAG
+    // ==========================================
+
+    resizeHandle.addEventListener("pointerdown", function (event) {
+
+        event.stopPropagation();
+
+        resizing = true;
+
+        activePointer = event.pointerId;
+
+        startX = event.clientX;
+        startY = event.clientY;
+
+        startWidth = wrapper.offsetWidth;
+        startHeight = wrapper.offsetHeight;
+
+        resizeHandle.setPointerCapture(event.pointerId);
+
+        event.preventDefault();
+    });
+
+    // ==========================================
+    // POINTER MOVEMENT
+    // ==========================================
+
+    document.addEventListener("pointermove", function (event) {
+
+        if (event.pointerId !== activePointer) return;
+
+        // Dragging
+
+        if (dragging) {
+
+            const dx = event.clientX - startX;
+            const dy = event.clientY - startY;
+
+            const left = clamp(
+                startLeft + dx,
+                0,
+                Math.max(0, stage.clientWidth - wrapper.offsetWidth)
+            );
+
+            const top = clamp(
+                startTop + dy,
+                0,
+                Math.max(0, stage.clientHeight - wrapper.offsetHeight)
+            );
+
+            wrapper.style.left = left + "px";
+            wrapper.style.top = top + "px";
+
+            updatePositionInputs();
+        }
+
+        // Resizing
+
+        if (resizing) {
+
+            const width = clamp(
+                startWidth + event.clientX - startX,
+                100,
+                2000
+            );
+
+            const height = clamp(
+                startHeight + event.clientY - startY,
+                50,
+                1200
+            );
+
+            widthInput.value = Math.round(width);
+            heightInput.value = Math.round(height);
+
+            wrapper.style.width = width + "px";
+            wrapper.style.height = height + "px";
+
+            updateDimensions();
+            updatePositionInputs();
+
+            resizeClothCanvas();
+        }
+
+    });
+
+    // ==========================================
+    // STOP DRAG / RESIZE
+    // ==========================================
+
+    function stopPointer() {
+
+        dragging = false;
+        resizing = false;
+
+        activePointer = null;
+
+        wrapper.style.cursor = "grab";
+    }
+
+    document.addEventListener("pointerup", stopPointer);
+    document.addEventListener("pointercancel", stopPointer);
+
+    // ==========================================
+    // AUTO CLOSE FIELD
+    // ==========================================
+
+    const autoClose = document.getElementById("flag-auto-close");
+
+    const autoCloseSeconds =
+        document.getElementById("flag-auto-close-seconds");
+
+    function updateAutoCloseField() {
+
+        autoCloseSeconds.disabled = !autoClose.checked;
+    }
+
+    autoClose.addEventListener("change", updateAutoCloseField);
+
+    updateAutoCloseField();
+
+    // ==========================================
+    // RESET PREVIEW
+    // ==========================================
+
+    document.getElementById("flag-reset").addEventListener("click", function () {
+
+        posX.value = 50;
+        posY.value = 10;
+
+        widthInput.value = 600;
+        heightInput.value = 300;
+
+        angle.value = 0;
+
+        document.getElementById("angle-output").textContent = "0°";
+
+        preset.value = "custom";
+
+        applyPosition();
+
+        startClothAnimation();
+    });
+
+    // ==========================================
+    // FORM VALIDATION
+    // ==========================================
+
+    form.addEventListener("submit", function (event) {
+
+        const width = Number(widthInput.value);
+        const height = Number(heightInput.value);
+
+        const x = Number(posX.value);
+        const y = Number(posY.value);
+
+        if (
+            !Number.isFinite(width) ||
+            !Number.isFinite(height) ||
+            !Number.isFinite(x) ||
+            !Number.isFinite(y) ||
+
+            width < 100 || width > 2000 ||
+            height < 50 || height > 1200 ||
+
+            x < 0 || x > 100 ||
+            y < 0 || y > 100
+        ) {
+
+            event.preventDefault();
+
+            alert("Please check flag position and dimensions.");
+
+            return;
+        }
+
+        if (!image.src && !upload.files.length) {
+
+            event.preventDefault();
+
+            alert("Please select a flag image.");
+
+            return;
+        }
+
+    });
+
+    // ==========================================
+    // WINDOW RESIZE
+    // ==========================================
+
+    window.addEventListener("resize", function () {
+
+        if (wrapper.style.display !== "none") {
+
+            applyPosition();
+
+            updatePositionInputs();
+
+            resizeClothCanvas();
+        }
+
+    });
+
+    // ==========================================
+    // INITIALIZE
+    // ==========================================
+
+    applyPosition();
+
+});
+
+</script>
