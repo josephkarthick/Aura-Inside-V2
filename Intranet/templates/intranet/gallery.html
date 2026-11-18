@@ -1,3 +1,4 @@
+
 {% load static %}
 {% include 'Layout_Master/base.html' %}
 
@@ -7,265 +8,440 @@
 
 <style>
 
+/* ==============================
+   GALLERY IMAGE
+============================== */
+
 .auction-card-img-wrap {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .auction-card-img-wrap img {
-  width: 100%;
-  height: auto; /* responsive height */
-  max-height: 250px; /* optional, keeps thumbnails uniform */
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
 }
+
+/* ==============================
+   SWIPER SLIDES
+============================== */
 
 .swiper-slide {
-  width: 100%;
-  max-width: 260px; /* keeps slides from being too big */
-  flex-shrink: 0;
+    width: 100%;
+    max-width: 260px;
+    flex-shrink: 0;
 }
 
-/* Delete button */
-.delete-btn {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 28px;
-  height: 28px;
-  background: rgba(220,53,69,0.95);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 20;
+/* ==============================
+   DELETE BUTTON
+============================== */
+
+.auction-card-img-wrap form {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    margin: 0;
 }
+
+.delete-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(220, 53, 69, 0.95);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all 0.2s ease;
+}
+
+/* Show delete button on image hover */
 
 .auction-card-img-wrap:hover .delete-btn {
-  display: flex;
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Year badge */
+/* Delete hover effect */
+
+.delete-btn:hover {
+    background: #b02a37;
+    transform: scale(1.1);
+}
+
+/* ==============================
+   YEAR BADGE
+============================== */
+
 .image-year {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 6px 12px;
-  background: rgba(255,255,255,0.9);
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 5;
+    pointer-events: none;
 }
 
-/* Group title */
+/* ==============================
+   GROUP TITLE
+============================== */
+
 .gallery-group-title h2 {
-  font-size: 26px;
-  font-weight: 700;
-  padding-left: 14px;
-  position: relative;
+    font-size: 26px;
+    font-weight: 700;
+    padding-left: 14px;
+    position: relative;
 }
 
 .gallery-group-title h2::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 4px;
-  height: 80%;
-  width: 4px;
-  background: #0d6efd;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    height: 80%;
+    width: 4px;
+    background: #0d6efd;
 }
-/* Swiper navigation buttons */
+
+/* ==============================
+   SWIPER NAVIGATION
+============================== */
+
 .swiper-button-next,
 .swiper-button-prev {
-  width: 48px;
-  height: 48px;
-  background: rgba(0, 0, 0, 0.5); /* semi-transparent dark */
-  border-radius: 50%; /* circular buttons */
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 50%; /* vertically center */
-  transform: translateY(-50%);
-  z-index: 30;
-  transition: background 0.3s, transform 0.3s;
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
+
+    transition: background 0.3s, transform 0.3s;
 }
 
-/* On hover, make brighter */
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform: translateY(-50%) scale(1.2);
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.2);
 }
 
-/* Increase icon size */
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 24px; /* default is smaller */
-  font-weight: bold;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-/* Position adjustments for small screens */
-@media (max-width: 768px) {
-  .swiper-button-next,
-  .swiper-button-prev {
-    width: 36px;
-    height: 36px;
-  }
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
-    font-size: 20px;
-  }
-}
+/* ==============================
+   RESPONSIVE
+============================== */
 
-
-/* Responsive tweaks */
 @media (max-width: 1024px) {
-  .swiper-slide {
-    max-width: 200px;
-  }
+    .swiper-slide {
+        max-width: 200px;
+    }
 }
 
 @media (max-width: 768px) {
-  .swiper-slide {
-    max-width: 45%;
-  }
+
+    .swiper-slide {
+        max-width: 45%;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 36px;
+        height: 36px;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 20px;
+    }
+
+    /* Always show delete button on touch devices */
+    .delete-btn {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 @media (max-width: 480px) {
-  .swiper-slide {
-    max-width: 90%;
-  }
+    .swiper-slide {
+        max-width: 90%;
+    }
 }
+
 </style>
 
+
+<!-- ==============================
+     MAIN CONTENT
+============================== -->
+
 <div class="kt-wrapper flex grow flex-col">
-  <main class="grow pt-0" id="content" role="main">
-    <div class="kt-container-fixed mt-4">
-	
 
-	
-{% for group in groups %}
-<section class="mb-5">
+    <main class="grow pt-0" id="content" role="main">
 
-  <div class="gallery-group-title mb-3">
-    <h2>{{ group.name }}</h2>
-    {% if group.description %}
-      <p class="text-muted">{{ group.description }}</p>
-    {% endif %}
-  </div>
-
-  <div class="swiper group-swiper-{{ group.id }}">
-    <div class="swiper-wrapper">
-
-      {% for img in group.images.all %}
-      <div class="swiper-slide">
-        <div class="auction-card">
-
-          <div class="auction-card-img-wrap">
-
-            <!-- ✅ ORIGINAL loads ONLY in Fancybox -->
-            <a href="{{ img.image.url }}"
-               data-fancybox="gallery-{{ group.id }}"
-               data-caption="{{ img.description|default:group.name }}">
-
-              <!-- ✅ THUMBNAIL loads in gallery -->
-{% if img.thumbnail %}
-  <img src="{{ img.thumbnail.url }}"
-       alt="{{ img.title }}"
-       loading="lazy"
-       decoding="async">
-{% else %}
-  <img src="{{ img.image.url }}"
-       alt="{{ img.title }}"
-       loading="lazy"
-       decoding="async">
-{% endif %}
-
-            </a>
-
-            <div class="image-year">
-              {{ img.created_at|date:"Y" }}
-            </div>
-
-            {% if request.user.is_authenticated and request.user.department|lower in "it hr admin" %}
-<form method="post" action="{% url 'Intranet:delete_image' img.id %}">
-  {% csrf_token %}
-<button class="delete-btn"
-        type="submit"
-        onclick="event.stopPropagation(); return confirm('Delete this image?');"
-        title="Delete">
-  <i class="ki-duotone ki-trash fs-7 text-white">
-    <span class="path1"></span>
-    <span class="path2"></span>
-  </i>
-</button>
-
-</form>
+        <div class="kt-container-fixed mt-4">
 
 
-            {% endif %}
+            <!-- ==============================
+                 GALLERY GROUPS
+            ============================== -->
 
-          </div>
+            {% for group in groups %}
+
+            <section class="mb-5">
+
+                <!-- GROUP HEADER -->
+
+                <div class="gallery-group-title mb-3">
+
+                    <h2>{{ group.name }}</h2>
+
+                    {% if group.description %}
+                        <p class="text-muted">
+                            {{ group.description }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SWIPER -->
+
+                <div class="swiper group-swiper-{{ group.id }}">
+
+                    <div class="swiper-wrapper">
+
+
+                        {% for img in group.images.all %}
+
+                        <div class="swiper-slide">
+
+                            <div class="auction-card">
+
+                                <div class="auction-card-img-wrap">
+
+
+                                    <!-- ORIGINAL IMAGE / FANCYBOX -->
+
+                                    <a href="{{ img.image.url }}"
+                                       data-fancybox="gallery-{{ group.id }}"
+                                       data-caption="{{ img.description|default:group.name }}">
+
+
+                                        <!-- THUMBNAIL -->
+
+                                        {% if img.thumbnail %}
+
+                                            <img src="{{ img.thumbnail.url }}"
+                                                 alt="{{ img.title }}"
+                                                 loading="lazy"
+                                                 decoding="async">
+
+                                        {% else %}
+
+                                            <img src="{{ img.image.url }}"
+                                                 alt="{{ img.title }}"
+                                                 loading="lazy"
+                                                 decoding="async">
+
+                                        {% endif %}
+
+                                    </a>
+
+
+                                    <!-- YEAR BADGE -->
+
+                                    <div class="image-year">
+                                        {{ img.created_at|date:"Y" }}
+                                    </div>
+
+
+                                    <!-- DELETE BUTTON -->
+
+                                    {% if request.user.is_authenticated %}
+
+                                        {% if request.user.department|lower == "information technology" or request.user.department|lower == "human resources" or request.user.is_superuser %}
+
+                                            <form method="post"
+                                                  action="{% url 'Intranet:delete_image' img.id %}"
+                                                  onsubmit="return confirm('Are you sure you want to delete this image?');">
+
+                                                {% csrf_token %}
+
+                                                <button class="delete-btn"
+                                                        type="submit"
+                                                        title="Delete Image"
+                                                        aria-label="Delete Image">
+
+                                                    <i class="ki-duotone ki-trash fs-7 text-white">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                    </i>
+
+                                                </button>
+
+                                            </form>
+
+                                        {% endif %}
+
+                                    {% endif %}
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                    <!-- NAVIGATION -->
+
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+
+
+                </div>
+
+            </section>
+
+            {% empty %}
+
+                <div class="text-center py-10">
+                    <h3 class="text-lg font-semibold">
+                        No Gallery Available
+                    </h3>
+
+                    <p class="text-muted">
+                        Gallery images will appear here.
+                    </p>
+                </div>
+
+            {% endfor %}
+
 
         </div>
-      </div>
-      {% endfor %}
 
-    </div>
-
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-  </div>
-
-</section>
-{% endfor %}
+    </main>
 
 </div>
-</main>
-</div>
+
+
+<!-- ==============================
+     JAVASCRIPT
+============================== -->
 
 <script src="{% static 'Gallery/assets/js/swiper-bundle.min.js' %}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
 
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  {% for group in groups %}
-  new Swiper(".group-swiper-{{ group.id }}", {
-    slidesPerView: "auto",
-    spaceBetween: 16,
-    speed: 800,
 
-    autoplay: {
-      delay: 3500,
-      disableOnInteraction: true,
-      pauseOnMouseEnter: true
-    },
+    /* ==============================
+       INITIALIZE EACH GROUP SWIPER
+    ============================== */
 
-    loop: true,
-    loopAdditionalSlides: 2,   // ✅ performance safe
+    {% for group in groups %}
 
-    navigation: {
-      nextEl: ".group-swiper-{{ group.id }} .swiper-button-next",
-      prevEl: ".group-swiper-{{ group.id }} .swiper-button-prev"
-    },
+    new Swiper(".group-swiper-{{ group.id }}", {
 
-    watchSlidesProgress: true,
-    observer: true,
-    observeParents: true
-  });
-  {% endfor %}
+        slidesPerView: "auto",
+
+        spaceBetween: 16,
+
+        speed: 800,
+
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: true,
+            pauseOnMouseEnter: true
+        },
+
+        loop: true,
+
+        loopAdditionalSlides: 2,
+
+        navigation: {
+
+            nextEl: ".group-swiper-{{ group.id }} .swiper-button-next",
+
+            prevEl: ".group-swiper-{{ group.id }} .swiper-button-prev"
+
+        },
+
+        watchSlidesProgress: true,
+
+        observer: true,
+
+        observeParents: true
+
+    });
+
+    {% endfor %}
+
+
+    /* ==============================
+       FANCYBOX
+    ============================== */
+
+    Fancybox.bind("[data-fancybox]", {
+
+        Thumbs: {
+            autoStart: true
+        },
+
+        Toolbar: {
+            display: {
+                left: ["infobar"],
+                middle: [],
+                right: [
+                    "zoom",
+                    "slideshow",
+                    "thumbs",
+                    "close"
+                ]
+            }
+        }
+
+    });
+
 
 });
 
-
 </script>
-

@@ -30,6 +30,11 @@
             </h3>
 
             <div class="flex flex-wrap gap-2 lg:gap-5">
+			 <a href="{% url 'Assets:export_desktops_excel' %}?search={{ search_term|urlencode }}"
+			 class="kt-btn kt-btn-primary">
+			 	<i class="ki-filled ki-file-down"></i>
+			 	Export Excel
+			 </a>			
               <form method="GET" id="searchForm" class="flex">
                 <label class="kt-input">
                   <i class="ki-filled ki-magnifier"></i>
@@ -145,7 +150,14 @@
                         {% else %}-{% endif %}
                       </td>
 
-                      <td>{{ item.os_installed|default:"-" }}</td>
+<td>
+    <span style="
+        color: {% if item.windows_license_status|lower == 'activated' %}#16a34a{% else %}#dc2626{% endif %};
+        font-weight: 600;
+    ">
+        {{ item.os_installed|default:"-" }}
+    </span>
+</td>
 
                       <td>{{ item.logged_in_user|default:"-" }}</td>
 

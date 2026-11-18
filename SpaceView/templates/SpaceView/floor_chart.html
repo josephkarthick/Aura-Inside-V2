@@ -118,12 +118,6 @@
         }
 
         .toolbar-actions button:disabled { opacity: .45; cursor: not-allowed; }
-        .toolbar-actions select {
-            min-width: 190px; max-width: 260px; padding: 9px 10px;
-            border: 1px solid #d1d5db; border-radius: 7px;
-            background: white; font-size: 13px;
-        }
-        #assignSystemButton { background: #059669; color: white; border-color: #059669; }
         #deleteSeatTopButton { color: #b91c1c; border-color: #fecaca; }
 
         #addSeatButton.placing {
@@ -189,39 +183,152 @@
             pointer-events: none;
         }
 
-		.workstation-marker {
-			position: absolute;
-			transform: translate(-50%, -50%);
-			background: #2563eb;
-			color: white;
-			border: 1px solid white;
-			padding: 3px 6px;  /* Marker box size */
-			font-size: 10px;    /* Workstation number text size */
-			border: 1px solid white; /* Border thickness */
-			font-weight: 700;
-			line-height: 1.1;
-			white-space: nowrap;
-			box-shadow: 0 1px 3px #0005;
-			pointer-events: auto;
-			cursor: pointer;
-			z-index: 2;
-		}
+        .workstation-marker {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            width: 32px;
+            height: 26px;
+            padding: 2px 3px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.95);
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1.15;
+            white-space: nowrap;
+            box-shadow: 0 3px 9px rgba(15,23,42,.28);
+            pointer-events: auto;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+        }
 
-        .workstation-marker:hover {
-            background: #1d4ed8;
+        .workstation-marker.has-system {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+        }
+
+        .marker-seat-code {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .2px;
+            line-height: 1;
+        }
+
+        .workstation-marker:hover,
+        .workstation-marker:focus-visible {
+            z-index: 20;
+            filter: brightness(1.08);
             transform: translate(-50%, -50%) scale(1.12);
+            box-shadow: 0 7px 18px rgba(15,23,42,.38);
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        .workstation-marker.has-system:hover,
+        .workstation-marker.has-system:focus-visible {
+            background: linear-gradient(135deg, #15803d, #166534);
         }
 
         .workstation-marker.selected {
+            z-index: 21;
             outline: 3px solid #fbbf24;
+            outline-offset: 2px;
+        }
+
+        .marker-tooltip {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 10px);
+            transform: translate(-50%, 5px);
+            display: block;
+            min-width: 185px;
+            max-width: 260px;
+            padding: 10px 12px;
+            border: 1px solid rgba(255,255,255,.14);
+            border-radius: 9px;
+            background: #111827;
+            color: #f9fafb;
+            box-shadow: 0 10px 25px rgba(0,0,0,.3);
+            text-align: left;
+            white-space: normal;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .14s ease, transform .14s ease, visibility .14s ease;
+        }
+
+        .marker-tooltip::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #111827;
+        }
+
+        .workstation-marker:hover .marker-tooltip,
+        .workstation-marker:focus-visible .marker-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0);
+        }
+
+        .marker-tooltip-title {
+            display: block;
+            margin-bottom: 5px;
+            color: #a7f3d0;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .marker-tooltip-line {
+            display: block;
+            margin-top: 3px;
+            color: #e5e7eb;
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 1.35;
         }
 
         #seatDetails {
             display: none;
-            padding: 14px 18px;
-            background: #fff;
+            padding: 16px 18px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
             border-top: 1px solid #e5e7eb;
             font-size: 13px;
+        }
+
+        #detailAssignedSystem {
+            margin-top: 9px;
+            display: grid;
+            gap: 7px;
+        }
+
+        .asset-detail-card {
+            padding: 10px 12px;
+            border: 1px solid #bbf7d0;
+            border-left: 4px solid #16a34a;
+            border-radius: 8px;
+            background: #f0fdf4;
+        }
+
+        .asset-detail-card strong {
+            display: block;
+            color: #166534;
+            font-size: 13px;
+        }
+
+        .asset-detail-card small {
+            display: block;
+            margin-top: 3px;
+            color: #4b5563;
+            font-size: 11px;
         }
 
         #seatDetails.visible {
@@ -312,6 +419,17 @@
                 min-height: 350px;
                 padding: 8px;
             }
+
+            .marker-tooltip {
+                min-width: 160px;
+                max-width: 210px;
+            }
+
+            .workstation-marker {
+                min-width: 28px;
+                width: 30px;
+                height: 24px;
+            }
         }
     </style>
 </head>
@@ -322,13 +440,13 @@
     <div class="header">
         <div>
             <h2>SpaceView</h2>
-            <p>Office Floor Plan Viewer</p>
+            <p>Aura RCM Services Viewer</p>
         </div>
 
         <div class="switch">
             <button type="button" class="active"
                     data-floor="0" onclick="showFloor(0)">
-                Vishwam Floor
+                Agastya Map
             </button>
 
             <button type="button"
@@ -341,19 +459,10 @@
     <div class="map-card">
 
         <div class="map-toolbar">
-            <h3 id="mapTitle">Guna Complex — Vishwam Floor</h3>
+            <h3 id="mapTitle">Aura RCM Services — Vishwam Floor</h3>
 
             <div class="toolbar-actions">
                 <button type="button" id="editSeatTopButton" onclick="openEditSeatForm()" disabled>Edit Seat</button>
-                <select id="assignAssetSelect" aria-label="Select system to assign">
-                    <option value="">Select system / asset</option>
-                    {% for asset in assets %}
-                    <option value="{{ asset.id }}">
-                        {{ asset.asset_tag|default:asset.hostname|default:asset.id }}{% if asset.hostname %} — {{ asset.hostname }}{% endif %}{% if asset.product_name %} ({{ asset.product_name }}){% endif %}
-                    </option>
-                    {% endfor %}
-                </select>
-                <button type="button" id="assignSystemButton" onclick="assignSystemToSeat()" disabled>Assign System</button>
                 <button type="button" id="deleteSeatTopButton" class="delete-button" onclick="deleteSelectedSeat()" disabled>Delete Seat</button>
                 <button type="button" id="addSeatButton" onclick="toggleAddSeat()">+ Add Seat</button>
                 <button type="button" id="zoomButton" onclick="toggleZoom()">Zoom In</button>
@@ -363,7 +472,6 @@
         <div id="placementMessage">
             Click on a workstation position to add a seat. Click Cancel Placement to stop.
         </div>
-        <div id="assignmentMessage" role="status" aria-live="polite" style="display:none;padding:9px 18px;font-size:13px;"></div>
 
         <div class="map-viewport" id="mapViewport">
             <div id="mapCanvas">
@@ -380,7 +488,7 @@
             <strong id="detailCode"></strong>
             <div id="detailFloor"></div>
             <div id="detailPosition"></div>
-            <div id="detailAssignedSystem"></div>
+            <div id="detailAssignedSystem" style="margin-top:6px;"></div>
             <div class="detail-actions">
                 <button type="button" onclick="closeSeatDetails()">Close Details</button>
             </div>
@@ -424,15 +532,15 @@
 <script>
     const floors = [
         {
-            title: "Guna Complex — Agastya Floor",
+            title: "Aura RCM Services — Agastya Floor",
             image: "/media/SpaceView/Agastya_floor.png",
-            alt: "Guna Complex Agastya Floor Plan",
+            alt: "Aura RCM Services Agastya Floor Plan",
             code: "Agastya"
         },
         {
-            title: "Office Floor Plan — Vishwam Map",
+            title: "Aura RCM Services — Vishwam Map",
             image: "/media/SpaceView/Vishwam_floor.png",
-            alt: "Office Floor Plan",
+            alt: "Aura RCM Services",
             code: "Vishwam"
         }
     ];
@@ -518,46 +626,94 @@
         message.classList.toggle("visible", addingSeat);
     }
 
-    function renderWorkstations() {
-        const layer = document.getElementById("workstationLayer");
-        const image = document.getElementById("floorImage");
 
-        layer.innerHTML = "";
+function renderWorkstations() {
+    const layer = document.getElementById("workstationLayer");
+    const image = document.getElementById("floorImage");
 
-        if (!image.naturalWidth || !image.clientWidth) {
-            return;
-        }
+    layer.innerHTML = "";
 
-        existingWorkstations
-            .filter(ws =>
-                ws.floor === currentFloorCode() &&
-                ws.is_active !== false
-            )
-            .forEach(ws => {
-                const marker = document.createElement("button");
+    if (!image.naturalWidth || !image.clientWidth) return;
 
-                marker.type = "button";
-                marker.className = "workstation-marker";
-                marker.textContent = ws.workstation_code;
-                marker.title = "Select " + ws.workstation_code;
+    existingWorkstations
+        .filter(ws => ws.floor === currentFloorCode() && ws.is_active !== false)
+        .forEach(ws => {
+            const marker = document.createElement("button");
+            marker.type = "button";
+            marker.className = "workstation-marker";
 
-                marker.style.left = ws.x_position + "%";
-                marker.style.top = ws.y_position + "%";
+            const assets = Array.isArray(ws.assets) ? ws.assets : [];
+            marker.classList.toggle("has-system", assets.length > 0);
+            marker.style.left = ws.x_position + "%";
+            marker.style.top = ws.y_position + "%";
 
-                if (String(ws.id) === String(selectedSeatId)) {
-                    marker.classList.add("selected");
-                }
+            // Show only the numeric seat suffix on the map (AWS-074 -> 074).
+            const seatNumber = String(ws.workstation_code || "").split("-").pop();
+            const seatLabel = document.createElement("span");
+            seatLabel.className = "marker-seat-code";
+            seatLabel.textContent = seatNumber;
+            marker.appendChild(seatLabel);
 
-                marker.addEventListener("click", event => {
-                    event.stopPropagation();
-                    selectSeat(ws);
+            marker.setAttribute(
+                "aria-label",
+                assets.length
+                    ? `${ws.workstation_code}, assigned ${assets.map(a => a.asset_name || a.asset_tag || "asset").join(", ")}`
+                    : `${ws.workstation_code}, no system assigned`
+            );
+
+            // Full workstation and asset information appears on hover/focus.
+            const tooltip = document.createElement("span");
+            tooltip.className = "marker-tooltip";
+
+            const tooltipTitle = document.createElement("span");
+            tooltipTitle.className = "marker-tooltip-title";
+            tooltipTitle.textContent = ws.workstation_code;
+            tooltip.appendChild(tooltipTitle);
+
+            if (assets.length) {
+                assets.forEach(asset => {
+                    const nameLine = document.createElement("span");
+                    nameLine.className = "marker-tooltip-line";
+                    nameLine.textContent = "Asset: " + (asset.asset_name || asset.asset_tag || "Unnamed Asset");
+                    tooltip.appendChild(nameLine);
+
+                    if (asset.asset_tag && asset.asset_tag !== asset.asset_name) {
+                        const tagLine = document.createElement("span");
+                        tagLine.className = "marker-tooltip-line";
+                        tagLine.textContent = "Asset Tag: " + asset.asset_tag;
+                        tooltip.appendChild(tagLine);
+                    }
+
+                    if (asset.status) {
+                        const statusLine = document.createElement("span");
+                        statusLine.className = "marker-tooltip-line";
+                        statusLine.textContent = "Status: " + asset.status;
+                        tooltip.appendChild(statusLine);
+                    }
                 });
+            } else {
+                const emptyLine = document.createElement("span");
+                emptyLine.className = "marker-tooltip-line";
+                emptyLine.textContent = "No system assigned";
+                tooltip.appendChild(emptyLine);
+            }
 
-                layer.appendChild(marker);
+            marker.appendChild(tooltip);
+
+            if (String(ws.id) === String(selectedSeatId)) {
+                marker.classList.add("selected");
+            }
+
+            marker.addEventListener("click", event => {
+                event.stopPropagation();
+                selectSeat(ws);
             });
-    }
 
-    function selectSeat(ws) {
+            layer.appendChild(marker);
+        });
+}
+
+function selectSeat(ws) {
         selectedSeatId = ws.id;
 
         document.getElementById("detailCode").textContent =
@@ -573,18 +729,38 @@
 
         document.getElementById("seatDetails").classList.add("visible");
 
-        const assetSelect = document.getElementById("assignAssetSelect");
-        assetSelect.value = ws.assigned_asset_id == null ? "" : String(ws.assigned_asset_id);
-        const selectedAssetLabel = assetSelect.selectedOptions.length
-            ? assetSelect.selectedOptions[0].textContent.trim() : "";
-        document.getElementById("detailAssignedSystem").textContent =
-            ws.assigned_asset_id != null && selectedAssetLabel
-                ? "Assigned system: " + selectedAssetLabel
-                : "Assigned system: None";
+        const assignedAssets = Array.isArray(ws.assets) ? ws.assets : [];
+        const assignedSystemDetails =
+            document.getElementById("detailAssignedSystem");
+        assignedSystemDetails.innerHTML = "";
+
+        const heading = document.createElement("strong");
+        heading.textContent = assignedAssets.length
+            ? "Assigned system(s)"
+            : "No system assigned";
+        assignedSystemDetails.appendChild(heading);
+
+        assignedAssets.forEach(asset => {
+            const card = document.createElement("div");
+            card.className = "asset-detail-card";
+
+            const name = document.createElement("strong");
+            name.textContent = asset.asset_name || asset.asset_tag || "Unnamed asset";
+            card.appendChild(name);
+
+            const tag = document.createElement("small");
+            tag.textContent = "Asset Tag: " + (asset.asset_tag || "-");
+            card.appendChild(tag);
+
+            const status = document.createElement("small");
+            status.textContent = "Status: " + (asset.status || "-");
+            card.appendChild(status);
+
+            assignedSystemDetails.appendChild(card);
+        });
 
         document.getElementById("editSeatTopButton").disabled = false;
         document.getElementById("deleteSeatTopButton").disabled = false;
-        document.getElementById("assignSystemButton").disabled = false;
 
         renderWorkstations();
     }
@@ -594,8 +770,6 @@
         document.getElementById("seatDetails").classList.remove("visible");
         document.getElementById("editSeatTopButton").disabled = true;
         document.getElementById("deleteSeatTopButton").disabled = true;
-        document.getElementById("assignSystemButton").disabled = true;
-        document.getElementById("assignAssetSelect").value = "";
         closeEditSeatForm();
         renderWorkstations();
     }
@@ -666,8 +840,7 @@
                     workstation_code: code,
                     floor: floor,
                     x_position: x,
-                    y_position: y,
-                    assigned_asset_id: ws.assigned_asset_id == null ? null : ws.assigned_asset_id
+                    y_position: y
                 })
             });
             const result = await response.json();
@@ -695,73 +868,6 @@
             errorBox.classList.add("visible");
         } finally {
             saveButton.disabled = false;
-        }
-    }
-
-    async function assignSystemToSeat() {
-        const ws = getSelectedSeat();
-        if (!ws) {
-            alert("Select a workstation first.");
-            return;
-        }
-
-        const select = document.getElementById("assignAssetSelect");
-        const button = document.getElementById("assignSystemButton");
-        const message = document.getElementById("assignmentMessage");
-        const assetId = select.value ? Number(select.value) : null;
-		
-		// Prevent assigning a system that is already assigned to another workstation.
-		if (assetId !== null) {
-			const assignedWorkstation = existingWorkstations.find(ws =>
-				String(ws.assigned_asset_id) === String(assetId) &&
-				String(ws.id) !== String(selectedSeatId)
-			);
-		
-			if (assignedWorkstation) {
-				message.style.display = "block";
-				message.style.color = "#991b1b";
-				message.textContent =
-					"This system is already assigned to " +
-					assignedWorkstation.workstation_code + ".";
-		
-				return;
-			}
-		}
-
-        button.disabled = true;
-        message.style.display = "block";
-        message.style.color = "#065f46";
-        message.textContent = "Saving system assignment...";
-
-        try {
-            const editUrl = "{% url 'SpaceView:edit_workstation' 0 %}".replace("/0/", "/" + ws.id + "/");
-            const response = await fetch(editUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": getCsrfToken()
-                },
-                credentials: "same-origin",
-                body: JSON.stringify({ assigned_asset_id: assetId })
-            });
-            const result = await response.json();
-
-            if (!response.ok || !result.success) {
-                throw new Error(result.error || "Unable to assign the system.");
-            }
-
-            const index = existingWorkstations.findIndex(item => String(item.id) === String(ws.id));
-            if (index !== -1) existingWorkstations[index] = result.workstation;
-            selectSeat(result.workstation);
-            message.textContent = assetId
-                ? "System assignment saved."
-                : "System assignment removed.";
-        } catch (error) {
-            console.error(error);
-            message.style.color = "#991b1b";
-            message.textContent = error.message || "Unable to assign the system.";
-        } finally {
-            button.disabled = !getSelectedSeat();
         }
     }
 

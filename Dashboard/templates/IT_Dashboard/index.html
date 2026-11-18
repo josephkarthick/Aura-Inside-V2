@@ -59,37 +59,55 @@
                 <p class="text-xs text-gray-400 mt-4">All registered computer systems</p>
             </div>
 
-            <!-- DESKTOP -->
-            <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-gray-500">Desktops</p>
-                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-                            {{ desktop_count|default:0 }}
-                        </h3>
-                    </div>
-                    <div class="size-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
-                        <i class="ki-duotone ki-screen text-2xl"></i>
-                    </div>
-                </div>
-                <p class="text-xs text-gray-400 mt-4">Registered desktop systems</p>
-            </div>
+			<!-- DESKTOP -->
+			<div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
+				<div class="flex items-center justify-between">
+					<div>
+						<p class="text-sm text-gray-500">Desktops</p>
+			
+						<h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+							<a href="{% url 'Assets:desktop_list' %}"
+							class="hover:text-primary transition-colors">
+								{{ desktop_count|default:0 }}
+							</a>
+						</h3>
+					</div>
+			
+					<a href="{% url 'Assets:desktop_list' %}"
+					class="size-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition-colors">
+						<i class="ki-duotone ki-screen text-2xl"></i>
+					</a>
+				</div>
+			
+				<p class="text-xs text-gray-400 mt-4">
+					Registered desktop systems
+				</p>
+			</div>
 
-            <!-- LAPTOP -->
-            <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-gray-500">Laptops</p>
-                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-                            {{ laptop_count|default:0 }}
-                        </h3>
-                    </div>
-                    <div class="size-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center">
-                        <i class="ki-duotone ki-laptop text-2xl"></i>
-                    </div>
-                </div>
-                <p class="text-xs text-gray-400 mt-4">Registered laptop systems</p>
-            </div>
+<!-- LAPTOP -->
+<div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm text-gray-500">Laptops</p>
+
+            <h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                <a href="{% url 'Assets:laptop_list' %}"
+                   class="hover:text-primary transition-colors">
+                    {{ laptop_count|default:0 }}
+                </a>
+            </h3>
+        </div>
+
+        <a href="{% url 'Assets:laptop_list' %}"
+           class="size-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition-colors">
+            <i class="ki-duotone ki-laptop text-2xl"></i>
+        </a>
+    </div>
+
+    <p class="text-xs text-gray-400 mt-4">
+        Registered laptop systems
+    </p>
+</div>
 
             <!-- SERVERS -->
             <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
@@ -100,7 +118,7 @@
                             {{ server_count|default:0 }}
                         </h3>
                     </div>
-                    <div class="size-12 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center">
+                    <div class="size-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
                         <i class="ki-duotone ki-external-drive text-2xl"></i>
                     </div>
                 </div>
@@ -113,14 +131,19 @@
 				<div class="flex items-center justify-between">
 					<div>
 						<p class="text-sm text-gray-500">Monitors</p>
+			
 						<h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-							{{ monitor_count|default:0 }}
+							<a href="{% url 'Assets:monitor_list' %}"
+							class="hover:text-primary transition-colors">
+								{{ monitor_count|default:0 }}
+							</a>
 						</h3>
 					</div>
 			
-					<div class="size-12 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+					<a href="{% url 'Assets:monitor_list' %}"
+					class="size-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition-colors">
 						<i class="ki-duotone ki-screen text-2xl"></i>
-					</div>
+					</a>
 				</div>
 			
 				<p class="text-xs text-gray-400 mt-4">
@@ -216,26 +239,47 @@
         <!-- VOIP VENDOR STATISTICS -->
         <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">
 
-            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-white">
-                        VoIP Overview
-                    </h3>
-                    <p class="text-xs text-gray-500 mt-1">
-                        Vendor-wise account distribution
-                    </p>
-                </div>
+<div class="flex flex-wrap items-center justify-between gap-4 px-5 py-4 border-b border-gray-200 dark:border-gray-700">
 
-            </div>
+    <div>
+        <h3 class="font-semibold text-gray-900 dark:text-white">
+            VoIP Overview
+        </h3>
+        <p class="text-xs text-gray-500 mt-1">
+            Vendor-wise account distribution
+        </p>
+    </div>
+
+    <div class="flex items-center gap-5">
+
+        <div class="text-right">
+            <p class="text-xs text-gray-500">Total</p>
+            <p class="text-xl font-bold text-primary">
+                {{ overall_count }}
+            </p>
+        </div>
+
+        <div class="text-right">
+            <p class="text-xs text-gray-500">Used</p>
+            <p class="text-xl font-bold text-success">
+                {{ overall_used }}
+            </p>
+        </div>
+
+        <div class="text-right">
+            <p class="text-xs text-gray-500">Free</p>
+            <p class="text-xl font-bold text-warning">
+                {{ overall_free }}
+            </p>
+        </div>
+
+    </div>
+
+</div>
 
             <div class="p-5">
 
-                <div class="mb-5">
-                    <p class="text-sm text-gray-500">Total VoIP Accounts</p>
-                    <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
-                        {{ overall_count|default:0 }}
-                    </h3>
-                </div>
+
 
                 {% for vendor in vendor_counts %}
                     <div class="mb-5 last:mb-0">
@@ -272,6 +316,139 @@
         </div>
 
     </div>
+
+    <!-- PROCESSOR DISTRIBUTION -->
+    <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 xl:col-span-2 mt-5">
+
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+            <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">
+                    <i class="ki-filled ki-cpu text-primary mr-2"></i>
+                    Processor Distribution
+                </h3>
+                <p class="text-xs text-gray-500 mt-1">
+                    Computer count by processor family and generation
+                </p>
+            </div>
+
+            <div class="text-right">
+                <p class="text-xs text-gray-500">Total Computers</p>
+                <p class="text-xl font-bold text-primary">
+                    {{ processor_total|default:0 }}
+                </p>
+            </div>
+        </div>
+
+        <div class="p-5">
+            <div id="processorDistributionChart" style="min-height: 350px;"></div>
+        </div>
+
+    </div>
+
+</div>
+
+{{ processor_chart_labels|json_script:"processor-labels" }}
+{{ processor_chart_values|json_script:"processor-values" }}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const labelsElement = document.getElementById("processor-labels");
+    const valuesElement = document.getElementById("processor-values");
+    const chartElement = document.getElementById("processorDistributionChart");
+
+    if (!labelsElement || !valuesElement || !chartElement) return;
+    if (typeof ApexCharts === "undefined") {
+        console.error("ApexCharts is not loaded.");
+        return;
+    }
+
+    const labels = JSON.parse(labelsElement.textContent || "[]");
+    const values = JSON.parse(valuesElement.textContent || "[]");
+
+    if (!labels.length || !values.length) {
+        chartElement.innerHTML =
+            '<div class="text-center py-12 text-gray-400">No processor information available.</div>';
+        return;
+    }
+
+    const options = {
+        series: values,
+        labels: labels,
+        chart: {
+            type: "donut",
+            height: 380
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: "65%",
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: "13px",
+                            offsetY: -8
+                        },
+                        value: {
+                            show: true,
+                            fontSize: "24px",
+                            fontWeight: 700,
+                            offsetY: 5,
+                            formatter: function (value) {
+                                return parseInt(value, 10);
+                            }
+                        },
+                        total: {
+                            show: true,
+                            label: "Total Computers",
+                            formatter: function (w) {
+                                return w.globals.seriesTotals.reduce(
+                                    function (sum, value) {
+                                        return sum + value;
+                                    }, 0
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (percentage) {
+                return percentage.toFixed(1) + "%";
+            }
+        },
+        legend: {
+            position: "bottom",
+            fontSize: "12px"
+        },
+        tooltip: {
+            y: {
+                formatter: function (value) {
+                    return value + " Computers";
+                }
+            }
+        },
+        noData: {
+            text: "No processor information available"
+        },
+        responsive: [{
+            breakpoint: 640,
+            options: {
+                chart: {
+                    height: 420
+                },
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }]
+    };
+
+    new ApexCharts(chartElement, options).render();
+});
+</script>
 
 </div>
 </div>

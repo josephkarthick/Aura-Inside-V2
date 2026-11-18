@@ -700,10 +700,10 @@
                 <div class="td-info-item">
                     <span class="td-label">Reported By</span>
                     <div class="td-value">
-                        {% if t.reported_by %}
-                            {{ t.reported_by }}
-                        {% elif t.created_by %}
-                            {{ t.created_by }}
+                        {% if t.reported_by|upper %}
+                            {{ t.reported_by|upper }}
+                        {% elif t.created_by|upper %}
+                            {{ t.created_by|upper }}
                         {% else %}
                             —
                         {% endif %}
@@ -713,8 +713,8 @@
                 <div class="td-info-item">
                     <span class="td-label">Affected User</span>
                     <div class="td-value">
-                        {% if t.affected_user %}
-                            {{ t.affected_user }}
+                        {% if t.affected_user|upper %}
+                            {{ t.affected_user|upper }}
                         {% else %}
                             Not user related
                         {% endif %}
@@ -734,8 +734,8 @@
                 <div class="td-info-item">
                     <span class="td-label">Assigned To</span>
                     <div class="td-value">
-                        {% if t.assigned_to %}
-                            {{ t.assigned_to }}
+                        {% if t.assigned_to|upper %}
+                            {{ t.assigned_to|upper }}
                         {% else %}
                             Unassigned
                         {% endif %}
@@ -788,7 +788,7 @@
             <div>
                 <h3>Ticket History</h3>
                 <p class="td-muted" style="margin:5px 0 0;">
-                    Chronological record of ticket status changes and updates.
+                    Record of ticket status changes and updates.
                 </p>
             </div>
 
@@ -827,13 +827,13 @@
                         <div class="td-history-meta">
                             <span>
                                 <strong>Updated by:</strong>
-                                {{ item.changed_by|default:"System" }}
+                                {{ item.changed_by|default:"System"|upper }}
                             </span>
 
                             {% if item.assigned_to %}
                             <span>
                                 <strong>Assigned to:</strong>
-                                {{ item.assigned_to }}
+                                {{ item.assigned_to|upper }}
                             </span>
                             {% endif %}
                         </div>

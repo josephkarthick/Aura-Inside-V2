@@ -28,45 +28,39 @@ def generate_monitor_id(hostname):
 
 
 
+
 def sync_monitor_info(request):
-
-    # Validate agent token
-    agent_token = request.headers.get('X-Agent-Token')
-
-    if agent_token != settings.DESKTOP_AGENT_API_TOKEN:
-        return JsonResponse({
-            'status': 'error',
-            'message': 'Invalid agent token'
-        }, status=401)
 
     # Read JSON payload
     try:
         data = json.loads(request.body)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return JsonResponse({
-            'status': 'error',
-            'message': 'Invalid JSON payload'
+            "status": "error",
+            "message": "Invalid JSON payload"
         }, status=400)
 
-    hostname = str(data.get('hostname') or '').strip().upper()
+    hostname = str(data.get("hostname") or "").strip().upper()
 
     if not hostname:
         return JsonResponse({
-            'status': 'error',
-            'message': 'Hostname is required'
+            "status": "error",
+            "message": "Hostname is required"
         }, status=400)
 
-    monitors = data.get('monitors', [])
+    monitors = data.get("monitors", [])
 
     if not isinstance(monitors, list):
         return JsonResponse({
-            'status': 'error',
-            'message': 'Monitors must be a list'
+            "status": "error",
+            "message": "Monitors must be a list"
         }, status=400)
 
     created_count = 0
     updated_count = 0
     skipped_count = 0
+
+    valid_types = {"INTERNAL", "EXTERNAL", "UNKNOWN"}
 
     try:
         with transaction.atomic():
@@ -77,32 +71,36 @@ def sync_monitor_info(request):
                     skipped_count += 1
                     continue
 
-                # Only accept actual physical EDID monitors.
-                # RDP and virtual display adapters must never be saved.
-                if item.get('is_physical') is not True:
+                # Accept only physical EDID monitors
+                if item.get("is_physical") is not True:
                     skipped_count += 1
                     continue
 
                 edid_instance = str(
-                    item.get('edid_instance') or ''
+                    item.get("edid_instance") or ""
                 ).strip()
 
-                # EDID instance is our primary matching identifier.
                 if not edid_instance:
                     skipped_count += 1
                     continue
 
+                # Automatic monitor classification
+                monitor_type = str(
+                    item.get("monitor_type") or "UNKNOWN"
+                ).strip().upper()
+
+                if monitor_type not in valid_types:
+                    monitor_type = "UNKNOWN"
+
                 defaults = {
-                    'manufacturer': item.get('manufacturer'),
-                    'manufacturer_code': item.get('manufacturer_code'),
-                    'model': item.get('model'),
-                    'product_code': item.get('product_code'),
-                    'serial_number': item.get('serial_number'),
-                    'screen_size': item.get('screen_size'),
-                    'connection_type': item.get('connection_type'),
-                    'resolution': item.get('resolution'),
-                    'refresh_rate': item.get('refresh_rate'),
-                    'last_sync': timezone.now(),
+                    "manufacturer": item.get("manufacturer"),
+                    "manufacturer_code": item.get("manufacturer_code"),
+                    "model": item.get("model"),
+                    "product_code": item.get("product_code"),
+                    "serial_number": item.get("serial_number"),
+                    "screen_size": item.get("screen_size"),
+                    "connection_type": item.get("connection_type"),
+                    "last_sync": timezone.now(),
                 }
 
                 monitor = Monitor.objects.filter(
@@ -111,37 +109,49 @@ def sync_monitor_info(request):
                 ).first()
 
                 if monitor:
+
                     for field, value in defaults.items():
-                        # Do not erase existing values with empty data.
+
+                        # Do not erase existing values with empty data
                         if value is not None and str(value).strip():
                             setattr(monitor, field, value)
+
+                    # Do not downgrade a known type to UNKNOWN
+                    if (
+                        monitor_type != "UNKNOWN"
+                        or monitor.monitor_type == "UNKNOWN"
+                    ):
+                        monitor.monitor_type = monitor_type
 
                     monitor.save()
                     updated_count += 1
 
                 else:
-                    monitor = Monitor(
+
+                    Monitor.objects.create(
                         hostname=hostname,
                         monitor_id=generate_monitor_id(hostname),
                         edid_instance=edid_instance,
+                        monitor_type=monitor_type,
                         **defaults
                     )
-                    monitor.save()
+
                     created_count += 1
 
     except Exception as e:
         return JsonResponse({
-            'status': 'error',
-            'message': str(e)
+            "status": "error",
+            "message": str(e)
         }, status=500)
 
     return JsonResponse({
-        'status': 'success',
-        'hostname': hostname,
-        'created': created_count,
-        'updated': updated_count,
-        'skipped': skipped_count,
-        'message': 'Monitor synchronization completed'
+        "status": "success",
+        "hostname": hostname,
+        "created": created_count,
+        "updated": updated_count,
+        "skipped": skipped_count,
+        "message": "Monitor synchronization completed"
     })
+
 
 

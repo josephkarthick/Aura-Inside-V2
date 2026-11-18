@@ -116,6 +116,7 @@ def generate_ticket_id():
 
 
 
+
 @login_required
 def raise_ticket(request):
     """Create a ticket with an automatic ticket ID."""
@@ -131,19 +132,35 @@ def raise_ticket(request):
 
     priorities = Priority_Choice.objects.all().order_by("name")
 
-    # All employees can be selected as the affected user by IT.
-    employees = AuraInsideUser.objects.all().order_by("username")
+    # --------------------------------------------------
+    # ACTIVE USERS ONLY
+    # --------------------------------------------------
 
-    # Assigned To must include users from both IT departments.
+    active_users = AuraInsideUser.objects.filter(
+        is_active=True
+    )
+
+    # All active employees for Affected User dropdown
+    employees = (
+        active_users
+        .order_by("username")
+    )
+
+    # IT departments
     it_departments = get_it_departments()
 
+    # Active IT employees for Assigned To dropdown
     assigned_users = (
-        AuraInsideUser.objects
+        active_users
         .filter(department__in=it_departments)
         .select_related("department")
         .order_by("username")
         .distinct()
     )
+
+    # --------------------------------------------------
+    # ASSET DETAILS
+    # --------------------------------------------------
 
     asset_type_model = (
         New_Tkt._meta.get_field("asset_type")
@@ -151,9 +168,14 @@ def raise_ticket(request):
     )
 
     asset_types = asset_type_model.objects.all().order_by("pk")
+
     assets = ITAsset.objects.all().order_by("asset_tag")
 
     is_it_user = is_it_department_user(request.user)
+
+    # --------------------------------------------------
+    # POST REQUEST
+    # --------------------------------------------------
 
     if request.method == "POST":
         try:
@@ -163,6 +185,7 @@ def raise_ticket(request):
             affected_user_id = request.POST.get("affected_user")
             asset_type_id = request.POST.get("asset_type")
             asset_id = request.POST.get("asset")
+
             description = (
                 request.POST.get("description") or ""
             ).strip()
@@ -179,32 +202,55 @@ def raise_ticket(request):
                 )
                 raise ValueError("Required fields are missing.")
 
+            # Category
             category = get_object_or_404(
                 Tkt_Cat,
                 pk=category_id,
             )
 
+            # Subcategory must belong to selected category
             subcategory = get_object_or_404(
                 Tkt_SubCat,
                 pk=subcategory_id,
                 category=category,
             )
 
+            # Priority
             priority = get_object_or_404(
                 Priority_Choice,
                 pk=priority_id,
             )
 
-            # Use the logged-in employee by default.
+            # --------------------------------------------------
+            # AFFECTED EMPLOYEE
+            # --------------------------------------------------
+
             if is_it_user:
-                affected_user = (
-                    get_object_or_404(
-                        AuraInsideUser,
-                        pk=affected_user_id,
+
+                selected_affected = (
+                    request.POST.get("affected_user") or ""
+                ).strip()
+
+                if selected_affected == "All Users":
+                    affected_user = None
+
+                elif selected_affected == "Not An User Related":
+                    affected_user = None
+
+                elif selected_affected:
+
+                    affected_user = get_object_or_404(
+                        active_users,
+                        pk=selected_affected,
                     )
-                    if affected_user_id
-                    else request.user
-                )
+
+                else:
+                    # Default to logged-in employee
+                    affected_user = request.user
+
+                # --------------------------------------------------
+                # ASSIGNED TO
+                # --------------------------------------------------
 
                 assigned_to_id = (
                     request.POST.get("assigned_to") or ""
@@ -214,15 +260,19 @@ def raise_ticket(request):
 
                 if assigned_to_id:
                     assigned_to = get_object_or_404(
-                        AuraInsideUser,
+                        assigned_users,
                         pk=assigned_to_id,
-                        department__in=it_departments,
                     )
+
             else:
-                # Regular employees cannot assign tickets
-                # or raise tickets on behalf of others.
+
+                # Regular employees
                 affected_user = request.user
                 assigned_to = None
+
+            # --------------------------------------------------
+            # ASSET TYPE
+            # --------------------------------------------------
 
             asset_type = (
                 get_object_or_404(
@@ -233,6 +283,10 @@ def raise_ticket(request):
                 else None
             )
 
+            # --------------------------------------------------
+            # ASSET
+            # --------------------------------------------------
+
             asset = (
                 get_object_or_404(
                     ITAsset,
@@ -242,7 +296,10 @@ def raise_ticket(request):
                 else None
             )
 
-            # Enforce the configured subcategory priority.
+            # --------------------------------------------------
+            # VALIDATE PRIORITY CONFIGURATION
+            # --------------------------------------------------
+
             if (
                 subcategory.priority_id
                 and subcategory.priority_id != priority.pk
@@ -252,15 +309,20 @@ def raise_ticket(request):
                     "The selected priority does not match "
                     "the subcategory configuration."
                 )
+
                 raise ValueError("Invalid priority selection.")
 
-            # Generate the ID and save the ticket.
-            # Retry if simultaneous requests generate a duplicate ID.
+            # --------------------------------------------------
+            # GENERATE TICKET ID AND SAVE
+            # --------------------------------------------------
+
             ticket = None
 
             for attempt in range(3):
+
                 try:
                     with transaction.atomic():
+
                         ticket_id = generate_ticket_id()
 
                         ticket = New_Tkt.objects.create(
@@ -280,8 +342,13 @@ def raise_ticket(request):
                     break
 
                 except IntegrityError:
+
                     if attempt == 2:
                         raise
+
+            # --------------------------------------------------
+            # SUCCESS
+            # --------------------------------------------------
 
             messages.success(
                 request,
@@ -300,6 +367,10 @@ def raise_ticket(request):
                 "the selected details and try again."
             )
 
+    # --------------------------------------------------
+    # RENDER PAGE
+    # --------------------------------------------------
+
     return render(
         request,
         "ITDesk/Tickets/Raise_Ticket.html",
@@ -307,16 +378,23 @@ def raise_ticket(request):
             "categories": categories,
             "subcategories": subcategories,
             "priorities": priorities,
+
+            # Active employees only
             "employees": employees,
-            "users": AuraInsideUser.objects.order_by("username"),
+            "users": employees,
+
+            # Active IT employees only
             "assigned_users": assigned_users,
             "it_persons": assigned_users,
+
             "asset_types": asset_types,
             "assets": assets,
+
             "logged": request.user,
             "is_it_user": is_it_user,
         },
     )
+
 
 
 
@@ -561,9 +639,11 @@ def it_ticket_detail(request, ticket_id):
     )
 
 
+
 @login_required
 def export_tickets_excel(request):
-    """Export the full IT ticket queue and ticket history to Excel."""
+    """Export the full IT ticket queue to Excel without ticket history."""
+
     if not is_it_department_user(request.user):
         return deny_non_it_user(request)
 
@@ -588,10 +668,11 @@ def export_tickets_excel(request):
         "Status",
         "Last Resolved/Closed",
         "Resolution Time",
-        "Ticket History",
     ]
+
     worksheet.append(headers)
 
+    # Header formatting
     header_fill = PatternFill(fill_type="solid", fgColor="1F4E78")
     header_font = Font(color="FFFFFF", bold=True)
 
@@ -604,13 +685,16 @@ def export_tickets_excel(request):
             wrap_text=True,
         )
 
+    # Export ticket records
     for ticket in tickets:
+
         description = re.sub(
             r"<[^<]+?>",
             "",
             ticket.description or "",
         )
 
+        # Find the latest resolved/closed history
         closed_history = (
             ticket.history
             .filter(
@@ -629,6 +713,7 @@ def export_tickets_excel(request):
         resolution_time = ""
 
         if closed_history and ticket.created_at:
+
             closed_datetime = closed_history.changed_at
 
             if closed_datetime:
@@ -648,11 +733,13 @@ def export_tickets_excel(request):
                 closed_date = closed_datetime.strftime(
                     "%d-%m-%Y %I:%M %p"
                 )
+
                 resolution_time = (
                     f"{days} Day(s) {hours} Hour(s) "
                     f"{minutes} Minute(s)"
                 )
 
+        # Asset details
         asset_label = ""
 
         if ticket.asset:
@@ -665,81 +752,55 @@ def export_tickets_excel(request):
                 if value
             )
 
-        # Collect complete ticket history into one Excel cell.
-        history_entries = []
-
-        for history in ticket.history.order_by("changed_at", "id"):
-            changed_at = (
-                history.changed_at.strftime("%d-%m-%Y %I:%M %p")
-                if history.changed_at
-                else ""
-            )
-
-            changed_by = getattr(history, "changed_by", None)
-            if changed_by is None:
-                changed_by = getattr(history, "user", None)
-
-            old_status = getattr(history, "old_status", "") or ""
-            new_status = getattr(history, "new_status", "") or ""
-
-            remarks = getattr(history, "remarks", None)
-            if remarks is None:
-                remarks = getattr(history, "comment", "")
-
-            history_entries.append(
-                "\n".join([
-                    f"Date: {changed_at}",
-                    f"Changed By: {changed_by or ''}",
-                    f"Old Status: {old_status}",
-                    f"New Status: {new_status}",
-                    f"Remarks: {remarks or ''}",
-                    "-" * 30,
-                ])
-            )
-
-        history_text = (
-            "\n".join(history_entries)
-            if history_entries
-            else "No history available."
-        )
-
+        # Append ticket information
         worksheet.append([
             ticket.ticket_id or "",
+
             (
                 ticket.created_at.strftime("%d-%m-%Y %I:%M %p")
                 if ticket.created_at
                 else ""
             ),
+
             str(ticket.reported_by) if ticket.reported_by else "",
+
             str(ticket.affected_user) if ticket.affected_user else "",
+
             str(ticket.assigned_to) if ticket.assigned_to else "Unassigned",
+
             ticket.asset_type.name if ticket.asset_type else "",
+
             asset_label,
+
             ticket.category.category if ticket.category else "",
+
             ticket.subcategory.subcategory if ticket.subcategory else "",
+
             description,
+
             ticket.priority.name if ticket.priority else "",
+
             ticket.status or "",
+
             closed_date,
+
             resolution_time,
-            history_text,
         ])
 
-        # Wrap long text in the Description and Ticket History columns.
+        # Wrap description text
         current_row = worksheet.max_row
 
         worksheet.cell(
             row=current_row,
             column=10,
-        ).alignment = Alignment(vertical="top", wrap_text=True)
+        ).alignment = Alignment(
+            vertical="top",
+            wrap_text=True,
+        )
 
-        worksheet.cell(
-            row=current_row,
-            column=15,
-        ).alignment = Alignment(vertical="top", wrap_text=True)
-
-    # Auto-adjust column widths.
+    # Auto-adjust column widths
     for column_cells in worksheet.columns:
+
         max_length = max(
             (
                 len(str(cell.value))
@@ -749,19 +810,31 @@ def export_tickets_excel(request):
             default=0,
         )
 
-        col_letter = get_column_letter(column_cells[0].column)
+        col_letter = get_column_letter(
+            column_cells[0].column
+        )
 
         worksheet.column_dimensions[col_letter].width = min(
             max_length + 3,
             55,
         )
 
-    # Give the history column enough width to read comfortably.
-    worksheet.column_dimensions["O"].width = 55
+    # Set comfortable column widths
+    worksheet.column_dimensions["A"].width = 18
+    worksheet.column_dimensions["B"].width = 22
+    worksheet.column_dimensions["C"].width = 22
+    worksheet.column_dimensions["D"].width = 22
+    worksheet.column_dimensions["E"].width = 22
+    worksheet.column_dimensions["J"].width = 45
+    worksheet.column_dimensions["M"].width = 22
+    worksheet.column_dimensions["N"].width = 25
 
+    # Worksheet settings
     worksheet.freeze_panes = "A2"
     worksheet.auto_filter.ref = worksheet.dimensions
+    worksheet.row_dimensions[1].height = 35
 
+    # Excel response
     response = HttpResponse(
         content_type=(
             "application/vnd.openxmlformats-officedocument."
@@ -774,7 +847,9 @@ def export_tickets_excel(request):
     )
 
     workbook.save(response)
+
     return response
+
 
 
 
@@ -1320,11 +1395,21 @@ def add_voip(request):
 
 
 def list_voip(request):
+
     voip_list = VoipRecord.objects.select_related(
         'vendor', 'empid'
     ).order_by('-id')
 
+    # Account counts
     voip_count = voip_list.count()
+
+    free_account_count = voip_list.filter(
+        is_free=True
+    ).count()
+
+    used_account_count = voip_list.filter(
+        is_free=False
+    ).count()
 
     # Check user's Department / Designation
     can_edit = False
@@ -1346,6 +1431,8 @@ def list_voip(request):
     context = {
         "voip_list": voip_list,
         "voip_count": voip_count,
+        "used_account_count": used_account_count,
+        "free_account_count": free_account_count,
         "can_edit": can_edit,
     }
 

@@ -334,16 +334,239 @@ def update_desktop_asset(request, pk):
     return redirect('Assets:desktop_detail', pk=desktop.pk)    
 
 
+# ============================================================
+# LAPTOP LIST
+# ============================================================
 
+def laptop_list(request):
+
+    search = request.GET.get("search", "").strip()
+
+    laptops = DesktopAsset.objects.select_related(
+        "asset"
+    ).filter(
+        asset_type__iexact="Laptop"
+    )
+
+    if search:
+        laptops = laptops.filter(
+            Q(hostname__icontains=search) |
+            Q(asset_type__icontains=search) |
+            Q(processor__icontains=search) |
+            Q(os_installed__icontains=search) |
+            Q(logged_in_user__icontains=search) |
+            Q(ip_address__icontains=search) |
+            Q(asset__asset_tag__icontains=search)
+        )
+
+    return render(request, "Assets/laptop_list.html", {
+        "laptops": laptops,
+        "search_term": search,
+        "total_laptops": laptops.count(),
+    })
+    
+    
+# ============================================================
+# LAPTOP DETAIL
+# ============================================================
+
+def laptop_detail(request, pk):
+
+    laptop = get_object_or_404(
+        DesktopAsset.objects.select_related('asset'),
+        pk=pk,
+        asset_type__iexact="Laptop"
+    )
+
+    asset = laptop.asset
+
+    # --------------------------------------------------------
+    # MONITORS
+    # --------------------------------------------------------
+
+    monitors = Monitor.objects.filter(
+        hostname__iexact=laptop.hostname
+    ).order_by('monitor_id')
+
+    # --------------------------------------------------------
+    # OFFICIAL ASSIGNMENT HISTORY
+    # --------------------------------------------------------
+
+    assignments = asset.assignment_history.select_related(
+        'employee',
+        'assigned_by'
+    ).all()
+
+    # --------------------------------------------------------
+    # AUTOMATICALLY DETECTED WINDOWS USER HISTORY
+    # --------------------------------------------------------
+
+    detected_users = ComputerUserHistory.objects.filter(
+        computer_id=laptop.pk
+    ).select_related(
+        'employee'
+    ).order_by('-first_seen')
+
+    # --------------------------------------------------------
+    # PROJECT DROPDOWNS
+    # --------------------------------------------------------
+
+    projects = list(
+        SecurityGroup.objects
+        .exclude(project__isnull=True)
+        .exclude(project__exact='')
+        .values_list('project', flat=True)
+        .distinct()
+        .order_by('project')
+    )
+
+    # --------------------------------------------------------
+    # WORKSTATION DROPDOWN
+    # --------------------------------------------------------
+
+    workstations = list(
+        Workstation.objects.filter(
+            is_active=True
+        ).order_by('workstation_code')
+    )
+
+    workstation_codes = [
+        ws.workstation_code for ws in workstations
+    ]
+
+    # --------------------------------------------------------
+    # CONTEXT
+    # --------------------------------------------------------
+
+    context = {
+        'laptop': laptop,
+        'asset': asset,
+        'monitors': monitors,
+        'assignments': assignments,
+        'detected_users': detected_users,
+
+        # Asset edit modal
+        'projects': projects,
+        'workstations': workstations,
+        'workstation_codes': workstation_codes,
+    }
+
+    return render(
+        request,
+        'Assets/laptop_detail.html',
+        context
+    )
+
+
+# ============================================================
+# UPDATE LAPTOP ASSET
+# ============================================================
+
+@require_POST
+def update_laptop_asset(request, pk):
+
+    laptop = get_object_or_404(
+        DesktopAsset.objects.select_related('asset'),
+        pk=pk,
+        asset_type__iexact="Laptop"
+    )
+
+    asset = laptop.asset
+
+    try:
+        asset.asset_name = request.POST.get('asset_name', '').strip()
+        asset.manufacturer = request.POST.get('manufacturer', '').strip() or None
+        asset.model = request.POST.get('model', '').strip() or None
+        asset.serial_number = request.POST.get('serial_number', '').strip() or None
+
+        purchase_date = request.POST.get('purchase_date', '').strip()
+        warranty_start = request.POST.get('warranty_start', '').strip()
+        warranty_end = request.POST.get('warranty_end', '').strip()
+
+        asset.purchase_date = parse_date(purchase_date) if purchase_date else None
+        asset.warranty_start = parse_date(warranty_start) if warranty_start else None
+        asset.warranty_end = parse_date(warranty_end) if warranty_end else None
+
+        cost = request.POST.get('purchase_cost', '').strip()
+        asset.purchase_cost = Decimal(cost) if cost else None
+
+        asset.assigned_day_project = (
+            request.POST.get('assigned_day_project', '').strip() or None
+        )
+
+        asset.assigned_night_project = (
+            request.POST.get('assigned_night_project', '').strip() or None
+        )
+
+        asset.workstation = (
+            request.POST.get('workstation', '').strip() or None
+        )
+
+        asset.location = (
+            request.POST.get('location', '').strip() or None
+        )
+
+        asset.description = (
+            request.POST.get('description', '').strip() or None
+        )
+
+        new_status = request.POST.get('status', '')
+
+        valid_statuses = dict(asset.STATUS_CHOICES)
+
+        if new_status not in valid_statuses:
+            raise ValueError("Invalid asset status.")
+
+        asset.status = new_status
+
+        if not asset.asset_name:
+            raise ValueError("Asset name is required.")
+
+        if asset.purchase_cost is not None and asset.purchase_cost < 0:
+            raise ValueError("Purchase cost cannot be negative.")
+
+        if purchase_date and asset.purchase_date is None:
+            raise ValueError("Invalid purchase date.")
+
+        if warranty_start and asset.warranty_start is None:
+            raise ValueError("Invalid warranty start date.")
+
+        if warranty_end and asset.warranty_end is None:
+            raise ValueError("Invalid warranty end date.")
+
+        if asset.warranty_start and asset.warranty_end:
+            if asset.warranty_end < asset.warranty_start:
+                raise ValueError(
+                    "Warranty end cannot precede warranty start."
+                )
+
+        asset.save()
+
+        messages.success(
+            request,
+            "Laptop asset information updated successfully."
+        )
+
+    except (ValueError, InvalidOperation, TypeError) as e:
+        messages.error(request, str(e))
+
+    return redirect(
+        'Assets:laptop_detail',
+        pk=laptop.pk
+    )
+    
 # ============================================================
 # MONITOR LIST
 # ============================================================
+
 
 def monitor_list(request):
 
     search = request.GET.get("search", "").strip()
 
-    monitors = Monitor.objects.all()
+    monitors = Monitor.objects.filter(
+        monitor_type="EXTERNAL"
+    ).order_by("hostname", "monitor_id")
 
     if search:
         monitors = monitors.filter(
@@ -359,3 +582,154 @@ def monitor_list(request):
         "search_term": search,
         "total_monitors": monitors.count(),
     })
+
+
+
+from django.http import HttpResponse
+from django.db.models import Q
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment
+from openpyxl.utils import get_column_letter
+from datetime import datetime
+
+
+def export_desktops_excel(request):
+
+    search = request.GET.get("search", "").strip()
+
+    desktops = DesktopAsset.objects.select_related("asset").filter(
+        asset_type__iexact="Desktop"
+    ).order_by("hostname")
+
+    # Apply the same search filter as desktop_list
+    if search:
+        desktops = desktops.filter(
+            Q(hostname__icontains=search) |
+            Q(asset_type__icontains=search) |
+            Q(processor__icontains=search) |
+            Q(os_installed__icontains=search) |
+            Q(logged_in_user__icontains=search) |
+            Q(ip_address__icontains=search) |
+            Q(asset__asset_tag__icontains=search)
+        )
+
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = "Desktop Details"
+
+    # Collect all DesktopAsset fields except the related Asset field
+    desktop_fields = [
+        field for field in DesktopAsset._meta.concrete_fields
+        if field.name != "asset"
+    ]
+
+    # Collect all related Asset fields
+    asset_fields = []
+    if desktops.exists() and desktops.first().asset:
+        asset_fields = list(
+            desktops.first().asset._meta.concrete_fields
+        )
+
+    # Build column headers
+    headers = []
+
+    for field in desktop_fields:
+        headers.append(field.verbose_name.title())
+
+    for field in asset_fields:
+        headers.append(f"Asset - {field.verbose_name.title()}")
+
+    worksheet.append(headers)
+
+    # Header styling
+    for cell in worksheet[1]:
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = PatternFill(
+            start_color="1F4E78",
+            end_color="1F4E78",
+            fill_type="solid"
+        )
+        cell.alignment = Alignment(
+            horizontal="center",
+            vertical="center"
+        )
+
+    # Convert values safely for Excel
+    def get_field_value(obj, field):
+
+        if obj is None:
+            return ""
+
+        value = getattr(obj, field.name, None)
+
+        if value is None:
+            return ""
+
+        if field.is_relation and field.many_to_one:
+            return str(value) if value else ""
+
+        if isinstance(value, (datetime,)):
+            return value.replace(tzinfo=None)
+
+        return str(value) if not isinstance(
+            value, (int, float, bool)
+        ) else value
+
+    # Add desktop records
+    for desktop in desktops:
+
+        row = []
+
+        for field in desktop_fields:
+            row.append(get_field_value(desktop, field))
+
+        asset = desktop.asset
+
+        for field in asset_fields:
+            row.append(get_field_value(asset, field))
+
+        worksheet.append(row)
+
+    # Formatting
+    worksheet.freeze_panes = "A2"
+    worksheet.auto_filter.ref = worksheet.dimensions
+
+    for column_cells in worksheet.columns:
+        max_length = 0
+        column_letter = get_column_letter(
+            column_cells[0].column
+        )
+
+        for cell in column_cells:
+            cell.alignment = Alignment(
+                vertical="top",
+                wrap_text=True
+            )
+
+            if cell.value is not None:
+                max_length = max(
+                    max_length,
+                    len(str(cell.value))
+                )
+
+        worksheet.column_dimensions[column_letter].width = min(
+            max_length + 3, 55
+        )
+
+    # Excel response
+    response = HttpResponse(
+        content_type=(
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        )
+    )
+
+    filename = f"Desktop_Inventory_{datetime.now():%Y%m%d_%H%M%S}.xlsx"
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="{filename}"'
+    )
+
+    workbook.save(response)
+
+    return response

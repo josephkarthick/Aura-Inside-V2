@@ -364,9 +364,23 @@ class ComputerUserHistory(models.Model):
     def __str__(self):
         return f"{self.computer.hostname} - {self.windows_username}"        
 
+
 class Monitor(models.Model):
+    MONITOR_TYPE_CHOICES = [
+        ("INTERNAL", "Internal Display"),
+        ("EXTERNAL", "External Monitor"),
+        ("UNKNOWN", "Unknown"),
+    ]
+
     hostname = models.CharField(max_length=100, db_index=True)
     monitor_id = models.CharField(max_length=150, unique=True)
+
+    monitor_type = models.CharField(
+        max_length=10,
+        choices=MONITOR_TYPE_CHOICES,
+        default="UNKNOWN",
+        db_index=True
+    )
 
     manufacturer = models.CharField(max_length=100, blank=True, null=True)
     manufacturer_code = models.CharField(max_length=10, blank=True, null=True)
@@ -387,14 +401,6 @@ class Monitor(models.Model):
         max_length=255, blank=True, null=True
     )
 
-    resolution = models.CharField(
-        max_length=30, blank=True, null=True
-    )
-
-    refresh_rate = models.DecimalField(
-        max_digits=6, decimal_places=2, blank=True, null=True
-    )
-
     last_sync = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -410,3 +416,4 @@ class Monitor(models.Model):
 
     def __str__(self):
         return f"{self.monitor_id} - {self.model or 'Unknown Monitor'}"
+

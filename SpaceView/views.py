@@ -8,37 +8,69 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 
 from .models import Workstation
-from ITDesk.models import ITAsset
+from Assets.models import Asset
 
 
-def serialize_workstation(workstation):
+def serialize_workstation(workstation, assigned_assets=None):
+    assigned_assets = assigned_assets or []
+
     return {
         "id": workstation.id,
         "workstation_code": workstation.workstation_code,
         "floor": workstation.floor,
         "x_position": workstation.x_position,
         "y_position": workstation.y_position,
-        "assigned_asset_id": workstation.assigned_asset_id,
         "is_active": workstation.is_active,
+        "assets": assigned_assets,
     }
 
 
 @login_required
 def floor_chart(request):
-    workstations = [
-        serialize_workstation(ws)
-        for ws in Workstation.objects.filter(is_active=True)
-    ]
 
-    # Read existing assets from ITDesk; do not modify ITDesk.
-    assets = ITAsset.objects.all().order_by("asset_tag")
+    workstations = Workstation.objects.filter(
+        is_active=True
+    ).order_by("floor", "workstation_code")
+
+    # Fetch assignments directly from the Assets table.
+    assets = Asset.objects.filter(
+        location__in=["Agastya", "Vishwam"],
+    ).exclude(
+        workstation__isnull=True
+    ).exclude(
+        workstation=""
+    ).values(
+        "asset_name",
+        "asset_tag",
+        "location",
+        "workstation",
+        "status",
+    )
+
+    # Map each asset to its floor and workstation.
+    asset_map = {}
+
+    for asset in assets:
+        key = (asset["location"], asset["workstation"].strip().upper())
+        asset_map.setdefault(key, []).append(asset)
+
+    workstation_data = []
+
+    for ws in workstations:
+        key = (ws.floor, ws.workstation_code.strip().upper())
+
+        workstation_data.append(
+            serialize_workstation(
+                ws,
+                asset_map.get(key, [])
+            )
+        )
 
     return render(
         request,
         "SpaceView/floor_chart.html",
         {
-            "workstations_json": json.dumps(workstations),
-            "assets": assets,
+            "workstations_json": json.dumps(workstation_data),
         },
     )
 
@@ -54,30 +86,34 @@ def add_workstation(request):
         y_position = float(data.get("y_position"))
 
         if floor not in ("Agastya", "Vishwam"):
-            return JsonResponse(
-                {"success": False, "error": "Invalid floor."},
-                status=400,
-            )
+            return JsonResponse({
+                "success": False,
+                "error": "Invalid floor.",
+            }, status=400)
 
         if not (0 <= x_position <= 100 and 0 <= y_position <= 100):
-            return JsonResponse(
-                {"success": False, "error": "Invalid map position."},
-                status=400,
-            )
+            return JsonResponse({
+                "success": False,
+                "error": "Invalid map position.",
+            }, status=400)
 
-        # Generate workstation numbers independently for each map.
+        prefix = {
+            "Vishwam": "VWS",
+            "Agastya": "AWS",
+        }[floor]
+
         existing_codes = Workstation.objects.filter(
             floor=floor,
-            workstation_code__startswith="WS"
+            workstation_code__startswith=f"{prefix}-",
         ).values_list("workstation_code", flat=True)
-        
+
         numbers = [
-            int(existing_code[2:])
-            for existing_code in existing_codes
-            if existing_code[2:].isdigit()
+            int(code.split("-")[-1])
+            for code in existing_codes
+            if code.split("-")[-1].isdigit()
         ]
-        
-        code = f"WS{max(numbers, default=0) + 1:03d}"
+
+        code = f"{prefix}-{max(numbers, default=0) + 1:03d}"
 
         workstation = Workstation.objects.create(
             workstation_code=code,
@@ -92,15 +128,16 @@ def add_workstation(request):
         })
 
     except (ValueError, TypeError, json.JSONDecodeError):
-        return JsonResponse(
-            {"success": False, "error": "Invalid request data."},
-            status=400,
-        )
+        return JsonResponse({
+            "success": False,
+            "error": "Invalid request data.",
+        }, status=400)
+
     except IntegrityError:
-        return JsonResponse(
-            {"success": False, "error": "Unable to create the workstation."},
-            status=400,
-        )
+        return JsonResponse({
+            "success": False,
+            "error": "Unable to create the workstation.",
+        }, status=400)
 
 
 @login_required
@@ -109,10 +146,10 @@ def delete_workstation(request, workstation_id):
     try:
         workstation = Workstation.objects.get(id=workstation_id)
     except Workstation.DoesNotExist:
-        return JsonResponse(
-            {"success": False, "error": "Workstation not found."},
-            status=404,
-        )
+        return JsonResponse({
+            "success": False,
+            "error": "Workstation not found.",
+        }, status=404)
 
     code = workstation.workstation_code
     workstation.delete()
@@ -130,67 +167,18 @@ def edit_workstation(request, workstation_id):
         data = json.loads(request.body)
         workstation = Workstation.objects.get(id=workstation_id)
 
-        # Assignment-only request from the Assign System button.
-        if "assigned_asset_id" in data and not any(
-            key in data
-            for key in (
-                "workstation_code",
-                "floor",
-                "x_position",
-                "y_position",
-            )
-        ):
-            raw_asset_id = data.get("assigned_asset_id")
-
-            if raw_asset_id in (None, ""):
-                workstation.assigned_asset_id = None
-            else:
-                try:
-                    asset_id = int(raw_asset_id)
-                except (ValueError, TypeError):
-                    return JsonResponse({
-                        "success": False,
-                        "error": "Invalid asset selection.",
-                    }, status=400)
-
-                if not ITAsset.objects.filter(pk=asset_id).exists():
-                    return JsonResponse({
-                        "success": False,
-                        "error": "Selected asset was not found.",
-                    }, status=404)
-
-                # Prevent assigning the same asset to multiple workstations.
-                already_assigned = Workstation.objects.filter(
-                    assigned_asset_id=asset_id
-                ).exclude(pk=workstation.pk).exists()
-
-                if already_assigned:
-                    return JsonResponse({
-                        "success": False,
-                        "error": "This system is already assigned to another workstation.",
-                    }, status=400)
-
-                workstation.assigned_asset_id = asset_id
-
-            workstation.save(update_fields=[
-                "assigned_asset_id",
-                "updated_at",
-            ])
-
-            return JsonResponse({
-                "success": True,
-                "workstation": serialize_workstation(workstation),
-            })
-
-        # Normal workstation edit.
         workstation_code = data.get(
             "workstation_code",
             workstation.workstation_code,
         ).strip().upper()
 
         floor = data.get("floor", workstation.floor)
-        x_position = float(data.get("x_position", workstation.x_position))
-        y_position = float(data.get("y_position", workstation.y_position))
+        x_position = float(
+            data.get("x_position", workstation.x_position)
+        )
+        y_position = float(
+            data.get("y_position", workstation.y_position)
+        )
 
         if not workstation_code:
             return JsonResponse({
@@ -211,45 +199,18 @@ def edit_workstation(request, workstation_id):
             }, status=400)
 
         if Workstation.objects.filter(
-            workstation_code__iexact=workstation_code
+            floor=floor,
+            workstation_code__iexact=workstation_code,
         ).exclude(pk=workstation.pk).exists():
             return JsonResponse({
                 "success": False,
-                "error": "This seat number already exists.",
+                "error": "This seat number already exists on this floor.",
             }, status=400)
 
         workstation.workstation_code = workstation_code
         workstation.floor = floor
         workstation.x_position = x_position
         workstation.y_position = y_position
-
-        # If the edit form sends an asset ID, save it too.
-        if "assigned_asset_id" in data:
-            raw_asset_id = data.get("assigned_asset_id")
-
-            if raw_asset_id in (None, ""):
-                workstation.assigned_asset_id = None
-            else:
-                asset_id = int(raw_asset_id)
-
-                if not ITAsset.objects.filter(pk=asset_id).exists():
-                    return JsonResponse({
-                        "success": False,
-                        "error": "Selected asset was not found.",
-                    }, status=404)
-
-                already_assigned = Workstation.objects.filter(
-                    assigned_asset_id=asset_id
-                ).exclude(pk=workstation.pk).exists()
-
-                if already_assigned:
-                    return JsonResponse({
-                        "success": False,
-                        "error": "This system is already assigned to another workstation.",
-                    }, status=400)
-
-                workstation.assigned_asset_id = asset_id
-
         workstation.save()
 
         return JsonResponse({
@@ -272,5 +233,5 @@ def edit_workstation(request, workstation_id):
     except IntegrityError:
         return JsonResponse({
             "success": False,
-            "error": "Unable to save the workstation. Check for duplicate values.",
+            "error": "Unable to save the workstation.",
         }, status=400)

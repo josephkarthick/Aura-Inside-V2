@@ -408,9 +408,9 @@
                                     <td>
                                         <span class="ticket-user">
                                             {% if ticket.reported_by %}
-                                                {{ ticket.reported_by.username }}
-                                            {% elif ticket.created_by %}
-                                                {{ ticket.created_by }}
+                                                {{ ticket.reported_by.username|upper }}
+                                            {% elif ticket.created_by|upper %}
+                                                {{ ticket.created_by|upper }}
                                             {% else %}
                                                 —
                                             {% endif %}
@@ -464,7 +464,7 @@
                                     <td>
                                         {% if ticket.assigned_to %}
                                             <span class="ticket-user">
-                                                {{ ticket.assigned_to.username|default:ticket.assigned_to }}
+                                                {{ ticket.assigned_to.username|default:ticket.assigned_to|upper }}
                                             </span>
                                         {% else %}
                                             <span class="ticket-muted">Unassigned</span>
