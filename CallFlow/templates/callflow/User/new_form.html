@@ -1,0 +1,335 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+.callflow-page {
+    padding: 20px;
+}
+
+.callflow-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 18px;
+}
+
+.callflow-tab {
+    padding: 13px 20px;
+    white-space: nowrap;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.callflow-tab:hover,
+.callflow-tab.active {
+    color: #2563eb;
+}
+
+.callflow-tab.active {
+    border-bottom-color: #2563eb;
+}
+
+.callflow-workspace {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    min-height: 65vh;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.callflow-sidebar {
+    background: #f8fafc;
+    border-right: 1px solid #e5e7eb;
+    padding: 22px 15px;
+}
+
+.sidebar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    margin: 0 10px 16px;
+}
+
+.scenario-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.scenario-menu.active {
+    display: flex;
+}
+
+.scenario-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 12px;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 13px;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.scenario-link:hover {
+    background: #eaf1ff;
+    color: #2563eb;
+}
+
+.scenario-link i {
+    font-size: 17px;
+}
+
+.callflow-content {
+    padding: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.heading-panel {
+    display: none;
+    width: 100%;
+}
+
+.heading-panel.active {
+    display: block;
+}
+
+.welcome-icon {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 15px;
+    font-size: 28px;
+    margin: 0 auto 18px;
+}
+
+.empty-message {
+    padding: 35px 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+@media(max-width: 700px) {
+    .callflow-workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .callflow-sidebar {
+        border-right: 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .scenario-menu {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .scenario-link {
+        min-width: 160px;
+    }
+
+    .callflow-content {
+        min-height: 300px;
+        padding: 25px 15px;
+    }
+}
+</style>
+
+<div class="kt-wrapper flex grow flex-col">
+<main class="grow pt-5" id="content">
+
+<div class="kt-container-fluid w-full max-w-none px-6">
+
+    <!-- HEADER -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <div>
+            <h1 class="text-xl font-bold text-mono">Create New Call Form</h1>
+            <p class="text-sm text-secondary mt-1">
+                Select a category and issue to start your insurance call.
+            </p>
+        </div>
+
+        <a href="{% url 'CallFlow:employee_callflow_home' %}"
+           class="kt-btn kt-btn-light">
+            <i class="ki-filled ki-arrow-left"></i>
+            My Call History
+        </a>
+    </div>
+
+    {% if headings %}
+
+    <!-- TOP HEADING TABS -->
+    <div class="callflow-tabs">
+
+        {% for heading in headings %}
+        <button type="button"
+                class="callflow-tab"
+                data-heading="{{ forloop.counter }}">
+            {{ heading.title }}
+        </button>
+        {% endfor %}
+
+    </div>
+
+    <!-- WORKSPACE -->
+    <div class="callflow-workspace">
+
+        <!-- LEFT SCENARIO MENU -->
+        <aside class="callflow-sidebar">
+
+            <div class="sidebar-title">
+                <i class="ki-filled ki-folder me-1"></i>
+                Available Issues / Scenarios
+            </div>
+
+            {% for heading in headings %}
+
+            <div class="scenario-menu"
+                 data-menu="{{ forloop.counter }}">
+
+                {% for scenario in heading.published_scenarios %}
+
+                <a href="{% url 'CallFlow:employee_fill_form' scenario.id %}"
+                   class="scenario-link">
+
+                    <i class="ki-filled ki-file-text"></i>
+
+                    <span>{{ scenario.title }}</span>
+
+                    <i class="ki-filled ki-arrow-right ml-auto"></i>
+
+                </a>
+
+                {% empty %}
+
+                <div class="empty-message">
+                    No published scenarios available.
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endfor %}
+
+        </aside>
+
+        <!-- RIGHT CONTENT -->
+        <section class="callflow-content">
+
+            {% for heading in headings %}
+
+            <div class="heading-panel"
+                 data-panel="{{ forloop.counter }}">
+
+                <div class="welcome-icon">
+                    <i class="ki-filled ki-file-text"></i>
+                </div>
+
+                <h2 class="text-xl font-bold text-mono">
+                    {{ heading.title }}
+                </h2>
+
+                <p class="text-sm text-secondary mt-2">
+                    {% if heading.description %}
+                        {{ heading.description }}
+                    {% else %}
+                        Select an issue from the left menu to open the call form.
+                    {% endif %}
+                </p>
+
+                <div class="mt-5 text-sm text-secondary">
+                    <i class="ki-filled ki-arrow-left"></i>
+                    Choose an issue from the left menu.
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-message border rounded-xl">
+        <i class="ki-filled ki-information-2 text-4xl"></i>
+
+        <h3 class="font-semibold text-mono mt-3">
+            No Published Forms Available
+        </h3>
+
+        <p class="text-sm mt-2">
+            Please contact your administrator to publish call forms.
+        </p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+</main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const tabs = document.querySelectorAll(".callflow-tab");
+    const menus = document.querySelectorAll(".scenario-menu");
+    const panels = document.querySelectorAll(".heading-panel");
+
+    function activateHeading(number) {
+
+        tabs.forEach(tab => {
+            tab.classList.toggle(
+                "active",
+                tab.dataset.heading === number
+            );
+        });
+
+        menus.forEach(menu => {
+            menu.classList.toggle(
+                "active",
+                menu.dataset.menu === number
+            );
+        });
+
+        panels.forEach(panel => {
+            panel.classList.toggle(
+                "active",
+                panel.dataset.panel === number
+            );
+        });
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", function () {
+            activateHeading(this.dataset.heading);
+        });
+    });
+
+    if (tabs.length > 0) {
+        activateHeading(tabs[0].dataset.heading);
+    }
+
+});
+</script>

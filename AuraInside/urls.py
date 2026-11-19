@@ -48,6 +48,8 @@ urlpatterns = [
     path('assets/', include('Assets.urls')),   
 
     path("floating-flag/", include("Floating_Flag.urls")),    
+    
+    path("callflow/", include("CallFlow.urls")),
 
 ]
 

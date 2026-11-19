@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'SpaceView',
     'Assets',
     'Floating_Flag',
+    'CallFlow',
 
 ]
 

@@ -1,0 +1,947 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<style>
+    .callflow-form-page {
+        padding: 20px;
+    }
+
+    /* COLLAPSIBLE EMPLOYEE INFORMATION */
+    .employee-info {
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+        margin-bottom: 20px;
+    }
+
+    .employee-info summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 15px 18px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #374151;
+        list-style: none;
+    }
+
+    .employee-info summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .employee-info summary .employee-chevron {
+        transition: transform .2s ease;
+    }
+
+    .employee-info[open] summary .employee-chevron {
+        transform: rotate(180deg);
+    }
+
+    .employee-info-content {
+        padding: 18px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    /* MAIN LAYOUT */
+    .callflow-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
+        gap: 20px;
+        align-items: start;
+    }
+
+    .callflow-left,
+    .callflow-right {
+        min-width: 0;
+    }
+
+    /* QUESTION GRID */
+    .question-grid {
+        display: grid;
+        gap: 15px;
+        grid-template-columns: 1fr;
+    }
+
+    .question-grid.columns-1 {
+        grid-template-columns: 1fr;
+    }
+
+    .question-grid.columns-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .question-card {
+        min-width: 0;
+        padding: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .question-card textarea,
+    .question-card input[type="text"],
+    .question-card input[type="number"] {
+        width: 100%;
+    }
+
+    .question-options {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    /* QUESTION LAYOUT SWITCH */
+    .question-layout-switch {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background: #f8fafc;
+    }
+
+    .question-layout-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        border: 0;
+        background: transparent;
+    }
+
+    .question-layout-button.active {
+        color: #2563eb;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,.10);
+    }
+
+    /* LIVE NOTES */
+    .notes-sticky {
+        position: sticky;
+        top: 15px;
+    }
+
+    .notes-preview {
+        min-height: 190px;
+        max-height: 360px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        line-height: 1.7;
+        font-size: 13px;
+        padding: 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 9px;
+        background: #f8fafc;
+    }
+
+    .final-notes-textarea {
+        width: 100%;
+        min-height: 240px;
+        resize: vertical;
+    }
+
+    .notes-live-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #059669;
+    }
+
+    .notes-live-indicator span {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #10b981;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 1100px) {
+        .callflow-layout {
+            grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+        }
+
+        .question-grid.columns-3 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media(max-width: 767px) {
+        .callflow-form-page {
+            padding: 12px;
+        }
+
+        .callflow-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .question-grid.columns-3 {
+            grid-template-columns: 1fr;
+        }
+
+        .notes-sticky {
+            position: static;
+        }
+    }
+</style>
+
+
+<div class="kt-wrapper">
+
+    <div class="kt-container-fluid w-full max-w-none px-5 py-6">
+
+        <!-- PAGE HEADER -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-5">
+
+            <div>
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+
+                    <a href="{% url 'CallFlow:employee_new_form' %}"
+                       class="text-sm text-primary hover:underline">
+                        Call Forms
+                    </a>
+
+                    <i class="ki-filled ki-right text-xs text-secondary"></i>
+
+                    <span class="text-sm text-secondary">
+                        {{ scenario.title }}
+                    </span>
+
+                </div>
+
+                <h1 class="text-xl font-bold text-mono">
+                    {{ scenario.title }}
+                </h1>
+
+                <p class="text-sm text-secondary mt-1">
+                    {{ heading.title }}
+                </p>
+            </div>
+
+            <a href="{% url 'CallFlow:employee_new_form' %}"
+               class="kt-btn kt-btn-light">
+                <i class="ki-filled ki-arrow-left"></i>
+                Back to Forms
+            </a>
+
+        </div>
+
+
+        <!-- DJANGO MESSAGES -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="kt-alert mb-4">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        <form method="POST" id="callFlowForm">
+            {% csrf_token %}
+
+            <!-- =====================================
+                 COLLAPSIBLE EMPLOYEE INFORMATION
+            ====================================== -->
+
+            <details class="employee-info">
+
+                <summary>
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10">
+                            <i class="ki-filled ki-user text-primary text-lg"></i>
+                        </div>
+
+                        <div>
+                            <div class="text-sm font-semibold">
+                                Employee Information
+                            </div>
+
+                            <div class="text-xs text-secondary mt-1">
+                                View employee and call details
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <i class="ki-filled ki-chevron-down employee-chevron"></i>
+
+                </summary>
+
+
+                <div class="employee-info-content">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+                        <div>
+                            <label class="kt-form-label">Employee Name</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ employee_name }}"
+                                   readonly>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Employee ID</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ employee_id }}"
+                                   readonly>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Department</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ department }}"
+                                   readonly>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Designation</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ designation }}"
+                                   readonly>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Call Date & Time</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ today|date:'d M Y, h:i A' }}"
+                                   readonly>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </details>
+
+
+            <!-- =====================================
+                 MAIN TWO COLUMN LAYOUT
+            ====================================== -->
+
+            <div class="callflow-layout">
+
+                <!-- =================================
+                     LEFT SIDE: CALL DETAILS + QUESTIONS
+                ================================== -->
+
+                <div class="callflow-left">
+
+                    <!-- INSURANCE CALL DETAILS -->
+                    <div class="kt-card mb-5">
+
+                        <div class="kt-card-header">
+
+                            <h3 class="kt-card-title">
+                                <i class="ki-filled ki-phone text-primary mr-2"></i>
+                                Insurance Call Details
+                            </h3>
+
+                        </div>
+
+                        <div class="kt-card-content">
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                                <div>
+
+                                    <label class="kt-form-label">
+                                        Insurance Company
+                                    </label>
+
+                                    <select name="insurance"
+                                            id="insurance"
+                                            class="kt-select"
+                                            required>
+
+                                        <option value="">
+                                            Select Insurance Company
+                                        </option>
+
+                                        {% for company in insurance_companies %}
+                                            <option value="{{ company.id }}">
+                                                {{ company.name }}
+                                            </option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                </div>
+
+
+                                <div>
+
+                                    <label class="kt-form-label">
+                                        Called Number
+                                    </label>
+
+                                    <input type="text"
+                                           name="called_number"
+                                           id="called_number"
+                                           class="kt-input"
+                                           placeholder="Enter insurance phone number">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUESTIONS CARD -->
+                    <div class="kt-card mb-5">
+
+                        <div class="kt-card-header flex flex-wrap items-center justify-between gap-3">
+
+                            <div>
+                                <h3 class="kt-card-title">
+                                    {{ scenario.title }}
+                                </h3>
+
+                                <p class="text-sm text-secondary mt-1">
+                                    Please answer the following questions.
+                                </p>
+                            </div>
+
+
+                            <!-- QUESTION LAYOUT SELECTOR -->
+                            <div class="flex items-center gap-2">
+
+                                <span class="text-xs text-secondary">
+                                    Layout
+                                </span>
+
+                                <div class="question-layout-switch">
+
+                                    <button type="button"
+                                            class="question-layout-button active"
+                                            data-columns="1"
+                                            aria-pressed="true">
+
+                                        <i class="ki-filled ki-row-horizontal"></i>
+                                        1
+
+                                    </button>
+
+                                    <button type="button"
+                                            class="question-layout-button"
+                                            data-columns="3"
+                                            aria-pressed="false">
+
+                                        <i class="ki-filled ki-element-6"></i>
+                                        3
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="kt-card-content">
+
+                            <div class="question-grid columns-1"
+                                 id="questionGrid">
+
+                                {% for question in questions %}
+
+                                    <div class="question-card"
+                                         data-question-id="{{ question.id }}"
+                                         data-question-type="{{ question.question_type }}">
+
+                                        <label class="block font-semibold text-mono mb-3">
+
+                                            <span class="text-primary">
+                                                {{ forloop.counter }}.
+                                            </span>
+
+                                            {{ question.question_text }}
+
+                                        </label>
+
+
+                                        {% if question.question_type == "SINGLE" %}
+
+                                            <div class="question-options">
+
+                                                {% for option in question.options.all %}
+
+                                                    {% if option.is_active %}
+
+                                                        <label class="flex items-center gap-3 cursor-pointer">
+
+                                                            <input type="radio"
+                                                                   name="answer_{{ question.id }}"
+                                                                   value="{{ option.option_text }}"
+                                                                   class="kt-radio"
+                                                                   data-answer-input>
+
+                                                            <span class="text-sm">
+                                                                {{ option.option_text }}
+                                                            </span>
+
+                                                        </label>
+
+                                                    {% endif %}
+
+                                                {% endfor %}
+
+                                            </div>
+
+
+                                        {% elif question.question_type == "MULTIPLE" %}
+
+                                            <div class="question-options">
+
+                                                {% for option in question.options.all %}
+
+                                                    {% if option.is_active %}
+
+                                                        <label class="flex items-center gap-3 cursor-pointer">
+
+                                                            <input type="checkbox"
+                                                                   name="answer_{{ question.id }}"
+                                                                   value="{{ option.option_text }}"
+                                                                   class="kt-checkbox"
+                                                                   data-answer-input>
+
+                                                            <span class="text-sm">
+                                                                {{ option.option_text }}
+                                                            </span>
+
+                                                        </label>
+
+                                                    {% endif %}
+
+                                                {% endfor %}
+
+                                            </div>
+
+
+                                        {% elif question.question_type == "NUMBER" %}
+
+                                            <input type="number"
+                                                   name="answer_{{ question.id }}"
+                                                   class="kt-input"
+                                                   placeholder="{{ question.placeholder|default:'Enter number' }}"
+                                                   data-answer-input>
+
+
+                                        {% else %}
+
+                                            <textarea name="answer_{{ question.id }}"
+                                                      class="kt-textarea"
+                                                      rows="3"
+                                                      placeholder="{{ question.placeholder|default:'Enter your answer' }}"
+                                                      data-answer-input></textarea>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                {% empty %}
+
+                                    <div class="text-center py-10">
+
+                                        <i class="ki-filled ki-information-2 text-4xl text-secondary"></i>
+
+                                        <p class="font-semibold mt-3">
+                                            No questions configured
+                                        </p>
+
+                                        <p class="text-sm text-secondary mt-1">
+                                            Please contact your administrator.
+                                        </p>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUBMIT BUTTON -->
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+
+                        <a href="{% url 'CallFlow:employee_callflow_home' %}"
+                           class="kt-btn kt-btn-light">
+                            <i class="ki-filled ki-cross"></i>
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="kt-btn kt-btn-primary">
+
+                            <i class="ki-filled ki-check-circle"></i>
+                            Submit Call Notes
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     RIGHT SIDE: LIVE NOTES
+                ================================== -->
+
+                <div class="callflow-right">
+
+                    <div class="notes-sticky">
+
+                        <!-- GENERATED NOTES -->
+                        <div class="kt-card mb-5">
+
+                            <div class="kt-card-header flex flex-wrap items-center justify-between gap-2">
+
+                                <div>
+                                    <h3 class="kt-card-title">
+                                        <i class="ki-filled ki-notepad text-primary mr-2"></i>
+                                        Generated Call Notes
+                                    </h3>
+
+                                    <p class="text-xs text-secondary mt-1">
+                                        Automatically updated from your answers.
+                                    </p>
+                                </div>
+
+                                <span class="notes-live-indicator">
+                                    <span></span>
+                                    Live Preview
+                                </span>
+
+                            </div>
+
+
+                            <div class="kt-card-content">
+
+                                <div id="generatedNotesPreview"
+                                     class="notes-preview">Your call notes will appear here as you answer the questions.</div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FINAL NOTES -->
+                        <div class="kt-card mb-5">
+
+                            <div class="kt-card-header">
+
+                                <div>
+                                    <h3 class="kt-card-title">
+                                        <i class="ki-filled ki-edit text-primary mr-2"></i>
+                                        Final Call Notes
+                                    </h3>
+
+                                    <p class="text-xs text-secondary mt-1">
+                                        Review and edit before submitting.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="kt-card-content">
+
+                                <textarea name="final_notes"
+                                          id="final_notes"
+                                          class="kt-textarea final-notes-textarea"
+                                          required
+                                          placeholder="Generated notes will appear here. You can edit them before submission."></textarea>
+
+
+                                <input type="hidden"
+                                       name="generated_notes"
+                                       id="generated_notes">
+
+                                <p class="text-xs text-secondary mt-2">
+                                    Changes to your answers update the generated preview. Your manual edits to final notes are preserved.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     JAVASCRIPT
+====================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("callFlowForm");
+
+    const preview = document.getElementById("generatedNotesPreview");
+    const finalNotes = document.getElementById("final_notes");
+    const generatedNotes = document.getElementById("generated_notes");
+
+    const insurance = document.getElementById("insurance");
+    const calledNumber = document.getElementById("called_number");
+
+    const questionGrid = document.getElementById("questionGrid");
+
+    const layoutButtons = document.querySelectorAll(
+        ".question-layout-button"
+    );
+
+    const notesTemplate = "{{ notes_template|escapejs }}";
+
+    let finalNotesManuallyEdited = false;
+
+
+    // EMPLOYEE INFORMATION
+    const employeeName = "{{ employee_name|escapejs }}";
+    const employeeId = "{{ employee_id|escapejs }}";
+    const department = "{{ department|escapejs }}";
+    const designation = "{{ designation|escapejs }}";
+
+    const callDate = "{{ today|date:'d M Y'|escapejs }}";
+    const callTime = "{{ today|date:'h:i A'|escapejs }}";
+
+
+    // =====================================
+    // QUESTION GRID LAYOUT
+    // =====================================
+
+    layoutButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const columns = this.dataset.columns;
+
+            questionGrid.classList.remove(
+                "columns-1",
+                "columns-3"
+            );
+
+            questionGrid.classList.add(
+                "columns-" + columns
+            );
+
+            layoutButtons.forEach(function (item) {
+
+                item.classList.remove("active");
+                item.setAttribute("aria-pressed", "false");
+
+            });
+
+            this.classList.add("active");
+            this.setAttribute("aria-pressed", "true");
+
+        });
+
+    });
+
+
+    // =====================================
+    // GET ANSWERS
+    // =====================================
+
+    function getAnswer(questionElement) {
+
+        const type = questionElement.dataset.questionType;
+
+        const inputs = questionElement.querySelectorAll(
+            "[data-answer-input]"
+        );
+
+        if (type === "MULTIPLE") {
+
+            return Array.from(inputs)
+                .filter(input => input.checked)
+                .map(input => input.value)
+                .join(", ");
+
+        }
+
+        if (type === "SINGLE") {
+
+            const selected = Array.from(inputs)
+                .find(input => input.checked);
+
+            return selected ? selected.value : "";
+
+        }
+
+        return inputs.length
+            ? inputs[0].value.trim()
+            : "";
+
+    }
+
+
+    // =====================================
+    // GENERATE CALL NOTES
+    // =====================================
+
+function generateNotes() {
+
+    if (!notesTemplate.trim()) {
+
+        preview.textContent =
+            "No notes template has been configured for this scenario.";
+
+        generatedNotes.value = "";
+
+        if (!finalNotesManuallyEdited) {
+            finalNotes.value = "";
+        }
+
+        return;
+    }
+
+    let notes = notesTemplate;
+
+    const insuranceName =
+        insurance.options[insurance.selectedIndex]?.value
+            ? insurance.options[insurance.selectedIndex].text
+            : "-";
+
+    const replacements = {};
+
+    // Employee information
+    replacements["{" + "{employee_name}" + "}"] = employeeName;
+    replacements["{" + "{employee_id}" + "}"] = employeeId;
+    replacements["{" + "{department}" + "}"] = department;
+    replacements["{" + "{designation}" + "}"] = designation;
+
+    // Insurance details
+    replacements["{" + "{insurance_company}" + "}"] = insuranceName;
+    replacements["{" + "{called_number}" + "}"] =
+        calledNumber.value.trim() || "-";
+
+    // Call date and time
+    replacements["{" + "{call_date}" + "}"] = callDate;
+    replacements["{" + "{call_time}" + "}"] = callTime;
+
+    // Question answers
+    document.querySelectorAll("[data-question-id]").forEach(function (element) {
+
+        const questionId = element.dataset.questionId;
+        const answer = getAnswer(element);
+
+        const token = "{" + "{q_" + questionId + "}" + "}";
+
+        replacements[token] = answer || "-";
+
+    });
+
+    // Replace all template tokens
+    Object.entries(replacements).forEach(function ([token, value]) {
+
+        notes = notes.split(token).join(String(value));
+
+    });
+
+    // Update generated preview
+    preview.textContent = notes;
+
+    generatedNotes.value = notes;
+
+    // Update final notes until manually edited
+    if (!finalNotesManuallyEdited) {
+        finalNotes.value = notes;
+    }
+}
+
+
+    // =====================================
+    // TRACK MANUAL EDITING
+    // =====================================
+
+    finalNotes.addEventListener("input", function () {
+
+        finalNotesManuallyEdited = true;
+
+    });
+
+
+    // =====================================
+    // QUESTION INPUT EVENTS
+    // =====================================
+
+    form.querySelectorAll("[data-answer-input]").forEach(function (input) {
+
+        input.addEventListener("input", generateNotes);
+
+        input.addEventListener("change", generateNotes);
+
+    });
+
+
+    // INSURANCE DETAILS
+    insurance.addEventListener("change", generateNotes);
+
+    calledNumber.addEventListener("input", generateNotes);
+
+
+    // INITIAL NOTES
+    generateNotes();
+
+
+    // =====================================
+    // FORM SUBMISSION
+    // =====================================
+
+    form.addEventListener("submit", function (event) {
+
+        generateNotes();
+
+        if (!finalNotes.value.trim()) {
+
+            event.preventDefault();
+
+            alert("Please enter or review your final call notes.");
+
+            finalNotes.focus();
+
+            return;
+
+        }
+
+    });
+
+});
+</script>

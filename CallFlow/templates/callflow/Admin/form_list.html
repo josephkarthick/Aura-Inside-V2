@@ -1,0 +1,126 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+<div class="kt-container-fluid w-full max-w-none px-6">
+        <div class="kt-container-fixed pb-8">
+
+            <!-- BREADCRUMB -->
+            <div class="flex items-center gap-2 text-sm text-secondary mb-5">
+                <span class="text-primary font-medium">CallFlow</span>
+                <i class="ki-filled ki-right text-xs"></i>
+                <span>Form Management</span>
+            </div>
+
+            <!-- HEADER -->
+            <div class="kt-card mb-5">
+                <div class="kt-card-content p-5 lg:p-7">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
+                                CallFlow Forms
+                            </h1>
+                            <p class="text-sm text-secondary mt-1">
+                                Manage form headings, issues and scenarios.
+                            </p>
+                        </div>
+
+                        <a href="{% url 'CallFlow:callflow_create_form' %}"
+                           class="kt-btn kt-btn-primary">
+                            <i class="ki-filled ki-plus"></i>
+                            Create New Form
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORM LIST -->
+            {% for heading in headings %}
+                <div class="kt-card mb-5">
+
+                    <div class="kt-card-header flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 class="kt-card-title">
+                                <i class="ki-filled ki-folder text-primary mr-2"></i>
+                                {{ heading.title }}
+                            </h3>
+                            <p class="text-xs text-secondary mt-1">
+                                {{ heading.scenarios.count }} scenarios
+                            </p>
+                        </div>
+
+                        <span class="kt-badge kt-badge-primary kt-badge-outline">
+                            Form Heading
+                        </span>
+                    </div>
+
+                    <div class="kt-card-content">
+                        {% for scenario in heading.scenarios.all %}
+                            {% if scenario.is_active %}
+                                <div class="flex flex-wrap items-center justify-between gap-4 p-4 border-b border-gray-200 last:border-0">
+
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                                            <i class="ki-filled ki-file text-primary text-lg"></i>
+                                        </div>
+
+                                        <div>
+                                            <div class="font-semibold text-gray-900">
+                                                {{ scenario.title }}
+                                            </div>
+                                            <div class="text-xs text-secondary mt-1">
+                                                Created {{ scenario.created_at|date:"d M Y" }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-3">
+                                        {% if scenario.is_published %}
+                                            <span class="kt-badge kt-badge-success kt-badge-outline">
+                                                Published
+                                            </span>
+                                        {% else %}
+                                            <span class="kt-badge kt-badge-warning kt-badge-outline">
+                                                Draft
+                                            </span>
+                                        {% endif %}
+
+                                        <a href="{% url 'CallFlow:callflow_form_builder' scenario.id %}"
+                                           class="kt-btn kt-btn-sm kt-btn-light-primary">
+                                            Open Builder
+                                            <i class="ki-filled ki-arrow-right"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div class="text-center py-8 text-secondary">
+                                No scenarios created under this heading.
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="kt-card">
+                    <div class="kt-card-content text-center py-12">
+                        <i class="ki-filled ki-folder text-4xl text-secondary"></i>
+                        <h3 class="font-semibold mt-3">No Forms Created</h3>
+                        <p class="text-sm text-secondary mt-1">
+                            Start by creating your first CallFlow form.
+                        </p>
+                        <a href="{% url 'CallFlow:callflow_create_form' %}"
+                           class="kt-btn kt-btn-primary mt-5">
+                            <i class="ki-filled ki-plus"></i>
+                            Create Form
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </main>
+</div>

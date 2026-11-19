@@ -1,0 +1,706 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+		<div class="kt-container-fluid w-full max-w-none px-6">
+        <div class="kt-container-fixed">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="kt-alert mb-4 {% if message.tags == 'success' %}kt-alert-success{% else %}kt-alert-danger{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Breadcrumb -->
+            <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7">
+                <div class="flex flex-col justify-center gap-2">
+                    <ul class="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <li>
+                            <a href="{% url 'CallFlow:callflow_form_list' %}"
+                               class="hover:text-primary">
+                                CallFlow Forms
+                            </a>
+                        </li>
+                        <li>/</li>
+                        <li class="text-foreground">
+                            Form Builder
+                        </li>
+                    </ul>
+
+                    <h1 class="text-xl font-semibold leading-none text-mono">
+                        Form Builder
+                    </h1>
+
+                    <div class="text-sm text-muted-foreground">
+                        Configure questions for this call scenario.
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a href="{% url 'CallFlow:callflow_form_list' %}"
+                       class="kt-btn kt-btn-light">
+                        <i class="ki-filled ki-arrow-left"></i>
+                        Back to Forms
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scenario Information -->
+            <div class="kt-card mb-6">
+
+
+            <!-- Employee Details Preview -->
+            <div class="kt-card mb-6">
+                <div class="kt-card-header">
+                    <h3 class="kt-card-title">
+                        <i class="ki-filled ki-user text-primary"></i>
+                        Employee Details
+                    </h3>
+                    <span class="kt-badge kt-badge-light kt-badge-sm">
+                        Auto-filled
+                    </span>
+                </div>
+
+                <div class="kt-card-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+                        <div>
+                            <label class="kt-form-label">Employee ID</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ employee_details.employee_id|default:'-' }}"
+                                   disabled>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Employee Name</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ employee_details.employee_name|default:'-' }}"
+                                   disabled>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Department</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ employee_details.department|default:'-' }}"
+                                   disabled>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">Designation</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ employee_details.designation|default:'-' }}"
+                                   disabled>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Insurance Details -->
+            <div class="kt-card mb-6">
+                <div class="kt-card-header">
+                    <h3 class="kt-card-title">
+                        <i class="ki-filled ki-call text-primary"></i>
+                        Common Insurance Details
+                    </h3>
+                    <span class="kt-badge kt-badge-light kt-badge-sm">
+                        Applies to all scenarios
+                    </span>
+                </div>
+
+                <div class="kt-card-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        <div>
+                            <label class="kt-form-label">
+                                Insurance Company
+                            </label>
+
+                            <select class="kt-input" disabled>
+                                <option>Select Insurance Company</option>
+                                {% for company in insurance_companies %}
+                                    <option>{{ company.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="kt-form-label">
+                                Called Number
+                            </label>
+
+                            <input type="text"
+                                   class="kt-input"
+                                   placeholder="Enter called number"
+                                   disabled>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questions Section -->
+            <div class="kt-card mb-6">
+
+                <div class="kt-card-header">
+                    <div class="flex flex-col gap-1">
+                        <h3 class="kt-card-title">
+                            Form Questions
+                        </h3>
+                        <span class="text-sm text-muted-foreground">
+                            Questions displayed to employees for this scenario.
+                        </span>
+                    </div>
+
+                    <div class="kt-card-toolbar">
+                        <button type="button"
+                                class="kt-btn kt-btn-primary"
+                                onclick="openQuestionForm()">
+                            <i class="ki-filled ki-plus"></i>
+                            Add Question
+                        </button>
+                    </div>
+                </div>
+
+                <div class="kt-card-content">
+
+                    {% for question in questions %}
+                        <div class="border border-border rounded-xl p-4 mb-4">
+
+                            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+
+                                <div class="flex items-center gap-3">
+                                    <span class="flex items-center justify-center size-8 rounded-lg bg-primary-light text-primary font-semibold">
+                                        {{ forloop.counter }}
+                                    </span>
+
+                                    <div>
+                                        <h4 class="font-semibold text-sm text-mono">
+                                            {{ question.question_text }}
+                                        </h4>
+
+                                        <span class="text-xs text-muted-foreground">
+                                            {{ question.get_question_type_display }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {% if question.is_active %}
+                                    <span class="kt-badge kt-badge-success kt-badge-sm">
+                                        Active
+                                    </span>
+                                {% else %}
+                                    <span class="kt-badge kt-badge-danger kt-badge-sm">
+                                        Inactive
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            {% if question.question_type == 'TEXT' %}
+                                <input type="text"
+                                       class="kt-input"
+                                       placeholder="{{ question.placeholder|default:'Enter answer' }}"
+                                       disabled>
+
+                            {% elif question.question_type == 'NUMBER' %}
+                                <input type="number"
+                                       class="kt-input"
+                                       placeholder="{{ question.placeholder|default:'Enter number' }}"
+                                       disabled>
+
+                            {% elif question.question_type == 'SINGLE' %}
+                                <div class="flex flex-col gap-3">
+                                    {% for option in question.options.all %}
+                                        {% if option.is_active %}
+                                            <label class="flex items-center gap-3 text-sm">
+                                                <input type="radio" disabled>
+                                                {{ option.option_text }}
+                                            </label>
+                                        {% endif %}
+                                    {% empty %}
+                                        <span class="text-sm text-muted-foreground">
+                                            No options configured.
+                                        </span>
+                                    {% endfor %}
+                                </div>
+
+                            {% elif question.question_type == 'MULTIPLE' %}
+                                <div class="flex flex-col gap-3">
+                                    {% for option in question.options.all %}
+                                        {% if option.is_active %}
+                                            <label class="flex items-center gap-3 text-sm">
+                                                <input type="checkbox" disabled>
+                                                {{ option.option_text }}
+                                            </label>
+                                        {% endif %}
+                                    {% empty %}
+                                        <span class="text-sm text-muted-foreground">
+                                            No options configured.
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    {% empty %}
+                        <div class="flex flex-col items-center justify-center py-12 text-center">
+                            <div class="size-14 rounded-full bg-secondary flex items-center justify-center mb-4">
+                                <i class="ki-filled ki-message-question text-2xl text-muted-foreground"></i>
+                            </div>
+
+                            <h4 class="font-semibold text-mono mb-1">
+                                No Questions Added
+                            </h4>
+
+                            <p class="text-sm text-muted-foreground mb-4">
+                                Start building this form by adding your first question.
+                            </p>
+
+                            <button type="button"
+                                    class="kt-btn kt-btn-primary"
+                                    onclick="openQuestionForm()">
+                                <i class="ki-filled ki-plus"></i>
+                                Add First Question
+                            </button>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- Add Question Panel -->
+
+<!-- Add Question Panel -->
+<div class="kt-card mb-6 hidden" id="questionFormPanel">
+
+    <div class="kt-card-header">
+        <h3 class="kt-card-title">Add New Question</h3>
+
+        <button type="button"
+                class="kt-btn kt-btn-sm kt-btn-light"
+                onclick="closeQuestionForm()">
+            <i class="ki-filled ki-cross"></i>
+            Close
+        </button>
+    </div>
+
+    <div class="kt-card-content">
+
+        <form method="POST"
+              action="{% url 'CallFlow:callflow_form_builder' scenario.id %}"
+              id="questionForm">
+
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                <!-- Question Title -->
+                <div class="md:col-span-2">
+                    <label class="kt-form-label">
+                        Question Title <span class="text-danger">*</span>
+                    </label>
+
+                    <input type="text"
+                           name="question_text"
+                           class="kt-input"
+                           placeholder="Enter question"
+                           required>
+                </div>
+
+                <!-- Question Type -->
+                <div>
+                    <label class="kt-form-label">
+                        Question Type <span class="text-danger">*</span>
+                    </label>
+
+                    <select name="question_type"
+                            id="questionType"
+                            class="kt-input"
+                            onchange="toggleQuestionFields()"
+                            required>
+
+                        <option value="TEXT">Text</option>
+                        <option value="NUMBER">Number</option>
+                        <option value="SINGLE">Single Choice</option>
+                        <option value="MULTIPLE">Multiple Choice</option>
+
+                    </select>
+                </div>
+
+                <!-- Placeholder -->
+                <div id="placeholderSection">
+                    <label class="kt-form-label">
+                        Placeholder
+                    </label>
+
+                    <input type="text"
+                           name="placeholder"
+                           id="questionPlaceholder"
+                           class="kt-input"
+                           placeholder="Enter placeholder">
+                </div>
+
+            </div>
+
+            <!-- Answer Options -->
+            <div id="optionsSection" class="hidden mb-5">
+
+                <div class="flex items-center justify-between mb-3">
+
+                    <label class="kt-form-label mb-0">
+                        Answer Options
+                    </label>
+
+                    <button type="button"
+                            class="kt-btn kt-btn-sm kt-btn-light"
+                            onclick="addOption()">
+                        <i class="ki-filled ki-plus"></i>
+                        Add Option
+                    </button>
+
+                </div>
+
+                <div id="optionList" class="flex flex-col gap-3">
+                </div>
+
+            </div>
+
+            <div class="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-border">
+
+                <label class="flex items-center gap-2 text-sm">
+                    <input type="checkbox"
+                           name="is_active"
+                           checked>
+                    Active Question
+                </label>
+
+                <div class="flex flex-wrap gap-2">
+
+                    <button type="button"
+                            class="kt-btn kt-btn-light"
+                            onclick="closeQuestionForm()">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            name="save_action"
+                            value="add_another"
+                            class="kt-btn kt-btn-light">
+                        <i class="ki-filled ki-plus"></i>
+                        Save & Add Another
+                    </button>
+
+                    <button type="submit"
+                            name="save_action"
+                            value="save"
+                            class="kt-btn kt-btn-primary">
+                        <i class="ki-filled ki-check"></i>
+                        Save Question
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+            <!-- Call Notes Template -->
+            <div class="kt-card mb-6">
+                <div class="kt-card-header">
+                    <div>
+                        <h3 class="kt-card-title">Call Notes Template</h3>
+                        <p class="text-sm text-muted-foreground mt-1">
+                            Create the professional call summary generated from employee answers.
+                        </p>
+                    </div>
+
+                    {% if notes_template %}
+                        <span class="kt-badge kt-badge-success kt-badge-sm">Template Saved</span>
+                    {% else %}
+                        <span class="kt-badge kt-badge-warning kt-badge-sm">Not Configured</span>
+                    {% endif %}
+                </div>
+
+                <div class="kt-card-content">
+                    <form method="POST"
+                          action="{% url 'CallFlow:callflow_form_builder' scenario.id %}"
+                          id="notesTemplateForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="save_notes_template">
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Template Name</label>
+                            <input type="text"
+                                   class="kt-input"
+                                   value="{{ scenario.title }} - Call Notes"
+                                   disabled>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Common Placeholders</label>
+                            <p class="text-sm text-muted-foreground mb-3">
+                                Click a placeholder to insert it at the cursor position in the notes template.
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                {% for item in common_tokens %}
+                                    <button type="button"
+                                            class="kt-btn kt-btn-sm kt-btn-light"
+                                            data-token="{{ item.token }}"
+                                            onclick="insertNotesToken(this)">
+                                        {{ item.label }}
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Question Placeholders</label>
+                            <p class="text-sm text-muted-foreground mb-3">
+                                These are linked to the questions configured above.
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                {% for item in question_tokens %}
+                                    <button type="button"
+                                            class="kt-btn kt-btn-sm kt-btn-light"
+                                            data-token="{{ item.token }}"
+                                            onclick="insertNotesToken(this)">
+                                        {{ item.label }}
+                                    </button>
+                                {% empty %}
+                                    <span class="text-sm text-warning">
+                                        Add questions first to generate question placeholders.
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Call Notes Format</label>
+                            <textarea name="template_text"
+                                      id="notesTemplateEditor"
+                                      class="kt-input"
+                                      rows="12"
+                                      style="min-height:280px;"
+                                      placeholder="Write your professional call notes format here..."
+                                      required>{% if notes_template %}{{ notes_template.template_text }}{% else %}Call Summary
+
+Employee: {% templatetag openvariable %}employee_name{% templatetag closevariable %}
+Employee ID: {% templatetag openvariable %}employee_id{% templatetag closevariable %}
+Department: {% templatetag openvariable %}department{% templatetag closevariable %}
+Designation: {% templatetag openvariable %}designation{% templatetag closevariable %}
+
+Insurance Company: {% templatetag openvariable %}insurance_company{% templatetag closevariable %}
+Called Number: {% templatetag openvariable %}called_number{% templatetag closevariable %}
+Call Date: {% templatetag openvariable %}call_date{% templatetag closevariable %}
+Call Time: {% templatetag openvariable %}call_time{% templatetag closevariable %}
+
+Call Details:
+
+Final Outcome:
+{% endif %}</textarea>
+                            <p class="text-xs text-muted-foreground mt-2">
+                                Placeholders are case-sensitive. Use the buttons above to insert the correct tokens.
+                            </p>
+                        </div>
+
+                        <div class="mb-5">
+                            <div class="flex items-center justify-between gap-3 mb-3">
+                                <label class="kt-form-label mb-0">Template Preview</label>
+                                <button type="button"
+                                        class="kt-btn kt-btn-sm kt-btn-light"
+                                        onclick="previewNotesTemplate()">
+                                    <i class="ki-filled ki-eye"></i>
+                                    Preview
+                                </button>
+                            </div>
+
+                            <div id="notesPreview"
+                                 class="hidden rounded-lg border border-border bg-secondary p-4 text-sm whitespace-pre-wrap"></div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-border">
+							<div class="flex items-center gap-3 mt-4">
+								<input type="checkbox"
+									name="is_published"
+									id="is_published"
+									value="on"
+									class="kt-checkbox"
+									{% if scenario.is_published %}checked{% endif %}>
+							
+								<label for="is_published" class="font-medium">
+									Publish this form for employees
+								</label>
+							</div>
+
+                            <button type="submit" class="kt-btn kt-btn-primary">
+                                <i class="ki-filled ki-check"></i>
+                                Save Notes Template
+                            </button>
+                        </div>
+						
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    // -------------------------------
+    // QUESTION BUILDER
+    // -------------------------------
+    function openQuestionForm() {
+        const panel = document.getElementById("questionFormPanel");
+        panel.classList.remove("hidden");
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeQuestionForm() {
+        document.getElementById("questionFormPanel").classList.add("hidden");
+    }
+
+    function toggleQuestionFields() {
+        const type = document.getElementById("questionType").value;
+        const optionsSection = document.getElementById("optionsSection");
+        const placeholderSection = document.getElementById("placeholderSection");
+        const placeholder = document.getElementById("questionPlaceholder");
+        const optionList = document.getElementById("optionList");
+
+        if (type === "SINGLE" || type === "MULTIPLE") {
+            optionsSection.classList.remove("hidden");
+            placeholderSection.classList.add("hidden");
+            placeholder.value = "";
+            placeholder.disabled = true;
+
+            if (optionList.children.length === 0) {
+                addOption();
+                addOption();
+            }
+        } else {
+            optionsSection.classList.add("hidden");
+            placeholderSection.classList.remove("hidden");
+            placeholder.disabled = false;
+            optionList.innerHTML = "";
+        }
+    }
+
+    function addOption() {
+        const optionList = document.getElementById("optionList");
+        const wrapper = document.createElement("div");
+        wrapper.className = "flex items-center gap-2";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "options";
+        input.className = "kt-input";
+        input.placeholder = "Enter answer option";
+        input.required = true;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "kt-btn kt-btn-sm kt-btn-light";
+        removeButton.innerHTML = '<i class="ki-filled ki-trash"></i>';
+        removeButton.title = "Remove option";
+        removeButton.onclick = function () {
+            wrapper.remove();
+        };
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(removeButton);
+        optionList.appendChild(wrapper);
+    }
+
+    // -------------------------------
+    // NOTES TEMPLATE EDITOR
+    // -------------------------------
+    function insertNotesToken(button) {
+        const token = button.dataset.token;
+        const editor = document.getElementById("notesTemplateEditor");
+
+        if (!editor || !token) return;
+
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+
+        editor.value =
+            editor.value.substring(0, start) +
+            token +
+            editor.value.substring(end);
+
+        editor.focus();
+
+        const cursorPosition = start + token.length;
+        editor.setSelectionRange(cursorPosition, cursorPosition);
+    }
+
+
+function previewNotesTemplate() {
+
+    const editor = document.getElementById("notesTemplateEditor");
+    const preview = document.getElementById("notesPreview");
+
+    if (!editor || !preview) return;
+
+    let content = editor.value;
+
+    // Build placeholder strings without Django interpreting them.
+    const sampleValues = {};
+
+    sampleValues["{" + "{employee_id}" + "}"] = "EMP001";
+    sampleValues["{" + "{employee_name}" + "}"] = "John Smith";
+    sampleValues["{" + "{department}" + "}"] = "Operations";
+    sampleValues["{" + "{designation}" + "}"] = "Process Associate";
+    sampleValues["{" + "{insurance_company}" + "}"] = "BCBS";
+    sampleValues["{" + "{called_number}" + "}"] = "1-800-XXX-XXXX";
+    sampleValues["{" + "{call_date}" + "}"] = "18-Nov-2026";
+    sampleValues["{" + "{call_time}" + "}"] = "10:30 AM";
+
+    Object.entries(sampleValues).forEach(([token, value]) => {
+        content = content.split(token).join(value);
+    });
+
+    // Replace question placeholders with sample answers.
+    content = content.replace(
+        /\{\{q_(\d+)\}\}/g,
+        "[Sample Answer for Question $1]"
+    );
+
+    preview.textContent = content;
+    preview.classList.remove("hidden");
+}
+
+
+    // -------------------------------
+    // INITIAL PAGE SETUP
+    // -------------------------------
+    document.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get("add") === "1") {
+            openQuestionForm();
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+    });
+</script>
