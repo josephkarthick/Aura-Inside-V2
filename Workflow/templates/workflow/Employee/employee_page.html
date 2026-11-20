@@ -1,0 +1,729 @@
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fluid w-full max-w-none px-6">
+            <div class="kt-container-fixed pb-5">
+
+                <!-- PAGE HEADER -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary mb-2">
+                            <span class="text-primary font-medium">Workflow</span>
+                            <i class="ki-filled ki-right text-xs"></i>
+                            <span>My Workflows</span>
+                        </div>
+                        <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
+                            Workflow
+                        </h1>
+                        <p class="text-sm text-secondary mt-1">
+                            Select a form from the menu to complete it or view your submitted forms.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- WORKSPACE -->
+                <div class="workflow-workspace">
+
+                    <!-- LEFT SIDEBAR: READ-ONLY MENU TREE -->
+                    <aside class="workflow-sidebar">
+                        <div class="workflow-search">
+                            <i class="ki-filled ki-magnifier"></i>
+                            <input type="text"
+                                   id="workflowSearch"
+                                   class="kt-input"
+                                   placeholder="Search menu, submenu or form..."
+                                   autocomplete="off">
+                            <button type="button"
+                                    id="clearWorkflowSearch"
+                                    class="hidden"
+                                    aria-label="Clear search">
+                                <i class="ki-filled ki-cross"></i>
+                            </button>
+                        </div>
+
+                        <div id="workflowNoResults" class="workflow-no-results">
+                            <i class="ki-filled ki-search-list text-2xl"></i>
+                            <span>No matching items found</span>
+                        </div>
+
+                        <div class="workflow-tree" id="workflowTree">
+                            {% for menu in menus %}
+                                <div class="workflow-main-item"
+                                     data-search="{{ menu.title|lower }}">
+                                    <div class="workflow-tree-row main-row">
+                                        <button type="button"
+                                                class="workflow-expand"
+                                                aria-expanded="true"
+                                                onclick="toggleTree(this)"
+                                                title="Expand or collapse submenu">
+                                            <i class="ki-filled ki-down"></i>
+                                        </button>
+                                        <i class="ki-filled ki-folder text-primary text-lg"></i>
+                                        <button type="button"
+                                                class="workflow-item-name"
+                                                onclick="toggleTree(this)">
+                                            {{ menu.title }}
+                                        </button>
+                                    </div>
+
+                                    <div class="workflow-submenu-list">
+                                        {% for submenu in menu.submenus.all %}
+                                            {% if submenu.forms.all %}
+                                                <div class="workflow-submenu-item"
+                                                     data-search="{{ submenu.title|lower }}">
+                                                    <div class="workflow-tree-row submenu-row">
+                                                        <button type="button"
+                                                                class="workflow-expand"
+                                                                aria-expanded="true"
+                                                                onclick="toggleTree(this)"
+                                                                title="Expand or collapse forms">
+                                                            <i class="ki-filled ki-down"></i>
+                                                        </button>
+                                                        <i class="ki-filled ki-folder text-warning text-lg"></i>
+                                                        <button type="button"
+                                                                class="workflow-item-name"
+                                                                onclick="toggleTree(this)">
+                                                            {{ submenu.title }}
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="workflow-form-list">
+                                                        {% for form in submenu.forms.all %}
+                                                            {% if form.is_active and form.is_published %}
+                                                                <div class="workflow-tree-row form-row"
+                                                                     data-search="{{ form.title|lower }}">
+                                                                    <span class="workflow-tree-spacer"></span>
+                                                                    <i class="ki-filled ki-file text-muted-foreground"></i>
+                                                                    <a href="{% url 'Workflow:employee_form' form.id %}"
+                                                                       class="workflow-item-name workflow-form-link"
+                                                                       data-form-id="{{ form.id }}"
+                                                                       data-form-url="{% url 'Workflow:employee_form' form.id %}"
+                                                                       data-submissions-url="{% url 'Workflow:employee_submissions' form.id %}">
+                                                                        {{ form.title }}
+                                                                    </a>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="workflow-empty">
+                                    <i class="ki-filled ki-folder text-3xl"></i>
+                                    <p>No published workflows are available.</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="workflow-sidebar-footer">
+                            <div class="flex justify-between text-xs">
+                                <span>Available Workflows</span>
+                                <strong>{{ published_form_count|default:"" }}</strong>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- RIGHT PANEL -->
+                    <section class="workflow-builder" id="employeeWorkflowPanel">
+                        <div class="employee-workspace-tabs">
+                            <button type="button"
+                                    class="employee-workspace-tab active"
+                                    data-view="fill">
+                                <i class="ki-filled ki-file-edit"></i>
+                                Fill Form
+                            </button>
+                            <button type="button"
+                                    class="employee-workspace-tab"
+                                    data-view="submitted"
+                                    disabled
+                                    id="submittedFormsTab">
+                                <i class="ki-filled ki-folder-check"></i>
+                                Submitted Forms
+                            </button>
+                        </div>
+
+                        <div id="employeeFillPanel" class="employee-view-panel active">
+                            <div class="workflow-welcome">
+                                <div class="workflow-welcome-icon">
+                                    <i class="ki-filled ki-file-edit"></i>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-900">
+                                    Select a Form
+                                </h2>
+                                <p class="text-sm text-muted-foreground max-w-md">
+                                    Choose a published form from the left menu. The form will appear here for you to complete.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="employeeSubmittedPanel" class="employee-view-panel">
+                            <div class="workflow-welcome">
+                                <div class="workflow-welcome-icon">
+                                    <i class="ki-filled ki-folder-check"></i>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-900">
+                                    Submitted Forms
+                                </h2>
+                                <p class="text-sm text-muted-foreground max-w-md">
+                                    Select a form from the left menu to view your previous submissions.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<style>
+.workflow-workspace {
+    display: grid;
+    grid-template-columns: 290px minmax(0, 1fr);
+    height: calc(100vh - 230px);
+    min-height: 520px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.workflow-sidebar {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    border-right: 1px solid #e2e8f0;
+    background: #fff;
+}
+
+.workflow-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.workflow-search input {
+    min-width: 0;
+    border: 0;
+    box-shadow: none;
+}
+
+.workflow-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 8px;
+}
+
+.workflow-tree-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 4px 7px;
+    border-radius: 7px;
+}
+
+.workflow-tree-row:hover {
+    background: #f1f5f9;
+}
+
+.workflow-item-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.workflow-expand,
+.workflow-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    color: #64748b;
+}
+
+.workflow-expand:hover,
+.workflow-add:hover {
+    background: #e2e8f0;
+    color: #2563eb;
+}
+
+.workflow-main-item > .workflow-submenu-list {
+    padding-left: 18px;
+}
+
+.workflow-submenu-item > .workflow-form-list {
+    padding-left: 20px;
+}
+
+.workflow-tree-spacer {
+    width: 23px;
+    flex-shrink: 0;
+}
+
+.workflow-submenu-list.collapsed,
+.workflow-form-list.collapsed {
+    display: none;
+}
+
+.workflow-expand i {
+    transition: transform 0.2s ease;
+}
+
+.workflow-expand[aria-expanded="false"] i {
+    transform: rotate(-90deg);
+}
+
+.workflow-expand[aria-expanded="true"] i {
+    transform: rotate(0deg);
+}
+
+.workflow-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.workflow-status.published {
+    background: #16a34a;
+}
+
+.workflow-status.draft {
+    background: #f59e0b;
+}
+
+.workflow-empty-child {
+    padding: 7px 12px 7px 32px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.workflow-sidebar-footer {
+    padding: 14px;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+}
+
+.workflow-builder {
+    min-width: 0;
+    overflow: auto;
+    background: #f8fafc;
+}
+
+.workflow-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 35px;
+    text-align: center;
+    gap: 12px;
+}
+
+.workflow-welcome-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.workflow-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 15px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.workflow-no-results {
+    display: none;
+    padding: 20px;
+    color: #94a3b8;
+    text-align: center;
+    font-size: 12px;
+}
+
+.workflow-no-results.show {
+    display: block;
+}
+
+.workflow-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.workflow-modal.hidden {
+    display: none;
+}
+
+.workflow-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+}
+
+.workflow-modal-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+    .workflow-workspace {
+        grid-template-columns: 250px minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .workflow-workspace {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 0;
+    }
+
+    .workflow-sidebar {
+        min-height: 350px;
+        max-height: 55vh;
+        border-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .workflow-builder {
+        min-height: 350px;
+    }
+}
+</style>
+
+<style>
+.employee-workspace-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 18px 0;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+}
+.employee-workspace-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.employee-workspace-tab.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+.employee-workspace-tab:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+.employee-view-panel {
+    display: none;
+    min-height: calc(100% - 48px);
+}
+.employee-view-panel.active {
+    display: block;
+}
+
+
+.workflow-form-row-selected {
+    background: #eff6ff;
+    border-radius: 7px;
+}
+.workflow-form-row-selected .workflow-item-name {
+    color: #2563eb;
+}
+@media (max-width: 650px) {
+    .employee-workspace-tabs {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .employee-workspace-tab {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+}
+</style>
+
+<script>
+(function () {
+    const root = document.getElementById('content');
+    if (!root || root.dataset.employeeWorkflowInitialized === '1') return;
+    root.dataset.employeeWorkflowInitialized = '1';
+
+    const search = document.getElementById('workflowSearch');
+    const clear = document.getElementById('clearWorkflowSearch');
+    const noResults = document.getElementById('workflowNoResults');
+    const fillTab = document.querySelector('[data-view="fill"]');
+    const submittedTab = document.getElementById('submittedFormsTab');
+    const fillPanel = document.getElementById('employeeFillPanel');
+    const submittedPanel = document.getElementById('employeeSubmittedPanel');
+    const panel = document.getElementById('employeeWorkflowPanel');
+
+    let selectedFormId = null;
+    let selectedFormTitle = '';
+    let selectedFormUrl = '';
+    let selectedSubmissionsUrl = '';
+
+    window.toggleTree = function (button) {
+        const row = button.closest('.workflow-tree-row');
+        if (!row) return;
+
+        const expand = row.querySelector('.workflow-expand');
+        let childContainer = null;
+
+        if (row.classList.contains('main-row')) {
+            childContainer = row.parentElement.querySelector(':scope > .workflow-submenu-list');
+        } else if (row.classList.contains('submenu-row')) {
+            childContainer = row.parentElement.querySelector(':scope > .workflow-form-list');
+        }
+
+        if (!childContainer) return;
+        childContainer.classList.toggle('collapsed');
+
+        if (expand) {
+            expand.setAttribute(
+                'aria-expanded',
+                childContainer.classList.contains('collapsed') ? 'false' : 'true'
+            );
+        }
+    };
+
+    function setActiveTab(view) {
+        fillTab.classList.toggle('active', view === 'fill');
+        submittedTab.classList.toggle('active', view === 'submitted');
+        fillPanel.classList.toggle('active', view === 'fill');
+        submittedPanel.classList.toggle('active', view === 'submitted');
+    }
+
+    async function loadHtml(url, target, label) {
+        target.innerHTML = `
+            <div class="workflow-welcome">
+                <div class="workflow-welcome-icon"><i class="ki-filled ki-loading"></i></div>
+                <p class="text-sm text-muted-foreground">Loading ${label}...</p>
+            </div>`;
+
+        const response = await fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'text/html'
+            },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            const body = await response.text();
+            console.error(`${label} load failed:`, response.status, body);
+            throw new Error(`Unable to load ${label} (HTTP ${response.status}).`);
+        }
+
+        target.innerHTML = await response.text();
+        executeEmployeePanelScripts(target);
+    }
+
+    function executeEmployeePanelScripts(container) {
+        container.querySelectorAll('script').forEach(oldScript => {
+            const script = document.createElement('script');
+            Array.from(oldScript.attributes).forEach(attr => {
+                script.setAttribute(attr.name, attr.value);
+            });
+            script.textContent = oldScript.textContent;
+            oldScript.replaceWith(script);
+        });
+    }
+
+    async function selectForm(link) {
+        selectedFormId = link.dataset.formId;
+        selectedFormTitle = link.textContent.trim();
+        selectedFormUrl = link.dataset.formUrl;
+        selectedSubmissionsUrl = link.dataset.submissionsUrl;
+
+        document.querySelectorAll('.workflow-form-link').forEach(item => {
+            item.classList.toggle('active', item === link);
+            item.closest('.form-row')?.classList.toggle(
+                'workflow-form-row-selected',
+                item === link
+            );
+        });
+
+        submittedTab.disabled = false;
+        setActiveTab('fill');
+
+        const pageUrl = new URL(window.location.href);
+        pageUrl.searchParams.set('form_id', selectedFormId);
+        history.pushState({ formId: selectedFormId }, '', pageUrl.pathname + pageUrl.search);
+
+        try {
+            await loadHtml(selectedFormUrl, fillPanel, 'form');
+        } catch (error) {
+            fillPanel.innerHTML = `<div class="workflow-welcome">
+                <h2 class="text-lg font-bold text-red-600">Unable to load form</h2>
+                <p class="text-sm text-muted-foreground">${escapeHtml(error.message)}</p>
+            </div>`;
+        }
+    }
+
+    async function loadSubmittedForms() {
+        if (!selectedFormId || !selectedSubmissionsUrl) return;
+        setActiveTab('submitted');
+
+        try {
+            await loadHtml(selectedSubmissionsUrl, submittedPanel, 'submitted forms');
+        } catch (error) {
+            submittedPanel.innerHTML = `<div class="workflow-welcome">
+                <h2 class="text-lg font-bold text-red-600">Unable to load submissions</h2>
+                <p class="text-sm text-muted-foreground">${escapeHtml(error.message)}</p>
+            </div>`;
+        }
+    }
+
+    function escapeHtml(value) {
+        const div = document.createElement('div');
+        div.textContent = value;
+        return div.innerHTML;
+    }
+
+    document.querySelectorAll('.workflow-form-link').forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            selectForm(link);
+        });
+    });
+
+    fillTab.addEventListener('click', () => {
+        if (selectedFormId) setActiveTab('fill');
+    });
+
+    submittedTab.addEventListener('click', loadSubmittedForms);
+
+    function filterTree() {
+        const query = (search.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        document.querySelectorAll('.workflow-main-item').forEach(main => {
+            const mainMatch = (main.dataset.search || '').includes(query);
+            let hasVisibleChild = false;
+
+            main.querySelectorAll('.workflow-submenu-item').forEach(sub => {
+                const submenuMatch = (sub.dataset.search || '').includes(query);
+                let hasVisibleForm = false;
+
+                sub.querySelectorAll('.form-row').forEach(formRow => {
+                    const formMatch = (formRow.dataset.search || '').includes(query);
+                    const show = !query || mainMatch || submenuMatch || formMatch;
+                    formRow.style.display = show ? 'flex' : 'none';
+                    if (show) hasVisibleForm = true;
+                });
+
+                const showSub = !query || mainMatch || submenuMatch || hasVisibleForm;
+                sub.style.display = showSub ? 'block' : 'none';
+
+                if (showSub) {
+                    hasVisibleChild = true;
+                    if (query) {
+                        sub.querySelector(':scope > .workflow-form-list')?.classList.remove('collapsed');
+                    }
+                }
+            });
+
+            const showMain = !query || mainMatch || hasVisibleChild;
+            main.style.display = showMain ? 'block' : 'none';
+            if (showMain) {
+                visibleCount++;
+                if (query) {
+                    main.querySelector(':scope > .workflow-submenu-list')?.classList.remove('collapsed');
+                }
+            }
+        });
+
+        noResults.classList.toggle('show', !!query && visibleCount === 0);
+        clear.classList.toggle('hidden', !query);
+    }
+
+    if (search) search.addEventListener('input', filterTree);
+    if (clear) clear.addEventListener('click', () => {
+        search.value = '';
+        filterTree();
+        search.focus();
+    });
+
+    // Restore selected form after refresh and support browser navigation.
+    function restoreFromUrl() {
+        const id = new URLSearchParams(window.location.search).get('form_id');
+        if (!id) return;
+        const link = document.querySelector(`.workflow-form-link[data-form-id="${id}"]`);
+        if (link) selectFormWithoutHistory(link);
+    }
+
+    async function selectFormWithoutHistory(link) {
+        selectedFormId = link.dataset.formId;
+        selectedFormTitle = link.textContent.trim();
+        selectedFormUrl = link.dataset.formUrl;
+        selectedSubmissionsUrl = link.dataset.submissionsUrl;
+
+        document.querySelectorAll('.workflow-form-link').forEach(item => {
+            item.classList.toggle('active', item === link);
+            item.closest('.form-row')?.classList.toggle('workflow-form-row-selected', item === link);
+        });
+
+        submittedTab.disabled = false;
+        setActiveTab('fill');
+        try {
+            await loadHtml(selectedFormUrl, fillPanel, 'form');
+        } catch (error) {
+            fillPanel.innerHTML = `<div class="workflow-welcome">
+                <h2 class="text-lg font-bold text-red-600">Unable to load form</h2>
+                <p class="text-sm text-muted-foreground">${escapeHtml(error.message)}</p>
+            </div>`;
+        }
+    }
+
+    window.addEventListener('popstate', restoreFromUrl);
+    restoreFromUrl();
+})();
+</script>

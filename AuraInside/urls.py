@@ -50,6 +50,8 @@ urlpatterns = [
     path("floating-flag/", include("Floating_Flag.urls")),    
     
     path("callflow/", include("CallFlow.urls")),
+    
+    path('workflow/', include('Workflow.urls')),
 
 ]
 

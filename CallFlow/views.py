@@ -1,4 +1,4 @@
-
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -7,6 +7,11 @@ from django.db import transaction
 from django.db.models import Prefetch
 from django.utils import timezone
 from django.urls import reverse
+from collections import defaultdict
+
+
+
+
 from .models import (
     FormHeading,
     FormScenario,
@@ -31,435 +36,217 @@ def get_user_field(user, field_names):
 
 @login_required
 @require_http_methods(["GET", "POST"])
-def create_form(request):
+def form_builder(request):
+    """Single CallFlow admin page: list headings/scenarios and edit the selected form."""
 
-    if request.method == "POST":
+    builder_url = reverse("CallFlow:callflow_form_builder")
+    action = request.POST.get("action", "") if request.method == "POST" else ""
+    # --------------------------------------------------
+    # CREATE SCENARIO (optionally create its heading too)
+    # --------------------------------------------------
+    if request.method == "POST" and request.POST.get("action") == "create_scenario":
+        heading_id = request.POST.get("heading_id", "").strip()
+        scenario_title = request.POST.get("scenario", "").strip()
+        scenario_description = request.POST.get("scenario_description", "").strip()
 
-        # CREATE NEW HEADING FROM POPUP
-        if request.POST.get("action") == "create_heading":
+        if not scenario_title:
+            messages.error(request, "Please enter a scenario name.")
+            return redirect(builder_url)
 
+        if heading_id == "__new__":
             heading_title = request.POST.get("new_heading", "").strip()
-            description = request.POST.get("new_description", "").strip()
-
+            heading_description = request.POST.get("new_description", "").strip()
             if not heading_title:
-                messages.error(request, "Please enter a heading title.")
-                return redirect("CallFlow:callflow_create_form")
+                messages.error(request, "Please enter the new heading name.")
+                return redirect(builder_url)
 
             heading, created = FormHeading.objects.get_or_create(
                 title=heading_title,
                 defaults={
-                    "description": description,
+                    "description": heading_description,
                     "created_by": request.user,
                     "display_order": FormHeading.objects.count() + 1,
-                }
+                    "is_active": True,
+                },
             )
-
-            if not created:
-                if not heading.is_active:
-                    messages.error(request, "This heading already exists but is inactive.")
-                    return redirect("CallFlow:callflow_create_form")
-
-                messages.info(request, "This heading already exists.")
-
-            else:
-                messages.success(request, "New heading created successfully.")
-
-            return redirect(
-                f"{reverse('CallFlow:callflow_create_form')}?heading_id={heading.id}"
-            )
-
-        # CREATE SCENARIO UNDER SELECTED HEADING
-        heading_id = request.POST.get("heading_id", "").strip()
-        scenario_title = request.POST.get("scenario", "").strip()
-
-        if not heading_id or not scenario_title:
-            messages.error(
-                request,
-                "Please select a heading and enter a scenario."
-            )
-            return redirect("CallFlow:callflow_create_form")
-
-        heading = get_object_or_404(
-            FormHeading,
-            id=heading_id,
-            is_active=True
-        )
+            if not created and not heading.is_active:
+                messages.error(request, "This heading already exists but is inactive.")
+                return redirect(builder_url)
+        else:
+            heading = get_object_or_404(FormHeading, id=heading_id, is_active=True)
 
         scenario = FormScenario.objects.create(
             heading=heading,
             title=scenario_title,
+            description=scenario_description,
             created_by=request.user,
             is_active=True,
             is_published=False,
+            display_order=FormScenario.objects.filter(heading=heading).count() + 1,
+        )
+        messages.success(request, "New form created successfully.")
+        return redirect(f"{builder_url}?scenario_id={scenario.pk}")
+
+    # --------------------------------------------------
+    # SELECTED SCENARIO
+    # --------------------------------------------------
+    selected_id = request.POST.get("scenario_id") or request.GET.get("scenario_id")
+    selected_scenario = None
+    if selected_id:
+        selected_scenario = get_object_or_404(
+            FormScenario.objects.select_related("heading"),
+            pk=selected_id, is_active=True, heading__is_active=True,
         )
 
-        messages.success(request, "CallFlow scenario created successfully.")
-
-        return redirect(
-            "CallFlow:callflow_form_builder",
-            scenario_id=scenario.id
-        )
-
-    # GET
-    headings = FormHeading.objects.filter(
-        is_active=True
-    ).order_by("display_order", "title")
-
-    selected_heading_id = request.GET.get("heading_id", "")
-
-    return render(
-        request,
-        "callflow/Admin/create_form.html",
-        {
-            "headings": headings,
-            "selected_heading_id": selected_heading_id,
-        }
-    )
-
-
-
-
-@login_required
-def form_builder(request, scenario_id):
-
-    scenario = get_object_or_404(
-        FormScenario.objects.select_related("heading"),
-        id=scenario_id
-    )
-
-    # -----------------------------------------
-    # PUBLISH FORM
-    # -----------------------------------------
-    if request.POST.get("action") == "save_publish_status":
-
-        scenario.is_published = (
-            request.POST.get("is_published") == "on"
-        )
-
-        scenario.save(update_fields=["is_published", "updated_at"])
-
-        messages.success(
-            request,
-            "Publish status updated successfully."
-        )
-
-        return redirect(
-            "CallFlow:callflow_form_builder",
-            scenario_id=scenario.id
-        )
-
-    # -----------------------------------------
-    # SAVE CALL NOTES TEMPLATE
-    # -----------------------------------------
-    if (
-        request.method == "POST"
-        and request.POST.get("action") == "save_notes_template"
-    ):
-
-        template_text = request.POST.get(
-            "template_text", ""
-        ).strip()
-
-        if not template_text:
-            messages.error(
-                request,
-                "Please enter the call notes template."
-            )
-
-        else:
-            CallNotesTemplate.objects.update_or_create(
-                scenario=scenario,
-                defaults={
-                    "template_text": template_text,
-                    "is_active": True,
-                    "updated_by": request.user,
-                }
-            )
-        
-            # Save Publish Status
-            scenario.is_published = (
-                request.POST.get("is_published") == "on"
-            )
-        
-            scenario.save(update_fields=[
-                "is_published",
-                "updated_at"
-            ])
-        
-            messages.success(
-                request,
-                "Call Notes Template and Publish Status saved successfully."
-            )
-
-            messages.success(
-                request,
-                "Call Notes Template saved successfully."
-            )
-
-        return redirect(
-            "CallFlow:callflow_form_builder",
-            scenario_id=scenario.id
-        )
-
-
-    # -----------------------------------------
-    # SAVE QUESTION
-    # -----------------------------------------
+    # --------------------------------------------------
+    # SAVE QUESTION / NOTES TEMPLATE / PUBLISH STATUS
+    # --------------------------------------------------
     if request.method == "POST":
+        if selected_scenario is None:
+            messages.error(request, "Select a scenario before editing its form.")
+            return redirect(builder_url)
 
-        question_text = request.POST.get(
-            "question_text", ""
-        ).strip()
+        action = request.POST.get("action", "")
+        return_url = f"{builder_url}?scenario_id={selected_scenario.pk}"
 
-        question_type = request.POST.get(
-            "question_type", ""
-        ).strip()
-
-        placeholder = request.POST.get(
-            "placeholder", ""
-        ).strip()
-
-        options = request.POST.getlist("options")
-
-        is_active = request.POST.get("is_active") == "on"
-
-        save_action = request.POST.get(
-            "save_action", "save"
-        )
-
-        valid_types = ["TEXT", "NUMBER", "SINGLE", "MULTIPLE"]
-
-        valid_options = [
-            option.strip()
-            for option in options
-            if option.strip()
-        ]
-
-        if not question_text:
-
-            messages.error(
-                request,
-                "Please enter the question title."
+        if action == "save_publish_status":
+        
+            selected_scenario.is_published = (
+                request.POST.get("is_published") == "1"
             )
-
-        elif question_type not in valid_types:
-
-            messages.error(
-                request,
-                "Please select a valid question type."
+        
+            selected_scenario.save(
+                update_fields=["is_published", "updated_at"]
             )
-
-        elif question_type in ["SINGLE", "MULTIPLE"] and len(valid_options) < 2:
-
-            messages.error(
+        
+            messages.success(
                 request,
-                "Please enter at least two answer options."
+                "Form published successfully."
+                if selected_scenario.is_published
+                else "Form moved to Draft successfully."
             )
+        
+            return redirect(return_url)
 
-        else:
-
-            try:
-
-                with transaction.atomic():
-
-                    next_order = (
-                        FormQuestion.objects
-                        .filter(scenario=scenario)
-                        .count()
-                    )
-
-                    question = FormQuestion.objects.create(
-                        scenario=scenario,
-                        question_text=question_text,
-                        question_type=question_type,
-                        placeholder=(
-                            placeholder
-                            if question_type in ["TEXT", "NUMBER"]
-                            else ""
-                        ),
-                        is_active=is_active,
-                        display_order=next_order
-                    )
-
-                    # Save answer options
-                    if question_type in ["SINGLE", "MULTIPLE"]:
-
-                        option_objects = [
-                            QuestionOption(
-                                question=question,
-                                option_text=option_text,
-                                is_active=True,
-                                display_order=index
-                            )
-                            for index, option_text in enumerate(valid_options)
-                        ]
-
-                        QuestionOption.objects.bulk_create(
-                            option_objects
-                        )
-
+        if action == "save_notes_template":
+            template_text = request.POST.get("template_text", "").strip()
+        
+            if not template_text:
+                messages.error(request, "Please enter the call notes template.")
+            else:
+                CallNotesTemplate.objects.update_or_create(
+                    scenario=selected_scenario,
+                    defaults={
+                        "template_text": template_text,
+                        "is_active": True,
+                        "updated_by": request.user,
+                    },
+                )
                 messages.success(
                     request,
-                    "Question saved successfully."
+                    "Call Notes Template saved successfully."
                 )
+        
+            return redirect(return_url)
 
-                builder_url = reverse(
-                    "CallFlow:callflow_form_builder",
-                    kwargs={
-                        "scenario_id": scenario.id
-                    }
+        # Default POST action is adding a question.
+        question_text = request.POST.get("question_text", "").strip()
+        question_type = request.POST.get("question_type", "").strip()
+        placeholder = request.POST.get("placeholder", "").strip()
+        options = [value.strip() for value in request.POST.getlist("options") if value.strip()]
+        is_active = request.POST.get("is_active") == "on"
+        save_action = request.POST.get("save_action", "save")
+        valid_types = {"TEXT", "NUMBER", "SINGLE", "MULTIPLE"}
+
+        if not question_text:
+            messages.error(request, "Please enter the question title.")
+            return redirect(return_url)
+        if question_type not in valid_types:
+            messages.error(request, "Please select a valid question type.")
+            return redirect(return_url)
+        if question_type in {"SINGLE", "MULTIPLE"} and len(options) < 2:
+            messages.error(request, "Please enter at least two answer options.")
+            return redirect(return_url)
+
+        try:
+            with transaction.atomic():
+                next_order = FormQuestion.objects.filter(scenario=selected_scenario).count()
+                question = FormQuestion.objects.create(
+                    scenario=selected_scenario,
+                    question_text=question_text,
+                    question_type=question_type,
+                    placeholder=placeholder if question_type in {"TEXT", "NUMBER"} else "",
+                    is_active=is_active,
+                    display_order=next_order,
                 )
+                if question_type in {"SINGLE", "MULTIPLE"}:
+                    QuestionOption.objects.bulk_create([
+                        QuestionOption(question=question, option_text=value, is_active=True, display_order=index)
+                        for index, value in enumerate(options)
+                    ])
+            messages.success(request, "Question saved successfully.")
+            if save_action == "add_another":
+                return redirect(return_url + "&add=1")
+            return redirect(return_url)
+        except Exception:
+            logger.exception("CallFlow question save failed for scenario %s", selected_scenario.pk)
+            messages.error(request, "Unable to save the question. Please check the entered details.")
+            return redirect(return_url)
 
-                if save_action == "add_another":
-                    return redirect(builder_url + "?add=1")
-
-                return redirect(builder_url)
-
-            except Exception as e:
-
-                messages.error(
-                    request,
-                    f"Unable to save question: {str(e)}"
-                )
-
-    # -----------------------------------------
-    # EMPLOYEE DETAILS
-    # -----------------------------------------
-    user = request.user
-
-    employee_details = {
-        "employee_id": get_user_field(
-            user,
-            ["employee_id", "empid", "employee_code", "username"]
-        ),
-
-        "employee_name": (
-            user.get_full_name() or user.username
-        ),
-
-        "department": get_user_field(
-            user,
-            ["department"]
-        ),
-
-        "designation": get_user_field(
-            user,
-            ["designation"]
-        ),
-    }
-
-    # -----------------------------------------
-    # QUESTIONS
-    # -----------------------------------------
-    questions = (
-        FormQuestion.objects
-        .filter(scenario=scenario)
-        .prefetch_related("options")
-        .order_by("display_order", "id")
+    # --------------------------------------------------
+    # SIDEBAR DATA
+    # --------------------------------------------------
+    headings = list(
+        FormHeading.objects.filter(is_active=True).order_by("display_order", "title")
     )
+    scenarios = FormScenario.objects.filter(
+        heading__in=headings, is_active=True
+    ).select_related("heading").order_by("display_order", "title")
+    scenarios_by_heading = defaultdict(list)
+    for item in scenarios:
+        scenarios_by_heading[item.heading_id].append(item)
+    for heading in headings:
+        heading.admin_scenarios = scenarios_by_heading.get(heading.pk, [])
 
-    # -----------------------------------------
-    # INSURANCE COMPANIES
-    # -----------------------------------------
-    insurance_companies = (
-        InsuranceCompany.objects
-        .filter(is_active=True)
-        .order_by("display_order", "name")
-    )
+    # --------------------------------------------------
+    # BUILDER DATA
+    # --------------------------------------------------
+    context = {"headings": headings, "selected_scenario": selected_scenario, "scenario": selected_scenario}
+    if selected_scenario:
+        questions = list(
+            FormQuestion.objects.filter(scenario=selected_scenario)
+            .prefetch_related("options").order_by("display_order", "id")
+        )
+        user = request.user
+        context.update({
+            "questions": questions,
+            "employee_details": {
+                "employee_id": get_user_field(user, ["employee_id", "empid", "employee_code", "username"]),
+                "employee_name": user.get_full_name() or user.username,
+                "department": get_user_field(user, ["department"]),
+                "designation": get_user_field(user, ["designation"]),
+            },
+            "insurance_companies": InsuranceCompany.objects.filter(is_active=True).order_by("display_order", "name"),
+            "notes_template": CallNotesTemplate.objects.filter(scenario=selected_scenario).first(),
+            "common_tokens": [
+                {"label": "Employee ID", "token": "{{employee_id}}"},
+                {"label": "Employee Name", "token": "{{employee_name}}"},
+                {"label": "Department", "token": "{{department}}"},
+                {"label": "Designation", "token": "{{designation}}"},
+                {"label": "Insurance Company", "token": "{{insurance_company}}"},
+                {"label": "Called Number", "token": "{{called_number}}"},
+                {"label": "Call Date", "token": "{{call_date}}"},
+                {"label": "Call Time", "token": "{{call_time}}"},
+            ],
+            "question_tokens": [
+                {"label": q.question_text, "token": "{{q_" + str(q.pk) + "}}"}
+                for q in questions
+            ],
+        })
 
-    # -----------------------------------------
-    # CALL NOTES TEMPLATE
-    # -----------------------------------------
-    notes_template = CallNotesTemplate.objects.filter(
-        scenario=scenario
-    ).first()
-
-    # -----------------------------------------
-    # COMMON PLACEHOLDERS
-    # -----------------------------------------
-    common_tokens = [
-        {
-            "label": "Employee ID",
-            "token": "{{employee_id}}"
-        },
-        {
-            "label": "Employee Name",
-            "token": "{{employee_name}}"
-        },
-        {
-            "label": "Department",
-            "token": "{{department}}"
-        },
-        {
-            "label": "Designation",
-            "token": "{{designation}}"
-        },
-        {
-            "label": "Insurance Company",
-            "token": "{{insurance_company}}"
-        },
-        {
-            "label": "Called Number",
-            "token": "{{called_number}}"
-        },
-        {
-            "label": "Call Date",
-            "token": "{{call_date}}"
-        },
-        {
-            "label": "Call Time",
-            "token": "{{call_time}}"
-        },
-    ]
-
-    # -----------------------------------------
-    # QUESTION PLACEHOLDERS
-    # -----------------------------------------
-    question_tokens = [
-        {
-            "label": question.question_text,
-            "token": "{{q_" + str(question.id) + "}}"
-        }
-        for question in questions
-    ]
+    return render(request, "callflow/Admin/form_builder.html", context)
 
 
-    # -----------------------------------------
-    # CONTEXT
-    # -----------------------------------------
-    context = {
-        "scenario": scenario,
-        "questions": questions,
-        "employee_details": employee_details,
-        "insurance_companies": insurance_companies,
-        "notes_template": notes_template,
-        "common_tokens": common_tokens,
-        "question_tokens": question_tokens,
-    }
-
-    return render(
-        request,
-        "callflow/Admin/form_builder.html",
-        context
-    )
-
-
-    
-    
-@login_required
-def form_list(request):
-
-    headings = FormHeading.objects.prefetch_related(
-        "scenarios"
-    ).filter(
-        is_active=True
-    ).order_by("display_order", "title")
-
-    return render(
-        request,
-        "callflow/Admin/form_list.html",
-        {"headings": headings}
-    )    
     
     
 from django.db.models import Prefetch
@@ -533,12 +320,6 @@ def employee_callflow_home(request):
         }
     )
 
-from django.db.models import Prefetch
-
-from django.db.models import Prefetch
-
-from collections import defaultdict
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def employee_new_form(request):

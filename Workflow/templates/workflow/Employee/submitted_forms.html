@@ -1,0 +1,176 @@
+
+<div class="employee-submissions-wrap">
+
+    <!-- SUBMISSIONS TABLE -->
+    <div class="kt-card">
+
+        <div class="kt-card-header flex items-center justify-between">
+
+            <div>
+                <h3 class="kt-card-title">
+                    <i class="ki-filled ki-folder text-primary mr-2"></i>
+                    My Submission History
+                </h3>
+
+                <p class="text-xs text-secondary mt-1">
+                    View your previously submitted forms and their status.
+                </p>
+            </div>
+			<div class="flex items-center gap-2">
+				<span class="kt-badge kt-badge-light-primary">
+					{{ submissions|length }} Record{{ submissions|length|pluralize }}
+				</span>
+			</div>
+        </div>
+
+
+        <div class="kt-card-content">
+
+            {% if submissions %}
+
+                <div class="overflow-x-auto">
+
+                    <table class="kt-table kt-table-border align-middle">
+
+                        <thead>
+                            <tr>
+                                <th class="min-w-[150px]">Reference Number</th>
+                                <th class="min-w-[160px]">Submitted On</th>
+                                <th class="min-w-[120px]">Status</th>
+                                <th class="text-end min-w-[120px]">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for submission in submissions %}
+
+                                <tr>
+
+                                    <!-- REFERENCE -->
+                                    <td>
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-primary">
+                                                {{ submission.reference_number|default:"Pending Reference" }}
+                                            </span>
+
+                                            <span class="text-xs text-secondary mt-1">
+                                                {{ workflow_form.title }}
+                                            </span>
+                                        </div>
+                                    </td>
+
+
+                                    <!-- SUBMITTED DATE -->
+                                    <td>
+                                        <div class="flex items-center gap-2">
+
+                                            <i class="ki-filled ki-calendar text-secondary"></i>
+
+                                            <span class="text-sm">
+                                                {% if submission.submitted_at %}
+                                                    {{ submission.submitted_at|date:"d M Y, h:i A" }}
+                                                {% else %}
+                                                    {{ submission.created_at|date:"d M Y, h:i A" }}
+                                                {% endif %}
+                                            </span>
+
+                                        </div>
+                                    </td>
+
+
+                                    <!-- STATUS -->
+                                    <td>
+
+                                        {% if submission.status == "APPROVED" %}
+
+                                            <span class="kt-badge kt-badge-success">
+                                                <i class="ki-filled ki-check-circle mr-1"></i>
+                                                Approved
+                                            </span>
+
+                                        {% elif submission.status == "REJECTED" %}
+
+                                            <span class="kt-badge kt-badge-danger">
+                                                <i class="ki-filled ki-cross-circle mr-1"></i>
+                                                Rejected
+                                            </span>
+
+                                        {% elif submission.status == "IN_REVIEW" %}
+
+                                            <span class="kt-badge kt-badge-info">
+                                                <i class="ki-filled ki-time mr-1"></i>
+                                                In Review
+                                            </span>
+
+                                        {% elif submission.status == "CANCELLED" %}
+
+                                            <span class="kt-badge kt-badge-secondary">
+                                                Cancelled
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="kt-badge kt-badge-primary">
+                                                {{ submission.get_status_display }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+                                    <td class="text-end">
+
+                                        <a href="{% url 'Workflow:employee_submission_detail' submission.id %}"
+                                           class="kt-btn kt-btn-sm kt-btn-light-primary" disable>
+
+                                            <i class="ki-filled ki-eye"></i>
+                                            View Details
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <!-- EMPTY STATE -->
+                <div class="flex flex-col items-center justify-center py-14 text-center">
+
+                    <div class="flex items-center justify-center w-16 h-16 rounded-xl bg-primary/10 mb-4">
+
+                        <i class="ki-filled ki-folder text-primary text-3xl"></i>
+
+                    </div>
+
+                    <h3 class="text-base font-semibold text-mono">
+                        No Submitted Forms Yet
+                    </h3>
+
+                    <p class="text-sm text-secondary mt-2 max-w-md">
+                        You haven't submitted this form yet.
+                        Once you complete and submit it, your submission history
+                        will appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>

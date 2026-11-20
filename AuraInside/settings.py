@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'Accounts.AuraInsideUser'
 
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 AUTHENTICATION_BACKENDS = [
     'Accounts.auth_backends.LDAPBackend',
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'Assets',
     'Floating_Flag',
     'CallFlow',
+    'Workflow',
 
 ]
 

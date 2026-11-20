@@ -1,0 +1,557 @@
+
+
+<style>
+
+    .workflow-form-page { padding: 20px; }
+    .workflow-employee-info {
+        border: 1px solid #e5e7eb; border-radius: 10px;
+        background: #fff; margin-bottom: 20px;
+    }
+    .workflow-employee-info summary {
+        display:flex; align-items:center; justify-content:space-between;
+        gap:12px; padding:15px 18px; cursor:pointer;
+        font-weight:600; color:#374151; list-style:none;
+    }
+    .workflow-employee-info summary::-webkit-details-marker { display:none; }
+    .workflow-employee-info summary .employee-chevron { transition:transform .2s ease; }
+    .workflow-employee-info[open] summary .employee-chevron { transform:rotate(180deg); }
+    .workflow-employee-info-content { padding:18px; border-top:1px solid #e5e7eb; }
+    .workflow-form-layout {
+        display:grid; grid-template-columns:minmax(0,1.8fr) minmax(280px,1fr);
+        gap:20px; align-items:start;
+    }
+    .workflow-form-left,.workflow-form-right { min-width:0; }
+    .workflow-question-grid { display:grid; gap:15px; grid-template-columns:1fr; }
+    .workflow-question-grid.columns-1 { grid-template-columns:1fr; }
+    .workflow-question-grid.columns-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .workflow-question-card {
+        min-width:0; padding:16px; border:1px solid #e5e7eb;
+        border-radius:10px; background:#fff;
+    }
+    .workflow-question-card textarea,
+    .workflow-question-card input[type="text"],
+    .workflow-question-card input[type="number"],
+    .workflow-question-card input[type="email"],
+    .workflow-question-card input[type="tel"],
+    .workflow-question-card input[type="date"],
+    .workflow-question-card select { width:100%; }
+    .workflow-question-options { display:flex; flex-direction:column; gap:11px; }
+    .workflow-layout-switch {
+        display:flex; align-items:center; gap:5px; padding:4px;
+        border:1px solid #e5e7eb; border-radius:8px; background:#f8fafc;
+    }
+    .workflow-layout-button {
+        display:flex; align-items:center; justify-content:center; gap:6px;
+        padding:7px 11px; border-radius:6px; font-size:12px;
+        font-weight:600; color:#64748b; cursor:pointer;
+        border:0; background:transparent;
+    }
+    .workflow-layout-button.active {
+        color:#2563eb; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.10);
+    }
+    .workflow-notes-sticky { position:sticky; top:15px; }
+    .workflow-notes-preview {
+        min-height:190px; max-height:360px; overflow-y:auto;
+        white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.7;
+        font-size:13px; padding:15px; border:1px solid #e5e7eb;
+        border-radius:9px; background:#f8fafc;
+    }
+    .workflow-final-notes { width:100%; min-height:240px; resize:vertical; }
+    .workflow-live-indicator {
+        display:inline-flex; align-items:center; gap:6px;
+        font-size:11px; font-weight:600; color:#059669;
+    }
+    .workflow-live-indicator span {
+        width:7px; height:7px; border-radius:50%; background:#10b981;
+    }
+    @media(max-width:1100px) {
+        .workflow-question-grid.columns-3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media(max-width:767px) {
+        .workflow-form-page { padding:12px; }
+        .workflow-form-layout { grid-template-columns:1fr; }
+        .workflow-question-grid.columns-3 { grid-template-columns:1fr; }
+        .workflow-notes-sticky { position:static; }
+    }
+</style>
+
+<div class="workflow-form-page">
+
+    <form method="POST"
+      id="employeeWorkflowForm"
+      action="{% url 'Workflow:employee_form' form.id %}"
+      novalidate>
+        {% csrf_token %}
+
+        <details class="workflow-employee-info">
+            <summary>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10">
+                        <i class="ki-filled ki-user text-primary text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold">Employee Information</div>
+                        <div class="text-xs text-secondary mt-1">Your employee details</div>
+                    </div>
+                </div>
+                <i class="ki-filled ki-chevron-down employee-chevron"></i>
+            </summary>
+            <div class="workflow-employee-info-content">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label class="kt-form-label">Employee Name</label>
+                        <input type="text" class="kt-input"
+                               value="{{ employee_name|default:request.user.get_full_name|default:request.user.username }}"
+                               readonly>
+                    </div>
+                    <div>
+                        <label class="kt-form-label">Employee ID</label>
+                        <input type="text" class="kt-input"
+                               value="{{ employee_id|default:request.user.username }}" readonly>
+                    </div>
+                    <div>
+                        <label class="kt-form-label">Department</label>
+                        <input type="text" class="kt-input" value="{{ department|default:'-' }}" readonly>
+                    </div>
+                    <div>
+                        <label class="kt-form-label">Designation</label>
+                        <input type="text" class="kt-input" value="{{ designation|default:'-' }}" readonly>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <div class="workflow-form-layout">
+            <div class="workflow-form-left">
+                <div class="kt-card mb-5">
+                    <div class="kt-card-header flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 class="kt-card-title">{{ form.title }}</h3>
+                            <p class="text-sm text-secondary mt-1">Please answer the following questions.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-secondary">Layout</span>
+                            <div class="workflow-layout-switch">
+                                <button type="button" class="workflow-layout-button active"
+                                        data-columns="1" aria-pressed="true">
+                                    <i class="ki-filled ki-row-horizontal"></i> 1
+                                </button>
+                                <button type="button" class="workflow-layout-button"
+                                        data-columns="3" aria-pressed="false">
+                                    <i class="ki-filled ki-element-6"></i> 3
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kt-card-content">
+                        <div class="workflow-question-grid columns-1" id="workflowQuestionGrid">
+                            {% for question in questions %}
+                                <div class="workflow-question-card"
+                                     data-question-id="{{ question.id }}"
+                                     data-question-number="{{ forloop.counter }}"
+                                     data-question-type="{{ question.question_type }}">
+                                    <label class="block font-semibold text-mono mb-2">
+                                        <span class="text-primary">{{ forloop.counter }}.</span>
+                                        {{ question.question_text }}
+                                        {% if question.is_required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {% if question.help_text %}
+                                        <p class="text-xs text-secondary mb-3">{{ question.help_text }}</p>
+                                    {% endif %}
+
+                                    {% with answer=question.current_answer %}
+                                        {% if question.question_type == "SINGLE" %}
+                                            <div class="workflow-question-options">
+                                                {% for option in question.options.all %}
+                                                    {% if option.is_active %}
+                                                        <label class="flex items-center gap-3 cursor-pointer">
+                                                            <input type="radio" name="answer_{{ question.id }}"
+                                                                   value="{{ option.option_text }}" class="kt-radio"
+                                                                   data-answer-input
+                                                                   {% if answer == option.option_text %}checked{% endif %}
+                                                                   {% if question.is_required %}required{% endif %}>
+                                                            <span class="text-sm">{{ option.option_text }}</span>
+                                                        </label>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+
+                                        {% elif question.question_type == "MULTIPLE" %}
+                                            <div class="workflow-question-options">
+                                                {% for option in question.options.all %}
+                                                    {% if option.is_active %}
+                                                        <label class="flex items-center gap-3 cursor-pointer">
+                                                            <input type="checkbox" name="question_{{ question.id }}"
+                                                                   value="{{ option.option_text }}" class="kt-checkbox"
+                                                                   data-answer-input
+                                                                   {% if answer and option.option_text in answer %}checked{% endif %}>
+                                                            <span class="text-sm">{{ option.option_text }}</span>
+                                                        </label>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if question.is_required %}
+                                                    <p class="text-xs text-secondary">Select at least one option.</p>
+                                                {% endif %}
+                                            </div>
+
+                                        {% elif question.question_type == "DROPDOWN" %}
+                                            <select name="question_{{ question.id }}" class="kt-select"
+                                                    data-answer-input {% if question.is_required %}required{% endif %}>
+                                                <option value="">Select an option</option>
+                                                {% for option in question.options.all %}
+                                                    {% if option.is_active %}
+                                                        <option value="{{ option.option_text }}"
+                                                                {% if answer == option.option_text %}selected{% endif %}>
+                                                            {{ option.option_text }}
+                                                        </option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+
+                                        {% elif question.question_type == "YESNO" %}
+                                            <div class="flex flex-wrap gap-5">
+
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" class="kt-radio"
+                                                           name="question_{{ question.id }}" value="Yes"
+                                                           data-answer-input {% if answer == "Yes" %}checked{% endif %}
+                                                           {% if question.is_required %}required{% endif %}>
+                                                    <span>Yes</span>
+                                                </label>
+                                                <label class="flex items-center gap-2">
+                                                    <input type="radio" class="kt-radio"
+                                                           name="question_{{ question.id }}" value="No"
+                                                           data-answer-input {% if answer == "No" %}checked{% endif %}
+                                                           {% if question.is_required %}required{% endif %}>
+                                                    <span>No</span>
+                                                </label>
+                                            </div>
+
+                                        {% elif question.question_type == "NUMBER" %}
+                                            <input type="number" name="question_{{ question.id }}"
+                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+                                                   placeholder="{{ question.placeholder|default:'Enter number' }}"
+                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+
+                                        {% elif question.question_type == "EMAIL" %}
+                                            <input type="email" name="question_{{ question.id }}"
+                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+                                                   placeholder="{{ question.placeholder|default:'Enter email address' }}"
+                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+
+                                        {% elif question.question_type == "PHONE" %}
+                                            <input type="tel" name="question_{{ question.id }}"
+                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+                                                   placeholder="{{ question.placeholder|default:'Enter phone number' }}"
+                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+
+                                        {% elif question.question_type == "DATE" %}
+                                            <input type="date" name="question_{{ question.id }}"
+                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+
+                                        {% elif question.question_type == "TEXTAREA" %}
+                                            <textarea name="question_{{ question.id }}" class="kt-textarea"
+                                                      rows="3" placeholder="{{ question.placeholder|default:'Enter your answer' }}"
+                                                      data-answer-input {% if question.is_required %}required{% endif %}>{{ answer|default_if_none:'' }}</textarea>
+
+                                        {% else %}
+                                            <input type="text" name="question_{{ question.id }}"
+                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+                                                   placeholder="{{ question.placeholder|default:'Enter your answer' }}"
+                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+                                        {% endif %}
+                                    {% endwith %}
+                                </div>
+                            {% empty %}
+                                <div class="text-center py-10">
+                                    <i class="ki-filled ki-information-2 text-4xl text-secondary"></i>
+                                    <p class="font-semibold mt-3">No questions configured</p>
+                                    <p class="text-sm text-secondary mt-1">Please contact your administrator.</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-end gap-3">
+                    {% if form.allow_draft %}
+                        <button type="submit" name="action" value="save_draft" class="kt-btn kt-btn-light">
+                            <i class="ki-filled ki-save"></i> Save Draft
+                        </button>
+                    {% endif %}
+                    <button type="submit" name="action" value="submit_form" class="kt-btn kt-btn-primary"
+                            {% if not questions %}disabled{% endif %}>
+                        <i class="ki-filled ki-check-circle"></i> Submit Form
+                    </button>
+                </div>
+                <div id="employeeWorkflowFormMessage" class="mt-3" aria-live="polite"></div>
+            </div>
+
+            <div class="workflow-form-right">
+                <div class="workflow-notes-sticky">
+                    <div class="kt-card mb-5">
+                        <div class="kt-card-header flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h3 class="kt-card-title">
+                                    <i class="ki-filled ki-notepad text-primary mr-2"></i> Generated Notes
+                                </h3>
+                               
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="workflow-live-indicator"><span></span> Live Preview</span>
+                                <button type="button" id="workflowCopyGeneratedNotes" class="kt-btn kt-btn-sm kt-btn-light">
+                                    <i class="ki-filled ki-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="kt-card-content">
+                            <div id="workflowGeneratedNotesPreview" class="workflow-notes-preview">Loading call note template...</div>
+                            <div id="workflowCopyNotesMessage" class="text-xs text-success mt-2" aria-live="polite"></div>
+                        </div>
+                    </div>
+
+                    <div class="kt-card mb-5">
+                        <div class="kt-card-header">
+                            <div>
+                                <h3 class="kt-card-title">
+                                    <i class="ki-filled ki-edit text-primary mr-2"></i> Final Notes
+                                </h3>
+                                <p class="text-xs text-secondary mt-1">Review and edit before submitting.</p>
+                            </div>
+                        </div>
+                        <div class="kt-card-content">
+                            <textarea name="final_notes" id="workflow_final_notes"
+                                      class="kt-textarea workflow-final-notes"
+                                      placeholder="Generated notes will appear here. You can edit them before submission.">{{ draft.metadata.final_notes|default:'' }}</textarea>
+                            <input type="hidden" name="generated_notes" id="workflow_generated_notes">
+                            <p class="text-xs text-secondary mt-2">
+                                Changes to your answers update the generated preview. Manual edits to final notes are preserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+(function () {
+    // This partial is injected dynamically, so initialize immediately rather
+    // than waiting for DOMContentLoaded.
+    const root = document.getElementById("employeeWorkflowForm");
+    if (!root || root.dataset.initialized === "1") return;
+    root.dataset.initialized = "1";
+
+    const preview = document.getElementById("workflowGeneratedNotesPreview");
+    const finalNotes = document.getElementById("workflow_final_notes");
+    const generatedNotes = document.getElementById("workflow_generated_notes");
+    const copyNotesButton = document.getElementById("workflowCopyGeneratedNotes");
+    const copyNotesMessage = document.getElementById("workflowCopyNotesMessage");
+    const questionGrid = document.getElementById("workflowQuestionGrid");
+    const layoutButtons = root.querySelectorAll(".workflow-layout-button");
+    const templateText = "{{ form.notes_template|default:''|escapejs }}";
+    const employeeName = "{{ employee_name|default:request.user.get_full_name|default:request.user.username|escapejs }}";
+    const employeeId = "{{ employee_id|default:request.user.username|escapejs }}";
+    const department = "{{ department|default:'-'|escapejs }}";
+    const designation = "{{ designation|default:'-'|escapejs }}";
+    const shift = "{{ shift|default:'-'|escapejs }}";
+    let manuallyEdited = Boolean(finalNotes.value.trim());
+
+    layoutButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const columns = this.dataset.columns;
+            questionGrid.classList.remove("columns-1", "columns-3");
+            questionGrid.classList.add("columns-" + columns);
+            layoutButtons.forEach(item => {
+                item.classList.remove("active");
+                item.setAttribute("aria-pressed", "false");
+            });
+            this.classList.add("active");
+            this.setAttribute("aria-pressed", "true");
+        });
+    });
+
+    function getAnswer(card) {
+        const type = card.dataset.questionType;
+        const inputs = Array.from(card.querySelectorAll("[data-answer-input]"));
+        if (type === "MULTIPLE") {
+            return inputs.filter(input => input.checked).map(input => input.value).join(", ");
+        }
+        if (type === "SINGLE" || type === "YESNO") {
+            const selected = inputs.find(input => input.checked);
+            return selected ? selected.value : "";
+        }
+        const input = inputs[0];
+        return input ? input.value.trim() : "";
+    }
+
+    function generateNotes() {
+        if (!templateText.trim()) {
+            preview.textContent = "No notes template has been configured for this form.";
+            generatedNotes.value = "";
+            return;
+        }
+
+        // Start with the COMPLETE saved template. Do not replace it with a
+        // hard-coded notes layout; only substitute the placeholders present.
+        const replacements = {
+            employee_name: employeeName || "-",
+            employee_id: employeeId || "-",
+            department: department || "-",
+            designation: designation || "-",
+            shift: shift || "-"
+        };
+
+        // Form Builder's [[question_1]], [[question_2]], ... placeholders
+        // are based on the displayed question order.
+        root.querySelectorAll("[data-question-id]").forEach(card => {
+            const questionNumber = card.dataset.questionNumber;
+            const questionId = card.dataset.questionId;
+            const answer = getAnswer(card) || "-";
+
+            if (questionNumber) {
+                replacements["question_" + questionNumber] = answer;
+            }
+
+            // Also support older templates that used the database ID.
+            replacements["q_" + questionId] = answer;
+        });
+
+        // Replace every [[placeholder]] in the saved template. Any text,
+        // line breaks, headings or punctuation authored in Form Builder
+        // remain exactly as entered.
+        const notes = templateText.replace(/\[\[([a-zA-Z0-9_]+)\]\]/g, function (match, key) {
+            return Object.prototype.hasOwnProperty.call(replacements, key)
+                ? String(replacements[key])
+                : match;
+        });
+
+        preview.textContent = notes;
+        generatedNotes.value = notes;
+
+        if (!manuallyEdited) {
+            finalNotes.value = notes;
+        }
+    }
+
+    async function copyGeneratedNotes() {
+        const textToCopy = generatedNotes.value || preview.textContent || "";
+        if (!textToCopy.trim() || textToCopy === "No notes template has been configured for this form.") {
+            copyNotesMessage.textContent = "There are no generated notes to copy.";
+            return;
+        }
+
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(textToCopy);
+            } else {
+                const temporary = document.createElement("textarea");
+                temporary.value = textToCopy;
+                temporary.style.position = "fixed";
+                temporary.style.opacity = "0";
+                document.body.appendChild(temporary);
+                temporary.select();
+                document.execCommand("copy");
+                temporary.remove();
+            }
+            copyNotesMessage.textContent = "Call notes copied to clipboard.";
+        } catch (error) {
+            copyNotesMessage.textContent = "Unable to copy. Please select and copy the notes manually.";
+        }
+
+        window.setTimeout(() => {
+            if (copyNotesMessage) copyNotesMessage.textContent = "";
+        }, 2500);
+    }
+
+    if (copyNotesButton) {
+        copyNotesButton.addEventListener("click", copyGeneratedNotes);
+    }
+
+    finalNotes.addEventListener("input", function () {
+        manuallyEdited = true;
+    });
+
+    root.querySelectorAll("[data-answer-input]").forEach(input => {
+        input.addEventListener("input", generateNotes);
+        input.addEventListener("change", generateNotes);
+    });
+
+    generateNotes();
+
+
+root.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    generateNotes();
+
+    const submitter = event.submitter;
+    const action = submitter ? submitter.value : "submit_form";
+
+    const formData = new FormData(root);
+    formData.set("action", action);
+    formData.set("generated_notes", generatedNotes.value);
+    formData.set("final_notes", finalNotes.value);
+
+    const messageBox = document.getElementById(
+        "employeeWorkflowFormMessage"
+    );
+
+    const buttons = root.querySelectorAll('button[type="submit"]');
+    buttons.forEach(button => button.disabled = true);
+
+    try {
+        const formUrl = root.getAttribute("action");
+
+		const response = await fetch(formUrl, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            const errors = result.errors || [];
+            messageBox.innerHTML =
+                `<div class="kt-alert kt-alert-danger">
+                    ${result.message || "Unable to save the form."}
+                    ${errors.map(error => `<div>${error}</div>`).join("")}
+                </div>`;
+            return;
+        }
+
+        messageBox.innerHTML =
+            `<div class="kt-alert kt-alert-success">
+                ${result.message}
+                ${result.reference_number
+                    ? " Reference: " + result.reference_number
+                    : ""}
+            </div>`;
+
+        if (action === "submit_form") {
+            // Switch to Submitted Forms after successful submission.
+            const submittedTab = document.querySelector(
+                '[data-employee-tab="submitted"]'
+            );
+
+            if (submittedTab) {
+                submittedTab.click();
+            }
+        }
+
+    } catch (error) {
+        messageBox.innerHTML =
+            '<div class="kt-alert kt-alert-danger">An unexpected error occurred. Please try again.</div>';
+    } finally {
+        buttons.forEach(button => button.disabled = false);
+    }
+});
+
+})();
+</script>

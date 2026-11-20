@@ -481,12 +481,7 @@ def delete_board_member(request, member_id):
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Gallery, GalleryGroup
-
-
 from django.db.models import Prefetch
-
-
-
 
 def gallery(request):
     # Get all groups and their images
@@ -554,10 +549,7 @@ def delete_image(request, image_id):
     messages.success(request, "Image deleted successfully.")
     return redirect("Intranet:gallery")
     
-    
-
-
-
+   
 def aura_flag(request):
     flag, _ = FloatingFlag.objects.get_or_create(id=1)
 

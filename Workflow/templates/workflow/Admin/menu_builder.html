@@ -1,0 +1,1139 @@
+
+{% load static %}
+{% include 'Layout_Master/base.html' %}
+
+<div class="kt-wrapper flex grow flex-col">
+  <main class="grow pt-5" id="content" role="main">
+    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
+        <div class="kt-container-fluid w-full max-w-none px-6">
+
+            <div class="kt-container-fixed pb-5">
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="kt-alert mb-3 {% if message.tags == 'success' %}kt-alert-success{% else %}kt-alert-danger{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- PAGE HEADER -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary mb-2">
+                            <span class="text-primary font-medium">Workflow</span>
+                            <i class="ki-filled ki-right text-xs"></i>
+                            <span>Menu Builder</span>
+                        </div>
+
+                        <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
+                            Workflow Menu Builder
+                        </h1>
+
+                        <p class="text-sm text-secondary mt-1">
+                            Organize your workflows using Main Menus, Submenus and Forms.
+                        </p>
+                    </div>
+
+                    <button type="button"
+                            class="kt-btn kt-btn-primary"
+                            onclick="openCreateModal('main_menu')">
+                        <i class="ki-filled ki-plus"></i>
+                        Create Main Menu
+                    </button>
+                </div>
+
+                <!-- WORKSPACE -->
+                <div class="workflow-workspace">
+
+                    <!-- LEFT SIDEBAR -->
+                    <aside class="workflow-sidebar">
+
+                        <div class="workflow-search">
+                            <i class="ki-filled ki-magnifier"></i>
+
+                            <input type="text"
+                                   id="workflowSearch"
+                                   class="kt-input"
+                                   placeholder="Search menu, submenu or form..."
+                                   autocomplete="off">
+
+                            <button type="button"
+                                    id="clearWorkflowSearch"
+                                    class="hidden"
+                                    aria-label="Clear search">
+                                <i class="ki-filled ki-cross"></i>
+                            </button>
+                        </div>
+
+                        <div id="workflowNoResults" class="workflow-no-results">
+                            <i class="ki-filled ki-search-list text-2xl"></i>
+                            <span>No matching items found</span>
+                        </div>
+
+                        <div class="workflow-tree" id="workflowTree">
+
+                            {% for menu in menus %}
+                                <div class="workflow-main-item"
+                                     data-search="{{ menu.title|lower }}">
+
+                                    <!-- MAIN MENU -->
+                                    <div class="workflow-tree-row main-row">
+
+										<button type="button"
+												class="workflow-expand"
+												aria-expanded="true"
+												onclick="toggleTree(this)"
+												title="Expand or collapse submenu">
+											<i class="ki-filled ki-down"></i>
+										</button>
+
+                                        <i class="ki-filled ki-folder text-primary text-lg"></i>
+
+                                        <button type="button"
+                                                class="workflow-item-name"
+                                                onclick="toggleTree(this)">
+                                            {{ menu.title }}
+                                        </button>
+
+                                        <button type="button"
+                                                class="workflow-add"
+                                                title="Add Submenu"
+                                                onclick="openCreateModal('submenu', '{{ menu.id }}')">
+                                            <i class="ki-filled ki-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- SUBMENUS -->
+                                    <div class="workflow-submenu-list">
+
+                                        {% for submenu in menu.submenus.all %}
+                                            <div class="workflow-submenu-item"
+                                                 data-search="{{ submenu.title|lower }}">
+
+                                                <div class="workflow-tree-row submenu-row">
+
+													<button type="button"
+															class="workflow-expand"
+															aria-expanded="true"
+															onclick="toggleTree(this)"
+															title="Expand or collapse forms">
+														<i class="ki-filled ki-down"></i>
+													</button>
+
+                                                    <i class="ki-filled ki-folder text-warning text-lg"></i>
+
+                                                    <button type="button"
+                                                            class="workflow-item-name"
+                                                            onclick="toggleTree(this)">
+                                                        {{ submenu.title }}
+                                                    </button>
+
+                                                    <button type="button"
+                                                            class="workflow-add"
+                                                            title="Add Form"
+                                                            onclick="openCreateModal('form', '{{ submenu.id }}')">
+                                                        <i class="ki-filled ki-plus"></i>
+                                                    </button>
+                                                </div>
+
+                                                <!-- FORMS -->
+                                                <div class="workflow-form-list">
+
+                                                    {% for form in submenu.forms.all %}
+
+                                                        <div class="workflow-tree-row form-row"
+                                                             data-search="{{ form.title|lower }}">
+
+                                                            <span class="workflow-tree-spacer"></span>
+
+                                                            <i class="ki-filled ki-file text-muted-foreground"></i>
+
+																<a href="{% url 'Workflow:form_edit' form.id %}"
+																class="workflow-item-name workflow-form-link"
+																data-form-id="{{ form.id }}"
+																data-form-url="{% url 'Workflow:form_edit' form.id %}"
+																onclick="loadWorkflowForm(this.dataset.formUrl); return false;">
+																	{{ form.title }}
+																</a>
+
+                                                            {% if form.is_published %}
+                                                                <span class="workflow-status published"
+                                                                      title="Published"></span>
+                                                            {% else %}
+                                                                <span class="workflow-status draft"
+                                                                      title="Draft"></span>
+                                                            {% endif %}
+
+                                                        </div>
+
+                                                    {% empty %}
+                                                        <div class="workflow-empty-child">
+                                                            No forms created
+                                                        </div>
+                                                    {% endfor %}
+
+                                                </div>
+                                            </div>
+
+                                        {% empty %}
+                                            <div class="workflow-empty-child">
+                                                No submenus created
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+
+                            {% empty %}
+                                <div class="workflow-empty">
+                                    <i class="ki-filled ki-folder text-3xl"></i>
+                                    <p>No Main Menus created yet.</p>
+
+                                    <button type="button"
+                                            class="kt-btn kt-btn-sm kt-btn-primary"
+                                            onclick="openCreateModal('main_menu')">
+                                        Create Main Menu
+                                    </button>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="workflow-sidebar-footer">
+                            <div class="flex justify-between text-xs">
+                                <span>Main Menus</span>
+                                <strong>{{ main_menu_count }}</strong>
+                            </div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>Submenus</span>
+                                <strong>{{ submenu_count }}</strong>
+                            </div>
+                            <div class="flex justify-between text-xs mt-2">
+                                <span>Forms</span>
+                                <strong>{{ form_count }}</strong>
+                            </div>
+                        </div>
+
+                    </aside>
+
+                    <!-- RIGHT WORKSPACE -->
+                    <section class="workflow-builder" id="workflowBuilderPanel">
+
+                        <div class="workflow-welcome">
+
+                            <div class="workflow-welcome-icon">
+                                <i class="ki-filled ki-element-11"></i>
+                            </div>
+
+                            <h2 class="text-xl font-bold text-gray-900">
+                                Welcome to Workflow Builder
+                            </h2>
+
+                            <p class="text-sm text-muted-foreground max-w-md">
+                                Select an existing Form from the left menu to edit it,
+                                or create a new Main Menu, Submenu or Form to get started.
+                            </p>
+
+                            <button type="button"
+                                    class="kt-btn kt-btn-primary"
+                                    onclick="openCreateModal('main_menu')">
+                                <i class="ki-filled ki-plus"></i>
+                                Create Main Menu
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<!-- CREATE MODAL -->
+<div id="workflowCreateModal" class="workflow-modal hidden">
+
+    <div class="workflow-modal-backdrop"
+         onclick="closeCreateModal()"></div>
+
+    <div class="workflow-modal-content">
+
+        <div class="kt-card">
+
+            <div class="kt-card-header">
+                <div>
+                    <h3 class="kt-card-title" id="workflowModalTitle">
+                        Create Main Menu
+                    </h3>
+
+                    <p class="text-sm text-muted-foreground mt-1"
+                       id="workflowModalDescription">
+                        Add a new Main Menu.
+                    </p>
+                </div>
+
+                <button type="button"
+                        class="kt-btn kt-btn-sm kt-btn-light"
+                        onclick="closeCreateModal()">
+                    <i class="ki-filled ki-cross"></i>
+                </button>
+            </div>
+
+            <div class="kt-card-content">
+
+                <form method="POST" id="workflowCreateForm">
+                    {% csrf_token %}
+
+                    <input type="hidden"
+                           name="action"
+                           id="workflowAction">
+
+                    <!-- MAIN MENU -->
+                    <div id="mainMenuFields">
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">
+                                Menu Name <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text"
+                                   name="title"
+                                   class="kt-input"
+                                   placeholder="Enter menu name">
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Description</label>
+
+                            <textarea name="description"
+                                      class="kt-input"
+                                      rows="3"
+                                      placeholder="Enter description"></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- SUBMENU -->
+                    <div id="submenuFields" class="hidden">
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">
+                                Main Menu <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="main_menu_id"
+                                    id="mainMenuSelect"
+                                    class="kt-input">
+                                <option value="">Select Main Menu</option>
+
+                                {% for menu in menus %}
+                                    {% if menu.is_active %}
+                                        <option value="{{ menu.id }}">
+                                            {{ menu.title }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">
+                                Submenu Name <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text"
+                                   name="title"
+                                   class="kt-input"
+                                   placeholder="Enter submenu name">
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Description</label>
+
+                            <textarea name="description"
+                                      class="kt-input"
+                                      rows="3"
+                                      placeholder="Enter description"></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- FORM -->
+                    <div id="formFields" class="hidden">
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">
+                                Submenu <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="submenu_id"
+                                    id="submenuSelect"
+                                    class="kt-input">
+                                <option value="">Select Submenu</option>
+
+                                {% for menu in menus %}
+                                    {% for submenu in menu.submenus.all %}
+                                        {% if submenu.is_active and menu.is_active %}
+                                            <option value="{{ submenu.id }}">
+                                                {{ menu.title }} / {{ submenu.title }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">
+                                Form Name <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text"
+                                   name="title"
+                                   class="kt-input"
+                                   placeholder="Enter form name">
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="kt-form-label">Description</label>
+
+                            <textarea name="description"
+                                      class="kt-input"
+                                      rows="3"
+                                      placeholder="Enter description"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button"
+                                class="kt-btn kt-btn-light"
+                                onclick="closeCreateModal()">
+                            Cancel
+                        </button>
+
+                        <button type="submit"
+                                class="kt-btn kt-btn-primary">
+                            <i class="ki-filled ki-check"></i>
+                            Save
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.workflow-workspace {
+    display: grid;
+    grid-template-columns: 290px minmax(0, 1fr);
+    height: calc(100vh - 230px);
+    min-height: 520px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.workflow-sidebar {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    border-right: 1px solid #e2e8f0;
+    background: #fff;
+}
+
+.workflow-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.workflow-search input {
+    min-width: 0;
+    border: 0;
+    box-shadow: none;
+}
+
+.workflow-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 8px;
+}
+
+.workflow-tree-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 4px 7px;
+    border-radius: 7px;
+}
+
+.workflow-tree-row:hover {
+    background: #f1f5f9;
+}
+
+.workflow-item-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.workflow-expand,
+.workflow-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    color: #64748b;
+}
+
+.workflow-expand:hover,
+.workflow-add:hover {
+    background: #e2e8f0;
+    color: #2563eb;
+}
+
+.workflow-main-item > .workflow-submenu-list {
+    padding-left: 18px;
+}
+
+.workflow-submenu-item > .workflow-form-list {
+    padding-left: 20px;
+}
+
+.workflow-tree-spacer {
+    width: 23px;
+    flex-shrink: 0;
+}
+
+.workflow-submenu-list.collapsed,
+.workflow-form-list.collapsed {
+    display: none;
+}
+
+.workflow-expand i {
+    transition: transform 0.2s ease;
+}
+
+.workflow-expand[aria-expanded="false"] i {
+    transform: rotate(-90deg);
+}
+
+.workflow-expand[aria-expanded="true"] i {
+    transform: rotate(0deg);
+}
+
+.workflow-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.workflow-status.published {
+    background: #16a34a;
+}
+
+.workflow-status.draft {
+    background: #f59e0b;
+}
+
+.workflow-empty-child {
+    padding: 7px 12px 7px 32px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.workflow-sidebar-footer {
+    padding: 14px;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+}
+
+.workflow-builder {
+    min-width: 0;
+    overflow: auto;
+    background: #f8fafc;
+}
+
+.workflow-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 35px;
+    text-align: center;
+    gap: 12px;
+}
+
+.workflow-welcome-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.workflow-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 15px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.workflow-no-results {
+    display: none;
+    padding: 20px;
+    color: #94a3b8;
+    text-align: center;
+    font-size: 12px;
+}
+
+.workflow-no-results.show {
+    display: block;
+}
+
+.workflow-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.workflow-modal.hidden {
+    display: none;
+}
+
+.workflow-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+}
+
+.workflow-modal-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+    .workflow-workspace {
+        grid-template-columns: 250px minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .workflow-workspace {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 0;
+    }
+
+    .workflow-sidebar {
+        min-height: 350px;
+        max-height: 55vh;
+        border-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .workflow-builder {
+        min-height: 350px;
+    }
+}
+</style>
+
+
+<script>
+
+function openCreateModal(type, parentId = '') {
+
+    const modal = document.getElementById('workflowCreateModal');
+
+    const mainFields = document.getElementById('mainMenuFields');
+    const submenuFields = document.getElementById('submenuFields');
+    const formFields = document.getElementById('formFields');
+
+    const title = document.getElementById('workflowModalTitle');
+    const description = document.getElementById('workflowModalDescription');
+    const action = document.getElementById('workflowAction');
+
+    const sections = [mainFields, submenuFields, formFields];
+
+    // Hide and disable all fields first
+    sections.forEach(section => {
+        section.classList.add('hidden');
+
+        section.querySelectorAll('input, textarea, select').forEach(field => {
+            field.disabled = true;
+            field.required = false;
+        });
+    });
+
+    action.value = '';
+
+    let activeSection = null;
+
+    if (type === 'main_menu') {
+        activeSection = mainFields;
+        action.value = 'create_main_menu';
+        title.textContent = 'Create Main Menu';
+        description.textContent = 'Add a new Main Menu.';
+    }
+
+    else if (type === 'submenu') {
+        activeSection = submenuFields;
+        action.value = 'create_submenu';
+        title.textContent = 'Create Submenu';
+        description.textContent = 'Add a submenu under a Main Menu.';
+
+        document.getElementById('mainMenuSelect').value = parentId || '';
+    }
+
+    else if (type === 'form') {
+        activeSection = formFields;
+        action.value = 'create_form';
+        title.textContent = 'Create Form';
+        description.textContent = 'Add a form under a Submenu.';
+
+        document.getElementById('submenuSelect').value = parentId || '';
+    }
+
+    if (activeSection) {
+        activeSection.classList.remove('hidden');
+
+        activeSection.querySelectorAll('input, textarea, select').forEach(field => {
+            field.disabled = false;
+
+            if (field.name === 'title' ||
+                field.name === 'main_menu_id' ||
+                field.name === 'submenu_id') {
+                field.required = true;
+            }
+        });
+    }
+
+    modal.classList.remove('hidden');
+}
+
+
+function closeCreateModal() {
+    const form = document.getElementById('workflowCreateForm');
+
+    form.reset();
+
+    document.getElementById('workflowCreateModal').classList.add('hidden');
+
+    // Re-enable fields; next modal opening will configure them
+    form.querySelectorAll('input, textarea, select').forEach(field => {
+        field.disabled = false;
+        field.required = false;
+    });
+}
+
+
+function closeCreateModal() {
+    document.getElementById('workflowCreateModal').classList.add('hidden');
+    document.getElementById('workflowCreateForm').reset();
+}
+
+function toggleTree(button) {
+    const row = button.closest('.workflow-tree-row');
+    const expand = row.querySelector('.workflow-expand');
+
+    let childContainer = null;
+
+    if (row.classList.contains('main-row')) {
+        childContainer = row.parentElement.querySelector(':scope > .workflow-submenu-list');
+    } else if (row.classList.contains('submenu-row')) {
+        childContainer = row.parentElement.querySelector(':scope > .workflow-form-list');
+    }
+
+    if (!childContainer) return;
+
+    childContainer.classList.toggle('collapsed');
+
+    if (expand) {
+        expand.setAttribute(
+            'aria-expanded',
+            childContainer.classList.contains('collapsed') ? 'false' : 'true'
+        );
+    }
+}
+
+
+// =====================================================
+// FORM BUILDER AJAX LOADER
+// Keeps the existing menu tree, search, modal and CSS.
+// =====================================================
+
+
+// Execute scripts returned inside the AJAX Form Builder partial.
+// Scripts assigned through innerHTML are inert unless recreated.
+function executeWorkflowPanelScripts(container) {
+    if (!container) return;
+
+    container.querySelectorAll('script').forEach(oldScript => {
+        const newScript = document.createElement('script');
+
+        Array.from(oldScript.attributes).forEach(attribute => {
+            newScript.setAttribute(attribute.name, attribute.value);
+        });
+
+        newScript.textContent = oldScript.textContent;
+        oldScript.replaceWith(newScript);
+    });
+}
+
+async function loadWorkflowForm(url, pushState = true) {
+    const panel = document.getElementById('workflowBuilderPanel');
+
+    if (!panel) {
+        console.error('Workflow panel not found: #workflowBuilderPanel');
+        return;
+    }
+
+    panel.innerHTML = `
+        <div class="workflow-welcome">
+            <div class="workflow-welcome-icon">
+                <i class="ki-filled ki-loading"></i>
+            </div>
+            <p class="text-sm text-muted-foreground">Loading Form Builder...</p>
+        </div>
+    `;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'text/html'
+            },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            const responseText = await response.text();
+            console.error('Form Builder request failed:', response.status, responseText);
+            throw new Error(`Unable to load Form Builder (HTTP ${response.status}).`);
+        }
+
+        const html = await response.text();
+
+        if (!html.trim()) {
+            throw new Error('The Form Builder returned an empty response.');
+        }
+
+        // The form_builder.html partial is inserted into the existing right panel.
+        panel.innerHTML = html;
+
+        // Mark the selected form in the left tree.
+        document.querySelectorAll('.workflow-form-link').forEach(link => {
+            const selected = link.dataset.formUrl === url;
+            link.closest('.form-row')?.classList.toggle(
+                'workflow-form-row-selected',
+                selected
+            );
+        });
+
+        // Keep the selected form in the address bar.
+        if (pushState) {
+            const match = url.match(/\/form\/(\d+)\//);
+            if (match) {
+                const pageUrl = new URL(window.location.href);
+                pageUrl.searchParams.set('form_id', match[1]);
+                history.pushState(
+                    { workflowFormUrl: url, formId: match[1] },
+                    '',
+                    pageUrl.pathname + pageUrl.search
+                );
+            }
+        }
+
+        executeWorkflowPanelScripts(panel);
+
+    } catch (error) {
+        console.error('Workflow Form Builder error:', error);
+        panel.innerHTML = `
+            <div class="workflow-welcome">
+                <h2 class="text-lg font-bold text-red-600">Unable to load Form Builder</h2>
+                <p class="text-sm text-muted-foreground">${escapeWorkflowText(error.message)}</p>
+                <button type="button" class="kt-btn kt-btn-primary"
+                        onclick="loadWorkflowForm('${url}', false)">
+                    Retry
+                </button>
+            </div>
+        `;
+    }
+}
+
+function escapeWorkflowText(value) {
+    const element = document.createElement('div');
+    element.textContent = value;
+    return element.innerHTML;
+}
+
+function initializeWorkflowFormPanel() {
+    const panel = document.getElementById('workflowBuilderPanel');
+    if (!panel) return;
+
+    // Tabs inside the dynamically loaded partial.
+    panel.querySelectorAll('.workflow-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            panel.querySelectorAll('.workflow-tab').forEach(item => {
+                item.classList.remove('active');
+            });
+            panel.querySelectorAll('.workflow-panel').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            this.classList.add('active');
+            const target = panel.querySelector('#tab-' + this.dataset.tab);
+            target?.classList.add('active');
+        });
+    });
+
+    // Basic Details save.
+    const detailsForm = panel.querySelector('#formDetailsForm');
+    if (detailsForm) {
+        detailsForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const saveButton = panel.querySelector('[form="formDetailsForm"]');
+            const originalText = saveButton?.innerHTML;
+
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.textContent = 'Saving...';
+            }
+
+            try {
+                const csrf = detailsForm.querySelector('[name="csrfmiddlewaretoken"]')?.value;
+
+                const response = await fetch(detailsForm.action, {
+                    method: 'POST',
+                    body: new FormData(detailsForm),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        ...(csrf ? { 'X-CSRFToken': csrf } : {})
+                    },
+                    credentials: 'same-origin'
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message || 'Unable to save form details.');
+                }
+
+                const heading = panel.querySelector('[data-form-title]');
+                if (heading) heading.textContent = result.title;
+
+                const selectedLink = document.querySelector(
+                    '.workflow-form-row-selected .workflow-form-link'
+                );
+                if (selectedLink) selectedLink.textContent = result.title;
+
+                showWorkflowToast(result.message || 'Form details saved successfully.');
+
+            } catch (error) {
+                showWorkflowToast(error.message, true);
+            } finally {
+                if (saveButton) {
+                    saveButton.disabled = false;
+                    saveButton.innerHTML = originalText;
+                }
+            }
+        });
+    }
+}
+
+function showWorkflowToast(message, isError = false) {
+    let toast = document.getElementById('workflowAjaxToast');
+
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'workflowAjaxToast';
+        toast.style.cssText = [
+            'position:fixed',
+            'right:24px',
+            'bottom:24px',
+            'z-index:11000',
+            'padding:12px 18px',
+            'border-radius:8px',
+            'color:#fff',
+            'font-size:13px',
+            'box-shadow:0 5px 20px rgba(0,0,0,.15)'
+        ].join(';');
+        document.body.appendChild(toast);
+    }
+
+    toast.style.background = isError ? '#dc2626' : '#16a34a';
+    toast.textContent = message;
+    toast.style.display = 'block';
+
+    window.setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const search = document.getElementById('workflowSearch');
+    const clear = document.getElementById('clearWorkflowSearch');
+    const noResults = document.getElementById('workflowNoResults');
+
+    // Restore and load the selected form when the page is refreshed
+    // with ?form_id=<id>. The form link must contain data-form-id.
+    const selectedFormId = new URLSearchParams(window.location.search).get('form_id');
+
+    if (selectedFormId) {
+        const selectedLink = document.querySelector(
+            `.workflow-form-link[data-form-id="${selectedFormId}"]`
+        );
+
+        if (selectedLink) {
+            const mainItem = selectedLink.closest('.workflow-main-item');
+            const submenuItem = selectedLink.closest('.workflow-submenu-item');
+
+            const mainList = mainItem?.querySelector(':scope > .workflow-submenu-list');
+            const formList = submenuItem?.querySelector(':scope > .workflow-form-list');
+
+            mainList?.classList.remove('collapsed');
+            formList?.classList.remove('collapsed');
+
+            mainItem?.querySelector(':scope > .workflow-tree-row .workflow-expand')
+                ?.setAttribute('aria-expanded', 'true');
+            submenuItem?.querySelector(':scope > .workflow-tree-row .workflow-expand')
+                ?.setAttribute('aria-expanded', 'true');
+
+            loadWorkflowForm(selectedLink.dataset.formUrl, false);
+        } else {
+            console.warn('No form link found for form_id:', selectedFormId);
+        }
+    }
+
+    // Browser back/forward support.
+    window.addEventListener('popstate', function () {
+        const formId = new URLSearchParams(window.location.search).get('form_id');
+
+        if (!formId) {
+            const panel = document.getElementById('workflowBuilderPanel');
+            if (panel) {
+                panel.innerHTML = `
+                    <div class="workflow-welcome">
+                        <div class="workflow-welcome-icon">
+                            <i class="ki-filled ki-element-11"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">Welcome to Workflow Builder</h2>
+                        <p class="text-sm text-muted-foreground max-w-md">
+                            Select an existing Form from the left menu to edit it,
+                            or create a new Main Menu, Submenu or Form to get started.
+                        </p>
+                    </div>
+                `;
+            }
+            return;
+        }
+
+        const link = document.querySelector(
+            `.workflow-form-link[data-form-id="${formId}"]`
+        );
+        if (link) loadWorkflowForm(link.dataset.formUrl, false);
+    });
+
+
+    function filterTree() {
+
+        const query = search.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        document.querySelectorAll('.workflow-main-item').forEach(main => {
+
+            let mainMatch = (main.dataset.search || '').includes(query);
+            let hasVisibleChild = false;
+
+            main.querySelectorAll('.workflow-submenu-item').forEach(sub => {
+
+                const submenuMatch = (sub.dataset.search || '').includes(query);
+                let hasVisibleForm = false;
+
+                sub.querySelectorAll('.form-row').forEach(form => {
+
+                    const formMatch = (form.dataset.search || '').includes(query);
+                    form.style.display = (!query || formMatch || submenuMatch || mainMatch)
+                        ? 'flex' : 'none';
+
+                    if (form.style.display !== 'none') {
+                        hasVisibleForm = true;
+                    }
+                });
+
+                const showSubmenu = !query || mainMatch || submenuMatch || hasVisibleForm;
+
+                sub.style.display = showSubmenu ? 'block' : 'none';
+
+                if (showSubmenu) {
+                    hasVisibleChild = true;
+                }
+            });
+
+            const showMain = !query || mainMatch || hasVisibleChild;
+
+            main.style.display = showMain ? 'block' : 'none';
+
+            if (showMain) {
+                visibleCount++;
+            }
+        });
+
+        noResults.classList.toggle('show', query !== '' && visibleCount === 0);
+        clear.classList.toggle('hidden', query === '');
+    }
+
+    if (search) search.addEventListener('input', filterTree);
+
+    if (clear) clear.addEventListener('click', function () {
+        search.value = '';
+        filterTree();
+        search.focus();
+    });
+});
+</script>

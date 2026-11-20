@@ -1,126 +1,574 @@
-
 {% load static %}
 {% include 'Layout_Master/base.html' %}
 
 <div class="kt-wrapper flex grow flex-col">
-  <main class="grow pt-5" id="content" role="main">
-    <table class="kt-table table-fixed kt-table-border w-full" data-kt-datatable-table="true"></table>
-<div class="kt-container-fluid w-full max-w-none px-6">
-        <div class="kt-container-fixed pb-8">
+    <main class="grow pt-5" id="content" role="main">
+        <div class="kt-container-fluid w-full max-w-none px-6">
+            <div class="kt-container-fixed pb-5">
 
-            <!-- BREADCRUMB -->
-            <div class="flex items-center gap-2 text-sm text-secondary mb-5">
-                <span class="text-primary font-medium">CallFlow</span>
-                <i class="ki-filled ki-right text-xs"></i>
-                <span>Form Management</span>
-            </div>
-
-            <!-- HEADER -->
-            <div class="kt-card mb-5">
-                <div class="kt-card-content p-5 lg:p-7">
-                    <div class="flex flex-wrap items-center justify-between gap-4">
-                        <div>
-                            <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
-                                CallFlow Forms
-                            </h1>
-                            <p class="text-sm text-secondary mt-1">
-                                Manage form headings, issues and scenarios.
-                            </p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="kt-alert mb-3 {% if message.tags == 'success' %}kt-alert-success{% else %}kt-alert-danger{% endif %}">
+                            {{ message }}
                         </div>
+                    {% endfor %}
+                {% endif %}
 
-                        <a href="{% url 'CallFlow:callflow_create_form' %}"
-                           class="kt-btn kt-btn-primary">
-                            <i class="ki-filled ki-plus"></i>
-                            Create New Form
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FORM LIST -->
-            {% for heading in headings %}
-                <div class="kt-card mb-5">
-
-                    <div class="kt-card-header flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                            <h3 class="kt-card-title">
-                                <i class="ki-filled ki-folder text-primary mr-2"></i>
-                                {{ heading.title }}
-                            </h3>
-                            <p class="text-xs text-secondary mt-1">
-                                {{ heading.scenarios.count }} scenarios
-                            </p>
+                <!-- PAGE HEADER -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div>
+                        <div class="flex items-center gap-2 text-sm text-secondary mb-2">
+                            <span class="text-primary font-medium">CallFlow</span>
+                            <i class="ki-filled ki-right text-xs"></i>
+                            <span>Form Builder</span>
                         </div>
-
-                        <span class="kt-badge kt-badge-primary kt-badge-outline">
-                            Form Heading
-                        </span>
-                    </div>
-
-                    <div class="kt-card-content">
-                        {% for scenario in heading.scenarios.all %}
-                            {% if scenario.is_active %}
-                                <div class="flex flex-wrap items-center justify-between gap-4 p-4 border-b border-gray-200 last:border-0">
-
-                                    <div class="flex items-center gap-3">
-                                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                                            <i class="ki-filled ki-file text-primary text-lg"></i>
-                                        </div>
-
-                                        <div>
-                                            <div class="font-semibold text-gray-900">
-                                                {{ scenario.title }}
-                                            </div>
-                                            <div class="text-xs text-secondary mt-1">
-                                                Created {{ scenario.created_at|date:"d M Y" }}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        {% if scenario.is_published %}
-                                            <span class="kt-badge kt-badge-success kt-badge-outline">
-                                                Published
-                                            </span>
-                                        {% else %}
-                                            <span class="kt-badge kt-badge-warning kt-badge-outline">
-                                                Draft
-                                            </span>
-                                        {% endif %}
-
-                                        <a href="{% url 'CallFlow:callflow_form_builder' scenario.id %}"
-                                           class="kt-btn kt-btn-sm kt-btn-light-primary">
-                                            Open Builder
-                                            <i class="ki-filled ki-arrow-right"></i>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            {% endif %}
-                        {% empty %}
-                            <div class="text-center py-8 text-secondary">
-                                No scenarios created under this heading.
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% empty %}
-                <div class="kt-card">
-                    <div class="kt-card-content text-center py-12">
-                        <i class="ki-filled ki-folder text-4xl text-secondary"></i>
-                        <h3 class="font-semibold mt-3">No Forms Created</h3>
+                        <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
+                            CallFlow Form Builder
+                        </h1>
                         <p class="text-sm text-secondary mt-1">
-                            Start by creating your first CallFlow form.
+                            Select a heading and scenario to create or manage its form.
                         </p>
-                        <a href="{% url 'CallFlow:callflow_create_form' %}"
-                           class="kt-btn kt-btn-primary mt-5">
-                            <i class="ki-filled ki-plus"></i>
-                            Create Form
-                        </a>
                     </div>
-                </div>
-            {% endfor %}
 
+                    <a href="{% url 'CallFlow:callflow_create_form' %}"
+                       class="kt-btn kt-btn-primary">
+                        <i class="ki-filled ki-plus"></i>
+                        Create New Form
+                    </a>
+                </div>
+
+                <!-- FIXED WORKSPACE: SIDEBAR + INDEPENDENT BUILDER -->
+                <div class="callflow-admin-workspace">
+
+                    <!-- LEFT MENU -->
+                    <aside class="callflow-admin-sidebar">
+                        <div class="callflow-admin-search">
+                            <i class="ki-filled ki-magnifier"></i>
+                            <input type="text"
+                                   id="adminFormSearch"
+                                   class="kt-input"
+                                   placeholder="Search heading or scenario..."
+                                   autocomplete="off">
+                            <button type="button"
+                                    id="clearAdminFormSearch"
+                                    class="hidden"
+                                    aria-label="Clear search">
+                                <i class="ki-filled ki-cross"></i>
+                            </button>
+                        </div>
+
+                        <div id="adminFormNoResults" class="callflow-admin-no-results">
+                            <i class="ki-filled ki-search-list text-2xl"></i>
+                            <span>No menu found</span>
+                        </div>
+
+                        <div class="kt-menu flex flex-col grow gap-1"
+                             id="callflow_admin_menu">
+
+                            {% for heading in headings %}
+                                <div class="kt-menu-item callflow-admin-heading
+                                    {% if selected_scenario and heading.id == selected_scenario.heading_id %}expanded{% elif not selected_scenario and forloop.first %}expanded{% endif %}"
+                                     data-heading-name="{{ heading.title|lower }}">
+
+                                    <button type="button"
+                                            class="kt-menu-link callflow-admin-heading-toggle"
+                                            aria-expanded="{% if selected_scenario and heading.id == selected_scenario.heading_id %}true{% elif not selected_scenario and forloop.first %}true{% else %}false{% endif %}">
+                                        <span class="kt-menu-icon">
+                                            <i class="ki-filled ki-folder text-lg"></i>
+                                        </span>
+                                        <span class="kt-menu-title">{{ heading.title }}</span>
+                                        <span class="kt-menu-arrow">
+                                            <i class="ki-filled ki-plus menu-plus"></i>
+                                            <i class="ki-filled ki-minus menu-minus"></i>
+                                        </span>
+                                    </button>
+
+                                    <div class="callflow-admin-submenu">
+                                        {% for scenario_item in heading.admin_scenarios %}
+                                            <button type="button"
+                                                    class="kt-menu-link callflow-admin-scenario
+                                                    {% if selected_scenario and selected_scenario.id == scenario_item.id %}active{% endif %}"
+                                                    data-scenario-id="{{ scenario_item.id }}"
+                                                    data-scenario-name="{{ scenario_item.title|lower }}"
+                                                    data-builder-url="{% url 'CallFlow:callflow_form_builder' scenario_item.id %}?embedded=1">
+                                                <span class="kt-menu-bullet"></span>
+                                                <span class="kt-menu-title">{{ scenario_item.title }}</span>
+                                                {% if scenario_item.is_published %}
+                                                    <span class="callflow-admin-status published"
+                                                          title="Published"></span>
+                                                {% else %}
+                                                    <span class="callflow-admin-status draft"
+                                                          title="Draft"></span>
+                                                {% endif %}
+                                            </button>
+                                        {% empty %}
+                                            <div class="text-xs text-muted-foreground py-2 ps-5">
+                                                No scenarios created.
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="text-sm text-muted-foreground text-center py-6">
+                                    No form headings available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </aside>
+
+                    <!-- RIGHT BUILDER: ONLY THIS FRAME SCROLLS -->
+                    <section class="callflow-admin-builder">
+                        <div id="builderWelcome" class="callflow-builder-welcome
+                            {% if selected_scenario %}hidden{% endif %}">
+                            <div class="size-14 rounded-full bg-primary-light flex items-center justify-center">
+                                <i class="ki-filled ki-file-edit text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-mono">Form Builder</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Select a scenario from the menu to create or edit its questions and call notes template.
+                            </p>
+                        </div>
+
+                        <div id="builderLoading" class="callflow-builder-loading hidden">
+                            <span class="callflow-loader"></span>
+                            <span class="text-sm text-muted-foreground">Loading form builder...</span>
+                        </div>
+
+                        <iframe id="callflowBuilderFrame"
+                                title="CallFlow Form Builder"
+                                class="callflow-builder-frame {% if not selected_scenario %}hidden{% endif %}"
+                                src="{% if selected_scenario %}{% url 'CallFlow:callflow_form_builder' selected_scenario.id %}?embedded=1{% else %}about:blank{% endif %}">
+                        </iframe>
+                    </section>
+                </div>
+            </div>
         </div>
     </main>
 </div>
+
+<style>
+/*
+ * The workspace fits inside the available page area.
+ * The browser page itself remains under the normal AuraInside layout.
+ */
+.callflow-admin-workspace {
+    display: grid;
+    grid-template-columns: 270px minmax(0, 1fr);
+    height: calc(100vh - 205px);
+    min-height: 480px;
+    max-height: 1000px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.callflow-admin-sidebar {
+    min-width: 0;
+    height: 100%;
+    padding: 14px 10px;
+    border-right: 1px solid #e5e7eb;
+    background: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.callflow-admin-search {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff;
+    padding: 0 3px 12px;
+}
+
+.callflow-admin-search > i {
+    position: absolute;
+    left: 15px;
+    top: 14px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.callflow-admin-search input {
+    width: 100%;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+#clearAdminFormSearch {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    color: #64748b;
+    border: 0;
+    background: transparent;
+}
+
+.callflow-admin-heading {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.callflow-admin-heading-toggle {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.callflow-admin-heading-toggle:hover,
+.callflow-admin-heading.expanded > .callflow-admin-heading-toggle {
+    background: #f1f5f9;
+    color: #2563eb;
+}
+
+.callflow-admin-heading-toggle .kt-menu-icon {
+    width: 20px;
+    color: #64748b;
+}
+
+.callflow-admin-heading-toggle .kt-menu-title {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.callflow-admin-heading-toggle .kt-menu-arrow {
+    width: 18px;
+    text-align: center;
+    color: #64748b;
+}
+
+.callflow-admin-heading-toggle .menu-minus {
+    display: none;
+}
+
+.callflow-admin-heading.expanded .menu-plus {
+    display: none;
+}
+
+.callflow-admin-heading.expanded .menu-minus {
+    display: inline;
+}
+
+.callflow-admin-submenu {
+    display: none;
+    flex-direction: column;
+    padding: 3px 0 7px 20px;
+    width: 100%;
+}
+
+.callflow-admin-heading.expanded > .callflow-admin-submenu {
+    display: flex;
+}
+
+.callflow-admin-scenario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 36px;
+    padding: 8px 10px;
+    margin: 2px 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.callflow-admin-scenario:hover {
+    background: #f8fafc;
+}
+
+.callflow-admin-scenario.active {
+    background: #eaf1ff;
+    color: #2563eb;
+}
+
+.callflow-admin-scenario .kt-menu-bullet {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: #cbd5e1;
+}
+
+.callflow-admin-scenario.active .kt-menu-bullet {
+    background: #2563eb;
+}
+
+.callflow-admin-scenario .kt-menu-title {
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.callflow-admin-status {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-radius: 50%;
+}
+
+.callflow-admin-status.published {
+    background: #16a34a;
+}
+
+.callflow-admin-status.draft {
+    background: #f59e0b;
+}
+
+.callflow-admin-no-results {
+    display: none;
+    text-align: center;
+    padding: 22px 8px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.callflow-admin-no-results.show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.callflow-admin-builder {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.callflow-builder-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 0;
+    background: #fff;
+}
+
+.callflow-builder-frame.hidden,
+.callflow-builder-loading.hidden,
+.callflow-builder-welcome.hidden {
+    display: none;
+}
+
+.callflow-builder-welcome,
+.callflow-builder-loading {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 30px;
+    text-align: center;
+}
+
+.callflow-builder-welcome p {
+    max-width: 440px;
+}
+
+.callflow-loader {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #cbd5e1;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: callflowSpin .7s linear infinite;
+}
+
+@keyframes callflowSpin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+    .callflow-admin-workspace {
+        grid-template-columns: 230px minmax(0, 1fr);
+        height: calc(100vh - 185px);
+    }
+}
+
+@media (max-width: 650px) {
+    .callflow-admin-workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(180px, 35%) minmax(350px, 1fr);
+        height: calc(100vh - 170px);
+        min-height: 550px;
+    }
+
+    .callflow-admin-sidebar {
+        border-right: 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("adminFormSearch");
+    const clearButton = document.getElementById("clearAdminFormSearch");
+    const noResults = document.getElementById("adminFormNoResults");
+    const menu = document.getElementById("callflow_admin_menu");
+    const headingGroups = Array.from(
+        document.querySelectorAll(".callflow-admin-heading")
+    );
+    const scenarioButtons = Array.from(
+        document.querySelectorAll(".callflow-admin-scenario")
+    );
+
+    const frame = document.getElementById("callflowBuilderFrame");
+    const welcome = document.getElementById("builderWelcome");
+    const loading = document.getElementById("builderLoading");
+
+    function setExpanded(group, expanded) {
+        group.classList.toggle("expanded", expanded);
+        const toggle = group.querySelector(".callflow-admin-heading-toggle");
+        if (toggle) {
+            toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+        }
+    }
+
+    headingGroups.forEach(group => {
+        const toggle = group.querySelector(".callflow-admin-heading-toggle");
+
+        toggle.addEventListener("click", function () {
+            if (searchInput.value.trim()) return;
+
+            const shouldExpand = !group.classList.contains("expanded");
+            setExpanded(group, shouldExpand);
+        });
+    });
+
+    function selectScenario(button) {
+        scenarioButtons.forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+
+        const parentGroup = button.closest(".callflow-admin-heading");
+        headingGroups.forEach(group => {
+            setExpanded(group, group === parentGroup);
+        });
+
+        const nextUrl = button.dataset.builderUrl;
+        const currentUrl = frame.getAttribute("src");
+
+        welcome.classList.add("hidden");
+
+        if (currentUrl === nextUrl) {
+            frame.classList.remove("hidden");
+            loading.classList.add("hidden");
+            return;
+        }
+
+        frame.classList.add("hidden");
+        loading.classList.remove("hidden");
+        frame.src = nextUrl;
+    }
+
+    scenarioButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            selectScenario(this);
+        });
+    });
+
+    frame.addEventListener("load", function () {
+        const currentSrc = frame.getAttribute("src");
+        if (!currentSrc || currentSrc === "about:blank") return;
+
+        loading.classList.add("hidden");
+        welcome.classList.add("hidden");
+        frame.classList.remove("hidden");
+    });
+
+    function searchMenus() {
+        const query = searchInput.value.trim().toLowerCase();
+        let visibleGroups = 0;
+
+        headingGroups.forEach(group => {
+            const headingName = (group.dataset.headingName || "").toLowerCase();
+            const headingMatches = query && headingName.includes(query);
+            const links = Array.from(
+                group.querySelectorAll(".callflow-admin-scenario")
+            );
+
+            let matchingScenarios = 0;
+
+            links.forEach(button => {
+                const scenarioName =
+                    (button.dataset.scenarioName || "").toLowerCase();
+
+                const matches =
+                    !query || headingMatches || scenarioName.includes(query);
+
+                button.style.display = matches ? "" : "none";
+                if (matches) matchingScenarios++;
+            });
+
+            const groupMatches =
+                !query || headingMatches || matchingScenarios > 0;
+
+            group.style.display = groupMatches ? "" : "none";
+
+            if (groupMatches) {
+                visibleGroups++;
+                if (query) setExpanded(group, true);
+            } else {
+                setExpanded(group, false);
+            }
+        });
+
+        const searching = query.length > 0;
+
+        clearButton.classList.toggle("hidden", !searching);
+        noResults.classList.toggle(
+            "show",
+            searching && visibleGroups === 0
+        );
+        menu.classList.toggle(
+            "hidden",
+            searching && visibleGroups === 0
+        );
+    }
+
+    searchInput.addEventListener("input", searchMenus);
+
+    clearButton.addEventListener("click", function () {
+        searchInput.value = "";
+        searchMenus();
+        searchInput.focus();
+    });
+
+    searchInput.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            searchInput.value = "";
+            searchMenus();
+            searchInput.blur();
+        }
+    });
+
+    // Keep the selected scenario visible and its parent expanded.
+    const selectedScenario = document.querySelector(
+        ".callflow-admin-scenario.active"
+    );
+
+    if (selectedScenario) {
+        const parent = selectedScenario.closest(".callflow-admin-heading");
+        if (parent) setExpanded(parent, true);
+    }
+});
+</script>

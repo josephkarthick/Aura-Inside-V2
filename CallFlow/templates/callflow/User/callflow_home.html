@@ -7,35 +7,6 @@
     padding: 20px;
 }
 
-.callflow-tabs {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    border-bottom: 1px solid #e5e7eb;
-    margin-bottom: 18px;
-}
-
-.callflow-tab {
-    padding: 13px 20px;
-    white-space: nowrap;
-    border: 0;
-    border-bottom: 3px solid transparent;
-    background: transparent;
-    color: #64748b;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.callflow-tab:hover {
-    color: #2563eb;
-}
-
-.callflow-tab.active {
-    color: #2563eb;
-    border-bottom-color: #2563eb;
-}
-
 .callflow-workspace {
     display: grid;
     grid-template-columns: 270px minmax(0, 1fr);
@@ -99,24 +70,196 @@
     font-size: 17px;
 }
 
+/* CALLFLOW MENU LAYOUT */
+#callflow_sidebar_menu {
+    width: 100%;
+}
+
+#callflow_sidebar_menu > .kt-menu-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+#callflow_sidebar_menu > .kt-menu-item > .kt-menu-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 40px;
+    flex: 0 0 auto;
+    position: relative;
+    cursor: pointer;
+}
+
+#callflow_sidebar_menu > .kt-menu-item > .callflow-submenu {
+    display: none !important;
+    flex-direction: column;
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: relative;
+    padding-left: 20px;
+}
+
+#callflow_sidebar_menu > .kt-menu-item.callflow-expanded > .callflow-submenu {
+    display: flex !important;
+}
+
+#callflow_sidebar_menu .callflow-submenu > .kt-menu-item {
+    display: block;
+    width: 100%;
+    position: relative;
+    margin: 2px 0;
+}
+
+#callflow_sidebar_menu .scenario-menu-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 36px;
+    white-space: normal;
+    line-height: 1.4;
+    position: relative;
+}
+
+#callflow_sidebar_menu .kt-menu-title {
+    display: inline-block;
+    line-height: 1.4;
+}
+
+#callflow_sidebar_menu > .kt-menu-item.callflow-expanded > .kt-menu-link .kt-menu-arrow {
+    color: #2563eb;
+}
+
+.callflow-scenario-sidebar .scenario-menu-item.active {
+    background: #f1f5f9;
+    border-radius: 6px;
+}
+
+.callflow-scenario-sidebar .scenario-menu-item.active .kt-menu-title {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.callflow-search-wrap {
+    position: relative;
+    margin: 0 4px 14px;
+}
+
+.callflow-search-wrap .callflow-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+#callflowMenuSearch {
+    width: 100%;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+#clearCallflowSearch {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+}
+
+#callflowNoResults {
+    display: none;
+    text-align: center;
+    padding: 24px 10px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+#callflowNoResults.show {
+    display: block;
+}
+
 /* RIGHT CONTENT */
 .callflow-main {
     padding: 28px;
     min-width: 0;
 }
 
-/* HEADING VISIBILITY */
-.heading-menu,
+/* RIGHT CONTENT VISIBILITY */
 .heading-panel {
     display: none;
 }
 
-.heading-menu.active {
-    display: flex;
-}
-
 .heading-panel.active {
     display: block;
+}
+
+/* CALLFLOW SIDEBAR */
+.callflow-scenario-sidebar {
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    padding: 15px 10px;
+    min-width: 0;
+}
+
+.callflow-search-wrap {
+    position: relative;
+    margin: 0 4px 14px;
+}
+
+.callflow-search-wrap .callflow-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+#callflowMenuSearch {
+    width: 100%;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+#clearCallflowSearch {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+}
+
+#callflowNoResults {
+    display: none;
+    text-align: center;
+    padding: 24px 10px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+#callflowNoResults.show {
+    display: block;
+}
+
+.callflow-scenario-sidebar .scenario-menu-item.active {
+    background: #f1f5f9;
+    border-radius: 6px;
+}
+
+.callflow-scenario-sidebar .scenario-menu-item.active .kt-menu-title {
+    color: #2563eb;
+    font-weight: 600;
 }
 
 /* SCENARIO VISIBILITY */
@@ -215,6 +358,40 @@
     }
 }
 
+/* SCENARIO DESCRIPTION POPUP */
+.callflow-description-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(15, 23, 42, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.callflow-description-modal.show {
+    display: flex;
+}
+
+.callflow-description-box {
+    width: 100%;
+    max-width: 550px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+
+.callflow-description-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 15px;
+}
+
 @media(max-width: 600px) {
     .callflow-page {
         padding: 10px;
@@ -269,24 +446,6 @@
 
             {% if headings %}
 
-                <!-- TOP HEADING TABS -->
-                <div class="callflow-tabs" id="callflowTabs">
-
-                    {% for heading in headings %}
-
-                        <button type="button"
-                                class="callflow-tab"
-                                data-heading-target="heading-{{ forloop.counter }}">
-
-                            {{ heading.title }}
-
-                        </button>
-
-                    {% endfor %}
-
-                </div>
-
-
                 <!-- MAIN WORKSPACE -->
                 <div class="callflow-workspace">
 
@@ -294,47 +453,103 @@
                          LEFT SCENARIO MENU
                     ================================== -->
 
-                    <aside class="callflow-scenario-sidebar">
 
-                        <div class="callflow-sidebar-title">
-                            <i class="ki-filled ki-folder mr-1"></i>
-                            Issues / Scenarios
+<aside class="callflow-scenario-sidebar">
+
+    <!-- ONE SEARCH BOX FOR HEADINGS AND SCENARIOS -->
+    <div class="callflow-search-wrap">
+        <i class="ki-filled ki-magnifier callflow-search-icon"></i>
+        <input type="text"
+               id="callflowMenuSearch"
+               class="kt-input"
+               placeholder="Search menu or scenario..."
+               autocomplete="off">
+        <button type="button"
+                id="clearCallflowSearch"
+                class="hidden"
+                aria-label="Clear search">
+            <i class="ki-filled ki-cross"></i>
+        </button>
+    </div>
+
+    <div id="callflowNoResults">
+        <i class="ki-filled ki-search-list text-2xl block mb-2"></i>
+        No menu found
+    </div>
+
+    <div class="kt-menu flex flex-col grow gap-1"
+         data-kt-menu="true"
+         data-kt-menu-accordion-expand-all="false"
+         id="callflow_sidebar_menu">
+
+        {% for heading in headings %}
+
+            <div class="kt-menu-item {% if forloop.first %}show here{% endif %}"
+                 data-kt-menu-item-toggle="accordion"
+                 data-kt-menu-item-trigger="click"
+                 data-heading-id="heading-{{ forloop.counter }}"
+                 data-heading-name="{{ heading.title|lower }}">
+
+                <!-- MAIN MENU -->
+                <div class="kt-menu-link flex items-center grow cursor-pointer border border-transparent gap-[10px] ps-[10px] pe-[10px] py-[8px] callflow-heading-toggle"
+                     tabindex="0" role="button" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+
+                    <span class="kt-menu-icon items-start text-muted-foreground w-[20px]">
+                        <i class="ki-filled ki-folder text-lg"></i>
+                    </span>
+
+                    <span class="kt-menu-title text-sm font-medium text-foreground kt-menu-item-active:text-primary">
+                        {{ heading.title }}
+                    </span>
+
+                    <span class="kt-menu-arrow text-muted-foreground w-[20px] shrink-0 justify-end ms-1">
+                        <span class="inline-flex kt-menu-item-show:hidden">
+                            <i class="ki-filled ki-plus text-[11px]"></i>
+                        </span>
+                        <span class="hidden kt-menu-item-show:inline-flex">
+                            <i class="ki-filled ki-minus text-[11px]"></i>
+                        </span>
+                    </span>
+                </div>
+
+                <!-- SUBMENU -->
+                <div class="kt-menu-accordion callflow-submenu gap-1 ps-[10px] relative before:absolute before:start-[20px] before:top-0 before:bottom-0 before:border-s before:border-border">
+
+                    {% for scenario in heading.published_scenarios %}
+
+                        <div class="kt-menu-item"
+                             data-scenario-name="{{ scenario.title|lower }}">
+
+<a href="javascript:void(0)"
+   class="kt-menu-link border border-transparent grow cursor-pointer gap-[14px] ps-[10px] pe-[10px] py-[8px] hover:bg-accent/60 hover:rounded-lg scenario-menu-item"
+   data-scenario-target="scenario-{{ scenario.id }}"
+   data-scenario-title="{{ scenario.title|escape }}"
+   data-scenario-description="{{ scenario.description|default_if_none:''|escape }}">
+
+    <span class="kt-menu-bullet flex w-[6px] -start-[3px] relative before:absolute before:top-0 before:size-[6px] before:rounded-full before:-translate-y-1/2 kt-menu-item-active:before:bg-primary kt-menu-item-hover:before:bg-primary"></span>
+
+    <span class="kt-menu-title text-2sm font-normal text-foreground">
+        {{ scenario.title }}
+    </span>
+
+</a>
+</div>
+
+                    {% empty %}
+
+                        <div class="text-xs text-secondary ps-5 py-2">
+                            No published scenarios.
                         </div>
 
+                    {% endfor %}
 
-                        {% for heading in headings %}
+                </div>
+            </div>
 
-                            <div class="scenario-menu heading-menu"
-                                 data-heading-menu="heading-{{ forloop.counter }}">
+        {% endfor %}
+    </div>
+</aside>
 
-                                {% for scenario in heading.published_scenarios %}
-
-                                    <button type="button"
-                                            class="scenario-menu-item"
-                                            data-scenario-target="scenario-{{ scenario.id }}"
-                                            data-heading-id="{{ heading.id }}"
-                                            data-scenario-id="{{ scenario.id }}"
-                                            data-form-url="{% url 'CallFlow:employee_fill_form' scenario.id %}?heading_id={{ heading.id }}">
-
-                                        <i class="ki-filled ki-file-text"></i>
-
-                                        <span>{{ scenario.title }}</span>
-
-                                    </button>
-
-                                {% empty %}
-
-                                    <div class="text-xs text-secondary p-3">
-                                        No published scenarios.
-                                    </div>
-
-                                {% endfor %}
-
-                            </div>
-
-                        {% endfor %}
-
-                    </aside>
 
 
 <!-- RIGHT CONTENT -->
@@ -529,7 +744,33 @@
     </main>
 
 </div>
+<!-- SCENARIO DESCRIPTION POPUP -->
+<div id="scenarioDescriptionModal" class="callflow-description-modal">
+    <div class="callflow-description-box">
 
+        <div class="flex items-center justify-between gap-3 border-b pb-4">
+            <h3 id="scenarioDescriptionTitle"
+                class="text-lg font-bold text-gray-900">
+                Scenario Description
+            </h3>
+
+            <i class="ki-filled ki-information-2 text-primary text-xl"></i>
+        </div>
+
+        <div id="scenarioDescriptionText"
+             class="callflow-description-text">
+        </div>
+
+        <div class="flex justify-end mt-6">
+            <button type="button"
+                    id="closeScenarioDescription"
+                    class="kt-btn kt-btn-primary">
+                Close
+            </button>
+        </div>
+
+    </div>
+</div>
 
 <!-- =================================
      JAVASCRIPT
@@ -538,20 +779,52 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const tabs = document.querySelectorAll(".callflow-tab");
-    const headingMenus = document.querySelectorAll("[data-heading-menu]");
-    const headingPanels = document.querySelectorAll("[data-heading-panel]");
-    const scenarioItems = document.querySelectorAll(".scenario-menu-item");
+    const sidebarMenu = document.getElementById("callflow_sidebar_menu");
+    const menuSearch = document.getElementById("callflowMenuSearch");
+    const clearSearch = document.getElementById("clearCallflowSearch");
+    const noResults = document.getElementById("callflowNoResults");
 
+    const menuGroups = Array.from(document.querySelectorAll(
+        "#callflow_sidebar_menu > .kt-menu-item[data-heading-id]"
+    ));
+    const scenarioItems = document.querySelectorAll(".scenario-menu-item");
+    const scenarioPanels = document.querySelectorAll(".scenario-content");
+    const headingPanels = document.querySelectorAll("[data-heading-panel]");
     const defaultMessage = document.getElementById("scenarioDefaultMessage");
 
+    function setHeadingExpanded(group, expanded) {
+        group.classList.toggle("callflow-expanded", expanded);
+        group.classList.toggle("show", expanded);
+        group.classList.toggle("here", expanded);
+
+        const toggle = group.querySelector(":scope > .callflow-heading-toggle");
+        if (toggle) {
+            toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+        }
+    }
+
+    // ============================================
+    // SCENARIO SELECTION AND DESCRIPTION POPUP
+    // ============================================
+
+    const descriptionModal = document.getElementById("scenarioDescriptionModal");
+    const descriptionTitle = document.getElementById("scenarioDescriptionTitle");
+    const descriptionText = document.getElementById("scenarioDescriptionText");
+    const closeDescriptionBtn = document.getElementById("closeScenarioDescription");
+
+    let pendingScenarioItem = null;
+
+    // Clear previous scenario selection
     function clearScenarioSelection() {
 
-        document.querySelectorAll(".scenario-menu-item").forEach(item => {
+        scenarioItems.forEach(item => {
             item.classList.remove("active");
+
+            item.closest(".callflow-submenu > .kt-menu-item")
+                ?.classList.remove("active");
         });
 
-        document.querySelectorAll(".scenario-content").forEach(panel => {
+        scenarioPanels.forEach(panel => {
             panel.classList.remove("active");
         });
 
@@ -560,68 +833,184 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function activateScenario(scenarioId) {
-
-        clearScenarioSelection();
-
-        const selectedMenu = document.querySelector(
-            '[data-scenario-target="' + scenarioId + '"]'
-        );
+    // Activate selected scenario
+    function activateScenario(scenarioId, selectedItem) {
 
         const selectedPanel = document.getElementById(scenarioId);
 
-        if (selectedMenu && selectedPanel) {
+        if (!selectedPanel || !selectedItem) return;
 
-            selectedMenu.classList.add("active");
-            selectedPanel.classList.add("active");
+        clearScenarioSelection();
 
-            if (defaultMessage) {
-                defaultMessage.style.display = "none";
-            }
+        selectedItem.classList.add("active");
+
+        selectedItem.closest(".callflow-submenu > .kt-menu-item")
+            ?.classList.add("active");
+
+        selectedPanel.classList.add("active");
+
+        const parentHeadingPanel = selectedPanel.closest("[data-heading-panel]");
+
+        headingPanels.forEach(panel => {
+            panel.classList.toggle("active", panel === parentHeadingPanel);
+        });
+
+        if (defaultMessage) {
+            defaultMessage.style.display = "none";
         }
     }
 
-    function activateHeading(headingId) {
-
-        tabs.forEach(tab => {
-            tab.classList.toggle(
-                "active",
-                tab.dataset.headingTarget === headingId
-            );
-        });
-
-        headingMenus.forEach(menu => {
-            menu.classList.toggle(
-                "active",
-                menu.dataset.headingMenu === headingId
-            );
-        });
-
-        headingPanels.forEach(panel => {
-            panel.classList.toggle(
-                "active",
-                panel.dataset.headingPanel === headingId
-            );
-        });
-
-        clearScenarioSelection();
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener("click", function () {
-            activateHeading(this.dataset.headingTarget);
-        });
-    });
-
+    // Scenario submenu click: show description before opening scenario.
     scenarioItems.forEach(item => {
-        item.addEventListener("click", function () {
-            activateScenario(this.dataset.scenarioTarget);
+
+        item.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            const description = (this.dataset.scenarioDescription || "").trim();
+
+            pendingScenarioItem = this;
+
+            // If no description is available, open the scenario directly.
+            if (!description) {
+                activateScenario(this.dataset.scenarioTarget, this);
+                pendingScenarioItem = null;
+                return;
+            }
+
+            descriptionTitle.textContent =
+                this.dataset.scenarioTitle || "Scenario Description";
+
+            descriptionText.textContent = description;
+
+            descriptionModal.classList.add("show");
         });
+
     });
 
-    if (tabs.length > 0) {
-        activateHeading(tabs[0].dataset.headingTarget);
+    // Close popup and proceed to the selected scenario.
+    if (closeDescriptionBtn) {
+
+        closeDescriptionBtn.addEventListener("click", function () {
+
+            descriptionModal.classList.remove("show");
+
+            if (pendingScenarioItem) {
+                activateScenario(
+                    pendingScenarioItem.dataset.scenarioTarget,
+                    pendingScenarioItem
+                );
+
+                pendingScenarioItem = null;
+            }
+
+        });
+
     }
+
+    // Escape closes the popup without proceeding to the scenario.
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape" && descriptionModal.classList.contains("show")) {
+            descriptionModal.classList.remove("show");
+            pendingScenarioItem = null;
+        }
+
+    });
+
+    // Main heading click: use our own accordion state (not the global KT accordion).
+    menuGroups.forEach(group => {
+        const toggle = group.querySelector(":scope > .callflow-heading-toggle");
+
+        if (toggle) {
+            toggle.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // While searching, keep matching parents expanded.
+                if (menuSearch && menuSearch.value.trim()) return;
+
+                const shouldExpand = !group.classList.contains("callflow-expanded");
+
+                menuGroups.forEach(otherGroup => setHeadingExpanded(otherGroup, false));
+                setHeadingExpanded(group, shouldExpand);
+            });
+        }
+    });
+
+    function searchCallFlowMenu() {
+        const query = menuSearch ? menuSearch.value.trim().toLowerCase() : "";
+        let visibleHeadingCount = 0;
+
+        menuGroups.forEach(group => {
+            const headingName = (group.dataset.headingName || "").toLowerCase();
+            const headingMatches = query !== "" && headingName.includes(query);
+            const scenarioGroups = Array.from(
+                group.querySelectorAll(".callflow-submenu > [data-scenario-name]")
+            );
+
+            let scenarioMatchCount = 0;
+
+            scenarioGroups.forEach(scenario => {
+                const scenarioName = (scenario.dataset.scenarioName || "").toLowerCase();
+                const scenarioMatches = query === "" || headingMatches ||
+                    scenarioName.includes(query);
+
+                scenario.style.display = scenarioMatches ? "" : "none";
+                if (scenarioMatches) scenarioMatchCount++;
+            });
+
+            const groupMatches = query === "" || headingMatches ||
+                scenarioMatchCount > 0;
+
+            group.style.display = groupMatches ? "" : "none";
+
+            if (groupMatches) {
+                visibleHeadingCount++;
+
+                // A matching heading shows all children; a matching child
+                // shows only that child and automatically expands its parent.
+                setHeadingExpanded(group, query !== "" || group.classList.contains("callflow-expanded"));
+            } else {
+                setHeadingExpanded(group, false);
+            }
+        });
+
+        const hasQuery = query.length > 0;
+        const found = visibleHeadingCount > 0;
+
+        if (clearSearch) clearSearch.classList.toggle("hidden", !hasQuery);
+        if (noResults) noResults.classList.toggle("show", hasQuery && !found);
+        if (sidebarMenu) sidebarMenu.classList.toggle("hidden", hasQuery && !found);
+
+        if (hasQuery && !found) {
+            clearScenarioSelection();
+        }
+    }
+
+    if (menuSearch) {
+        menuSearch.addEventListener("input", searchCallFlowMenu);
+
+        menuSearch.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                this.value = "";
+                searchCallFlowMenu();
+                this.blur();
+            }
+        });
+    }
+
+    if (clearSearch) {
+        clearSearch.addEventListener("click", function () {
+            menuSearch.value = "";
+            searchCallFlowMenu();
+            menuSearch.focus();
+        });
+    }
+
+    // Initial state: first heading expanded; right side awaits scenario selection.
+    menuGroups.forEach((group, index) => {
+        setHeadingExpanded(group, index === 0);
+    });
 
 });
 </script>
