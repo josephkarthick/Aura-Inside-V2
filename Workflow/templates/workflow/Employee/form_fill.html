@@ -1,433 +1,1045 @@
 
-
 <style>
-
     .workflow-form-page { padding: 20px; }
+
     .workflow-employee-info {
-        border: 1px solid #e5e7eb; border-radius: 10px;
-        background: #fff; margin-bottom: 20px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+        margin-bottom: 20px;
     }
+
     .workflow-employee-info summary {
-        display:flex; align-items:center; justify-content:space-between;
-        gap:12px; padding:15px 18px; cursor:pointer;
-        font-weight:600; color:#374151; list-style:none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 15px 18px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #374151;
+        list-style: none;
     }
-    .workflow-employee-info summary::-webkit-details-marker { display:none; }
-    .workflow-employee-info summary .employee-chevron { transition:transform .2s ease; }
-    .workflow-employee-info[open] summary .employee-chevron { transform:rotate(180deg); }
-    .workflow-employee-info-content { padding:18px; border-top:1px solid #e5e7eb; }
+
+    .workflow-employee-info summary::-webkit-details-marker { display: none; }
+    .workflow-employee-info summary .employee-chevron { transition: transform .2s ease; }
+    .workflow-employee-info[open] summary .employee-chevron { transform: rotate(180deg); }
+    .workflow-employee-info-content { padding: 18px; border-top: 1px solid #e5e7eb; }
+
     .workflow-form-layout {
-        display:grid; grid-template-columns:minmax(0,1.8fr) minmax(280px,1fr);
-        gap:20px; align-items:start;
+        display: grid;
+        grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr);
+        gap: 20px;
+        align-items: start;
     }
-    .workflow-form-left,.workflow-form-right { min-width:0; }
-    .workflow-question-grid { display:grid; gap:15px; grid-template-columns:1fr; }
-    .workflow-question-grid.columns-1 { grid-template-columns:1fr; }
-    .workflow-question-grid.columns-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+
+    .workflow-form-left,
+    .workflow-form-right { min-width: 0; }
+
+    .workflow-question-grid {
+        display: grid;
+        gap: 15px;
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-question-grid.columns-1 { grid-template-columns: 1fr; }
+
+    .workflow-question-grid.columns-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .workflow-question-card {
-        min-width:0; padding:16px; border:1px solid #e5e7eb;
-        border-radius:10px; background:#fff;
+        min-width: 0;
+        padding: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
     }
+
     .workflow-question-card textarea,
     .workflow-question-card input[type="text"],
     .workflow-question-card input[type="number"],
     .workflow-question-card input[type="email"],
     .workflow-question-card input[type="tel"],
     .workflow-question-card input[type="date"],
-    .workflow-question-card select { width:100%; }
-    .workflow-question-options { display:flex; flex-direction:column; gap:11px; }
+    .workflow-question-card select {
+        width: 100%;
+    }
+
+    .workflow-question-options {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
     .workflow-layout-switch {
-        display:flex; align-items:center; gap:5px; padding:4px;
-        border:1px solid #e5e7eb; border-radius:8px; background:#f8fafc;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background: #f8fafc;
     }
+
     .workflow-layout-button {
-        display:flex; align-items:center; justify-content:center; gap:6px;
-        padding:7px 11px; border-radius:6px; font-size:12px;
-        font-weight:600; color:#64748b; cursor:pointer;
-        border:0; background:transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        border: 0;
+        background: transparent;
     }
+
     .workflow-layout-button.active {
-        color:#2563eb; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.10);
+        color: #2563eb;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,.10);
     }
-    .workflow-notes-sticky { position:sticky; top:15px; }
+
+    .workflow-notes-sticky { position: sticky; top: 15px; }
+
     .workflow-notes-preview {
-        min-height:190px; max-height:360px; overflow-y:auto;
-        white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.7;
-        font-size:13px; padding:15px; border:1px solid #e5e7eb;
-        border-radius:9px; background:#f8fafc;
+        min-height: 190px;
+        max-height: 360px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        line-height: 1.7;
+        font-size: 13px;
+        padding: 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 9px;
+        background: #f8fafc;
     }
-    .workflow-final-notes { width:100%; min-height:240px; resize:vertical; }
+
+    .workflow-final-notes {
+        width: 100%;
+        min-height: 240px;
+        resize: vertical;
+    }
+
     .workflow-live-indicator {
-        display:inline-flex; align-items:center; gap:6px;
-        font-size:11px; font-weight:600; color:#059669;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #059669;
     }
+
     .workflow-live-indicator span {
-        width:7px; height:7px; border-radius:50%; background:#10b981;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #10b981;
     }
-    @media(max-width:1100px) {
-        .workflow-question-grid.columns-3 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+
+    /* Multiple selection dropdown */
+
+    .workflow-multi-dropdown {
+        position: relative;
+        width: 100%;
     }
-    @media(max-width:767px) {
-        .workflow-form-page { padding:12px; }
-        .workflow-form-layout { grid-template-columns:1fr; }
-        .workflow-question-grid.columns-3 { grid-template-columns:1fr; }
-        .workflow-notes-sticky { position:static; }
+
+    .workflow-multi-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+        background: #fff;
+        color: #374151;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .workflow-multi-trigger:hover {
+        border-color: #93c5fd;
+    }
+
+    .workflow-multi-trigger [data-dropdown-label] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .workflow-multi-menu {
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        width: 100%;
+        max-height: 230px;
+        overflow-y: auto;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,.12);
+        z-index: 100;
+        padding: 7px;
+    }
+
+    .workflow-multi-menu[hidden] { display: none; }
+
+    .workflow-multi-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 10px;
+        cursor: pointer;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .workflow-multi-option:hover { background: #f1f5f9; }
+
+    .workflow-multi-option input { flex-shrink: 0; }
+
+    /* Validation */
+
+    .workflow-field-error {
+        display: block;
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .workflow-invalid {
+        border-color: #dc2626 !important;
+    }
+
+    .workflow-word-count {
+        display: block;
+        text-align: right;
+        color: #64748b;
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    .workflow-word-count.limit-reached { color: #dc2626; }
+
+    @media(max-width: 1100px) {
+        .workflow-question-grid.columns-3 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media(max-width: 767px) {
+        .workflow-form-page { padding: 12px; }
+        .workflow-form-layout { grid-template-columns: 1fr; }
+        .workflow-question-grid.columns-3 { grid-template-columns: 1fr; }
+        .workflow-notes-sticky { position: static; }
     }
 </style>
+
 
 <div class="workflow-form-page">
 
     <form method="POST"
-      id="employeeWorkflowForm"
-      action="{% url 'Workflow:employee_form' form.id %}"
-      novalidate>
+          id="employeeWorkflowForm"
+          action="{% url 'Workflow:employee_form' form.id %}"
+          novalidate>
+
         {% csrf_token %}
 
+        <!-- EMPLOYEE INFORMATION -->
+
         <details class="workflow-employee-info">
+
             <summary>
                 <div class="flex items-center gap-3">
                     <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10">
                         <i class="ki-filled ki-user text-primary text-lg"></i>
                     </div>
+
                     <div>
                         <div class="text-sm font-semibold">Employee Information</div>
                         <div class="text-xs text-secondary mt-1">Your employee details</div>
                     </div>
                 </div>
+
                 <i class="ki-filled ki-chevron-down employee-chevron"></i>
             </summary>
+
             <div class="workflow-employee-info-content">
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
                     <div>
                         <label class="kt-form-label">Employee Name</label>
                         <input type="text" class="kt-input"
                                value="{{ employee_name|default:request.user.get_full_name|default:request.user.username }}"
                                readonly>
                     </div>
+
                     <div>
                         <label class="kt-form-label">Employee ID</label>
                         <input type="text" class="kt-input"
-                               value="{{ employee_id|default:request.user.username }}" readonly>
+                               value="{{ employee_id|default:request.user.username }}"
+                               readonly>
                     </div>
+
                     <div>
                         <label class="kt-form-label">Department</label>
-                        <input type="text" class="kt-input" value="{{ department|default:'-' }}" readonly>
+                        <input type="text" class="kt-input"
+                               value="{{ department|default:'-' }}" readonly>
                     </div>
+
                     <div>
                         <label class="kt-form-label">Designation</label>
-                        <input type="text" class="kt-input" value="{{ designation|default:'-' }}" readonly>
+                        <input type="text" class="kt-input"
+                               value="{{ designation|default:'-' }}" readonly>
                     </div>
+
                 </div>
             </div>
         </details>
 
+
+        <!-- FORM LAYOUT -->
+
         <div class="workflow-form-layout">
+
             <div class="workflow-form-left">
+
                 <div class="kt-card mb-5">
+
                     <div class="kt-card-header flex flex-wrap items-center justify-between gap-3">
+
                         <div>
                             <h3 class="kt-card-title">{{ form.title }}</h3>
-                            <p class="text-sm text-secondary mt-1">Please answer the following questions.</p>
+                            <p class="text-sm text-secondary mt-1">
+                                Please answer the following questions.
+                            </p>
                         </div>
+
                         <div class="flex items-center gap-2">
                             <span class="text-xs text-secondary">Layout</span>
+
                             <div class="workflow-layout-switch">
-                                <button type="button" class="workflow-layout-button active"
-                                        data-columns="1" aria-pressed="true">
+
+                                <button type="button"
+                                        class="workflow-layout-button active"
+                                        data-columns="1"
+                                        aria-pressed="true">
                                     <i class="ki-filled ki-row-horizontal"></i> 1
                                 </button>
-                                <button type="button" class="workflow-layout-button"
-                                        data-columns="3" aria-pressed="false">
+
+                                <button type="button"
+                                        class="workflow-layout-button"
+                                        data-columns="3"
+                                        aria-pressed="false">
                                     <i class="ki-filled ki-element-6"></i> 3
                                 </button>
+
                             </div>
                         </div>
+
                     </div>
 
+
                     <div class="kt-card-content">
-                        <div class="workflow-question-grid columns-1" id="workflowQuestionGrid">
+
+                        <div class="workflow-question-grid columns-1"
+                             id="workflowQuestionGrid">
+
                             {% for question in questions %}
+
                                 <div class="workflow-question-card"
                                      data-question-id="{{ question.id }}"
                                      data-question-number="{{ forloop.counter }}"
-                                     data-question-type="{{ question.question_type }}">
+                                     data-question-type="{{ question.question_type }}"
+                                     data-required="{{ question.is_required|yesno:'true,false' }}">
+
                                     <label class="block font-semibold text-mono mb-2">
+
                                         <span class="text-primary">{{ forloop.counter }}.</span>
+
                                         {{ question.question_text }}
-                                        {% if question.is_required %}<span class="text-danger">*</span>{% endif %}
+
+                                        {% if question.is_required %}
+                                            <span class="text-danger">*</span>
+                                        {% endif %}
+
                                     </label>
+
                                     {% if question.help_text %}
-                                        <p class="text-xs text-secondary mb-3">{{ question.help_text }}</p>
+                                        <p class="text-xs text-secondary mb-3">
+                                            {{ question.help_text }}
+                                        </p>
                                     {% endif %}
 
+
                                     {% with answer=question.current_answer %}
+
+
+                                        <!-- SINGLE CHOICE -->
+
                                         {% if question.question_type == "SINGLE" %}
-                                            <div class="workflow-question-options">
-                                                {% for option in question.options.all %}
-                                                    {% if option.is_active %}
-                                                        <label class="flex items-center gap-3 cursor-pointer">
-                                                            <input type="radio" name="answer_{{ question.id }}"
-                                                                   value="{{ option.option_text }}" class="kt-radio"
-                                                                   data-answer-input
-                                                                   {% if answer == option.option_text %}checked{% endif %}
-                                                                   {% if question.is_required %}required{% endif %}>
-                                                            <span class="text-sm">{{ option.option_text }}</span>
-                                                        </label>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
+
+                                            {% if question.display_as_dropdown %}
+
+                                                <select name="answer_{{ question.id }}"
+                                                        class="kt-select"
+                                                        data-answer-input
+                                                        {% if question.is_required %}required{% endif %}>
+
+                                                    <option value="">Select an option</option>
+
+                                                    {% for option in question.options.all %}
+                                                        {% if option.is_active %}
+                                                            <option value="{{ option.option_text }}"
+                                                                    {% if answer == option.option_text %}selected{% endif %}>
+                                                                {{ option.option_text }}
+                                                            </option>
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                </select>
+
+                                            {% else %}
+
+                                                <div class="workflow-question-options">
+
+                                                    {% for option in question.options.all %}
+                                                        {% if option.is_active %}
+
+                                                            <label class="flex items-center gap-3 cursor-pointer">
+
+                                                                <input type="radio"
+                                                                       name="answer_{{ question.id }}"
+                                                                       value="{{ option.option_text }}"
+                                                                       class="kt-radio"
+                                                                       data-answer-input
+                                                                       {% if answer == option.option_text %}checked{% endif %}
+                                                                       {% if question.is_required %}required{% endif %}>
+
+                                                                <span class="text-sm">
+                                                                    {{ option.option_text }}
+                                                                </span>
+
+                                                            </label>
+
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                </div>
+
+                                            {% endif %}
+
+
+                                        <!-- MULTIPLE CHOICE -->
 
                                         {% elif question.question_type == "MULTIPLE" %}
-                                            <div class="workflow-question-options">
-                                                {% for option in question.options.all %}
-                                                    {% if option.is_active %}
-                                                        <label class="flex items-center gap-3 cursor-pointer">
-                                                            <input type="checkbox" name="question_{{ question.id }}"
-                                                                   value="{{ option.option_text }}" class="kt-checkbox"
-                                                                   data-answer-input
-                                                                   {% if answer and option.option_text in answer %}checked{% endif %}>
-                                                            <span class="text-sm">{{ option.option_text }}</span>
-                                                        </label>
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {% if question.is_required %}
-                                                    <p class="text-xs text-secondary">Select at least one option.</p>
-                                                {% endif %}
-                                            </div>
 
-                                        {% elif question.question_type == "DROPDOWN" %}
-                                            <select name="question_{{ question.id }}" class="kt-select"
-                                                    data-answer-input {% if question.is_required %}required{% endif %}>
-                                                <option value="">Select an option</option>
-                                                {% for option in question.options.all %}
-                                                    {% if option.is_active %}
-                                                        <option value="{{ option.option_text }}"
-                                                                {% if answer == option.option_text %}selected{% endif %}>
-                                                            {{ option.option_text }}
-                                                        </option>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </select>
+                                            {% if question.display_as_dropdown %}
+
+                                                <div class="workflow-multi-dropdown"
+                                                     data-multi-dropdown>
+
+                                                    <button type="button"
+                                                            class="workflow-multi-trigger"
+                                                            data-dropdown-trigger
+                                                            aria-expanded="false">
+
+                                                        <span data-dropdown-label>
+                                                            Select options
+                                                        </span>
+
+                                                        <i class="ki-filled ki-chevron-down"></i>
+
+                                                    </button>
+
+                                                    <div class="workflow-multi-menu"
+                                                         data-dropdown-menu
+                                                         hidden>
+
+                                                        {% for option in question.options.all %}
+                                                            {% if option.is_active %}
+
+                                                                <label class="workflow-multi-option">
+
+                                                                    <input type="checkbox"
+                                                                           name="answer_{{ question.id }}"
+                                                                           value="{{ option.option_text }}"
+                                                                           data-answer-input
+                                                                           {% if answer and option.option_text in answer %}checked{% endif %}>
+
+                                                                    <span>{{ option.option_text }}</span>
+
+                                                                </label>
+
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    </div>
+
+                                                </div>
+
+                                            {% else %}
+
+                                                <div class="workflow-question-options">
+
+                                                    {% for option in question.options.all %}
+                                                        {% if option.is_active %}
+
+                                                            <label class="flex items-center gap-3 cursor-pointer">
+
+                                                                <input type="checkbox"
+                                                                       name="answer_{{ question.id }}"
+                                                                       value="{{ option.option_text }}"
+                                                                       class="kt-checkbox"
+                                                                       data-answer-input
+                                                                       {% if answer and option.option_text in answer %}checked{% endif %}>
+
+                                                                <span class="text-sm">
+                                                                    {{ option.option_text }}
+                                                                </span>
+
+                                                            </label>
+
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                </div>
+
+                                            {% endif %}
+
+
+                                        <!-- YES / NO -->
 
                                         {% elif question.question_type == "YESNO" %}
+
                                             <div class="flex flex-wrap gap-5">
 
                                                 <label class="flex items-center gap-2">
-                                                    <input type="radio" class="kt-radio"
-                                                           name="question_{{ question.id }}" value="Yes"
-                                                           data-answer-input {% if answer == "Yes" %}checked{% endif %}
+
+                                                    <input type="radio"
+                                                           class="kt-radio"
+                                                           name="answer_{{ question.id }}"
+                                                           value="Yes"
+                                                           data-answer-input
+                                                           {% if answer == "Yes" %}checked{% endif %}
                                                            {% if question.is_required %}required{% endif %}>
+
                                                     <span>Yes</span>
+
                                                 </label>
+
                                                 <label class="flex items-center gap-2">
-                                                    <input type="radio" class="kt-radio"
-                                                           name="question_{{ question.id }}" value="No"
-                                                           data-answer-input {% if answer == "No" %}checked{% endif %}
+
+                                                    <input type="radio"
+                                                           class="kt-radio"
+                                                           name="answer_{{ question.id }}"
+                                                           value="No"
+                                                           data-answer-input
+                                                           {% if answer == "No" %}checked{% endif %}
                                                            {% if question.is_required %}required{% endif %}>
+
                                                     <span>No</span>
+
                                                 </label>
+
                                             </div>
 
+
+                                        <!-- NUMBER -->
+
                                         {% elif question.question_type == "NUMBER" %}
-                                            <input type="number" name="question_{{ question.id }}"
-                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+
+                                            <input type="number"
+                                                   step="any"
+                                                   name="answer_{{ question.id }}"
+                                                   class="kt-input"
+                                                   value="{{ answer|default_if_none:'' }}"
                                                    placeholder="{{ question.placeholder|default:'Enter number' }}"
-                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+                                                   data-answer-input
+                                                   {% if question.is_required %}required{% endif %}>
+
+
+                                        <!-- EMAIL -->
 
                                         {% elif question.question_type == "EMAIL" %}
-                                            <input type="email" name="question_{{ question.id }}"
-                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+
+                                            <input type="email"
+                                                   name="answer_{{ question.id }}"
+                                                   class="kt-input"
+                                                   value="{{ answer|default_if_none:'' }}"
                                                    placeholder="{{ question.placeholder|default:'Enter email address' }}"
-                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+                                                   data-answer-input
+                                                   {% if question.is_required %}required{% endif %}>
+
+
+                                        <!-- PHONE -->
 
                                         {% elif question.question_type == "PHONE" %}
-                                            <input type="tel" name="question_{{ question.id }}"
-                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
-                                                   placeholder="{{ question.placeholder|default:'Enter phone number' }}"
-                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+
+                                            <input type="tel"
+                                                   name="answer_{{ question.id }}"
+                                                   class="kt-input"
+                                                   inputmode="numeric"
+                                                   maxlength="10"
+                                                   value="{{ answer|default_if_none:'' }}"
+                                                   placeholder="{{ question.placeholder|default:'Enter 10 digit mobile number' }}"
+                                                   data-answer-input
+                                                   {% if question.is_required %}required{% endif %}>
+
+
+                                        <!-- DATE -->
 
                                         {% elif question.question_type == "DATE" %}
-                                            <input type="date" name="question_{{ question.id }}"
-                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
-                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+
+                                            <input type="date"
+                                                   name="answer_{{ question.id }}"
+                                                   class="kt-input"
+                                                   value="{{ answer|default_if_none:'' }}"
+                                                   data-answer-input
+                                                   {% if question.is_required %}required{% endif %}>
+
+
+                                        <!-- LONG TEXT -->
 
                                         {% elif question.question_type == "TEXTAREA" %}
-                                            <textarea name="question_{{ question.id }}" class="kt-textarea"
-                                                      rows="3" placeholder="{{ question.placeholder|default:'Enter your answer' }}"
-                                                      data-answer-input {% if question.is_required %}required{% endif %}>{{ answer|default_if_none:'' }}</textarea>
+
+                                            <textarea name="answer_{{ question.id }}"
+                                                      class="kt-textarea"
+                                                      rows="3"
+                                                      placeholder="{{ question.placeholder|default:'Enter your answer' }}"
+                                                      data-answer-input
+                                                      data-max-words="250"
+                                                      {% if question.is_required %}required{% endif %}>{{ answer|default_if_none:'' }}</textarea>
+
+                                            <span class="workflow-word-count"
+                                                  data-word-counter>
+                                                0 / 250 words
+                                            </span>
+
+
+                                        <!-- SHORT TEXT -->
 
                                         {% else %}
-                                            <input type="text" name="question_{{ question.id }}"
-                                                   class="kt-input" value="{{ answer|default_if_none:'' }}"
+
+                                            <input type="text"
+                                                   name="answer_{{ question.id }}"
+                                                   class="kt-input"
+                                                   value="{{ answer|default_if_none:'' }}"
                                                    placeholder="{{ question.placeholder|default:'Enter your answer' }}"
-                                                   data-answer-input {% if question.is_required %}required{% endif %}>
+                                                   data-answer-input
+                                                   data-max-words="100"
+                                                   {% if question.is_required %}required{% endif %}>
+
+                                            <span class="workflow-word-count"
+                                                  data-word-counter>
+                                                0 / 100 words
+                                            </span>
+
                                         {% endif %}
+
                                     {% endwith %}
+
                                 </div>
+
                             {% empty %}
+
                                 <div class="text-center py-10">
                                     <i class="ki-filled ki-information-2 text-4xl text-secondary"></i>
                                     <p class="font-semibold mt-3">No questions configured</p>
-                                    <p class="text-sm text-secondary mt-1">Please contact your administrator.</p>
+                                    <p class="text-sm text-secondary mt-1">
+                                        Please contact your administrator.
+                                    </p>
                                 </div>
+
                             {% endfor %}
+
                         </div>
                     </div>
                 </div>
+
+
+                <!-- ACTION BUTTONS -->
 
                 <div class="flex flex-wrap items-center justify-end gap-3">
+
                     {% if form.allow_draft %}
-                        <button type="submit" name="action" value="save_draft" class="kt-btn kt-btn-light">
-                            <i class="ki-filled ki-save"></i> Save Draft
+
+                        <button type="submit"
+                                name="action"
+                                value="save_draft"
+                                class="kt-btn kt-btn-light">
+
+                            <i class="ki-filled ki-save"></i>
+                            Save Draft
+
                         </button>
+
                     {% endif %}
-                    <button type="submit" name="action" value="submit_form" class="kt-btn kt-btn-primary"
+
+                    <button type="submit"
+                            name="action"
+                            value="submit_form"
+                            class="kt-btn kt-btn-primary"
                             {% if not questions %}disabled{% endif %}>
-                        <i class="ki-filled ki-check-circle"></i> Submit Form
+
+                        <i class="ki-filled ki-check-circle"></i>
+                        Submit Form
+
                     </button>
+
                 </div>
-                <div id="employeeWorkflowFormMessage" class="mt-3" aria-live="polite"></div>
+
+                <div id="employeeWorkflowFormMessage"
+                     class="mt-3"
+                     aria-live="polite"></div>
+
             </div>
+
+
+            <!-- NOTES PANEL -->
 
             <div class="workflow-form-right">
+
                 <div class="workflow-notes-sticky">
-                    <div class="kt-card mb-5">
-                        <div class="kt-card-header flex flex-wrap items-center justify-between gap-2">
-                            <div>
-                                <h3 class="kt-card-title">
-                                    <i class="ki-filled ki-notepad text-primary mr-2"></i> Generated Notes
-                                </h3>
-                               
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <span class="workflow-live-indicator"><span></span> Live Preview</span>
-                                <button type="button" id="workflowCopyGeneratedNotes" class="kt-btn kt-btn-sm kt-btn-light">
-                                    <i class="ki-filled ki-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                        <div class="kt-card-content">
-                            <div id="workflowGeneratedNotesPreview" class="workflow-notes-preview">Loading call note template...</div>
-                            <div id="workflowCopyNotesMessage" class="text-xs text-success mt-2" aria-live="polite"></div>
-                        </div>
-                    </div>
 
                     <div class="kt-card mb-5">
-                        <div class="kt-card-header">
+
+                        <div class="kt-card-header flex flex-wrap items-center justify-between gap-2">
+
                             <div>
                                 <h3 class="kt-card-title">
-                                    <i class="ki-filled ki-edit text-primary mr-2"></i> Final Notes
+                                    <i class="ki-filled ki-notepad text-primary mr-2"></i>
+                                    Generated Notes
                                 </h3>
-                                <p class="text-xs text-secondary mt-1">Review and edit before submitting.</p>
                             </div>
+
+                            <div class="flex items-center gap-3">
+
+                                <span class="workflow-live-indicator">
+                                    <span></span> Live Preview
+                                </span>
+
+                                <button type="button"
+                                        id="workflowCopyGeneratedNotes"
+                                        class="kt-btn kt-btn-sm kt-btn-light">
+
+                                    <i class="ki-filled ki-copy"></i>
+                                    Copy
+
+                                </button>
+
+                            </div>
+
                         </div>
+
                         <div class="kt-card-content">
-                            <textarea name="final_notes" id="workflow_final_notes"
+
+                            <div id="workflowGeneratedNotesPreview"
+                                 class="workflow-notes-preview">
+                                Loading notes template...
+                            </div>
+
+                            <div id="workflowCopyNotesMessage"
+                                 class="text-xs text-success mt-2"
+                                 aria-live="polite"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kt-card mb-5">
+
+                        <div class="kt-card-header">
+
+                            <div>
+                                <h3 class="kt-card-title">
+                                    <i class="ki-filled ki-edit text-primary mr-2"></i>
+                                    Final Notes
+                                </h3>
+
+                                <p class="text-xs text-secondary mt-1">
+                                    Review and edit before submitting.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="kt-card-content">
+
+                            <textarea name="final_notes"
+                                      id="workflow_final_notes"
                                       class="kt-textarea workflow-final-notes"
                                       placeholder="Generated notes will appear here. You can edit them before submission.">{{ draft.metadata.final_notes|default:'' }}</textarea>
-                            <input type="hidden" name="generated_notes" id="workflow_generated_notes">
+
+                            <input type="hidden"
+                                   name="generated_notes"
+                                   id="workflow_generated_notes">
+
                             <p class="text-xs text-secondary mt-2">
-                                Changes to your answers update the generated preview. Manual edits to final notes are preserved.
+                                Changes to your answers update the generated preview.
+                                Manual edits to final notes are preserved.
                             </p>
+
                         </div>
+
                     </div>
+
                 </div>
             </div>
+
         </div>
+
     </form>
 </div>
 
+
 <script>
 (function () {
-    // This partial is injected dynamically, so initialize immediately rather
-    // than waiting for DOMContentLoaded.
+
     const root = document.getElementById("employeeWorkflowForm");
+
     if (!root || root.dataset.initialized === "1") return;
+
     root.dataset.initialized = "1";
 
-    const preview = document.getElementById("workflowGeneratedNotesPreview");
-    const finalNotes = document.getElementById("workflow_final_notes");
-    const generatedNotes = document.getElementById("workflow_generated_notes");
-    const copyNotesButton = document.getElementById("workflowCopyGeneratedNotes");
-    const copyNotesMessage = document.getElementById("workflowCopyNotesMessage");
-    const questionGrid = document.getElementById("workflowQuestionGrid");
+
+    // ------------------------------------------
+    // ELEMENT REFERENCES
+    // ------------------------------------------
+
+    const preview = root.querySelector("#workflowGeneratedNotesPreview");
+    const finalNotes = root.querySelector("#workflow_final_notes");
+    const generatedNotes = root.querySelector("#workflow_generated_notes");
+
+    const copyNotesButton = root.querySelector("#workflowCopyGeneratedNotes");
+    const copyNotesMessage = root.querySelector("#workflowCopyNotesMessage");
+
+    const questionGrid = root.querySelector("#workflowQuestionGrid");
+    const messageBox = root.querySelector("#employeeWorkflowFormMessage");
+
     const layoutButtons = root.querySelectorAll(".workflow-layout-button");
+
     const templateText = "{{ form.notes_template|default:''|escapejs }}";
+
     const employeeName = "{{ employee_name|default:request.user.get_full_name|default:request.user.username|escapejs }}";
     const employeeId = "{{ employee_id|default:request.user.username|escapejs }}";
     const department = "{{ department|default:'-'|escapejs }}";
     const designation = "{{ designation|default:'-'|escapejs }}";
     const shift = "{{ shift|default:'-'|escapejs }}";
+
     let manuallyEdited = Boolean(finalNotes.value.trim());
 
+
+    // ------------------------------------------
+    // LAYOUT SWITCH
+    // ------------------------------------------
+
     layoutButtons.forEach(button => {
+
         button.addEventListener("click", function () {
+
             const columns = this.dataset.columns;
+
             questionGrid.classList.remove("columns-1", "columns-3");
             questionGrid.classList.add("columns-" + columns);
+
             layoutButtons.forEach(item => {
                 item.classList.remove("active");
                 item.setAttribute("aria-pressed", "false");
             });
+
             this.classList.add("active");
             this.setAttribute("aria-pressed", "true");
+
         });
+
     });
 
-    function getAnswer(card) {
-        const type = card.dataset.questionType;
-        const inputs = Array.from(card.querySelectorAll("[data-answer-input]"));
-        if (type === "MULTIPLE") {
-            return inputs.filter(input => input.checked).map(input => input.value).join(", ");
-        }
-        if (type === "SINGLE" || type === "YESNO") {
-            const selected = inputs.find(input => input.checked);
-            return selected ? selected.value : "";
-        }
-        const input = inputs[0];
-        return input ? input.value.trim() : "";
+
+    // ------------------------------------------
+    // WORD COUNT
+    // ------------------------------------------
+
+    function countWords(value) {
+
+        const trimmed = value.trim();
+
+        return trimmed ? trimmed.split(/\s+/).length : 0;
+
     }
 
-    function generateNotes() {
-        if (!templateText.trim()) {
-            preview.textContent = "No notes template has been configured for this form.";
-            generatedNotes.value = "";
-            return;
+
+    function updateWordCount(input) {
+
+        const limit = Number(input.dataset.maxWords || 0);
+
+        if (!limit) return;
+
+        const count = countWords(input.value);
+
+        const counter = input.parentElement.querySelector(
+            "[data-word-counter]"
+        );
+
+        if (counter) {
+
+            counter.textContent = `${count} / ${limit} words`;
+
+            counter.classList.toggle(
+                "limit-reached",
+                count >= limit
+            );
+
         }
 
-        // Start with the COMPLETE saved template. Do not replace it with a
-        // hard-coded notes layout; only substitute the placeholders present.
+    }
+
+
+    function enforceWordLimit(input) {
+
+        const limit = Number(input.dataset.maxWords || 0);
+
+        if (!limit) return;
+
+        const words = input.value.trim()
+            ? input.value.trim().split(/\s+/)
+            : [];
+
+        if (words.length > limit) {
+
+            const start = input.selectionStart;
+            const previousLength = input.value.length;
+
+            input.value = words.slice(0, limit).join(" ");
+
+            const newPosition = Math.min(
+                start,
+                input.value.length
+            );
+
+            if (document.activeElement === input) {
+                input.setSelectionRange(newPosition, newPosition);
+            }
+
+        }
+
+        updateWordCount(input);
+
+    }
+
+
+    // ------------------------------------------
+    // GET ANSWER FOR NOTES
+    // ------------------------------------------
+
+    function getAnswer(card) {
+
+        const type = card.dataset.questionType;
+
+        const inputs = Array.from(
+            card.querySelectorAll("[data-answer-input]")
+        );
+
+        if (type === "MULTIPLE") {
+
+            return inputs
+                .filter(input => input.type === "checkbox" && input.checked)
+                .map(input => input.value)
+                .join(", ");
+
+        }
+
+        if (type === "SINGLE" || type === "YESNO") {
+
+            const select = inputs.find(
+                input => input.tagName === "SELECT"
+            );
+
+            if (select) return select.value;
+
+            const selected = inputs.find(
+                input => input.type === "radio" && input.checked
+            );
+
+            return selected ? selected.value : "";
+
+        }
+
+        const input = inputs[0];
+
+        return input ? input.value.trim() : "";
+
+    }
+
+
+    // ------------------------------------------
+    // GENERATED NOTES
+    // ------------------------------------------
+
+    function generateNotes() {
+
+        if (!templateText.trim()) {
+
+            preview.textContent =
+                "No notes template has been configured for this form.";
+
+            generatedNotes.value = "";
+
+            return;
+
+        }
+
         const replacements = {
+
             employee_name: employeeName || "-",
             employee_id: employeeId || "-",
             department: department || "-",
             designation: designation || "-",
-            shift: shift || "-"
+            shift: shift || ""
+
         };
 
-        // Form Builder's [[question_1]], [[question_2]], ... placeholders
-        // are based on the displayed question order.
+
         root.querySelectorAll("[data-question-id]").forEach(card => {
+
             const questionNumber = card.dataset.questionNumber;
             const questionId = card.dataset.questionId;
+
             const answer = getAnswer(card) || "-";
 
             if (questionNumber) {
                 replacements["question_" + questionNumber] = answer;
             }
 
-            // Also support older templates that used the database ID.
+            // Support database ID placeholders too.
+            replacements["question_" + questionId] = answer;
             replacements["q_" + questionId] = answer;
+
         });
 
-        // Replace every [[placeholder]] in the saved template. Any text,
-        // line breaks, headings or punctuation authored in Form Builder
-        // remain exactly as entered.
-        const notes = templateText.replace(/\[\[([a-zA-Z0-9_]+)\]\]/g, function (match, key) {
-            return Object.prototype.hasOwnProperty.call(replacements, key)
-                ? String(replacements[key])
-                : match;
-        });
+
+        const notes = templateText.replace(
+            /\[\[([a-zA-Z0-9_]+)\]\]/g,
+            function (match, key) {
+
+                return Object.prototype.hasOwnProperty.call(
+                    replacements, key
+                )
+                    ? String(replacements[key])
+                    : match;
+
+            }
+        );
+
 
         preview.textContent = notes;
         generatedNotes.value = notes;
@@ -435,123 +1047,629 @@
         if (!manuallyEdited) {
             finalNotes.value = notes;
         }
+
     }
 
-    async function copyGeneratedNotes() {
-        const textToCopy = generatedNotes.value || preview.textContent || "";
-        if (!textToCopy.trim() || textToCopy === "No notes template has been configured for this form.") {
-            copyNotesMessage.textContent = "There are no generated notes to copy.";
-            return;
+
+    // ------------------------------------------
+    // CUSTOM MULTIPLE CHECKBOX DROPDOWN
+    // ------------------------------------------
+
+    root.querySelectorAll("[data-multi-dropdown]").forEach(dropdown => {
+
+        const trigger = dropdown.querySelector("[data-dropdown-trigger]");
+        const menu = dropdown.querySelector("[data-dropdown-menu]");
+        const label = dropdown.querySelector("[data-dropdown-label");
+
+        const checkboxes = dropdown.querySelectorAll(
+            'input[type="checkbox"]'
+        );
+
+
+        function updateLabel() {
+
+            const selected = Array.from(checkboxes)
+                .filter(item => item.checked)
+                .map(item => item.value);
+
+            if (selected.length === 0) {
+
+                label.textContent = "Select options";
+
+            } else if (selected.length <= 2) {
+
+                label.textContent = selected.join(", ");
+
+            } else {
+
+                label.textContent =
+                    `${selected.length} options selected`;
+
+            }
+
+            trigger.setAttribute(
+                "aria-expanded",
+                String(!menu.hidden)
+            );
+
+            generateNotes();
+
         }
 
+
+        trigger.addEventListener("click", function () {
+
+            menu.hidden = !menu.hidden;
+
+            trigger.setAttribute(
+                "aria-expanded",
+                String(!menu.hidden)
+            );
+
+        });
+
+
+        checkboxes.forEach(checkbox => {
+
+            checkbox.addEventListener("change", function () {
+
+                updateLabel();
+                clearFieldError(trigger);
+
+            });
+
+        });
+
+
+        document.addEventListener("click", function (event) {
+
+            if (!dropdown.contains(event.target)) {
+
+                menu.hidden = true;
+
+                trigger.setAttribute("aria-expanded", "false");
+
+            }
+
+        });
+
+
+        updateLabel();
+
+    });
+
+
+    // ------------------------------------------
+    // VALIDATION HELPERS
+    // ------------------------------------------
+
+    function showFieldError(input, message) {
+
+        input.classList.add("workflow-invalid");
+
+        let error = input.parentElement.querySelector(
+            ".workflow-field-error"
+        );
+
+        if (!error) {
+
+            error = document.createElement("span");
+
+            error.className = "workflow-field-error";
+
+            input.parentElement.appendChild(error);
+
+        }
+
+        error.textContent = message;
+
+    }
+
+
+    function clearFieldError(input) {
+
+        if (!input) return;
+
+        input.classList.remove("workflow-invalid");
+
+        const error = input.parentElement.querySelector(
+            ".workflow-field-error"
+        );
+
+        if (error) error.remove();
+
+    }
+
+
+    function validateEmployeeFields(action) {
+
+        let valid = true;
+
+        root.querySelectorAll(".workflow-question-card").forEach(card => {
+
+            const type = card.dataset.questionType;
+
+            const required = card.dataset.required === "true";
+
+            const inputs = Array.from(
+                card.querySelectorAll("[data-answer-input]")
+            );
+
+            const isSubmit = action === "submit_form";
+
+
+            // ----------------------------------
+            // MULTIPLE CHOICE
+            // ----------------------------------
+
+            if (type === "MULTIPLE") {
+
+                const selected = inputs.filter(
+                    input => input.type === "checkbox" && input.checked
+                );
+
+                const dropdown = card.querySelector("[data-multi-dropdown]");
+
+                if (required && isSubmit && selected.length === 0) {
+
+                    const target = dropdown
+                        ? dropdown.querySelector("[data-dropdown-trigger]")
+                        : inputs[0];
+
+                    if (target) {
+                        showFieldError(
+                            target,
+                            "Please select at least one option."
+                        );
+                    }
+
+                    valid = false;
+
+                } else if (dropdown) {
+
+                    clearFieldError(
+                        dropdown.querySelector("[data-dropdown-trigger]")
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            // ----------------------------------
+            // RADIO / SINGLE / YESNO
+            // ----------------------------------
+
+            if (type === "SINGLE" || type === "YESNO") {
+
+                const select = inputs.find(
+                    input => input.tagName === "SELECT"
+                );
+
+                const selected = select
+                    ? Boolean(select.value)
+                    : inputs.some(input => input.checked);
+
+                inputs.forEach(clearFieldError);
+
+                if (required && isSubmit && !selected) {
+
+                    const target = select || inputs[0];
+
+                    if (target) {
+                        showFieldError(
+                            target,
+                            "This field is required."
+                        );
+                    }
+
+                    valid = false;
+
+                }
+
+                return;
+
+            }
+
+
+            // ----------------------------------
+            // NORMAL INPUTS
+            // ----------------------------------
+
+            const input = inputs[0];
+
+            if (!input) return;
+
+            clearFieldError(input);
+
+            const value = input.value.trim();
+
+
+            // REQUIRED
+            if (required && isSubmit && !value) {
+
+                showFieldError(
+                    input,
+                    "This field is required."
+                );
+
+                valid = false;
+
+                return;
+
+            }
+
+
+            // EMAIL
+            if (type === "EMAIL" && value) {
+
+                const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+                if (
+                    !emailPattern.test(value) ||
+                    !input.checkValidity()
+                ) {
+
+                    showFieldError(
+                        input,
+                        "Please enter a valid email address."
+                    );
+
+                    valid = false;
+
+                }
+
+            }
+
+
+            // NUMBER
+            if (type === "NUMBER" && value) {
+
+                const numberPattern = /^-?\d+(\.\d+)?$/;
+
+                if (!numberPattern.test(value)) {
+
+                    showFieldError(
+                        input,
+                        "Please enter numbers only."
+                    );
+
+                    valid = false;
+
+                }
+
+            }
+
+
+            // PHONE
+            if (type === "PHONE" && value) {
+
+                if (!/^\d{10}$/.test(value)) {
+
+                    showFieldError(
+                        input,
+                        "Please enter a valid 10-digit phone number."
+                    );
+
+                    valid = false;
+
+                }
+
+            }
+
+
+            // WORD LIMIT
+            const maxWords = Number(input.dataset.maxWords || 0);
+
+            if (maxWords > 0 && countWords(value) > maxWords) {
+
+                showFieldError(
+                    input,
+                    `Maximum ${maxWords} words allowed.`
+                );
+
+                valid = false;
+
+            }
+
+        });
+
+
+        return valid;
+
+    }
+
+
+    // ------------------------------------------
+    // PHONE INPUT RESTRICTION
+    // ------------------------------------------
+
+    root.querySelectorAll('input[type="tel"]').forEach(input => {
+
+        input.addEventListener("input", function () {
+
+            this.value = this.value
+                .replace(/\D/g, "")
+                .slice(0, 10);
+
+            clearFieldError(this);
+
+        });
+
+    });
+
+
+    // ------------------------------------------
+    // NUMBER INPUT RESTRICTION
+    // ------------------------------------------
+
+    root.querySelectorAll('input[type="number"]').forEach(input => {
+
+        input.addEventListener("keydown", function(event) {
+
+            if (["e", "E", "+"].includes(event.key)) {
+                event.preventDefault();
+            }
+
+        });
+
+    });
+
+
+    // ------------------------------------------
+    // FIELD EVENTS
+    // ------------------------------------------
+
+    root.querySelectorAll("[data-answer-input]").forEach(input => {
+
+        input.addEventListener("input", function () {
+
+            if (this.dataset.maxWords) {
+                enforceWordLimit(this);
+            }
+
+            clearFieldError(this);
+
+            generateNotes();
+
+        });
+
+
+        input.addEventListener("change", function () {
+
+            if (this.dataset.maxWords) {
+                updateWordCount(this);
+            }
+
+            clearFieldError(this);
+
+            generateNotes();
+
+        });
+
+
+        if (input.dataset.maxWords) {
+            updateWordCount(input);
+        }
+
+    });
+
+
+    // ------------------------------------------
+    // COPY GENERATED NOTES
+    // ------------------------------------------
+
+    async function copyGeneratedNotes() {
+
+        const textToCopy =
+            generatedNotes.value || preview.textContent || "";
+
+        if (
+            !textToCopy.trim() ||
+            textToCopy === "No notes template has been configured for this form."
+        ) {
+
+            copyNotesMessage.textContent =
+                "There are no generated notes to copy.";
+
+            return;
+
+        }
+
+
         try {
+
             if (navigator.clipboard && window.isSecureContext) {
+
                 await navigator.clipboard.writeText(textToCopy);
+
             } else {
+
                 const temporary = document.createElement("textarea");
+
                 temporary.value = textToCopy;
                 temporary.style.position = "fixed";
                 temporary.style.opacity = "0";
+
                 document.body.appendChild(temporary);
+
                 temporary.select();
+
                 document.execCommand("copy");
+
                 temporary.remove();
+
             }
-            copyNotesMessage.textContent = "Call notes copied to clipboard.";
+
+            copyNotesMessage.textContent =
+                "Notes copied to clipboard.";
+
         } catch (error) {
-            copyNotesMessage.textContent = "Unable to copy. Please select and copy the notes manually.";
+
+            copyNotesMessage.textContent =
+                "Unable to copy. Please copy manually.";
+
         }
 
         window.setTimeout(() => {
-            if (copyNotesMessage) copyNotesMessage.textContent = "";
+
+            if (copyNotesMessage) {
+                copyNotesMessage.textContent = "";
+            }
+
         }, 2500);
+
     }
+
 
     if (copyNotesButton) {
         copyNotesButton.addEventListener("click", copyGeneratedNotes);
     }
 
+
     finalNotes.addEventListener("input", function () {
         manuallyEdited = true;
     });
 
-    root.querySelectorAll("[data-answer-input]").forEach(input => {
-        input.addEventListener("input", generateNotes);
-        input.addEventListener("change", generateNotes);
-    });
 
+    // Initial preview
     generateNotes();
 
 
-root.addEventListener("submit", async function (event) {
-    event.preventDefault();
+    // ------------------------------------------
+    // FORM SUBMISSION
+    // ------------------------------------------
 
-    generateNotes();
+    root.addEventListener("submit", async function(event) {
 
-    const submitter = event.submitter;
-    const action = submitter ? submitter.value : "submit_form";
+        event.preventDefault();
 
-    const formData = new FormData(root);
-    formData.set("action", action);
-    formData.set("generated_notes", generatedNotes.value);
-    formData.set("final_notes", finalNotes.value);
+        const submitter = event.submitter;
 
-    const messageBox = document.getElementById(
-        "employeeWorkflowFormMessage"
-    );
+        const action = submitter
+            ? submitter.value
+            : "submit_form";
 
-    const buttons = root.querySelectorAll('button[type="submit"]');
-    buttons.forEach(button => button.disabled = true);
 
-    try {
-        const formUrl = root.getAttribute("action");
+        // Validate before sending.
+        if (!validateEmployeeFields(action)) {
 
-		const response = await fetch(formUrl, {
-            method: "POST",
-            body: formData,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
+            const firstError = root.querySelector(".workflow-invalid");
+
+            if (firstError) {
+
+                firstError.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                firstError.focus({ preventScroll: true });
+
             }
+
+            return;
+
+        }
+
+
+        generateNotes();
+
+
+        const formData = new FormData(root);
+
+        formData.set("action", action);
+        formData.set("generated_notes", generatedNotes.value);
+        formData.set("final_notes", finalNotes.value);
+
+
+        const buttons = root.querySelectorAll(
+            'button[type="submit"]'
+        );
+
+        buttons.forEach(button => {
+            button.disabled = true;
         });
 
-        const result = await response.json();
 
-        if (!response.ok || !result.success) {
-            const errors = result.errors || [];
-            messageBox.innerHTML =
-                `<div class="kt-alert kt-alert-danger">
-                    ${result.message || "Unable to save the form."}
-                    ${errors.map(error => `<div>${error}</div>`).join("")}
-                </div>`;
-            return;
-        }
+        try {
 
-        messageBox.innerHTML =
-            `<div class="kt-alert kt-alert-success">
-                ${result.message}
-                ${result.reference_number
-                    ? " Reference: " + result.reference_number
-                    : ""}
-            </div>`;
+            const formUrl = root.getAttribute("action");
 
-        if (action === "submit_form") {
-            // Switch to Submitted Forms after successful submission.
-            const submittedTab = document.querySelector(
-                '[data-employee-tab="submitted"]'
-            );
+            const response = await fetch(formUrl, {
 
-            if (submittedTab) {
-                submittedTab.click();
+                method: "POST",
+
+                body: formData,
+
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+
+            });
+
+
+            const result = await response.json();
+
+
+            if (!response.ok || !result.success) {
+
+                const errors = result.errors || [];
+
+                messageBox.innerHTML = `
+                    <div class="kt-alert kt-alert-danger">
+                        ${result.message || "Unable to save the form."}
+                        ${errors.map(error => `<div>${error}</div>`).join("")}
+                    </div>
+                `;
+
+                return;
+
             }
+
+
+            messageBox.innerHTML = `
+                <div class="kt-alert kt-alert-success">
+                    ${result.message}
+                    ${result.reference_number
+                        ? " Reference: " + result.reference_number
+                        : ""}
+                </div>
+            `;
+
+
+            if (action === "submit_form") {
+
+                const submittedTab = document.querySelector(
+                    '[data-employee-tab="submitted"]'
+                );
+
+                if (submittedTab) {
+                    submittedTab.click();
+                }
+
+            }
+
+
+        } catch (error) {
+
+            messageBox.innerHTML = `
+                <div class="kt-alert kt-alert-danger">
+                    An unexpected error occurred. Please try again.
+                </div>
+            `;
+
+        } finally {
+
+            buttons.forEach(button => {
+                button.disabled = false;
+            });
+
         }
 
-    } catch (error) {
-        messageBox.innerHTML =
-            '<div class="kt-alert kt-alert-danger">An unexpected error occurred. Please try again.</div>';
-    } finally {
-        buttons.forEach(button => button.disabled = false);
-    }
-});
+    });
 
 })();
 </script>

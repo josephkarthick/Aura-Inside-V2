@@ -1,538 +1,1828 @@
+
 {% load static %}
 
 <div class="workflow-form-editor">
-    
 
     <div class="kt-card workflow-editor-card">
+
+        <!-- ============================= -->
+        <!-- TABS HEADER -->
+        <!-- ============================= -->
+
         <div class="workflow-tabs">
-            <button type="button" class="workflow-tab active" data-tab="basic"><i class="ki-filled ki-user"></i> Basic Details</button>
-            <button type="button" class="workflow-tab" data-tab="questions"><i class="ki-filled ki-notepad-edit"></i> Forms <span class="workflow-tab-count" id="questionCount">{{ questions|length }}</span></button>
-            <button type="button" class="workflow-tab" data-tab="notes"><i class="ki-filled ki-notepad"></i> Notes Template</button>
-			<div class="flex items-center gap-2">
-				<button type="button" class="kt-btn kt-btn-primary" id="publishWorkflowFormBtn" title="Publish this form">
-					<i class="ki-filled ki-send"></i> Publish Form
-				</button>
-				{% if workflow_form.is_published %}
-					<span class="kt-badge kt-badge-success">Published</span>
-				{% else %}
-					<span class="kt-badge kt-badge-warning">Draft</span>
-				{% endif %}
-			</div>
+
+            <button type="button" class="workflow-tab active" data-tab="basic">
+                <i class="ki-filled ki-user"></i> Basic Details
+            </button>
+
+            <button type="button" class="workflow-tab" data-tab="questions">
+                <i class="ki-filled ki-notepad-edit"></i>
+                Forms
+                <span class="workflow-tab-count" id="questionCount">
+                    {{ questions|length }}
+                </span>
+            </button>
+
+            <button type="button" class="workflow-tab" data-tab="notes">
+                <i class="ki-filled ki-notepad"></i> Notes Template
+            </button>
+
+            <div class="flex items-center gap-2">
+
+                <form method="POST"
+                      id="publishWorkflowForm"
+                      action="{% url 'Workflow:form_edit' workflow_form.id %}"
+                      class="inline-flex">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           name="action"
+                           value="{% if workflow_form.is_published %}unpublish_form{% else %}publish_form{% endif %}">
+
+                    <button type="submit"
+                            class="kt-btn {% if workflow_form.is_published %}kt-btn-light{% else %}kt-btn-primary{% endif %}"
+                            id="publishWorkflowFormBtn"
+                            title="{% if workflow_form.is_published %}Unpublish this form{% else %}Publish this form{% endif %}">
+                        {% if workflow_form.is_published %}
+                            <i class="ki-filled ki-eye-slash"></i> Unpublish Form
+                        {% else %}
+                            <i class="ki-filled ki-send"></i> Publish Form
+                        {% endif %}
+                    </button>
+                </form>
+
+{% if not workflow_form.is_active %}
+    <span class="kt-badge kt-badge-danger">Inactive</span>
+{% elif workflow_form.is_published %}
+    <span class="kt-badge kt-badge-success">Published</span>
+{% else %}
+    <span class="kt-badge kt-badge-warning">Draft / Unpublished</span>
+{% endif %}
+
+            </div>
         </div>
+
 
         <div class="workflow-tab-content">
+
+            <!-- ============================= -->
+            <!-- BASIC DETAILS -->
+            <!-- ============================= -->
+
             <div class="workflow-panel active" id="tab-basic">
+
                 <div class="workflow-section-heading">
-                    <div><h3>Basic Details</h3><p>Configure form information and employee details.</p></div>
+                    <div>
+                        <h3>Basic Details</h3>
+                        <p>Configure form information and employee details.</p>
+                    </div>
                 </div>
-<form method="POST" id="formDetailsForm"
-      action="{% url 'Workflow:form_edit' workflow_form.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="action" value="save_details">
 
-    <div class="workflow-form-fields">
-        <div class="mb-5">
-            <label class="kt-form-label">
-                Form Name <span class="text-danger">*</span>
-            </label>
-            <input type="text" name="title" class="kt-input"
-                   value="{{ workflow_form.title }}" required>
-        </div>
+                <form method="POST"
+                      id="formDetailsForm"
+                      action="{% url 'Workflow:form_edit' workflow_form.id %}">
 
-        <div class="mb-5">
-            <label class="kt-form-label">Description</label>
-            <textarea name="description" class="kt-input" rows="3"
-                      placeholder="Describe the purpose of this form">{{ workflow_form.description }}</textarea>
-        </div>
-    </div>
+                    {% csrf_token %}
 
-    <div class="flex justify-end mt-5">
-        <button type="submit" class="kt-btn kt-btn-primary">
-            <i class="ki-filled ki-save-2"></i>
-            Save Basic Details
-        </button>
-    </div>
-</form>
+                    <input type="hidden" name="action" value="save_details">
+
+                    <div class="workflow-form-fields">
+
+                        <div class="mb-5">
+
+                            <label class="kt-form-label">
+                                Form Name <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text"
+                                   name="title"
+                                   class="kt-input"
+                                   value="{{ workflow_form.title }}"
+                                   required>
+
+                        </div>
+
+                        <div class="mb-5">
+
+                            <label class="kt-form-label">Description</label>
+
+                            <textarea name="description"
+                                      class="kt-input"
+                                      rows="3"
+                                      placeholder="Describe the purpose of this form">{{ workflow_form.description }}</textarea>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex justify-end mt-5">
+
+                        <button type="submit" class="kt-btn kt-btn-primary">
+                            <i class="ki-filled ki-save-2"></i>
+                            Save Basic Details
+                        </button>
+
+                    </div>
+
+                </form>
+
 
                 <div class="workflow-divider"></div>
+
                 <div class="workflow-section-heading">
-                    <div><h3>Employee Information</h3><p>Automatically populated from the logged-in employee account.</p></div>
+
+                    <div>
+                        <h3>Employee Information</h3>
+                        <p>Automatically populated from the logged-in employee account.</p>
+                    </div>
+
                     <span class="kt-badge kt-badge-primary">System Fields</span>
+
                 </div>
+
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="workflow-default-field"><label>Employee Name</label><div><i class="ki-filled ki-user"></i> Automatically populated</div></div>
-                    <div class="workflow-default-field"><label>Employee ID</label><div><i class="ki-filled ki-badge"></i> Automatically populated</div></div>
-                    <div class="workflow-default-field"><label>Department</label><div><i class="ki-filled ki-briefcase"></i> Automatically populated</div></div>
-                    <div class="workflow-default-field"><label>Shift</label><div><i class="ki-filled ki-time"></i> Automatically populated</div></div>
-                </div>
-                <p class="text-xs text-muted-foreground mt-4">Employee information is read-only when submitting the form.</p>
-            </div>
 
-            <div class="workflow-panel" id="tab-questions">
-                <div class="workflow-section-heading">
-                    <div><h3>Form Questions</h3><p>Create questions employees must answer.</p></div>
-                    <button type="button" class="kt-btn kt-btn-primary" id="addQuestionBtn"><i class="ki-filled ki-plus"></i> Add Question</button>
-                </div>
-
-                <div id="questionList" class="workflow-question-list">
-                    {% for question in questions %}
-                    <div class="workflow-question-card" data-question-id="{{ question.id }}" data-question-type="{{ question.question_type }}" data-required="{% if question.is_required %}true{% else %}false{% endif %}" data-options='[{% for option in question.options.all %}"{{ option.option_text|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}]'>
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-2 flex-wrap mb-2">
-                                    <span class="workflow-question-number">Q{{ forloop.counter }}</span>
-                                    <span class="kt-badge kt-badge-secondary">{{ question.get_question_type_display }}</span>
-                                    {% if question.is_required %}<span class="kt-badge kt-badge-warning">Required</span>{% else %}<span class="kt-badge kt-badge-light">Optional</span>{% endif %}
-                                </div>
-                                <h4 class="font-semibold text-gray-900">{{ question.question_text }}</h4>
-                                {% if question.question_type == "SINGLE" or question.question_type == "MULTIPLE" %}
-                                    <div class="workflow-option-preview">
-                                        {% for option in question.options.all %}
-                                            <span>{{ option.option_text }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% elif question.question_type == "TEXT" %}
-                                    <div class="workflow-answer-preview">Short text answer</div>
-                                {% elif question.question_type == "NUMBER" %}
-                                    <div class="workflow-answer-preview">123</div>
-                                {% endif %}
-                            </div>
-                            <div class="flex items-center gap-1 flex-shrink-0">
-                                <button type="button" class="kt-btn kt-btn-sm kt-btn-light edit-question-btn" title="Edit question"><i class="ki-filled ki-notepad-edit"></i></button>
-                                <button type="button" class="kt-btn kt-btn-sm kt-btn-light text-danger delete-question-btn" title="Delete question"><i class="ki-filled ki-trash"></i></button>
-                            </div>
+                    <div class="workflow-default-field">
+                        <label>Employee Name</label>
+                        <div>
+                            <i class="ki-filled ki-user"></i>
+                            Automatically populated
                         </div>
                     </div>
-                    {% empty %}
-                    <div class="workflow-question-empty" id="questionEmpty">
-                        <div class="workflow-placeholder-icon"><i class="ki-filled ki-notepad-edit"></i></div>
-                        <h4>No questions added yet</h4>
-                        <p>Start building your form by adding your first question.</p>
-                        <button type="button" class="kt-btn kt-btn-primary" id="addFirstQuestionBtn"><i class="ki-filled ki-plus"></i> Add Your First Question</button>
+
+                    <div class="workflow-default-field">
+                        <label>Employee ID</label>
+                        <div>
+                            <i class="ki-filled ki-badge"></i>
+                            Automatically populated
+                        </div>
                     </div>
-                    {% endfor %}
+
+                    <div class="workflow-default-field">
+                        <label>Department</label>
+                        <div>
+                            <i class="ki-filled ki-briefcase"></i>
+                            Automatically populated
+                        </div>
+                    </div>
+
+                    <div class="workflow-default-field">
+                        <label>Shift</label>
+                        <div>
+                            <i class="ki-filled ki-time"></i>
+                            Automatically populated
+                        </div>
+                    </div>
+
                 </div>
+
+                <p class="text-xs text-muted-foreground mt-4">
+                    Employee information is read-only when submitting the form.
+                </p>
+
             </div>
+
+
+            <!-- ============================= -->
+            <!-- QUESTIONS -->
+            <!-- ============================= -->
+
+            <div class="workflow-panel" id="tab-questions">
+
+                <div class="workflow-section-heading">
+
+                    <div>
+                        <h3>Form Questions</h3>
+                        <p>Create questions employees must answer.</p>
+                    </div>
+
+                    <button type="button"
+                            class="kt-btn kt-btn-primary"
+                            id="addQuestionBtn">
+
+                        <i class="ki-filled ki-plus"></i>
+                        Add Question
+
+                    </button>
+
+                </div>
+
+
+                <div id="questionList" class="workflow-question-list">
+
+                    {% for question in questions %}
+
+                    <div class="workflow-question-card"
+                         data-question-id="{{ question.id }}"
+                         data-question-type="{{ question.question_type }}"
+                         data-dropdown="{% if question.display_as_dropdown %}true{% else %}false{% endif %}"
+                         data-required="{% if question.is_required %}true{% else %}false{% endif %}"
+                         data-options='[{% for option in question.options.all %}"{{ option.option_text|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}]'>
+
+                        <div class="flex items-start justify-between gap-3">
+
+                            <div class="min-w-0">
+
+                                <div class="flex items-center gap-2 flex-wrap mb-2">
+
+                                    <span class="workflow-question-number">
+                                        Q{{ forloop.counter }}
+                                    </span>
+
+                                    <span class="kt-badge kt-badge-secondary">
+                                        {{ question.get_question_type_display }}
+                                    </span>
+
+                                    {% if question.display_as_dropdown %}
+                                        <span class="kt-badge kt-badge-info">
+                                            Dropdown
+                                        </span>
+                                    {% endif %}
+
+                                    {% if question.is_required %}
+                                        <span class="kt-badge kt-badge-warning">
+                                            Required
+                                        </span>
+                                    {% else %}
+                                        <span class="kt-badge kt-badge-light">
+                                            Optional
+                                        </span>
+                                    {% endif %}
+
+                                </div>
+
+
+                                <h4 class="font-semibold text-gray-900">
+                                    {{ question.question_text }}
+                                </h4>
+
+
+                                {% if question.question_type == "SINGLE" or question.question_type == "MULTIPLE" %}
+
+                                    {% if question.display_as_dropdown %}
+
+                                        <div class="workflow-answer-preview">
+                                            <i class="ki-filled ki-down mr-2"></i>
+                                            Dropdown – {{ question.options.count }} options
+                                        </div>
+
+                                    {% else %}
+
+                                        <div class="workflow-option-preview">
+
+                                            {% for option in question.options.all %}
+                                                <span>{{ option.option_text }}</span>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                {% elif question.question_type == "TEXT" %}
+
+                                    <div class="workflow-answer-preview">
+                                        Short text answer
+                                    </div>
+
+
+                                {% elif question.question_type == "TEXTAREA" %}
+
+                                    <div class="workflow-answer-preview">
+                                        Long text answer
+                                    </div>
+
+
+                                {% elif question.question_type == "NUMBER" %}
+
+                                    <div class="workflow-answer-preview">
+                                        123
+                                    </div>
+
+
+                                {% elif question.question_type == "EMAIL" %}
+
+                                    <div class="workflow-answer-preview">
+                                        name@example.com
+                                    </div>
+
+
+                                {% elif question.question_type == "PHONE" %}
+
+                                    <div class="workflow-answer-preview">
+                                        Phone number
+                                    </div>
+
+
+                                {% elif question.question_type == "DATE" %}
+
+                                    <div class="workflow-answer-preview">
+                                        <i class="ki-filled ki-calendar mr-2"></i>
+                                        Date picker
+                                    </div>
+
+
+                                {% elif question.question_type == "YESNO" %}
+
+                                    <div class="workflow-option-preview">
+                                        <span>Yes</span>
+                                        <span>No</span>
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="flex items-center gap-1 flex-shrink-0">
+
+                                <button type="button"
+                                        class="kt-btn kt-btn-sm kt-btn-light edit-question-btn"
+                                        title="Edit question">
+
+                                    <i class="ki-filled ki-notepad-edit"></i>
+
+                                </button>
+
+                                <button type="button"
+                                        class="kt-btn kt-btn-sm kt-btn-light text-danger delete-question-btn"
+                                        title="Delete question">
+
+                                    <i class="ki-filled ki-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <div class="workflow-question-empty" id="questionEmpty">
+
+                        <div class="workflow-placeholder-icon">
+                            <i class="ki-filled ki-notepad-edit"></i>
+                        </div>
+
+                        <h4>No questions added yet</h4>
+
+                        <p>
+                            Start building your form by adding your first question.
+                        </p>
+
+                        <button type="button"
+                                class="kt-btn kt-btn-primary"
+                                id="addFirstQuestionBtn">
+
+                            <i class="ki-filled ki-plus"></i>
+                            Add Your First Question
+
+                        </button>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- NOTES TEMPLATE -->
+            <!-- ============================= -->
 
             <div class="workflow-panel" id="tab-notes">
+
                 <div class="workflow-section-heading">
-                    <div><h3>Notes Template</h3><p>Create notes using employee details and form answers.</p></div>
+
+                    <div>
+                        <h3>Notes Template</h3>
+                        <p>Create notes using employee details and form answers.</p>
+                    </div>
+
                     <span class="kt-badge kt-badge-secondary">Optional</span>
+
                 </div>
-                <form id="notesTemplateForm" action="{% url 'Workflow:form_edit' workflow_form.id %}" method="post">
+
+
+                <form id="notesTemplateForm"
+                      action="{% url 'Workflow:form_edit' workflow_form.id %}"
+                      method="post">
+
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="save_notes_template">
+
+                    <input type="hidden"
+                           name="action"
+                           value="save_notes_template">
+
+
                     <div class="mb-4">
+
                         <label class="kt-form-label">Notes Template</label>
-                        <textarea name="notes_template" id="notesTemplateText" class="kt-input" rows="9"
+
+                        <textarea name="notes_template"
+                                  id="notesTemplateText"
+                                  class="kt-input"
+                                  rows="9"
                                   placeholder="Write your notes template here...">{{ workflow_form.notes_template|default_if_none:"" }}</textarea>
-                        <p class="text-xs text-secondary mt-2">Use the placeholders below. They will be replaced with employee details and submitted answers.</p>
+
+                        <p class="text-xs text-secondary mt-2">
+                            Use the placeholders below. They will be replaced
+                            with employee details and submitted answers.
+                        </p>
+
                     </div>
-                    <div class="flex flex-wrap gap-2 mb-5" id="notesPlaceholderList">
-                        <button type="button" class="kt-btn kt-btn-sm kt-btn-light notes-placeholder" data-placeholder="[[employee_name]]">Employee Name</button>
-                        <button type="button" class="kt-btn kt-btn-sm kt-btn-light notes-placeholder" data-placeholder="[[employee_id]]">Employee ID</button>
-                        <button type="button" class="kt-btn kt-btn-sm kt-btn-light notes-placeholder" data-placeholder="[[department]]">Department</button>
-                        <button type="button" class="kt-btn kt-btn-sm kt-btn-light notes-placeholder" data-placeholder="[[shift]]">Shift</button>
-                        {% for question in questions %}
-                        <button type="button" class="kt-btn kt-btn-sm kt-btn-light notes-placeholder"
-                                data-placeholder="[[question_{{ question.id }}]]">{{ question.question_text|truncatechars:35 }}</button>
-                        {% endfor %}
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="submit" class="kt-btn kt-btn-primary" id="saveNotesTemplateBtn">
-                            <i class="ki-filled ki-save-2"></i> Save Notes Template
+
+
+                    <div class="flex flex-wrap gap-2 mb-5"
+                         id="notesPlaceholderList">
+
+                        <button type="button"
+                                class="kt-btn kt-btn-sm kt-btn-light notes-placeholder"
+                                data-placeholder="[[employee_name]]">
+                            Employee Name
                         </button>
+
+                        <button type="button"
+                                class="kt-btn kt-btn-sm kt-btn-light notes-placeholder"
+                                data-placeholder="[[employee_id]]">
+                            Employee ID
+                        </button>
+
+                        <button type="button"
+                                class="kt-btn kt-btn-sm kt-btn-light notes-placeholder"
+                                data-placeholder="[[department]]">
+                            Department
+                        </button>
+
+                        <button type="button"
+                                class="kt-btn kt-btn-sm kt-btn-light notes-placeholder"
+                                data-placeholder="[[shift]]">
+                            Shift
+                        </button>
+
+
+                        {% for question in questions %}
+
+                        <button type="button"
+                                class="kt-btn kt-btn-sm kt-btn-light notes-placeholder"
+                                data-placeholder="[[question_{{ question.id }}]]">
+
+                            {{ question.question_text|truncatechars:35 }}
+
+                        </button>
+
+                        {% endfor %}
+
                     </div>
+
+
+                    <div class="flex justify-end">
+
+                        <button type="submit"
+                                class="kt-btn kt-btn-primary"
+                                id="saveNotesTemplateBtn">
+
+                            <i class="ki-filled ki-save-2"></i>
+                            Save Notes Template
+
+                        </button>
+
+                    </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
+
+
+<!-- ================================================= -->
 <!-- QUESTION MODAL -->
+<!-- ================================================= -->
+
 <div class="workflow-question-modal hidden" id="questionModal">
+
     <div class="workflow-question-backdrop" data-close-question></div>
+
     <div class="workflow-question-dialog">
+
         <div class="flex items-center justify-between mb-5">
-            <div><h3 class="text-lg font-bold" id="questionModalTitle">Add Question</h3><p class="text-xs text-secondary mt-1">Configure the question and its answer type.</p></div>
-            <button type="button" class="kt-btn kt-btn-sm kt-btn-light" data-close-question><i class="ki-filled ki-cross"></i></button>
-        </div>
-        <form id="questionForm" method="post" action="{% url 'Workflow:form_edit' workflow_form.id %}">
-            {% csrf_token %}
-            <input type="hidden" name="action" id="questionAction" value="add_question">
-            <input type="hidden" name="question_id" id="questionId">
-            <div class="mb-4">
-                <label class="kt-form-label">Question <span class="text-danger">*</span></label>
-                <textarea name="question_text" id="questionText" class="kt-input" rows="2" required placeholder="Enter your question"></textarea>
+
+            <div>
+                <h3 class="text-lg font-bold" id="questionModalTitle">
+                    Add Question
+                </h3>
+
+                <p class="text-xs text-secondary mt-1">
+                    Configure the question and its answer type.
+                </p>
             </div>
+
+            <button type="button"
+                    class="kt-btn kt-btn-sm kt-btn-light"
+                    data-close-question>
+
+                <i class="ki-filled ki-cross"></i>
+
+            </button>
+
+        </div>
+
+
+        <form id="questionForm"
+              method="post"
+              action="{% url 'Workflow:form_edit' workflow_form.id %}">
+
+            {% csrf_token %}
+
+            <input type="hidden"
+                   name="action"
+                   id="questionAction"
+                   value="add_question">
+
+            <input type="hidden"
+                   name="question_id"
+                   id="questionId">
+
+
+            <!-- QUESTION TEXT -->
+
             <div class="mb-4">
-                <label class="kt-form-label">Question Type <span class="text-danger">*</span></label>
-                <select name="question_type" id="questionType" class="kt-input" required>
-                    <option value="TEXT">Text</option>
+
+                <label class="kt-form-label">
+                    Question <span class="text-danger">*</span>
+                </label>
+
+                <textarea name="question_text"
+                          id="questionText"
+                          class="kt-input"
+                          rows="2"
+                          required
+                          placeholder="Enter your question"></textarea>
+
+            </div>
+
+
+            <!-- QUESTION TYPE -->
+
+            <div class="mb-4">
+
+                <label class="kt-form-label">
+                    Question Type <span class="text-danger">*</span>
+                </label>
+
+                <select name="question_type"
+                        id="questionType"
+                        class="kt-input"
+                        required>
+
+                    <option value="TEXT">Short Text (100 Words)</option>
+                    <option value="TEXTAREA">Long Text (250 Words)</option>
                     <option value="NUMBER">Number</option>
+                    <option value="EMAIL">Email</option>
+                    <option value="PHONE">Phone Number</option>
+                    <option value="DATE">Date</option>
                     <option value="SINGLE">Single Choice</option>
                     <option value="MULTIPLE">Multiple Choice</option>
+
                 </select>
+
             </div>
+
+
+            <!-- DISPLAY AS DROPDOWN -->
+
+            <div class="mb-4 hidden" id="displayDropdownWrap">
+
+                <label class="workflow-required-toggle">
+
+                    <input type="checkbox"
+                           name="display_as_dropdown"
+                           id="displayAsDropdown"
+                           value="true">
+
+                    <span>
+
+                        <strong>Display options as Dropdown</strong>
+
+                        <small>
+                            Show choices in a dropdown instead of radio
+                            buttons or checkboxes.
+                        </small>
+
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- ANSWER OPTIONS -->
+
             <div class="mb-4 hidden" id="questionOptionsWrap">
+
                 <div class="flex items-center justify-between mb-2">
-                    <label class="kt-form-label mb-0">Answer Options</label>
-                    <button type="button" class="kt-btn kt-btn-sm kt-btn-light" id="addOptionBtn"><i class="ki-filled ki-plus"></i> Add Option</button>
+
+                    <label class="kt-form-label mb-0">
+                        Answer Options
+                    </label>
+
+                    <button type="button"
+                            class="kt-btn kt-btn-sm kt-btn-light"
+                            id="addOptionBtn">
+
+                        <i class="ki-filled ki-plus"></i>
+                        Add Option
+
+                    </button>
+
                 </div>
-                <div id="questionOptions" class="flex flex-col gap-2"></div>
-                <p class="text-xs text-secondary mt-2">Add at least two options.</p>
+
+
+                <div id="questionOptions"
+                     class="flex flex-col gap-2">
+                </div>
+
+
+                <p class="text-xs text-secondary mt-2">
+                    Add at least two options.
+                </p>
+
             </div>
+
+
+            <!-- REQUIRED -->
+
             <label class="workflow-required-toggle mb-5">
-                <input type="checkbox" name="is_required" id="questionRequired" value="1" checked>
-                <span><strong>Required question</strong><small>Employees must answer this question before submitting.</small></span>
+
+                <input type="checkbox"
+                       name="is_required"
+                       id="questionRequired"
+                       value="1"
+                       checked>
+
+                <span>
+
+                    <strong>Required question</strong>
+
+                    <small>
+                        Employees must answer this question before submitting.
+                    </small>
+
+                </span>
+
             </label>
+
+
+            <!-- BUTTONS -->
+
             <div class="flex justify-end gap-2">
-                <button type="button" class="kt-btn kt-btn-light" data-close-question>Cancel</button>
-                <button type="submit" class="kt-btn kt-btn-primary" id="saveQuestionBtn"><i class="ki-filled ki-check"></i> Save Question</button>
+
+                <button type="button"
+                        class="kt-btn kt-btn-light"
+                        data-close-question>
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="kt-btn kt-btn-primary"
+                        id="saveQuestionBtn">
+
+                    <i class="ki-filled ki-check"></i>
+                    Save Question
+
+                </button>
+
             </div>
+
         </form>
+
     </div>
+
 </div>
 
+
+
+<!-- ================================================= -->
+<!-- CSS -->
+<!-- ================================================= -->
+
 <style>
-.workflow-editor-card{min-height:520px;overflow:hidden}
-.workflow-tabs{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:6px;padding:0 20px;border-bottom:1px solid #e2e8f0;background:#fff;overflow-x:auto;box-shadow:0 2px 6px rgba(15,23,42,.04)}
-.workflow-tab{display:inline-flex;align-items:center;gap:9px;padding:16px 14px;border-bottom:2px solid transparent;color:#64748b;font-size:13px;font-weight:600;white-space:nowrap}
-.workflow-tab:hover{color:#2563eb}.workflow-tab.active{color:#2563eb;border-bottom-color:#2563eb}
-.workflow-tab-count{padding:2px 7px;border-radius:20px;background:#eff6ff;color:#2563eb;font-size:11px}
-.workflow-tab-content{padding:24px}.workflow-panel{display:none}.workflow-panel.active{display:block}
-.workflow-section-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}
-.workflow-section-heading h3{color:#0f172a;font-size:16px;font-weight:700}
-.workflow-section-heading p{margin-top:5px;color:#94a3b8;font-size:12px}
-.workflow-form-fields{max-width:850px}.workflow-divider{height:1px;margin:25px 0;background:#e2e8f0}
-.workflow-default-field{padding:15px;border:1px solid #e2e8f0;border-radius:9px;background:#f8fafc}
-.workflow-default-field label{display:block;margin-bottom:9px;color:#334155;font-size:12px;font-weight:600}
-.workflow-default-field div{display:flex;align-items:center;gap:8px;color:#94a3b8;font-size:12px}
-.workflow-question-list{display:flex;flex-direction:column;gap:12px}
-.workflow-question-card{padding:17px;border:1px solid #e2e8f0;border-radius:10px;background:#fff}
-.workflow-question-number{display:inline-flex;padding:3px 8px;border-radius:5px;background:#eff6ff;color:#2563eb;font-size:11px;font-weight:700}
-.workflow-option-preview{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.workflow-option-preview span{padding:5px 10px;border:1px solid #e2e8f0;border-radius:6px;color:#64748b;font-size:11px}
-.workflow-answer-preview{margin-top:12px;padding:9px 12px;border:1px solid #e2e8f0;border-radius:6px;color:#94a3b8;font-size:12px;max-width:300px}
-.workflow-question-empty,.workflow-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;padding:28px;border:1px dashed #cbd5e1;border-radius:12px;background:#f8fafc;text-align:center}
-.workflow-placeholder-icon{display:flex;align-items:center;justify-content:center;width:58px;height:58px;margin-bottom:14px;border-radius:15px;background:#eff6ff;color:#2563eb;font-size:24px}
-.workflow-question-empty h4,.workflow-placeholder h4{margin-bottom:7px;color:#0f172a;font-size:16px;font-weight:700}
-.workflow-question-empty p,.workflow-placeholder p{max-width:400px;margin-bottom:18px;color:#94a3b8;font-size:12px}
-.workflow-question-modal{position:fixed;inset:0;z-index:12000;display:flex;align-items:center;justify-content:center;padding:16px}
-.workflow-question-modal.hidden{display:none}
-.workflow-question-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.55)}
-.workflow-question-dialog{position:relative;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:24px;border-radius:12px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.workflow-option-row{display:flex;gap:8px;align-items:center}
-.workflow-option-row input{flex:1;min-width:0}
-.workflow-required-toggle{display:flex;align-items:center;gap:10px}
-.workflow-required-toggle span{display:flex;flex-direction:column;gap:3px}
-.workflow-required-toggle strong{font-size:13px;color:#334155}
-.workflow-required-toggle small{font-size:11px;color:#94a3b8}
-@media(max-width:650px){.workflow-tabs{padding:0 8px}.workflow-tab-content{padding:15px}.workflow-section-heading{align-items:flex-start;flex-direction:column}.workflow-question-dialog{padding:17px}}
+
+.workflow-editor-card {
+    min-height: 520px;
+    overflow: hidden;
+}
+
+.workflow-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #fff;
+    overflow-x: auto;
+    box-shadow: 0 2px 6px rgba(15,23,42,.04);
+}
+
+.workflow-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 14px;
+    border-bottom: 2px solid transparent;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.workflow-tab:hover {
+    color: #2563eb;
+}
+
+.workflow-tab.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+
+.workflow-tab-count {
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+}
+
+.workflow-tab-content {
+    padding: 24px;
+}
+
+.workflow-panel {
+    display: none;
+}
+
+.workflow-panel.active {
+    display: block;
+}
+
+.workflow-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.workflow-section-heading h3 {
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.workflow-section-heading p {
+    margin-top: 5px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.workflow-form-fields {
+    max-width: 850px;
+}
+
+.workflow-divider {
+    height: 1px;
+    margin: 25px 0;
+    background: #e2e8f0;
+}
+
+.workflow-default-field {
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #f8fafc;
+}
+
+.workflow-default-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.workflow-default-field div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.workflow-question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.workflow-question-card {
+    padding: 17px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.workflow-question-number {
+    display: inline-flex;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.workflow-option-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.workflow-option-preview span {
+    padding: 5px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.workflow-answer-preview {
+    margin-top: 12px;
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    color: #94a3b8;
+    font-size: 12px;
+    max-width: 300px;
+}
+
+.workflow-question-empty,
+.workflow-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 260px;
+    padding: 28px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    text-align: center;
+}
+
+.workflow-placeholder-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 14px;
+    border-radius: 15px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 24px;
+}
+
+.workflow-question-empty h4,
+.workflow-placeholder h4 {
+    margin-bottom: 7px;
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.workflow-question-empty p,
+.workflow-placeholder p {
+    max-width: 400px;
+    margin-bottom: 18px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.workflow-question-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 12000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.workflow-question-modal.hidden {
+    display: none;
+}
+
+.workflow-question-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15,23,42,.55);
+}
+
+.workflow-question-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+
+.workflow-option-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.workflow-option-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+.workflow-required-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.workflow-required-toggle span {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.workflow-required-toggle strong {
+    font-size: 13px;
+    color: #334155;
+}
+
+.workflow-required-toggle small {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+@media(max-width:650px) {
+
+    .workflow-tabs {
+        padding: 0 8px;
+    }
+
+    .workflow-tab-content {
+        padding: 15px;
+    }
+
+    .workflow-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .workflow-question-dialog {
+        padding: 17px;
+    }
+
+}
+
 </style>
 
+
+
+<!-- ================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ================================================= -->
+
 <script>
+
 (function () {
-    const root = document.querySelector('#workflowBuilderPanel .workflow-form-editor');
+
+    const root = document.querySelector(
+        '#workflowBuilderPanel .workflow-form-editor'
+    );
+
     if (!root || root.dataset.initialized === '1') return;
+
     root.dataset.initialized = '1';
 
     const panel = document.getElementById('workflowBuilderPanel');
+
     const modal = panel.querySelector('#questionModal');
+
     const questionForm = panel.querySelector('#questionForm');
+
     const typeSelect = panel.querySelector('#questionType');
+
     const optionsWrap = panel.querySelector('#questionOptionsWrap');
+
     const optionsContainer = panel.querySelector('#questionOptions');
+
+    const dropdownWrap = panel.querySelector('#displayDropdownWrap');
+
+    const dropdownCheckbox = panel.querySelector('#displayAsDropdown');
+
     const list = panel.querySelector('#questionList');
+
     const questionEndpoint = questionForm.getAttribute('action');
 
+
+    // =================================================
+    // CSRF
+    // =================================================
+
     function csrfToken(sourceForm) {
-        const tokenInput = sourceForm?.querySelector('[name="csrfmiddlewaretoken"]');
-        return tokenInput?.value || panel.querySelector('[name="csrfmiddlewaretoken"]')?.value || '';
+
+        const tokenInput = sourceForm?.querySelector(
+            '[name="csrfmiddlewaretoken"]'
+        );
+
+        return tokenInput?.value ||
+            panel.querySelector('[name="csrfmiddlewaretoken"]')?.value ||
+            '';
+
     }
+
+
+    // =================================================
+    // TOAST
+    // =================================================
 
     function showToast(message, error = false) {
+
         if (typeof showWorkflowToast === 'function') {
+
             showWorkflowToast(message, error);
+
             return;
+
         }
+
         alert(message);
+
     }
+
+
+    // =================================================
+    // ADD OPTION
+    // =================================================
 
     function addOption(value = '') {
+
         const row = document.createElement('div');
+
         row.className = 'workflow-option-row';
-        row.innerHTML = `<input type="text" name="options" class="kt-input" placeholder="Enter option" required>
-                         <button type="button" class="kt-btn kt-btn-sm kt-btn-light text-danger" title="Remove option"><i class="ki-filled ki-trash"></i></button>`;
+
+        row.innerHTML = `
+            <input type="text"
+                   name="options"
+                   class="kt-input"
+                   placeholder="Enter option"
+                   required>
+
+            <button type="button"
+                    class="kt-btn kt-btn-sm kt-btn-light text-danger"
+                    title="Remove option">
+
+                <i class="ki-filled ki-trash"></i>
+
+            </button>
+        `;
+
         row.querySelector('input').value = value;
-        row.querySelector('button').addEventListener('click', () => row.remove());
+
+        row.querySelector('button').addEventListener('click', function () {
+
+            row.remove();
+
+        });
+
         optionsContainer.appendChild(row);
+
     }
+
+
+    // =================================================
+    // QUESTION TYPE VISIBILITY
+    // =================================================
 
     function updateOptionVisibility() {
-        const needsOptions = ['SINGLE', 'MULTIPLE'].includes(typeSelect.value);
-        optionsWrap.classList.toggle('hidden', !needsOptions);
-        optionsContainer.querySelectorAll('input').forEach(input => input.required = needsOptions);
+
+        const type = typeSelect.value;
+
+        const needsOptions = [
+            'SINGLE',
+            'MULTIPLE'
+        ].includes(type);
+
+        const supportsDropdown = [
+            'SINGLE',
+            'MULTIPLE'
+        ].includes(type);
+
+
+        // Show or hide answer options.
+
+        optionsWrap.classList.toggle(
+            'hidden',
+            !needsOptions
+        );
+
+
+        // Show or hide dropdown setting.
+
+        dropdownWrap.classList.toggle(
+            'hidden',
+            !supportsDropdown
+        );
+
+
+        // Clear dropdown when question type does not support it.
+
+        if (!supportsDropdown) {
+
+            dropdownCheckbox.checked = false;
+
+        }
+
+
+        // Require option values only when options are needed.
+
+        optionsContainer.querySelectorAll('input').forEach(input => {
+
+            input.required = needsOptions;
+
+        });
+
     }
+
+
+    // =================================================
+    // OPEN QUESTION MODAL
+    // =================================================
 
     function openModal(questionCard = null) {
+
         questionForm.reset();
+
         optionsContainer.innerHTML = '';
+
         panel.querySelector('#questionId').value = '';
+
         panel.querySelector('#questionAction').value = 'add_question';
+
         panel.querySelector('#questionModalTitle').textContent = 'Add Question';
 
+        dropdownCheckbox.checked = false;
+
+
         if (questionCard) {
+
             const qid = questionCard.dataset.questionId;
+
             const text = questionCard.querySelector('h4')?.textContent.trim() || '';
+
             const type = questionCard.dataset.questionType;
+
             const required = questionCard.dataset.required === 'true';
+
+            const isDropdown = questionCard.dataset.dropdown === 'true';
+
+
             panel.querySelector('#questionId').value = qid;
+
             panel.querySelector('#questionAction').value = 'update_question';
+
             panel.querySelector('#questionModalTitle').textContent = 'Edit Question';
+
             panel.querySelector('#questionText').value = text;
+
             typeSelect.value = type;
+
             panel.querySelector('#questionRequired').checked = required;
-            JSON.parse(questionCard.dataset.options || '[]').forEach(option => addOption(option));
+
+            dropdownCheckbox.checked = isDropdown;
+
+
+            // Restore saved options.
+
+            JSON.parse(questionCard.dataset.options || '[]').forEach(option => {
+
+                addOption(option);
+
+            });
+
         }
+
+
         updateOptionVisibility();
+
         modal.classList.remove('hidden');
+
         panel.querySelector('#questionText').focus();
+
     }
+
+
+    // =================================================
+    // CLOSE MODAL
+    // =================================================
 
     function closeModal() {
+
         modal.classList.add('hidden');
+
         questionForm.reset();
+
         optionsContainer.innerHTML = '';
+
+        dropdownCheckbox.checked = false;
+
     }
+
+
+    // =================================================
+    // QUESTION COUNT
+    // =================================================
 
     function updateQuestionCount() {
-        const cards = list.querySelectorAll('.workflow-question-card');
+
+        const cards = list.querySelectorAll(
+            '.workflow-question-card'
+        );
+
         panel.querySelector('#questionCount').textContent = cards.length;
+
+
         const empty = panel.querySelector('#questionEmpty');
+
+
         if (!cards.length && !empty) {
-            list.innerHTML = `<div class="workflow-question-empty" id="questionEmpty">
-                <div class="workflow-placeholder-icon"><i class="ki-filled ki-notepad-edit"></i></div>
-                <h4>No questions added yet</h4><p>Start building your form by adding your first question.</p>
-                <button type="button" class="kt-btn kt-btn-primary" id="addFirstQuestionBtn"><i class="ki-filled ki-plus"></i> Add Your First Question</button>
-            </div>`;
+
+            list.innerHTML = `
+                <div class="workflow-question-empty" id="questionEmpty">
+
+                    <div class="workflow-placeholder-icon">
+                        <i class="ki-filled ki-notepad-edit"></i>
+                    </div>
+
+                    <h4>No questions added yet</h4>
+
+                    <p>
+                        Start building your form by adding your first question.
+                    </p>
+
+                    <button type="button"
+                            class="kt-btn kt-btn-primary"
+                            id="addFirstQuestionBtn">
+
+                        <i class="ki-filled ki-plus"></i>
+                        Add Your First Question
+
+                    </button>
+
+                </div>
+            `;
+
         } else if (cards.length && empty) {
+
             empty.remove();
+
         }
+
     }
 
 
+    // =================================================
+    // AJAX POST
+    // =================================================
+
     async function postAction(data, sourceForm = questionForm) {
-        // Always take the URL from the actual form element being submitted.
-        // Do not use a generic variable named "form" or a form's named properties.
+
         const actionPath = sourceForm?.getAttribute('action');
+
         if (!actionPath) {
-            throw new Error('Could not determine the Workflow form submission URL.');
+
+            throw new Error(
+                'Could not determine the Workflow form submission URL.'
+            );
+
         }
 
-        const url = new URL(actionPath, window.location.href).href;
+
+        const url = new URL(
+            actionPath,
+            window.location.href
+        ).href;
+
+
         const token = csrfToken(sourceForm);
+
+
         if (!token) {
-            throw new Error('CSRF token is missing. Refresh the page and try again.');
+
+            throw new Error(
+                'CSRF token is missing. Refresh the page and try again.'
+            );
+
         }
 
-        // Avoid duplicate CSRF fields.
+
         data.delete('csrfmiddlewaretoken');
+
         data.append('csrfmiddlewaretoken', token);
 
-        console.log('Workflow POST URL:', url, 'Source form:', sourceForm.id || '(unnamed)');
 
         const response = await fetch(url, {
-			method: 'POST',
-			body: data,
-			headers: {
-				'X-Requested-With': 'XMLHttpRequest',
-				'X-CSRFToken': token,
-				'Accept': 'application/json'
-			},
-			credentials: 'same-origin'
-		});
-	
-		const contentType = response.headers.get('content-type') || '';
-		const responseText = await response.text();
-	
-		// Check whether Django actually returned JSON.
-		if (!contentType.includes('application/json')) {
-			console.error('Workflow server returned HTML:', {
-				status: response.status,
-				url: response.url,
-				response: responseText
-			});
-	
-			throw new Error(
-				`Server returned HTML instead of JSON (HTTP ${response.status}). Check Django terminal for the actual error.`
-			);
-		}
-	
-		let result;
-	
-		try {
-			result = JSON.parse(responseText);
-		} catch (error) {
-			console.error('Invalid JSON response:', responseText);
-			throw new Error('Invalid response received from Django.');
-		}
-	
-		if (!response.ok || !result.success) {
-			throw new Error(result.message || `Request failed (HTTP ${response.status}).`);
-		}
-	
-		return result;
-	}
 
+            method: 'POST',
+
+            body: data,
+
+            headers: {
+
+                'X-Requested-With': 'XMLHttpRequest',
+
+                'X-CSRFToken': token,
+
+                'Accept': 'application/json'
+
+            },
+
+            credentials: 'same-origin'
+
+        });
+
+
+        const contentType = response.headers.get('content-type') || '';
+
+        const responseText = await response.text();
+
+
+        if (!contentType.includes('application/json')) {
+
+            console.error('Workflow server returned HTML:', {
+
+                status: response.status,
+
+                url: response.url,
+
+                response: responseText
+
+            });
+
+            throw new Error(
+                `Server returned HTML instead of JSON (HTTP ${response.status}). Check Django terminal for the actual error.`
+            );
+
+        }
+
+
+        let result;
+
+        try {
+
+            result = JSON.parse(responseText);
+
+        } catch (error) {
+
+            console.error('Invalid JSON response:', responseText);
+
+            throw new Error(
+                'Invalid response received from Django.'
+            );
+
+        }
+
+
+        if (!response.ok || !result.success) {
+
+            throw new Error(
+                result.message || `Request failed (HTTP ${response.status}).`
+            );
+
+        }
+
+
+        return result;
+
+    }
+
+
+    // =================================================
+    // TAB SWITCHING
+    // =================================================
 
     panel.querySelectorAll('.workflow-tab').forEach(tab => {
+
         tab.addEventListener('click', function () {
-            panel.querySelectorAll('.workflow-tab').forEach(item => item.classList.remove('active'));
-            panel.querySelectorAll('.workflow-panel').forEach(item => item.classList.remove('active'));
+
+            panel.querySelectorAll('.workflow-tab').forEach(item => {
+
+                item.classList.remove('active');
+
+            });
+
+
+            panel.querySelectorAll('.workflow-panel').forEach(item => {
+
+                item.classList.remove('active');
+
+            });
+
+
             this.classList.add('active');
-            panel.querySelector('#tab-' + this.dataset.tab)?.classList.add('active');
+
+
+            panel.querySelector(
+                '#tab-' + this.dataset.tab
+            )?.classList.add('active');
+
         });
+
     });
 
-	panel.querySelector('#formDetailsForm')?.addEventListener('submit', async function (event) {
-		event.preventDefault();
-	
-		const data = new FormData(this);
-	
-		try {
-			const result = await postAction(data, this);
-	
-			// Update the form title wherever the matching elements exist.
-			const titleElements = panel.querySelectorAll('[data-form-title]');
-	
-			titleElements.forEach(element => {
-				element.textContent = result.title;
-			});
-	
-			// Update the selected form name in the left menu tree.
-			const selectedLink = document.querySelector(
-				'.workflow-form-row-selected .workflow-form-link'
-			);
-	
-			if (selectedLink) {
-				selectedLink.textContent = result.title;
-			}
-	
-			showToast(result.message);
-	
-		} catch (error) {
-			showToast(error.message, true);
-		}
-	});
 
-    panel.querySelector('#addQuestionBtn')?.addEventListener('click', () => openModal());
-    panel.querySelector('#addFirstQuestionBtn')?.addEventListener('click', () => openModal());
-    panel.querySelector('#addOptionBtn')?.addEventListener('click', () => addOption());
-    typeSelect.addEventListener('change', updateOptionVisibility);
-    modal.querySelectorAll('[data-close-question]').forEach(button => button.addEventListener('click', closeModal));
+    // =================================================
+    // SAVE BASIC DETAILS
+    // =================================================
+
+    panel.querySelector('#formDetailsForm')?.addEventListener(
+        'submit',
+        async function (event) {
+
+            event.preventDefault();
+
+            const data = new FormData(this);
+
+            try {
+
+                const result = await postAction(data, this);
+
+
+                // Update title in form builder.
+
+                const titleElements = panel.querySelectorAll(
+                    '[data-form-title]'
+                );
+
+                titleElements.forEach(element => {
+
+                    element.textContent = result.title;
+
+                });
+
+
+                // Update selected form in left menu.
+
+                const selectedLink = document.querySelector(
+                    '.workflow-form-row-selected .workflow-form-link'
+                );
+
+                if (selectedLink) {
+
+                    selectedLink.textContent = result.title;
+
+                }
+
+
+                showToast(
+                    result.message || 'Form details saved successfully.'
+                );
+
+            } catch (error) {
+
+                showToast(error.message, true);
+
+            }
+
+        }
+    );
+
+
+    // =================================================
+    // ADD QUESTION
+    // =================================================
+
+    panel.querySelector('#addQuestionBtn')?.addEventListener(
+        'click',
+        () => openModal()
+    );
+
+
+    // =================================================
+    // ADD FIRST QUESTION
+    // =================================================
+
+    panel.querySelector('#addFirstQuestionBtn')?.addEventListener(
+        'click',
+        () => openModal()
+    );
+
+
+    // =================================================
+    // ADD OPTION
+    // =================================================
+
+    panel.querySelector('#addOptionBtn')?.addEventListener(
+        'click',
+        () => addOption()
+    );
+
+
+    // =================================================
+    // QUESTION TYPE CHANGE
+    // =================================================
+
+    typeSelect.addEventListener(
+        'change',
+        updateOptionVisibility
+    );
+
+
+    // =================================================
+    // CLOSE MODAL
+    // =================================================
+
+    modal.querySelectorAll('[data-close-question]').forEach(button => {
+
+        button.addEventListener('click', closeModal);
+
+    });
+
+
+    // =================================================
+    // EDIT / DELETE QUESTION
+    // =================================================
 
     list.addEventListener('click', async function (event) {
+
         const editButton = event.target.closest('.edit-question-btn');
+
         const deleteButton = event.target.closest('.delete-question-btn');
+
         const card = event.target.closest('.workflow-question-card');
+
+
         if (!card) return;
 
+
+        // EDIT
+
         if (editButton) {
+
             openModal(card);
-        } else if (deleteButton) {
-            if (!confirm('Delete this question? Existing responses will be preserved and the question deactivated.')) return;
-            const data = new FormData();
-            data.append('action', 'delete_question');
-            data.append('question_id', card.dataset.questionId);
-            try {
-                const result = await postAction(data, questionForm);
-                card.remove();
-                updateQuestionCount();
-                showToast(result.message);
-            } catch (error) {
-                showToast(error.message, true);
-            }
+
+            return;
+
         }
+
+
+        // DELETE
+
+        if (deleteButton) {
+
+            if (!confirm(
+                'Delete this question? Existing responses will be preserved and the question deactivated.'
+            )) {
+
+                return;
+
+            }
+
+
+            const data = new FormData();
+
+            data.append('action', 'delete_question');
+
+            data.append('question_id', card.dataset.questionId);
+
+
+            try {
+
+                const result = await postAction(data, questionForm);
+
+                card.remove();
+
+                updateQuestionCount();
+
+                showToast(result.message);
+
+            } catch (error) {
+
+                showToast(error.message, true);
+
+            }
+
+        }
+
     });
+
+
+    // =================================================
+    // SAVE QUESTION
+    // =================================================
 
     questionForm.addEventListener('submit', async function (event) {
+
         event.preventDefault();
+
         const button = panel.querySelector('#saveQuestionBtn');
-        button.disabled = true;
-        try {
-            const result = await postAction(new FormData(questionForm), questionForm);
-            closeModal();
-            // Reload only this form's partial so the question list and options are authoritative.
-            const response = await fetch(new URL(questionEndpoint, window.location.href).href, {
-                headers: {'X-Requested-With': 'XMLHttpRequest'},
-                credentials: 'same-origin'
-            });
-            if (!response.ok) throw new Error('Question saved, but refreshing the builder failed.');
-            const html = await response.text();
-            panel.innerHTML = html;
-            if (typeof executeWorkflowPanelScripts === 'function') executeWorkflowPanelScripts(panel);
-            showToast(result.message);
-        } catch (error) {
-            showToast(error.message, true);
-        } finally {
-            button.disabled = false;
-        }
-    });
 
-    // Insert dynamic placeholders at the cursor position.
-    panel.querySelectorAll('.notes-placeholder').forEach(button => {
-        button.addEventListener('click', () => {
-            const textarea = panel.querySelector('#notesTemplateText');
-            if (!textarea) return;
-            const token = button.dataset.placeholder || '';
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            textarea.setRangeText(token, start, end, 'end');
-            textarea.focus();
-        });
-    });
+        const originalText = button.innerHTML;
 
-    // Save Notes Template to WorkflowForm.notes_template.
-    panel.querySelector('#notesTemplateForm')?.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const button = panel.querySelector('#saveNotesTemplateBtn');
-        const original = button.innerHTML;
         button.disabled = true;
+
         button.textContent = 'Saving...';
+
+
         try {
-            const result = await postAction(new FormData(this), this);
-            showToast(result.message || 'Notes template saved.');
+
+            const data = new FormData(questionForm);
+
+
+            // Explicitly submit the dropdown setting.
+
+            data.set(
+                'display_as_dropdown',
+                dropdownCheckbox.checked ? 'true' : 'false'
+            );
+
+
+            const result = await postAction(data, questionForm);
+
+
+            closeModal();
+
+
+            // Reload only this Form Builder partial.
+
+            const response = await fetch(
+                new URL(questionEndpoint, window.location.href).href,
+                {
+
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+
+                    credentials: 'same-origin'
+
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    'Question saved, but refreshing the builder failed.'
+                );
+
+            }
+
+
+            const html = await response.text();
+
+            panel.innerHTML = html;
+
+
+            if (typeof executeWorkflowPanelScripts === 'function') {
+
+                executeWorkflowPanelScripts(panel);
+
+            }
+
+
+            showToast(result.message);
+
         } catch (error) {
+
             showToast(error.message, true);
+
         } finally {
-            button.disabled = false;
-            button.innerHTML = original;
+
+            // The original button may belong to the old partial.
+            // Restore it only if it still exists.
+
+            if (button.isConnected) {
+
+                button.disabled = false;
+
+                button.innerHTML = originalText;
+
+            }
+
         }
+
     });
 
-    // Publish is active; the server validates that the form has questions.
-    panel.querySelector('#publishWorkflowFormBtn')?.addEventListener('click', async function () {
-        if (!confirm('Publish this form? Employees will be able to access it.')) return;
-        this.disabled = true;
-        const original = this.innerHTML;
-        this.textContent = 'Publishing...';
-        const data = new FormData();
-        data.append('action', 'publish_form');
-        try {
-            const result = await postAction(data, questionForm);
-            showToast(result.message || 'Form published successfully.');
-            const badge = panel.querySelector('.kt-badge-warning');
-            if (badge) {
-                badge.className = 'kt-badge kt-badge-success';
-                badge.textContent = 'Published';
-            }
-            this.innerHTML = '<i class="ki-filled ki-check"></i> Published';
-        } catch (error) {
-            showToast(error.message, true);
-            this.disabled = false;
-            this.innerHTML = original;
-        }
+
+    // =================================================
+    // NOTES PLACEHOLDER INSERTION
+    // =================================================
+
+    panel.querySelectorAll('.notes-placeholder').forEach(button => {
+
+        button.addEventListener('click', function () {
+
+            const textarea = panel.querySelector('#notesTemplateText');
+
+            if (!textarea) return;
+
+
+            const token = button.dataset.placeholder || '';
+
+            const start = textarea.selectionStart;
+
+            const end = textarea.selectionEnd;
+
+
+            textarea.setRangeText(
+                token,
+                start,
+                end,
+                'end'
+            );
+
+            textarea.focus();
+
+        });
+
     });
+
+
+    // =================================================
+    // SAVE NOTES TEMPLATE
+    // =================================================
+
+    panel.querySelector('#notesTemplateForm')?.addEventListener(
+        'submit',
+        async function (event) {
+
+            event.preventDefault();
+
+            const button = panel.querySelector('#saveNotesTemplateBtn');
+
+            const original = button.innerHTML;
+
+            button.disabled = true;
+
+            button.textContent = 'Saving...';
+
+
+            try {
+
+                const result = await postAction(
+                    new FormData(this),
+                    this
+                );
+
+                showToast(
+                    result.message || 'Notes template saved.'
+                );
+
+            } catch (error) {
+
+                showToast(error.message, true);
+
+            } finally {
+
+                button.disabled = false;
+
+                button.innerHTML = original;
+
+            }
+
+        }
+    );
+
+
+    // Publishing/unpublishing uses a normal POST form.
+    // This guarantees the request reaches Django even if panel AJAX
+    // initialization is unavailable. The view redirects back to the
+    // selected form after saving the status.
+
 })();
+
 </script>

@@ -1,4 +1,7 @@
-
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from datetime import date
+from decimal import Decimal, InvalidOperation
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -95,7 +98,10 @@ def menu_builder(request):
                 menu.display_order
             )
 
-            menu.is_active = request.POST.get("is_active") == "1"
+            # Preserve the existing active status when editing only
+            # the menu name and description.
+            if "is_active" in request.POST:
+                menu.is_active = request.POST.get("is_active") == "1"
             menu.save()
 
             messages.success(request, "Main Menu updated successfully.")
@@ -119,8 +125,7 @@ def menu_builder(request):
 
             main_menu = get_object_or_404(
                 WorkflowMainMenu,
-                pk=menu_id,
-                is_active=True
+                pk=menu_id
             )
 
             try:
@@ -162,8 +167,8 @@ def menu_builder(request):
         elif action == "update_submenu":
 
             submenu = get_object_or_404(
-                WorkflowSubMenu,
-                pk=request.POST.get("submenu_id")
+                WorkflowSubMenu.objects.select_related("main_menu"),
+                pk=submenu_id
             )
 
             title = request.POST.get("title", "").strip()
@@ -182,7 +187,10 @@ def menu_builder(request):
                 submenu.display_order
             )
 
-            submenu.is_active = request.POST.get("is_active") == "1"
+            # Preserve the existing active status when editing only
+            # the submenu name and description.
+            if "is_active" in request.POST:
+                submenu.is_active = request.POST.get("is_active") == "1"
 
             try:
                 submenu.save()
@@ -372,6 +380,7 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
+
 @login_required
 @require_http_methods(["GET", "POST"])
 def form_edit(request, form_id):
@@ -385,12 +394,17 @@ def form_edit(request, form_id):
     )
 
     if request.method == "POST":
-        action = request.POST.get("action", "save_details").strip()
+
+        action = request.POST.get(
+            "action", "save_details"
+        ).strip()
 
         # -------------------------------------------------
         # SAVE BASIC FORM DETAILS
         # -------------------------------------------------
+
         if action == "save_details":
+
             title = request.POST.get("title", "").strip()
             description = request.POST.get("description", "").strip()
 
@@ -402,8 +416,11 @@ def form_edit(request, form_id):
 
             workflow_form.title = title
             workflow_form.description = description
+
             workflow_form.save(update_fields=[
-                "title", "description", "updated_at"
+                "title",
+                "description",
+                "updated_at"
             ])
 
             return JsonResponse({
@@ -412,63 +429,169 @@ def form_edit(request, form_id):
                 "message": "Form details saved successfully."
             })
 
+
         # -------------------------------------------------
         # SAVE NOTES TEMPLATE
         # -------------------------------------------------
+
         if action == "save_notes_template":
+
             workflow_form.notes_template = request.POST.get(
                 "notes_template", ""
             ).strip()
+
             workflow_form.save(update_fields=[
-                "notes_template", "updated_at"
+                "notes_template",
+                "updated_at"
             ])
+
             return JsonResponse({
                 "success": True,
                 "message": "Notes template saved successfully."
             })
 
-        # -------------------------------------------------
-        # PUBLISH FORM
-        # -------------------------------------------------
-        if action == "publish_form":
-            active_question_count = FormQuestion.objects.filter(
-                form=workflow_form,
-                is_active=True
-            ).count()
 
-            if active_question_count == 0:
-                return JsonResponse({
-                    "success": False,
-                    "message": "Add at least one active question before publishing."
-                }, status=400)
+        # ==========================================
+        # PUBLISH / UNPUBLISH FORM
+        # ==========================================
+        if action in ("publish_form", "unpublish_form"):
 
-            if not workflow_form.title.strip():
-                return JsonResponse({
-                    "success": False,
-                    "message": "Please enter a form name before publishing."
-                }, status=400)
+            with transaction.atomic():
 
-            workflow_form.is_published = True
-            workflow_form.save(update_fields=[
-                "is_published", "updated_at"
-            ])
+                workflow_form = (
+                    WorkflowForm.objects
+                    .select_for_update()
+                    .select_related("submenu", "submenu__main_menu")
+                    .get(pk=form_id)
+                )
 
-            return JsonResponse({
-                "success": True,
-                "message": "Form published successfully."
-            })
+                submenu = workflow_form.submenu
+                main_menu = submenu.main_menu
+
+                if action == "publish_form":
+
+                    active_question_count = FormQuestion.objects.filter(
+                        form=workflow_form,
+                        is_active=True
+                    ).count()
+
+                    if active_question_count == 0:
+                        messages.error(
+                            request,
+                            "Add at least one active question before publishing."
+                        )
+                        return redirect(
+                            f"{reverse('Workflow:menu_builder')}?form_id={form_id}"
+                        )
+
+                    # Activate form
+                    workflow_form.is_active = True
+                    workflow_form.is_published = True
+
+                    workflow_form.save(
+                        update_fields=[
+                            "is_active",
+                            "is_published",
+                            "updated_at"
+                        ]
+                    )
+
+                    # Activate parent submenu
+                    submenu.is_active = True
+                    submenu.save(update_fields=["is_active", "updated_at"])
+
+                    # Activate parent main menu
+                    main_menu.is_active = True
+                    main_menu.save(update_fields=["is_active", "updated_at"])
+
+                    messages.success(
+                        request,
+                        "Form published successfully. Main Menu and Submenu activated."
+                    )
+
+                else:
+
+                    # Unpublish only this form
+                    workflow_form.is_published = False
+
+                    workflow_form.save(
+                        update_fields=["is_published", "updated_at"]
+                    )
+
+                    # Check whether this submenu has other published forms
+                    submenu_has_published_forms = WorkflowForm.objects.filter(
+                        submenu=submenu,
+                        is_active=True,
+                        is_published=True
+                    ).exists()
+
+                    if not submenu_has_published_forms:
+
+                        submenu.is_active = False
+                        submenu.save(
+                            update_fields=["is_active", "updated_at"]
+                        )
+
+                    # Check whether this main menu has other published forms
+                    main_menu_has_published_forms = WorkflowForm.objects.filter(
+                        submenu__main_menu=main_menu,
+                        is_active=True,
+                        is_published=True
+                    ).exists()
+
+                    if not main_menu_has_published_forms:
+
+                        main_menu.is_active = False
+                        main_menu.save(
+                            update_fields=["is_active", "updated_at"]
+                        )
+
+                    messages.success(
+                        request,
+                        "Form unpublished successfully."
+                    )
+
+            return redirect(
+                f"{reverse('Workflow:menu_builder')}?form_id={form_id}"
+            )
+
 
         # -------------------------------------------------
         # ADD / UPDATE QUESTION
         # -------------------------------------------------
+
         if action in ("add_question", "update_question"):
+
             question_id = request.POST.get("question_id")
 
-            question_text = request.POST.get("question_text", "").strip()
-            question_type = request.POST.get("question_type", "").strip().upper()
-            is_required = request.POST.get("is_required") == "1"
+            question_text = request.POST.get(
+                "question_text", ""
+            ).strip()
 
-            allowed_types = {"TEXT", "NUMBER", "SINGLE", "MULTIPLE"}
+            question_type = request.POST.get(
+                "question_type", ""
+            ).strip().upper()
+
+            is_required = request.POST.get(
+                "is_required"
+            ) == "1"
+
+            # Dropdown is supported only for SINGLE and MULTIPLE.
+            display_as_dropdown = (
+                request.POST.get("display_as_dropdown") == "true"
+            )
+
+            allowed_types = {
+                "TEXT",
+                "TEXTAREA",
+                "NUMBER",
+                "EMAIL",
+                "PHONE",
+                "DATE",
+                "SINGLE",
+                "MULTIPLE",
+                "YESNO",
+            }
 
             if not question_text:
                 return JsonResponse({
@@ -482,78 +605,142 @@ def form_edit(request, form_id):
                     "message": "Invalid question type."
                 }, status=400)
 
+            # Prevent dropdown configuration on unsupported types.
+            if question_type not in ("SINGLE", "MULTIPLE"):
+                display_as_dropdown = False
+
+            # Read and clean answer options.
             option_values = [
                 value.strip()
                 for value in request.POST.getlist("options")
                 if value.strip()
             ]
 
-            if question_type in ("SINGLE", "MULTIPLE") and len(option_values) < 2:
+            # Remove duplicate options while preserving order.
+            option_values = list(dict.fromkeys(option_values))
+
+            # Choice questions require at least two options.
+            if (
+                question_type in ("SINGLE", "MULTIPLE")
+                and len(option_values) < 2
+            ):
                 return JsonResponse({
                     "success": False,
-                    "message": "Please add at least two answer options."
+                    "message": "Please add at least two unique answer options."
                 }, status=400)
 
-            with transaction.atomic():
-                if action == "update_question":
-                    question = get_object_or_404(
-                        FormQuestion,
-                        pk=question_id,
-                        form=workflow_form
-                    )
-                    question.question_text = question_text
-                    question.question_type = question_type
-                    question.is_required = is_required
-                    question.save()
-                    question.options.all().delete()
-                else:
-                    next_order = (
-                        FormQuestion.objects
-                        .filter(form=workflow_form)
-                        .count() + 1
-                    )
-                    question = FormQuestion.objects.create(
-                        form=workflow_form,
-                        question_text=question_text,
-                        question_type=question_type,
-                        is_required=is_required,
-                        is_active=True,
-                        display_order=next_order
-                    )
+            try:
 
-                if question_type in ("SINGLE", "MULTIPLE"):
-                    QuestionOption.objects.bulk_create([
-                        QuestionOption(
-                            question=question,
-                            option_text=option,
-                            display_order=index
+                with transaction.atomic():
+
+                    if action == "update_question":
+
+                        question = get_object_or_404(
+                            FormQuestion.objects.select_for_update(),
+                            pk=question_id,
+                            form=workflow_form
                         )
-                        for index, option in enumerate(option_values, start=1)
-                    ])
+
+                        question.question_text = question_text
+                        question.question_type = question_type
+                        question.is_required = is_required
+                        question.display_as_dropdown = display_as_dropdown
+
+                        question.save(update_fields=[
+                            "question_text",
+                            "question_type",
+                            "is_required",
+                            "display_as_dropdown",
+                            "updated_at"
+                        ])
+
+                        # Replace the configured options.
+                        # Existing submitted answers remain stored in
+                        # WorkflowAnswer.answer_value.
+                        question.options.all().delete()
+
+                    else:
+
+                        next_order = (
+                            FormQuestion.objects
+                            .filter(form=workflow_form)
+                            .count() + 1
+                        )
+
+                        question = FormQuestion.objects.create(
+                            form=workflow_form,
+                            question_text=question_text,
+                            question_type=question_type,
+                            is_required=is_required,
+                            display_as_dropdown=display_as_dropdown,
+                            is_active=True,
+                            display_order=next_order
+                        )
+
+                    # Create options only for choice questions.
+                    if question_type in ("SINGLE", "MULTIPLE"):
+
+                        QuestionOption.objects.bulk_create([
+                            QuestionOption(
+                                question=question,
+                                option_text=option,
+                                display_order=index,
+                                is_active=True
+                            )
+                            for index, option in enumerate(
+                                option_values,
+                                start=1
+                            )
+                        ])
+
+            except IntegrityError:
+                return JsonResponse({
+                    "success": False,
+                    "message": "Unable to save the question. Please check the answer options."
+                }, status=400)
 
             return JsonResponse({
                 "success": True,
-                "message": "Question saved successfully."
+                "message": (
+                    "Question added successfully."
+                    if action == "add_question"
+                    else "Question updated successfully."
+                ),
+                "question_id": question.id,
+                "display_as_dropdown": question.display_as_dropdown
             })
+
 
         # -------------------------------------------------
         # DELETE / DEACTIVATE QUESTION
         # -------------------------------------------------
+
         if action == "delete_question":
+
             question = get_object_or_404(
                 FormQuestion,
                 pk=request.POST.get("question_id"),
                 form=workflow_form
             )
 
-            # Keep questions that already have submitted answers;
-            # deactivate them instead of deleting historical data.
+            # Preserve questions referenced by submitted answers.
             if question.submitted_answers.exists():
+
                 question.is_active = False
-                question.save(update_fields=["is_active", "updated_at"])
-                message = "Question has responses, so it was deactivated."
+
+                question.save(update_fields=[
+                    "is_active",
+                    "updated_at"
+                ])
+
+                message = (
+                    "Question has responses, so it was deactivated."
+                )
+
             else:
+
                 question.delete()
+
                 message = "Question deleted successfully."
 
             return JsonResponse({
@@ -561,14 +748,27 @@ def form_edit(request, form_id):
                 "message": message
             })
 
+
+        # -------------------------------------------------
+        # INVALID ACTION
+        # -------------------------------------------------
+
         return JsonResponse({
             "success": False,
             "message": "Invalid form builder action."
         }, status=400)
 
+
+    # =================================================
+    # LOAD FORM BUILDER DATA
+    # =================================================
+
     questions = (
         FormQuestion.objects
-        .filter(form=workflow_form, is_active=True)
+        .filter(
+            form=workflow_form,
+            is_active=True
+        )
         .prefetch_related("options")
         .order_by("display_order", "id")
     )
@@ -581,6 +781,7 @@ def form_edit(request, form_id):
     }
 
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+
         return render(
             request,
             "Workflow/Admin/form_builder.html",
@@ -590,11 +791,6 @@ def form_edit(request, form_id):
     return redirect(
         f"{reverse('Workflow:menu_builder')}?form_id={form_id}"
     )
-
-
-
-
-
 
 # =====================================================
 # 3. EMPLOYEE WORKFLOW
@@ -661,6 +857,7 @@ def employee_page(request):
 # =====================================================
 
 
+
 @login_required
 @require_http_methods(["GET", "POST"])
 def employee_form(request, form_id):
@@ -689,15 +886,19 @@ def employee_form(request, form_id):
         .order_by("display_order", "id")
     )
 
-    # Employee details
+    # ---------------------------------------------
+    # EMPLOYEE DETAILS
+    # ---------------------------------------------
+
     employee_name = (
         request.user.get_full_name()
         or request.user.username
     )
 
-    employee_id = getattr(
-        request.user, "employee_id", None
-    ) or request.user.username
+    employee_id = (
+        getattr(request.user, "employee_id", None)
+        or request.user.username
+    )
 
     department = getattr(request.user, "department", None)
     designation = getattr(request.user, "designation", None)
@@ -707,7 +908,10 @@ def employee_form(request, form_id):
     designation = str(designation) if designation else "-"
     shift = str(shift) if shift else "-"
 
-    # Latest draft
+    # ---------------------------------------------
+    # LATEST DRAFT
+    # ---------------------------------------------
+
     draft = (
         WorkflowSubmission.objects
         .filter(
@@ -727,13 +931,16 @@ def employee_form(request, form_id):
             for answer in draft.answers.all()
         }
 
-    # Attach saved answers to questions for HTML prefill
+    # Attach saved answers to questions
     for question in questions:
         question.current_answer = existing_answers.get(
             question.id, ""
         )
 
-    # POST: Save draft or submit
+    # ---------------------------------------------
+    # POST: SAVE DRAFT / SUBMIT FORM
+    # ---------------------------------------------
+
     if request.method == "POST":
 
         action = request.POST.get("action", "").strip()
@@ -744,7 +951,10 @@ def employee_form(request, form_id):
                 "message": "Invalid submission action."
             }, status=400)
 
-        if action == "save_draft" and not workflow_form.allow_draft:
+        if (
+            action == "save_draft"
+            and not workflow_form.allow_draft
+        ):
             return JsonResponse({
                 "success": False,
                 "message": "Draft saving is not enabled."
@@ -753,22 +963,47 @@ def employee_form(request, form_id):
         answers_to_save = []
         validation_errors = []
 
+        # -----------------------------------------
+        # PROCESS EACH QUESTION
+        # -----------------------------------------
+
         for question in questions:
 
             field_name = f"answer_{question.id}"
+            question_type = question.question_type
 
-            if question.question_type == "MULTIPLE":
-                value = request.POST.getlist(field_name)
+            # GET ANSWER
+            if question_type == "MULTIPLE":
+
+                value = [
+                    item.strip()
+                    for item in request.POST.getlist(field_name)
+                    if item.strip()
+                ]
+
             else:
-                value = request.POST.get(field_name, "").strip()
 
-            if question.question_type == "YESNO":
+                value = request.POST.get(
+                    field_name, ""
+                ).strip()
+
+            # -------------------------------------
+            # YES / NO
+            # -------------------------------------
+
+            if question_type == "YESNO":
+
                 if value and value.lower() not in ("yes", "no"):
                     validation_errors.append(
                         f"Invalid answer for {question.question_text}."
                     )
 
-            elif question.question_type in ("SINGLE", "DROPDOWN"):
+            # -------------------------------------
+            # SINGLE CHOICE
+            # -------------------------------------
+
+            elif question_type == "SINGLE":
+
                 allowed = {
                     option.option_text
                     for option in question.options.all()
@@ -779,38 +1014,141 @@ def employee_form(request, form_id):
                         f"Invalid option for {question.question_text}."
                     )
 
-            elif question.question_type == "MULTIPLE":
+            # -------------------------------------
+            # MULTIPLE CHOICE
+            # -------------------------------------
+
+            elif question_type == "MULTIPLE":
+
                 allowed = {
                     option.option_text
                     for option in question.options.all()
                 }
 
-                if not set(value).issubset(allowed):
+                if (
+                    not set(value).issubset(allowed)
+                    or len(value) != len(set(value))
+                ):
                     validation_errors.append(
                         f"Invalid options for {question.question_text}."
                     )
 
-            elif question.question_type == "EMAIL" and value:
+            # -------------------------------------
+            # EMAIL
+            # -------------------------------------
+
+            elif question_type == "EMAIL" and value:
+
                 try:
                     validate_email(value)
+
                 except ValidationError:
                     validation_errors.append(
-                        f"Enter a valid email for {question.question_text}."
+                        f"Enter a valid email address for {question.question_text}."
                     )
 
-            if action == "submit_form" and question.is_required and not value:
+            # -------------------------------------
+            # NUMBER
+            # -------------------------------------
+
+            elif question_type == "NUMBER" and value:
+
+                try:
+                    Decimal(value)
+
+                except (InvalidOperation, ValueError):
+                    validation_errors.append(
+                        f"Enter a valid number for {question.question_text}."
+                    )
+
+            # -------------------------------------
+            # PHONE - EXACTLY 10 DIGITS
+            # -------------------------------------
+
+            elif question_type == "PHONE" and value:
+
+                if not re.fullmatch(r"\d{10}", value):
+                    validation_errors.append(
+                        f"{question.question_text} must contain exactly 10 digits."
+                    )
+
+            # -------------------------------------
+            # DATE
+            # -------------------------------------
+
+            elif question_type == "DATE" and value:
+
+                try:
+                    date.fromisoformat(value)
+
+                except ValueError:
+                    validation_errors.append(
+                        f"Enter a valid date for {question.question_text}."
+                    )
+
+            # -------------------------------------
+            # SHORT TEXT - MAXIMUM 100 WORDS
+            # -------------------------------------
+
+            elif question_type == "TEXT" and value:
+
+                word_count = len(value.split())
+
+                if word_count > 100:
+                    validation_errors.append(
+                        f"{question.question_text} cannot exceed 100 words."
+                    )
+
+            # -------------------------------------
+            # LONG TEXT - MAXIMUM 250 WORDS
+            # -------------------------------------
+
+            elif question_type == "TEXTAREA" and value:
+
+                word_count = len(value.split())
+
+                if word_count > 250:
+                    validation_errors.append(
+                        f"{question.question_text} cannot exceed 250 words."
+                    )
+
+            # -------------------------------------
+            # REQUIRED FIELD VALIDATION
+            # Only mandatory during final submission
+            # -------------------------------------
+
+            is_empty = (
+                not value
+                if isinstance(value, str)
+                else len(value) == 0
+            )
+
+            if (
+                action == "submit_form"
+                and question.is_required
+                and is_empty
+            ):
                 validation_errors.append(
                     f"{question.question_text} is required."
                 )
 
             answers_to_save.append((question, value))
 
+        # -----------------------------------------
+        # RETURN VALIDATION ERRORS
+        # -----------------------------------------
+
         if validation_errors:
+
             return JsonResponse({
                 "success": False,
                 "message": "Please correct the following:",
                 "errors": validation_errors
             }, status=400)
+
+        # -----------------------------------------
+        # GENERATED AND FINAL NOTES
+        # -----------------------------------------
 
         generated_notes = request.POST.get(
             "generated_notes", ""
@@ -819,6 +1157,10 @@ def employee_form(request, form_id):
         final_notes = request.POST.get(
             "final_notes", ""
         ).strip()
+
+        # -----------------------------------------
+        # SAVE TRANSACTION
+        # -----------------------------------------
 
         with transaction.atomic():
 
@@ -835,12 +1177,14 @@ def employee_form(request, form_id):
             )
 
             if not submission:
+
                 submission = WorkflowSubmission.objects.create(
                     form=workflow_form,
                     submitted_by=request.user,
                     status="DRAFT"
                 )
 
+            # SAVE ANSWERS
             for question, value in answers_to_save:
 
                 WorkflowAnswer.objects.update_or_create(
@@ -851,7 +1195,7 @@ def employee_form(request, form_id):
                     }
                 )
 
-            # Preserve existing metadata
+            # PRESERVE METADATA
             metadata = submission.metadata or {}
 
             metadata.update({
@@ -860,26 +1204,35 @@ def employee_form(request, form_id):
             })
 
             submission.metadata = metadata
+
             submission.save(update_fields=[
-                "metadata", "updated_at"
+                "metadata",
+                "updated_at"
             ])
+
+            # -------------------------------------
+            # FINAL SUBMISSION
+            # -------------------------------------
 
             if action == "submit_form":
 
                 submission.mark_submitted()
 
                 if not submission.reference_number:
+
                     submission.reference_number = (
                         f"WF-{submission.pk:06d}"
                     )
 
                     submission.save(update_fields=[
-                        "reference_number", "updated_at"
+                        "reference_number",
+                        "updated_at"
                     ])
 
                 message = "Form submitted successfully."
 
             else:
+
                 message = "Draft saved successfully."
 
         return JsonResponse({
@@ -888,6 +1241,10 @@ def employee_form(request, form_id):
             "reference_number": submission.reference_number or "",
             "status": submission.status
         })
+
+    # ---------------------------------------------
+    # GET CONTEXT
+    # ---------------------------------------------
 
     context = {
         "form": workflow_form,
@@ -901,10 +1258,12 @@ def employee_form(request, form_id):
         "department": department,
         "designation": designation,
         "shift": shift,
+
         "today": timezone.now(),
     }
 
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+
         return render(
             request,
             "Workflow/Employee/form_fill.html",
@@ -912,6 +1271,7 @@ def employee_form(request, form_id):
         )
 
     return redirect("Workflow:employee_page")
+
 
 
 

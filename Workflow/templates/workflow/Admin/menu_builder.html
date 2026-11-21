@@ -27,7 +27,7 @@
                         </div>
 
                         <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
-                            Workflow Menu Builder
+                            Aura Sprint Menu Builder
                         </h1>
 
                         <p class="text-sm text-secondary mt-1">
@@ -102,6 +102,16 @@
                                                 onclick="openCreateModal('submenu', '{{ menu.id }}')">
                                             <i class="ki-filled ki-plus"></i>
                                         </button>
+                                        <button type="button"
+                                                class="workflow-edit"
+                                                title="Edit Main Menu"
+                                                data-edit-type="main_menu"
+                                                data-item-id="{{ menu.id }}"
+                                                data-title="{{ menu.title }}"
+                                                data-description="{{ menu.description|default_if_none:'' }}"
+                                                onclick="openEditModal(this)">
+                                            <i class="ki-filled ki-notepad-edit"></i>
+                                        </button>
                                     </div>
 
                                     <!-- SUBMENUS -->
@@ -135,6 +145,17 @@
                                                             onclick="openCreateModal('form', '{{ submenu.id }}')">
                                                         <i class="ki-filled ki-plus"></i>
                                                     </button>
+                                                    <button type="button"
+                                                            class="workflow-edit"
+                                                            title="Edit Submenu"
+                                                            data-edit-type="submenu"
+                                                            data-item-id="{{ submenu.id }}"
+                                                            data-parent-id="{{ menu.id }}"
+                                                            data-title="{{ submenu.title }}"
+                                                            data-description="{{ submenu.description|default_if_none:'' }}"
+                                                            onclick="openEditModal(this)">
+                                                        <i class="ki-filled ki-notepad-edit"></i>
+                                                    </button>
                                                 </div>
 
                                                 <!-- FORMS -->
@@ -157,13 +178,16 @@
 																	{{ form.title }}
 																</a>
 
-                                                            {% if form.is_published %}
-                                                                <span class="workflow-status published"
-                                                                      title="Published"></span>
-                                                            {% else %}
-                                                                <span class="workflow-status draft"
-                                                                      title="Draft"></span>
-                                                            {% endif %}
+																{% if not form.is_active %}
+																	<span class="workflow-status inactive"
+																		title="Inactive"></span>
+																{% elif form.is_published %}
+																	<span class="workflow-status published"
+																		title="Published"></span>
+																{% else %}
+																	<span class="workflow-status draft"
+																		title="Draft / Unpublished"></span>
+																{% endif %}
 
                                                         </div>
 
@@ -291,6 +315,8 @@
                     <input type="hidden"
                            name="action"
                            id="workflowAction">
+                    <input type="hidden" name="menu_id" id="workflowMenuId">
+                    <input type="hidden" name="submenu_id" id="workflowSubmenuId">
 
                     <!-- MAIN MENU -->
                     <div id="mainMenuFields">
@@ -320,24 +346,26 @@
                     <!-- SUBMENU -->
                     <div id="submenuFields" class="hidden">
 
-                        <div class="mb-5">
+                        <div class="mb-5" id="submenuParentField">
                             <label class="kt-form-label">
                                 Main Menu <span class="text-danger">*</span>
                             </label>
 
-                            <select name="main_menu_id"
-                                    id="mainMenuSelect"
-                                    class="kt-input">
-                                <option value="">Select Main Menu</option>
+<select name="main_menu_id"
+        id="mainMenuSelect"
+        class="kt-input"
+        required>
 
-                                {% for menu in menus %}
-                                    {% if menu.is_active %}
-                                        <option value="{{ menu.id }}">
-                                            {{ menu.title }}
-                                        </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
+    <option value="">Select Main Menu</option>
+
+    {% for menu in menus %}
+        <option value="{{ menu.id }}">
+            {{ menu.title }}
+            {% if not menu.is_active %}(Inactive){% endif %}
+        </option>
+    {% endfor %}
+
+</select>
                         </div>
 
                         <div class="mb-5">
@@ -370,21 +398,25 @@
                                 Submenu <span class="text-danger">*</span>
                             </label>
 
-                            <select name="submenu_id"
-                                    id="submenuSelect"
-                                    class="kt-input">
-                                <option value="">Select Submenu</option>
+<select name="submenu_id"
+        id="submenuSelect"
+        class="kt-input"
+        required>
 
-                                {% for menu in menus %}
-                                    {% for submenu in menu.submenus.all %}
-                                        {% if submenu.is_active and menu.is_active %}
-                                            <option value="{{ submenu.id }}">
-                                                {{ menu.title }} / {{ submenu.title }}
-                                            </option>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
-                            </select>
+    <option value="">Select Submenu</option>
+
+    {% for menu in menus %}
+        {% for submenu in menu.submenus.all %}
+            <option value="{{ submenu.id }}">
+                {{ menu.title }} / {{ submenu.title }}
+                {% if not submenu.is_active or not menu.is_active %}
+                    (Inactive)
+                {% endif %}
+            </option>
+        {% endfor %}
+    {% endfor %}
+
+</select>
                         </div>
 
                         <div class="mb-5">
@@ -498,7 +530,8 @@
 }
 
 .workflow-expand,
-.workflow-add {
+.workflow-add,
+.workflow-edit {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -510,9 +543,20 @@
 }
 
 .workflow-expand:hover,
-.workflow-add:hover {
+.workflow-add:hover,
+.workflow-edit:hover {
     background: #e2e8f0;
     color: #2563eb;
+}
+
+.workflow-edit {
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    color: #64748b;
 }
 
 .workflow-main-item > .workflow-submenu-list {
@@ -558,6 +602,10 @@
 
 .workflow-status.draft {
     background: #f59e0b;
+}
+
+.workflow-status.inactive {
+    background: #dc2626;
 }
 
 .workflow-empty-child {
@@ -684,6 +732,13 @@
 
 function openCreateModal(type, parentId = '') {
 
+    const form = document.getElementById('workflowCreateForm');
+    form.reset();
+
+    document.getElementById('workflowMenuId').value = '';
+    document.getElementById('workflowSubmenuId').value = '';
+    document.getElementById('submenuParentField').classList.remove('hidden');
+
     const modal = document.getElementById('workflowCreateModal');
 
     const mainFields = document.getElementById('mainMenuFields');
@@ -750,6 +805,50 @@ function openCreateModal(type, parentId = '') {
     }
 
     modal.classList.remove('hidden');
+}
+
+
+function openEditModal(button) {
+    const type = button.dataset.editType;
+    const itemId = button.dataset.itemId;
+    const itemTitle = button.dataset.title || '';
+    const itemDescription = button.dataset.description || '';
+
+    // Reuse the existing modal and its field enable/disable logic.
+    openCreateModal(type, button.dataset.parentId || '');
+
+    const form = document.getElementById('workflowCreateForm');
+    const action = document.getElementById('workflowAction');
+    const modalTitle = document.getElementById('workflowModalTitle');
+    const modalDescription = document.getElementById('workflowModalDescription');
+
+    if (type === 'main_menu') {
+        action.value = 'update_main_menu';
+        document.getElementById('workflowMenuId').value = itemId;
+
+        const fields = document.getElementById('mainMenuFields');
+        fields.querySelector('[name="title"]').value = itemTitle;
+        fields.querySelector('[name="description"]').value = itemDescription;
+
+        modalTitle.textContent = 'Edit Main Menu';
+        modalDescription.textContent = 'Update the menu name and description.';
+    } else if (type === 'submenu') {
+        action.value = 'update_submenu';
+        document.getElementById('workflowSubmenuId').value = itemId;
+
+        // The parent menu is shown in the tree and is not changed in this edit.
+        document.getElementById('submenuParentField').classList.add('hidden');
+
+        const fields = document.getElementById('submenuFields');
+        fields.querySelector('[name="title"]').value = itemTitle;
+        fields.querySelector('[name="description"]').value = itemDescription;
+
+        modalTitle.textContent = 'Edit Submenu';
+        modalDescription.textContent = 'Update the submenu name and description.';
+    }
+
+    modalTitle.scrollIntoView({ block: 'nearest' });
+    document.getElementById('workflowCreateModal').classList.remove('hidden');
 }
 
 

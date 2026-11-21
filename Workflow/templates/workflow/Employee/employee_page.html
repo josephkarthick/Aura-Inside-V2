@@ -16,7 +16,7 @@
                             <span>My Workflows</span>
                         </div>
                         <h1 class="text-xl lg:text-2xl font-bold text-gray-900">
-                            Workflow
+                            Aura Sprint
                         </h1>
                         <p class="text-sm text-secondary mt-1">
                             Select a form from the menu to complete it or view your submitted forms.
@@ -63,8 +63,10 @@
                                         </button>
                                         <i class="ki-filled ki-folder text-primary text-lg"></i>
                                         <button type="button"
-                                                class="workflow-item-name"
-                                                onclick="toggleTree(this)">
+                                                class="workflow-item-name workflow-description-trigger"
+                                                data-description-type="Main Menu"
+                                                data-title="{{ menu.title }}"
+                                                data-description="{{ menu.description|default:'' }}">
                                             {{ menu.title }}
                                         </button>
                                     </div>
@@ -84,8 +86,10 @@
                                                         </button>
                                                         <i class="ki-filled ki-folder text-warning text-lg"></i>
                                                         <button type="button"
-                                                                class="workflow-item-name"
-                                                                onclick="toggleTree(this)">
+                                                                class="workflow-item-name workflow-description-trigger"
+                                                                data-description-type="Submenu"
+                                                                data-title="{{ submenu.title }}"
+                                                                data-description="{{ submenu.description|default:'' }}">
                                                             {{ submenu.title }}
                                                         </button>
                                                     </div>
@@ -478,6 +482,18 @@
 .workflow-form-row-selected .workflow-item-name {
     color: #2563eb;
 }
+.workflow-description-row-selected {
+    background: #eff6ff;
+    border-radius: 7px;
+}
+.workflow-description-row-selected .workflow-item-name {
+    color: #2563eb;
+}
+.workflow-description-content {
+    white-space: pre-line;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
 @media (max-width: 650px) {
     .employee-workspace-tabs {
         padding-left: 10px;
@@ -583,6 +599,9 @@
         selectedFormUrl = link.dataset.formUrl;
         selectedSubmissionsUrl = link.dataset.submissionsUrl;
 
+        document.querySelectorAll('.workflow-description-trigger').forEach(item => {
+            item.classList.remove('workflow-description-row-selected');
+        });
         document.querySelectorAll('.workflow-form-link').forEach(item => {
             item.classList.toggle('active', item === link);
             item.closest('.form-row')?.classList.toggle(
@@ -627,6 +646,56 @@
         div.textContent = value;
         return div.innerHTML;
     }
+
+    function showWorkflowDescription(button) {
+        const title = button.dataset.title || button.textContent.trim();
+        const description = (button.dataset.description || '').trim();
+        const type = button.dataset.descriptionType || 'Workflow';
+
+        // A menu/submenu selection is a landing view, not a form selection.
+        selectedFormId = null;
+        selectedFormTitle = '';
+        selectedFormUrl = '';
+        selectedSubmissionsUrl = '';
+        submittedTab.disabled = true;
+        setActiveTab('fill');
+
+        // Remove any previously selected form from the URL so refresh stays on this landing view.
+        const pageUrl = new URL(window.location.href);
+        pageUrl.searchParams.delete('form_id');
+        history.pushState({}, '', pageUrl.pathname + pageUrl.search);
+
+        document.querySelectorAll('.workflow-description-trigger').forEach(item => {
+            item.classList.toggle('workflow-description-row-selected', item === button);
+        });
+        document.querySelectorAll('.workflow-form-link').forEach(item => {
+            item.classList.remove('active');
+            item.closest('.form-row')?.classList.remove('workflow-form-row-selected');
+        });
+
+        fillPanel.innerHTML = `
+            <div class="p-6 md:p-8">
+                <div class="max-w-3xl mx-auto bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="workflow-welcome-icon" style="width:52px;height:52px;font-size:23px;border-radius:14px;">
+                            <i class="ki-filled ki-${type === 'Main Menu' ? 'folder' : 'folder-open'}"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wide text-primary">${escapeHtml(type)}</div>
+                            <h2 class="text-xl md:text-2xl font-bold text-gray-900">${escapeHtml(title)}</h2>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-100 pt-5">
+                        <h3 class="text-sm font-semibold text-gray-700 mb-2">Description</h3>
+                        <p class="workflow-description-content text-sm text-gray-600">${description ? escapeHtml(description) : 'No description has been added for this ' + type.toLowerCase() + '.'}</p>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    document.querySelectorAll('.workflow-description-trigger').forEach(button => {
+        button.addEventListener('click', () => showWorkflowDescription(button));
+    });
 
     document.querySelectorAll('.workflow-form-link').forEach(link => {
         link.addEventListener('click', event => {
@@ -706,6 +775,9 @@
         selectedFormUrl = link.dataset.formUrl;
         selectedSubmissionsUrl = link.dataset.submissionsUrl;
 
+        document.querySelectorAll('.workflow-description-trigger').forEach(item => {
+            item.classList.remove('workflow-description-row-selected');
+        });
         document.querySelectorAll('.workflow-form-link').forEach(item => {
             item.classList.toggle('active', item === link);
             item.closest('.form-row')?.classList.toggle('workflow-form-row-selected', item === link);

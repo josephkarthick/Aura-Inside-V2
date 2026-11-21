@@ -120,18 +120,20 @@
                                     </td>
 
 
-                                    <!-- ACTION -->
-                                    <td class="text-end">
-
-                                        <a href="{% url 'Workflow:employee_submission_detail' submission.id %}"
-                                           class="kt-btn kt-btn-sm kt-btn-light-primary" disable>
-
-                                            <i class="ki-filled ki-eye"></i>
-                                            View Details
-
-                                        </a>
-
-                                    </td>
+									<!-- ACTION -->
+									<td class="text-end">
+									
+										<a href="{% url 'Workflow:employee_submission_detail' submission.id %}"
+										class="kt-btn kt-btn-sm kt-btn-light-primary disabled"
+										style="pointer-events: none; opacity: 0.5; cursor: not-allowed;"
+										aria-disabled="true">
+									
+											<i class="ki-filled ki-eye"></i>
+											Under Development
+									
+										</a>
+									
+									</td>
 
                                 </tr>
 
