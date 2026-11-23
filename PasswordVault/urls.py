@@ -8,5 +8,10 @@ urlpatterns = [
     path("add/", views.vault_add, name="vault_add"),
     path("view/<int:pk>/", views.vault_view, name="vault_view"),
     path("edit/<int:pk>/", views.vault_edit, name="vault_edit"),      
-    path("delete/<int:pk>/", views.vault_delete, name="vault_delete"),     
+    path("delete/<int:pk>/", views.vault_delete, name="vault_delete"), 
+    path(
+        "bulk-share/",
+        views.vault_bulk_share,
+        name="vault_bulk_share"
+    ),    
 ]

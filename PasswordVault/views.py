@@ -4,7 +4,8 @@ from django.http import JsonResponse, HttpResponseForbidden
 from django.db.models import Q
 from django.conf import settings
 from Accounts.models import SecurityGroup, AuraInsideUser
-
+from django.db import transaction
+from django.views.decorators.http import require_POST
 from cryptography.fernet import Fernet
 
 from ADManager.views import (
@@ -137,6 +138,36 @@ def vault_list(request):
     # -----------------------------------------
     voip_count = entries.count()
 
+    security_groups = SecurityGroup.objects.all().order_by(
+        "project",
+        "process"
+    )
+    
+    project_users = {}
+    
+    for group in security_groups:
+    
+        users = (
+            AuraInsideUser.objects
+            .filter(
+                is_active=True,
+                security_groups=group
+            )
+            .distinct()
+            .order_by("first_name", "last_name")
+        )
+    
+        project_users[group.distinguished_name] = [
+            {
+                "id": user.id,
+                "name": (
+                    f"{user.first_name} {user.last_name}".strip()
+                    or user.username
+                )
+            }
+            for user in users
+        ]
+
     # -----------------------------------------
     # Render
     # -----------------------------------------
@@ -146,6 +177,9 @@ def vault_list(request):
         {
             "entries": entries,
             "voip_count": voip_count,
+            "security_groups": security_groups,
+            "project_users": project_users,
+            "permissions": GroupPermission.choices,            
         }
     )
 
@@ -651,4 +685,156 @@ def vault_delete(request, pk):
     )
 
     entry.delete()
+    return redirect("passwordvault:vault_list")
+
+
+# ==========================================================
+# BULK SHARE PASSWORDS
+# ==========================================================
+
+@login_required
+@require_POST
+def vault_bulk_share(request):
+
+    password_ids = request.POST.getlist("password_ids[]")
+
+    group_dns = request.POST.getlist("group_dn[]")
+    permissions = request.POST.getlist("permission[]")
+
+    user_ids = request.POST.getlist("user_id[]")
+    user_permissions = request.POST.getlist("user_permission[]")
+    user_group_dns = request.POST.getlist("user_group_dn[]")
+
+    if not password_ids:
+        return JsonResponse(
+            {"error": "Please select at least one password."},
+            status=400
+        )
+
+    # Validate selected passwords
+    entries = list(
+        PasswordEntry.objects.filter(
+            id__in=password_ids
+        ).select_related("owner")
+    )
+
+    if len(entries) != len(set(password_ids)):
+        return JsonResponse(
+            {"error": "One or more selected passwords are invalid."},
+            status=400
+        )
+
+    # Only owners or users with write access can manage sharing
+    for entry in entries:
+        if not has_write_access(request, request.user, entry):
+            return HttpResponseForbidden(
+                f"You cannot manage access for {entry.name}."
+            )
+
+    # Prepare and validate group permissions
+    group_access = {}
+
+    valid_permissions = {
+        value for value, label in GroupPermission.choices
+    }
+
+    for group_dn, permission in zip(group_dns, permissions):
+
+        if not group_dn or permission not in valid_permissions:
+            return JsonResponse(
+                {"error": "Invalid project/process permission."},
+                status=400
+            )
+
+        if not SecurityGroup.objects.filter(
+            distinguished_name=group_dn
+        ).exists():
+            return JsonResponse(
+                {"error": "Invalid security group."},
+                status=400
+            )
+
+        group_access[group_dn] = permission
+
+    # Prepare and validate individual user permissions
+    user_access = {}
+
+    for user_id, permission, group_dn in zip(
+        user_ids,
+        user_permissions,
+        user_group_dns
+    ):
+
+        if (
+            not user_id
+            or not group_dn
+            or permission not in valid_permissions
+        ):
+            return JsonResponse(
+                {"error": "Invalid individual user permission."},
+                status=400
+            )
+
+        valid_user = AuraInsideUser.objects.filter(
+            id=user_id,
+            is_active=True,
+            security_groups__distinguished_name=group_dn
+        ).exists()
+
+        if not valid_user:
+            return JsonResponse(
+                {"error": "Invalid user or process assignment."},
+                status=400
+            )
+
+        user_access[(user_id, group_dn)] = permission
+
+    if not group_access and not user_access:
+        return JsonResponse(
+            {"error": "Please select at least one access permission."},
+            status=400
+        )
+
+    # Apply access to all selected passwords
+    try:
+        with transaction.atomic():
+
+            for entry in entries:
+
+                # LDAP Group Access
+                for group_dn, permission in group_access.items():
+
+                    PasswordGroupAccess.objects.update_or_create(
+                        password_entry=entry,
+                        group_dn=group_dn,
+                        defaults={
+                            "permission": permission
+                        }
+                    )
+
+                # Individual User Access
+                for (user_id, group_dn), permission in user_access.items():
+
+                    PasswordUserAccess.objects.update_or_create(
+                        password_entry=entry,
+                        user_id=user_id,
+                        group_dn=group_dn,
+                        defaults={
+                            "permission": permission
+                        }
+                    )
+
+                # Audit
+                VaultAudit.objects.create(
+                    user=request.user,
+                    action="bulk_shared",
+                    password_entry=entry
+                )
+
+    except Exception:
+        return JsonResponse(
+            {"error": "Bulk sharing failed. No changes were saved."},
+            status=500
+        )
+
     return redirect("passwordvault:vault_list")

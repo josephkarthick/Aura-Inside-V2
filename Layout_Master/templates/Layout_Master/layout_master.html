@@ -317,9 +317,9 @@
 
                                             <span>
                                                 {% if employee.get_full_name %}
-                                                    {{ employee.get_full_name }} ({{ employee.username }})
+                                                    {{ employee.get_full_name }} ({{ employee.username|upper }})
                                                 {% else %}
-                                                    {{ employee.username }}
+                                                    {{ employee.username|upper }}
                                                 {% endif %}
                                             </span>
                                         </label>

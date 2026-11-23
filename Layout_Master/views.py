@@ -68,11 +68,21 @@ def _permission_json(level, obj):
 
 @login_required
 def layout_master(request):
-    menus = Menu.objects.prefetch_related('submenus__child_menus').order_by('order', 'name')
+    menus = Menu.objects.prefetch_related(
+        'submenus__child_menus'
+    ).order_by('order', 'name')
+
     departments = Department.objects.all().order_by('name')
-    users = AuraInsideUser.objects.all().order_by('username')
+
+    # Show only active/enabled employees
+    users = AuraInsideUser.objects.filter(
+        is_active=True
+    ).order_by('username')
+
     return render(request, 'Layout_Master/layout_master.html', {
-        'menus': menus, 'departments': departments, 'users': users,
+        'menus': menus,
+        'departments': departments,
+        'users': users,
     })
 
 

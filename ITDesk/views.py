@@ -1446,7 +1446,9 @@ def edit_voip(request, pk):
 
     voip = get_object_or_404(VoipRecord, pk=pk)
     vendors = Vendor.objects.order_by("name")
-    employeeid = AuraInsideUser.objects.order_by("username")
+    employeeid = AuraInsideUser.objects.filter(
+        is_active=True
+    ).order_by("username")
 
     if request.method == "POST":
         try:

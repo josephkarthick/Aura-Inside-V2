@@ -1,7 +1,8 @@
+
 {% load static %}
 {% include 'Layout_Master/base.html' %}
 
-<title>{{ vendor }} Login Details</title>
+<title>My VoIP Login Details</title>
 
 <style>
 .login-page {
@@ -10,304 +11,517 @@
     left: 70px;
     right: 0;
     bottom: 0;
-
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-
-    padding: 30px;
+    padding: 25px;
     background: #f4f6f9;
-
     overflow-y: auto;
     z-index: 1;
-}
-
-.login-card {
-    width: 450px;
-    max-width: 100%;
-
-    min-height: 450px;
-    height: auto;
-
-    background: #ffffff;
-    padding: 35px;
-
-    border-radius: 16px;
-
     box-sizing: border-box;
 }
 
-    .login-icon {
-        width: 65px;
-        height: 65px;
-        background: #fff0eb;
-        color: #ff4b00;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        margin: 0 auto 18px;
+.login-card {
+    width: 1100px;
+    max-width: 100%;
+    min-height: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    margin: 10px auto 30px;
+}
+
+/* HEADER */
+
+.login-icon {
+    width: 60px;
+    height: 60px;
+    background: #fff0eb;
+    color: #ff4b00;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    margin: 0 auto 15px;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 8px;
+    color: #222;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+/* ACCOUNT GRID */
+
+/* MAIN ACCOUNT GRID */
+
+.voip-account-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* SINGLE ACCOUNT */
+
+.voip-account-list.single-account {
+    grid-template-columns: minmax(0, 500px);
+    justify-content: center;
+}
+
+/* ACCOUNT CARD */
+
+.voip-account-card {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+
+    background: #fff;
+    border: 1px solid #e3e8ef;
+    border-radius: 13px;
+
+    padding: 22px;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    transition: 0.2s ease;
+}
+
+.voip-account-card:hover {
+    border-color: #ffb69a;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .voip-account-list,
+    .voip-account-list.single-account {
+        grid-template-columns: 1fr;
     }
 
-    .login-card h2 {
-        text-align: center;
-        margin-bottom: 8px;
-        color: #222;
-        font-size: 23px;
-        font-weight: 700;
-    }
+}
 
-    .subtitle {
-        text-align: center;
-        color: #777;
-        margin-bottom: 28px;
-        font-size: 14px;
-    }
+/* ACCOUNT HEADER */
 
-    .field {
-        margin-bottom: 20px;
-    }
+.account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #edf0f4;
+}
 
-    .field label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: #444;
-        font-size: 14px;
-    }
+.account-title h3 {
+    margin: 0 0 5px;
+    color: #252525;
+    font-size: 18px;
+    font-weight: 700;
+}
 
-    .value-group {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
+.account-number {
+    font-size: 12px;
+    color: #888;
+}
 
-    .value {
-        flex: 1;
-        min-width: 0;
-        padding: 12px 14px;
-        background: #f5f7fb;
-        border: 1px solid #e1e6ef;
-        border-radius: 8px;
-        word-break: break-word;
-        font-size: 14px;
-        color: #333;
-    }
+.account-badge {
+    background: #e8f8ee;
+    color: #168447;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
 
-    .copy-btn {
-        border: none;
-        background: #eef2f7;
-        color: #555;
-        padding: 11px 13px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        white-space: nowrap;
-    }
+/* FIELDS */
 
-    .copy-btn:hover {
-        background: #e3e8f0;
-    }
+.field {
+    margin-bottom: 17px;
+}
 
-    .login-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 14px;
-        background: #ff4b00;
-        color: white;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        margin-bottom: 28px;
-        transition: 0.2s;
-    }
+.field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #444;
+    font-size: 13px;
+}
 
-    .login-link:hover {
-        background: #e64200;
-        color: white;
-    }
+.value-group,
+.password-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+}
 
-    .notice {
-        background: #fff5e6;
-        color: #865b20;
-        padding: 14px;
-        border-radius: 8px;
-        font-size: 13px;
-        line-height: 1.6;
-    }
+.value {
+    flex: 1;
+    min-width: 0;
+    padding: 11px 12px;
+    background: #f5f7fb;
+    border: 1px solid #e1e6ef;
+    border-radius: 8px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
 
-    .error-notice {
-        background: #fff0f0;
-        color: #b42318;
-        padding: 14px;
-        border-radius: 8px;
-        font-size: 14px;
-        line-height: 1.6;
-        text-align: center;
-    }
+.copy-btn,
+.toggle-btn {
+    flex-shrink: 0;
+    border: none;
+    background: #eef2f7;
+    color: #555;
+    padding: 9px 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
 
-    .password-wrapper {
-        display: flex;
-        gap: 8px;
-        width: 100%;
-    }
+.copy-btn:hover,
+.toggle-btn:hover {
+    background: #dfe6ef;
+}
 
-    .password-wrapper .value {
-        flex: 1;
-    }
+/* LOGIN BUTTON */
 
-    .toggle-btn {
-        border: none;
-        background: #eef2f7;
-        color: #555;
-        padding: 11px 13px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-    }
+.login-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px;
+    background: #ff4b00;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 22px;
+    transition: 0.2s;
+}
+
+.login-link:hover {
+    background: #e64200;
+    color: white;
+}
+
+/* NOTICE */
+
+.notice {
+    background: #fff5e6;
+    color: #865b20;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+.error-notice {
+    background: #fff0f0;
+    color: #b42318;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
 
     .login-page {
         left: 0;
         top: 70px;
-        padding: 20px 15px;
+        padding: 15px;
     }
 
     .login-card {
         width: 100%;
-        padding: 25px 20px;
+        padding: 20px 15px;
+    }
+
+    .voip-account-list {
+        grid-template-columns: 1fr;
+    }
+
+    .voip-account-card {
+        padding: 17px;
+    }
+
+}
+
+@media (max-width: 400px) {
+
+    .password-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .password-wrapper .value {
+        flex-basis: 100%;
     }
 
 }
 </style>
 
+
 <div class="login-page">
 
     <div class="login-card">
 
-        {% if has_account %}
+        {% if voip_accounts %}
 
-            <!-- Header -->
+            <!-- PAGE HEADER -->
+
             <div class="login-icon">
                 📞
             </div>
 
-            <h2>{{ vendor }} Login Details</h2>
+            <h2>My VoIP Accounts</h2>
 
             <div class="subtitle">
-                Use the details below to connect
+                Select an account to connect to your calling system
             </div>
 
-            <!-- Login Button -->
-            {% if login_url %}
 
-                <a href="{{ login_url }}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="login-link">
+            <!-- ACCOUNT GRID -->
 
-                    🔗 Open {{ vendor }} Login ↗
+            <div class="voip-account-list {% if voip_accounts|length == 1 %}single-account{% endif %}">
 
-                </a>
+                {% for account in voip_accounts %}
 
-            {% else %}
+                    <div class="voip-account-card">
 
-                <div class="notice" style="margin-bottom: 25px;">
-                    Login link is not configured.
-                </div>
+                        <!-- ACCOUNT HEADER -->
 
-            {% endif %}
+                        <div class="account-header">
 
-            <!-- Username -->
-            <div class="field">
+                            <div class="account-title">
 
-                <label>Username</label>
+                                <h3>{{ account.vendor }}</h3>
 
-                <div class="value-group">
+                                <span class="account-number">
+                                    Account {{ forloop.counter }}
+                                </span>
 
-                    <div class="value" id="username">
-                        {{ username }}
-                    </div>
+                            </div>
 
-                    <button type="button"
-                            class="copy-btn"
-                            onclick="copyValue('username', this)">
-                        Copy
-                    </button>
+                            <span class="account-badge">
+                                Available
+                            </span>
 
-                </div>
-
-            </div>
-
-            <!-- Password -->
-            <div class="field">
-
-                <label>Password</label>
-
-                <div class="password-wrapper">
-
-                    <div class="value"
-                         id="password"
-                         data-password="{{ password|escape }}">
-                        ••••••••
-                    </div>
-
-                    <button type="button"
-                            class="toggle-btn"
-                            onclick="togglePassword(this)">
-                        Show
-                    </button>
-
-                    <button type="button"
-                            class="copy-btn"
-                            onclick="copyPassword(this)">
-                        Copy
-                    </button>
-
-                </div>
-
-            </div>
-			
-            <!-- Company Code -->
-            {% if company_code %}
-
-                <div class="field">
-
-                    <label>Company Code / Tenant ID</label>
-
-                    <div class="value-group">
-
-                        <div class="value" id="company_code">
-                            {{ company_code }}
                         </div>
 
-                        <button type="button"
-                                class="copy-btn"
-                                onclick="copyValue('company_code', this)">
-                            Copy
-                        </button>
+
+                        <!-- LOGIN LINK -->
+
+                        {% if account.login_url %}
+
+                            <a href="{{ account.login_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="login-link">
+
+                                🔗 Open {{ account.vendor }} Login ↗
+
+                            </a>
+
+                        {% else %}
+
+                            <div class="notice" style="margin-bottom:20px;">
+                                Login link is not configured.
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- USERNAME -->
+
+                        <div class="field">
+
+                            <label>Username</label>
+
+                            <div class="value-group">
+
+                                <div class="value"
+                                     id="username_{{ forloop.counter }}">
+                                    {{ account.username }}
+                                </div>
+
+                                <button type="button"
+                                        class="copy-btn"
+                                        onclick="copyValue(
+                                            'username_{{ forloop.counter }}',
+                                            this
+                                        )">
+
+                                    Copy
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PASSWORD -->
+
+                        <div class="field">
+
+                            <label>Password</label>
+
+                            <div class="password-wrapper">
+
+                                <div class="value"
+                                     id="password_{{ forloop.counter }}"
+                                     data-password="{{ account.password|escape }}">
+
+                                    ••••••••
+
+                                </div>
+
+                                <button type="button"
+                                        class="toggle-btn"
+                                        onclick="togglePassword(
+                                            'password_{{ forloop.counter }}',
+                                            this
+                                        )">
+
+                                    Show
+
+                                </button>
+
+                                <button type="button"
+                                        class="copy-btn"
+                                        onclick="copyPassword(
+                                            'password_{{ forloop.counter }}',
+                                            this
+                                        )">
+
+                                    Copy
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COMPANY CODE -->
+
+                        {% if account.company_code %}
+
+                            <div class="field">
+
+                                <label>Company Code / Tenant ID</label>
+
+                                <div class="value-group">
+
+                                    <div class="value"
+                                         id="company_{{ forloop.counter }}">
+
+                                        {{ account.company_code }}
+
+                                    </div>
+
+                                    <button type="button"
+                                            class="copy-btn"
+                                            onclick="copyValue(
+                                                'company_{{ forloop.counter }}',
+                                                this
+                                            )">
+
+                                        Copy
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- CALLBACK NUMBER -->
+
+                        {% if account.callback_number %}
+
+                            <div class="field">
+
+                                <label>Callback Number</label>
+
+                                <div class="value-group">
+
+                                    <div class="value"
+                                         id="callback_{{ forloop.counter }}">
+
+                                        {{ account.callback_number }}
+
+                                    </div>
+
+                                    <button type="button"
+                                            class="copy-btn"
+                                            onclick="copyValue(
+                                                'callback_{{ forloop.counter }}',
+                                                this
+                                            )">
+
+                                        Copy
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- NOTICE -->
+
+                        <div class="notice">
+
+                            💡 Open the login link and enter the
+                            credentials above to connect to your
+                            calling system.
+
+                        </div>
 
                     </div>
 
-                </div>
-
-            {% endif %}			
-
-            <!-- Notice -->
-            <div class="notice">
-
-                💡 Please open the login link and enter the above credentials
-                to connect to the calling system.
+                {% endfor %}
 
             </div>
 
         {% else %}
 
-            <!-- Account Not Found -->
+            <!-- NO ACCOUNT -->
+
             <div class="login-icon">
                 📞
             </div>
@@ -320,7 +534,7 @@
 
             <div class="error-notice">
 
-                📞 {{ message }}
+                📞 {{ message|default:"No VoIP accounts are assigned to your profile." }}
 
             </div>
 
@@ -333,102 +547,113 @@
 
 <script>
 
-    function copyText(text) {
+/* COPY TEXT */
 
-        if (navigator.clipboard && window.isSecureContext) {
+function copyText(text) {
 
-            return navigator.clipboard.writeText(text);
+    if (navigator.clipboard && window.isSecureContext) {
 
-        }
-
-        const textarea = document.createElement("textarea");
-
-        textarea.value = text;
-
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-
-        document.body.appendChild(textarea);
-
-        textarea.focus();
-        textarea.select();
-
-        document.execCommand("copy");
-
-        document.body.removeChild(textarea);
-
-        return Promise.resolve();
+        return navigator.clipboard.writeText(text);
 
     }
 
+    const textarea = document.createElement("textarea");
 
-    function copyValue(elementId, button) {
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
 
-        const element = document.getElementById(elementId);
+    document.body.appendChild(textarea);
 
-        const text = element.innerText.trim();
+    textarea.focus();
+    textarea.select();
 
-        copyText(text).then(() => {
+    document.execCommand("copy");
 
-            const originalText = button.innerText;
+    document.body.removeChild(textarea);
 
-            button.innerText = "Copied!";
+    return Promise.resolve();
 
-            setTimeout(() => {
+}
 
-                button.innerText = originalText;
 
-            }, 1500);
+/* COPY USERNAME / COMPANY CODE / CALLBACK */
 
-        });
+function copyValue(elementId, button) {
+
+    const element = document.getElementById(elementId);
+
+    if (!element) return;
+
+    const text = element.textContent.trim();
+
+    copyText(text).then(() => {
+
+        const originalText = button.innerText;
+
+        button.innerText = "Copied!";
+
+        setTimeout(() => {
+
+            button.innerText = originalText;
+
+        }, 1500);
+
+    });
+
+}
+
+
+/* SHOW / HIDE PASSWORD */
+
+function togglePassword(elementId, button) {
+
+    const passwordElement = document.getElementById(elementId);
+
+    if (!passwordElement) return;
+
+    const password = passwordElement.dataset.password;
+
+    if (passwordElement.innerText.trim() === "••••••••") {
+
+        passwordElement.innerText = password;
+        button.innerText = "Hide";
+
+    } else {
+
+        passwordElement.innerText = "••••••••";
+        button.innerText = "Show";
 
     }
 
-
-    function togglePassword(button) {
-
-        const passwordElement = document.getElementById("password");
-
-        const password = passwordElement.dataset.password;
-
-        if (passwordElement.innerText === "••••••••") {
-
-            passwordElement.innerText = password;
-
-            button.innerText = "Hide";
-
-        } else {
-
-            passwordElement.innerText = "••••••••";
-
-            button.innerText = "Show";
-
-        }
-
-    }
+}
 
 
-    function copyPassword(button) {
+/* COPY PASSWORD */
 
-        const passwordElement = document.getElementById("password");
+function copyPassword(elementId, button) {
 
-        const password = passwordElement.dataset.password;
+    const passwordElement = document.getElementById(elementId);
 
-        copyText(password).then(() => {
+    if (!passwordElement) return;
 
-            const originalText = button.innerText;
+    const password = passwordElement.dataset.password;
 
-            button.innerText = "Copied!";
+    copyText(password).then(() => {
 
-            setTimeout(() => {
+        const originalText = button.innerText;
 
-                button.innerText = originalText;
+        button.innerText = "Copied!";
 
-            }, 1500);
+        setTimeout(() => {
 
-        });
+            button.innerText = originalText;
 
-    }
+        }, 1500);
+
+    });
+
+}
 
 </script>
 
